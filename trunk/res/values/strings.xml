@@ -2,4 +2,8 @@
 <resources>
     <string name="hello">Hello World, SongSeekerActivity!</string>
     <string name="app_name">Song Seeker</string>
+    <string name="search_but">Search</string>
+    <string name="settings_str">Settings</string>
+    <string name="pl_options_str">Playlist Options</string>
+    <string name="about_str">About</string>
 </resources>
