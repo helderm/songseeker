@@ -6,4 +6,10 @@
     <string name="settings_str">Settings</string>
     <string name="pl_options_str">Playlist Options</string>
     <string name="about_str">About</string>
+    <string name="shuffle_str">Shuffle</string>
+    <string name="mood_str">Mood</string>
+    <string name="tempo_str">Tempo</string>
+    <string name="danceability_str">Danceability</string>
+    <string name="hotness_str">Hotness</string>
+    <string name="energy_str">Energy</string>
 </resources>
