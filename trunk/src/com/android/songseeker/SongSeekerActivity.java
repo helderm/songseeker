@@ -8,15 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class SongSeekerActivity extends Activity {
-    Settings settings;
-	
+   	
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
-        settings = new Settings();
+                
     }
     
     @Override
@@ -45,7 +43,7 @@ public class SongSeekerActivity extends Activity {
     }
     
     private void createPlaylistOptionsActivity(){
-    	//Intent i = new Intent(SongSeekerActivity.this, screen2.class);
-        //startActivity(i);	
+    	Intent i = new Intent(SongSeekerActivity.this, PlaylistOptionsActivity.class);
+        startActivity(i);	
     }
 }
