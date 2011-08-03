@@ -8,8 +8,9 @@
 	<TextView  
 	    android:layout_width="fill_parent" 
 		android:layout_height="88dp"/>
+	
 	<EditText 
-		android:id="@+id/editText1" 
+		android:id="@+id/find_input" 
 		android:layout_width="fill_parent" android:layout_height="50dp">
 	    <requestFocus></requestFocus>
 	</EditText>
@@ -29,8 +30,6 @@
 	  	    android:id="@+id/search_but" 
 	  	    android:text="@string/search_but" 
 	  	    android:layout_width="92dp" android:layout_weight="0.07"></Button>
-	
 	</LinearLayout>
-
 
 </LinearLayout>

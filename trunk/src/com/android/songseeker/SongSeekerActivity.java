@@ -1,59 +1,34 @@
 package com.android.songseeker;
 
-import java.util.Random;
-
-import com.echonest.api.v4.EchoNestAPI;
-import com.echonest.api.v4.EchoNestException;
-import com.echonest.api.v4.Playlist;
-import com.echonest.api.v4.PlaylistParams;
-import com.echonest.api.v4.Song;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.EditText;
 
 public class SongSeekerActivity extends Activity {
    	
-	EchoNestAPI en;
 	Button search;
-	Playlist playlist;
 	
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    	
+    	super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        //setContentView(R.layout.search);
         
-        //init Echo Nest API object
-        en = new EchoNestAPI("OKF60XQ3DSLHDO9CX");		
-        
-        //search = (Button)findViewById(R.id.search_but);
-        //search.setOnClickListener(new View.OnClickListener() {
-        //    public void onClick(View v) {
-        //    	createSearchActivity();
-        //    }
-        //}); 
-        
-//        PlaylistParams p = new PlaylistParams(); 
-//        p.addArtist("Eric Clapton");
-//        p.setResults(20);   
-//        try {
-//			playlist = en.createStaticPlaylist(p);
-//		} catch (EchoNestException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}          
-//			
+        search = (Button)findViewById(R.id.search_but);
+        search.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	createRecSongsActivity();
+            }
+        }); 
+                  
+			
 //		LinearLayout l = (LinearLayout) findViewById(R.id.search_layout);
 //        LayoutInflater linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //		for(Song song : playlist.getSongs()){
@@ -100,9 +75,14 @@ public class SongSeekerActivity extends Activity {
         startActivity(i);	
     }
     
-    private void createSearchActivity(){
-    	Intent i = new Intent(SongSeekerActivity.this, PlaylistOptionsActivity.class);
-        startActivity(i);    	
+    private void createRecSongsActivity(){    	
+    	EditText textInput = (EditText) findViewById(R.id.find_input);    	
+    	Intent i = new Intent(SongSeekerActivity.this, RecSongsActivity.class);
+        
+    	i.putExtra("num_artist", 1);
+        i.putExtra("artist0", textInput.getText().toString());
+    	
+    	startActivity(i);    	
     }
         
 }

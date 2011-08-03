@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/song_search_layout"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+    
+  <TextView 
+  	android:id="@+id/song_info" 
+  	android:layout_width="fill_parent" 
+  	android:layout_height="50dp"></TextView>
+    
+</LinearLayout>
