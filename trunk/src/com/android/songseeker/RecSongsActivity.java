@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class RecSongsActivity extends Activity {
@@ -47,7 +48,7 @@ public class RecSongsActivity extends Activity {
 		for(Song song : recSongs){
 			
           View myView = linflater.inflate(R.layout.rec_song, null);
-
+                    
           TextView t = (TextView) myView.findViewById(R.id.song_info);
 
           //Change name dynamically
