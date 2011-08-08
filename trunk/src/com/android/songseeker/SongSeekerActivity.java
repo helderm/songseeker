@@ -27,22 +27,6 @@ public class SongSeekerActivity extends Activity {
             	createRecSongsActivity();
             }
         }); 
-                  
-			
-//		LinearLayout l = (LinearLayout) findViewById(R.id.search_layout);
-//        LayoutInflater linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//		for(Song song : playlist.getSongs()){
-//			
-//            View myView = linflater.inflate(R.layout.song_search, null);
-//
-//            TextView t = (TextView) myView.findViewById(R.id.song_info);
-//
-//            //Change name dynamically
-//            t.setText(("Artist: " + song.getArtistName() + " - Song: "+ song.getReleaseName()).toString());
-//            l.addView(myView);
-//			
-//		}
-		
     }
     
     @Override
