@@ -14,6 +14,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -79,6 +80,12 @@ public class RecSongsActivity extends Activity implements Runnable{
 			AlertDialog.Builder bd = new AlertDialog.Builder(this);
 			bd.setMessage(errMsg);
 			bd.setCancelable(true);
+		    bd.setNeutralButton("Ok...", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		                RecSongsActivity.this.finish();
+		           }
+		       });			
+			
 			AlertDialog ad = bd.create();
 			return ad;
 		default:
