@@ -2,14 +2,15 @@ package com.android.songseeker;
 
 import java.util.List;
 
-import com.echonest.api.v4.EchoNestAPI;
-import com.echonest.api.v4.EchoNestException;
+import com.android.songseeker.comm.EchoNestComm;
+import com.android.songseeker.comm.ServiceCommException;
 import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
 import com.echonest.api.v4.PlaylistParams.PlaylistType;
 import com.echonest.api.v4.Song;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -26,6 +27,10 @@ public class RecSongsActivity extends Activity implements Runnable{
 
 	private List<Song> recSongs;
 	private final int PROGRESS_DIAG = 0;
+	
+	private final int ERR_DIAG = 1;
+	private String errMsg = null;
+	
 	Thread progressThread = null;
 	
 	
@@ -70,6 +75,12 @@ public class RecSongsActivity extends Activity implements Runnable{
 		    pd.setIndeterminate(true);
 		    pd.setCancelable(true);
 		    return pd;
+		case ERR_DIAG:
+			AlertDialog.Builder bd = new AlertDialog.Builder(this);
+			bd.setMessage(errMsg);
+			bd.setCancelable(true);
+			AlertDialog ad = bd.create();
+			return ad;
 		default:
 			return null;
 		}
@@ -79,7 +90,6 @@ public class RecSongsActivity extends Activity implements Runnable{
 	@Override
 	public void run() {
 		Playlist playlist;
-		EchoNestAPI en;		
 		PlaylistParams plParams;		
 		int numArtists;
 		
@@ -91,8 +101,7 @@ public class RecSongsActivity extends Activity implements Runnable{
 	    plParams.setVariety(0.1f);
 	    plParams.setMaxEnergy(Settings.pl_energy/100);
 	    //TODO add other options
-	    
-	    
+	    	    
 	    for(int i=0; i<numArtists; i++){
 	    	String str = getIntent().getStringExtra("artist"+i);
 	    	if(str.equals(null)){
@@ -101,30 +110,34 @@ public class RecSongsActivity extends Activity implements Runnable{
 	    	}
 	    	
 	    	plParams.addArtist(str);	    	
-	    	
 	    }
 		
-		en = new EchoNestAPI("OKF60XQ3DSLHDO9CX");
-		
-		try {			
-	    	playlist = en.createStaticPlaylist(plParams);
-	    } catch (EchoNestException e) {
-			// TODO Add an error popup screen to the user and go back to the previous screen
-			Log.e("SongSeeker", "createStaticPlaylist failed!", e);
+		try {
+			playlist = EchoNestComm.getComm().createStaticPlaylist(plParams);
+		} catch (ServiceCommException e) {
+			errMsg = e.getMessage();			
+			handler.sendEmptyMessage(ERR_DIAG);			
 			return;
 		}
 	    
 	    recSongs = playlist.getSongs();
-	    handler.sendEmptyMessage(0);
-		
+	    handler.sendEmptyMessage(PROGRESS_DIAG);
 	}
 	
 	private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-        	dismissDialog(PROGRESS_DIAG); 
-            populateRecommendedSongs();
+        	        	
+        	dismissDialog(PROGRESS_DIAG);
+        	
+        	//if an exception ocurred
+        	if(errMsg != null){
+        		//TODO show err dialog
+        		showDialog(ERR_DIAG);
+        		return;
+        	}
+        	
+        	populateRecommendedSongs();           
         }
 	};
-
 }
