@@ -97,18 +97,34 @@ public class RecSongsActivity extends Activity implements Runnable{
 	@Override
 	public void run() {
 		Playlist playlist;
-		PlaylistParams plParams;		
+		PlaylistParams plp;		
 		int numArtists;
 		
-	    numArtists = getIntent().getIntExtra("num_artist", -1);
+		//populating parameters for playlist call
+	    plp = new PlaylistParams();
 	    
-	    plParams = new PlaylistParams();
-	    plParams.setResults(20);   
-	    plParams.setType(PlaylistType.ARTIST_RADIO);
-	    plParams.setVariety(0.1f);
-	    plParams.setMaxEnergy(Settings.pl_energy/100);
-	    //TODO add other options
-	    	    
+	    //TODO add 'variety' and 'results' to PlaylistOptions
+	    plp.setResults(20);   
+	    plp.setType(PlaylistType.ARTIST_RADIO);
+	    plp.setVariety(0.1f);
+	   
+	    plp.setMinEnergy(Settings.getMinEnergy());
+	    plp.setMaxEnergy(Settings.getMaxEnergy());
+	    plp.setMinDanceability(Settings.getMinDanceability());
+	    plp.setMaxDanceability(Settings.getMaxDanceability());
+	    plp.setMinTempo(Settings.getMinTempo());
+	    plp.setMaxTempo(Settings.getMaxTempo());
+	    plp.setSongMinHotttnesss(Settings.getMinHotness());
+	    plp.setSongtMaxHotttnesss(Settings.getMaxHotness());
+	    
+	    List<String> moods = Settings.getMood();
+	    for(String mood : moods){
+	    	plp.add("mood", mood);
+	    }
+	    moods = null;
+	    
+	    numArtists = getIntent().getIntExtra("num_artist", -1);	 
+	    
 	    for(int i=0; i<numArtists; i++){
 	    	String str = getIntent().getStringExtra("artist"+i);
 	    	if(str.equals(null)){
@@ -116,11 +132,11 @@ public class RecSongsActivity extends Activity implements Runnable{
 	    		continue;
 	    	}
 	    	
-	    	plParams.addArtist(str);	    	
+	    	plp.addArtist(str);	    	
 	    }
 		
 		try {
-			playlist = EchoNestComm.getComm().createStaticPlaylist(plParams);
+			playlist = EchoNestComm.getComm().createStaticPlaylist(plp);
 		} catch (ServiceCommException e) {
 			errMsg = e.getMessage();			
 			handler.sendEmptyMessage(ERR_DIAG);			

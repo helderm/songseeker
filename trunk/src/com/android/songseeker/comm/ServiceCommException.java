@@ -1,6 +1,8 @@
 package com.android.songseeker.comm;
 
 public class ServiceCommException extends Exception {
+
+	private static final long serialVersionUID = 1L;
 	private ServiceID serv;
 	private ServiceErr err;
 	
