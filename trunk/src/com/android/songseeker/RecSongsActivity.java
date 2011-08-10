@@ -48,8 +48,6 @@ public class RecSongsActivity extends Activity implements Runnable{
 		//start thread that will query data from echo nest
 		progressThread = new Thread(this);
 	    progressThread.start();
-	    
-
 	}
 
 	private void populateRecommendedSongs() {
@@ -80,7 +78,7 @@ public class RecSongsActivity extends Activity implements Runnable{
 			AlertDialog.Builder bd = new AlertDialog.Builder(this);
 			bd.setMessage(errMsg);
 			bd.setCancelable(true);
-		    bd.setNeutralButton("Ok...", new DialogInterface.OnClickListener() {
+		    bd.setNeutralButton("Ok, shit happens...", new DialogInterface.OnClickListener() {
 		           public void onClick(DialogInterface dialog, int id) {
 		                RecSongsActivity.this.finish();
 		           }
@@ -103,11 +101,9 @@ public class RecSongsActivity extends Activity implements Runnable{
 		//populating parameters for playlist call
 	    plp = new PlaylistParams();
 	    
-	    //TODO add 'variety' and 'results' to PlaylistOptions
-	    plp.setResults(20);   
 	    plp.setType(PlaylistType.ARTIST_RADIO);
-	    plp.setVariety(0.1f);
-	   
+	    plp.setResults(Settings.getMaxResults());   
+	    plp.setVariety(Settings.getVariety());
 	    plp.setMinEnergy(Settings.getMinEnergy());
 	    plp.setMaxEnergy(Settings.getMaxEnergy());
 	    plp.setMinDanceability(Settings.getMinDanceability());
@@ -127,7 +123,7 @@ public class RecSongsActivity extends Activity implements Runnable{
 	    
 	    for(int i=0; i<numArtists; i++){
 	    	String str = getIntent().getStringExtra("artist"+i);
-	    	if(str.equals(null)){
+	    	if(str.equals(null) || str.compareTo("") == 0){
 	    		Log.w("RecSongsActivity", "ignoring null artist ["+i+"]");
 	    		continue;
 	    	}

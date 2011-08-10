@@ -3,13 +3,10 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent" android:weightSum="1">
-    
-  <TextView 
-  	android:layout_height="wrap_content" 
-  	android:text="" 
-  	android:layout_width="fill_parent" android:layout_weight="0.20"></TextView>
-  	
+  android:layout_height="fill_parent" 
+  android:weightSum="1"
+  android:fillViewport="true">
+ 	
   <TextView 
   	android:layout_height="wrap_content"
   	android:id="@+id/label_mood" 
@@ -67,6 +64,30 @@
   <SeekBar 
   	android:layout_height="wrap_content" 
   	android:id="@+id/seekBar_hotness" 
+  	android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
+  	
+  <TextView 
+  	android:layout_weight="0.11" 
+  	android:layout_height="wrap_content" 
+  	android:id="@+id/label_variety"
+  	android:text="@string/variety_str" 
+  	android:layout_width="fill_parent" android:layout_gravity="center" android:gravity="center"></TextView> 
+    
+  <SeekBar 
+  	android:layout_height="wrap_content" 
+  	android:id="@+id/seekBar_variety" 
+  	android:layout_width="236dp" android:layout_gravity="center"></SeekBar>  	
+
+   <TextView 
+  	android:layout_weight="0.11" 
+  	android:layout_height="wrap_content" 
+  	android:id="@+id/label_max_results"
+  	android:text="@string/max_results_str" 
+  	android:layout_width="fill_parent" android:layout_gravity="center" android:gravity="center"></TextView> 
+    
+  <SeekBar 
+  	android:layout_height="wrap_content" 
+  	android:id="@+id/seekBar_max_results" 
   	android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
   
   <TextView 

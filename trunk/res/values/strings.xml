@@ -12,4 +12,7 @@
     <string name="danceability_str">Danceability</string>
     <string name="hotness_str">Hotness</string>
     <string name="energy_str">Energy</string>
+    <string name="variety_str">Variety</string>
+    <string name="max_results_str">Max Results</string>
+    <string name="invalid_args_str">Please specify a valid argument.</string>
 </resources>

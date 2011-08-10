@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class SongSeekerActivity extends Activity {
    	
@@ -63,6 +64,14 @@ public class SongSeekerActivity extends Activity {
     	EditText textInput = (EditText) findViewById(R.id.find_input);    	
     	Intent i = new Intent(SongSeekerActivity.this, RecSongsActivity.class);
         
+    	if(textInput.getText().toString().compareTo("") == 0){
+    		    		
+    		Toast toast = Toast.makeText(SongSeekerActivity.this, 
+    						getResources().getText(R.string.invalid_args_str), Toast.LENGTH_SHORT);
+    		toast.show();
+    		return;
+    	}
+    	
     	i.putExtra("num_artist", 1);
         i.putExtra("artist0", textInput.getText().toString());
     	

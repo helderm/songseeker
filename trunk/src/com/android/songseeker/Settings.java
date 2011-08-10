@@ -10,9 +10,9 @@ public class Settings {
 	public static int pl_danceability = 50;
 	public static int pl_tempo = 50;
 	public static int pl_hotness = 50;
-	public static int pl_mood = 50; //1-[sad]; 2-[sad,angry]; 3-[angry]; 
-								//4-[angry-cool]; 5-[cool]; 6-[cool-happy]; 
-								//7-[happy]; 8-[happy-excited]; 9-[excited]
+	public static int pl_mood = 50; 
+	public static int pl_variety = 50;
+	public static int pl_max_results = 50;
 	
 	public static float getMinEnergy(){
 		if(pl_energy < 20){
@@ -22,7 +22,7 @@ public class Settings {
 	}	
 	public static float getMaxEnergy(){
 		if(pl_energy > 80){
-			return 100.0f;
+			return 1.0f;
 		}		
 		return (pl_energy + 20)/100.0f;
 	}
@@ -35,7 +35,7 @@ public class Settings {
 	}	
 	public static float getMaxDanceability(){
 		if(pl_danceability > 80){
-			return 100.0f;
+			return 1.0f;
 		}		
 		return (pl_danceability + 20)/100.0f;
 	}
@@ -48,7 +48,7 @@ public class Settings {
 	}	
 	public static float getMaxTempo(){
 		if(pl_tempo > 80){
-			return 100.0f;
+			return 1.0f;
 		}		
 		return (pl_tempo + 20)/100.0f;
 	}
@@ -61,7 +61,7 @@ public class Settings {
 	}	
 	public static float getMaxHotness(){
 		if(pl_hotness > 80){
-			return 100.0f;
+			return 1.0f;
 		}		
 		return (pl_hotness + 20)/100.0f;
 	}
@@ -111,6 +111,14 @@ public class Settings {
 		}
 		
 		return null;
+	}
+	
+	public static float getVariety(){
+		return pl_variety/100.0f;		
+	}
+	
+	public static int getMaxResults(){
+		return pl_max_results;
 	}
 	
 }
