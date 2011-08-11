@@ -4,17 +4,16 @@ import java.util.List;
 
 import com.android.songseeker.comm.EchoNestComm;
 import com.android.songseeker.comm.ServiceCommException;
+import com.echonest.api.v4.EchoNestException;
 import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
 import com.echonest.api.v4.PlaylistParams.PlaylistType;
 import com.echonest.api.v4.Song;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -55,12 +54,32 @@ public class RecSongsActivity extends Activity implements Runnable{
 		LinearLayout l = (LinearLayout) findViewById(R.id.rec_songs_list_layout);
 		LayoutInflater linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
 		
-		for(Song song : recSongs){
+		for(Song song : recSongs){			
 			
-          View myView = linflater.inflate(R.layout.rec_song, null);                    
-          TextView t = (TextView) myView.findViewById(R.id.song_info);          
-          t.setText((song.getReleaseName()).toString() + " - " + song.getArtistName());
-          l.addView(myView);			
+			String previewURL = null;
+			try {
+				previewURL = song.getTrack("7digital").getPreviewUrl();
+			} catch (EchoNestException e) {
+				Log.w("SongSeeker", e);
+			} catch (NullPointerException e){
+				Log.w("SongSeeker", e);
+			} catch (Exception e){
+				Log.e("SongSeeker", "bug", e);
+			}
+			
+			Log.i("SongSeeker", "previewURL = ["+previewURL+"]");
+			
+		    View myView = linflater.inflate(R.layout.rec_song, null);                    
+		    TextView t = (TextView) myView.findViewById(R.id.song_info);          
+		    t.setText((song.getReleaseName()).toString() + " - " + song.getArtistName());
+		    t.setOnClickListener(new View.OnClickListener() {
+		    public void onClick(View v) {
+		    		Toast toast = Toast.makeText(RecSongsActivity.this, "Teste - "+getPackageResourcePath(), Toast.LENGTH_LONG);
+		    		toast.show();  
+		      	}
+		    }); 
+	          
+	        l.addView(myView);			
 		}		
 	}
 
@@ -101,6 +120,9 @@ public class RecSongsActivity extends Activity implements Runnable{
 	    plp.setMaxTempo(Settings.getMaxTempo());
 	    plp.setSongMinHotttnesss(Settings.getMinHotness());
 	    plp.setSongtMaxHotttnesss(Settings.getMaxHotness());
+	    
+	    plp.addIDSpace("7digital");
+	    plp.setLimit(true);
 	    
 	    List<String> moods = Settings.getMood();
 	    for(String mood : moods){

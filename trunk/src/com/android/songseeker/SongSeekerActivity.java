@@ -1,12 +1,14 @@
 package com.android.songseeker;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -62,8 +64,8 @@ public class SongSeekerActivity extends Activity {
     
     private void createRecSongsActivity(){    	
     	EditText textInput = (EditText) findViewById(R.id.find_input);    	
-    	Intent i = new Intent(SongSeekerActivity.this, RecSongsActivity.class);
-        
+    	
+        //check if the edit text is empty
     	if(textInput.getText().toString().compareTo("") == 0){
     		    		
     		Toast toast = Toast.makeText(SongSeekerActivity.this, 
@@ -72,10 +74,16 @@ public class SongSeekerActivity extends Activity {
     		return;
     	}
     	
+    	//remove the soft input window from view
+    	InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
+    	imm.hideSoftInputFromWindow(textInput.getWindowToken(), 0); 
+    	
+    	Intent i = new Intent(SongSeekerActivity.this, RecSongsActivity.class);
     	i.putExtra("num_artist", 1);
         i.putExtra("artist0", textInput.getText().toString());
     	
     	startActivity(i);    	
     }
+
         
 }
