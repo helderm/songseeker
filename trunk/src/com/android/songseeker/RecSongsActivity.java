@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RecSongsActivity extends Activity implements Runnable{
 
@@ -74,18 +75,6 @@ public class RecSongsActivity extends Activity implements Runnable{
 		    pd.setIndeterminate(true);
 		    pd.setCancelable(true);
 		    return pd;
-		case ERR_DIAG:
-			AlertDialog.Builder bd = new AlertDialog.Builder(this);
-			bd.setMessage(errMsg);
-			bd.setCancelable(true);
-		    bd.setNeutralButton("Ok, shit happens...", new DialogInterface.OnClickListener() {
-		           public void onClick(DialogInterface dialog, int id) {
-		                RecSongsActivity.this.finish();
-		           }
-		       });			
-			
-			AlertDialog ad = bd.create();
-			return ad;
 		default:
 			return null;
 		}
@@ -151,8 +140,10 @@ public class RecSongsActivity extends Activity implements Runnable{
         	
         	//if an exception ocurred
         	if(errMsg != null){
-        		//TODO show err dialog
-        		showDialog(ERR_DIAG);
+        		Toast toast = Toast.makeText(getApplicationContext(), errMsg, Toast.LENGTH_LONG);
+        		toast.show();        		
+        		
+        		RecSongsActivity.this.finish();
         		return;
         	}
         	

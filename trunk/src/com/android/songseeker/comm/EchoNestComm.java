@@ -28,9 +28,15 @@ public class EchoNestComm {
 		try{
 			pl = en.createStaticPlaylist(plp);
 		}catch(EchoNestException e){
-			Log.e("SongSeeker", "createStaticPlaylist failed!", e);
-			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.IO);	
-			
+			switch(e.getCode()){
+			case 4:
+				throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.TRY_LATER);				
+			case 5:
+				throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.ID_NOT_FOUND);				
+			default:	
+				Log.e("SongSeeker", "createStaticPlaylist failed!", e);
+				throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.IO);				
+			}
 			//TODO treat exception of unknown identifier 
 		}
 		

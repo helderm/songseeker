@@ -13,7 +13,7 @@ public class ServiceCommException extends Exception {
 	
 	@Override
 	public String getMessage(){
-		return serv.getName() +" call failed: " + err.getMsg();
+		return serv.getName() +": " + err.getMsg();
 	}
 	
 	public enum ServiceID {
@@ -31,7 +31,9 @@ public class ServiceCommException extends Exception {
 	}
 	
 	public enum ServiceErr{
-		IO ("Communication error");
+		IO ("Unable to reach the service provider. Check your internet connection!"),
+		ID_NOT_FOUND ("Artist not found!"),
+		TRY_LATER ("Service unavailable. Try later!");
 		private final String msg;
 		
 		ServiceErr(String msg){
