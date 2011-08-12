@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,39 +25,30 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RecSongsActivity extends Activity implements Runnable{
+public class RecSongsActivity extends Activity {
 
-	private List<Song> recSongs;
 	private final int PROGRESS_DIAG = 0;
-	
-	private final int ERR_DIAG = 1;
-	private String errMsg = null;
-	
-	Thread progressThread = null;
-	
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		
+			
 		super.onCreate(savedInstanceState);
 	    setContentView(R.layout.rec_songs_list);	
 	    
-	    //show 'loading' dialog
-		showDialog(PROGRESS_DIAG);
+	    PlaylistParams plp = buildPlaylistParams();
 	    
-		//start thread that will query data from echo nest
-		progressThread = new Thread(this);
-	    progressThread.start();
+	    new GetPlaylistTask().execute(plp, null, null);
+
 	}
 
-	private void populateRecommendedSongs() {
+	private void populateRecommendedSongs(Playlist pl) {
 		LinearLayout l = (LinearLayout) findViewById(R.id.rec_songs_list_layout);
 		LayoutInflater linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
 		
-		for(Song song : recSongs){			
+		for(Song song : pl.getSongs()){			
 			
-			String previewURL = null;
+			/*String previewURL = null;
 			try {
 				previewURL = song.getTrack("7digital").getPreviewUrl();
 			} catch (EchoNestException e) {
@@ -67,7 +59,7 @@ public class RecSongsActivity extends Activity implements Runnable{
 				Log.e("SongSeeker", "bug", e);
 			}
 			
-			Log.i("SongSeeker", "previewURL = ["+previewURL+"]");
+			Log.i("SongSeeker", "previewURL = ["+previewURL+"]");*/
 			
 		    View myView = linflater.inflate(R.layout.rec_song, null);                    
 		    TextView t = (TextView) myView.findViewById(R.id.song_info);          
@@ -79,11 +71,11 @@ public class RecSongsActivity extends Activity implements Runnable{
 		      	}
 		    }); 
 	          
-	        l.addView(myView);			
+	        l.addView(myView);		
+	        
 		}		
 	}
-
-
+	
 	@Override
     protected Dialog onCreateDialog(int id) {
 
@@ -100,14 +92,10 @@ public class RecSongsActivity extends Activity implements Runnable{
         
     }
 	
-	@Override
-	public void run() {
-		Playlist playlist;
-		PlaylistParams plp;		
-		int numArtists;
-		
-		//populating parameters for playlist call
-	    plp = new PlaylistParams();
+	private PlaylistParams buildPlaylistParams(){
+	    PlaylistParams plp;
+	    
+		plp = new PlaylistParams();
 	    
 	    plp.setType(PlaylistType.ARTIST_RADIO);
 	    plp.setResults(Settings.getMaxResults());   
@@ -130,7 +118,7 @@ public class RecSongsActivity extends Activity implements Runnable{
 	    }
 	    moods = null;
 	    
-	    numArtists = getIntent().getIntExtra("num_artist", -1);	 
+	    int numArtists = getIntent().getIntExtra("num_artist", -1);	 
 	    
 	    for(int i=0; i<numArtists; i++){
 	    	String str = getIntent().getStringExtra("artist"+i);
@@ -141,35 +129,47 @@ public class RecSongsActivity extends Activity implements Runnable{
 	    	
 	    	plp.addArtist(str);	    	
 	    }
-		
-		try {
-			playlist = EchoNestComm.getComm().createStaticPlaylist(plp);
-		} catch (ServiceCommException e) {
-			errMsg = e.getMessage();			
-			handler.sendEmptyMessage(ERR_DIAG);			
-			return;
-		}
-	    
-	    recSongs = playlist.getSongs();
-	    handler.sendEmptyMessage(PROGRESS_DIAG);
+	    return plp;
 	}
 	
-	private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-        	        	
-        	dismissDialog(PROGRESS_DIAG);
-        	
-        	//if an exception ocurred
-        	if(errMsg != null){
-        		Toast toast = Toast.makeText(getApplicationContext(), errMsg, Toast.LENGTH_LONG);
-        		toast.show();        		
-        		
-        		RecSongsActivity.this.finish();
-        		return;
-        	}
-        	
-        	populateRecommendedSongs();           
-        }
-	};
+	
+	private class GetPlaylistTask extends AsyncTask<PlaylistParams, Void, Playlist>{
+		private String err = null;
+		
+		@Override
+		protected void onPreExecute() {
+			showDialog(PROGRESS_DIAG);
+		}
+		
+		@Override
+		protected Playlist doInBackground(PlaylistParams... plp) {
+			Playlist pl = null;
+			
+			try {
+				pl = EchoNestComm.getComm().createStaticPlaylist(plp[0]);
+			} catch (ServiceCommException e) {
+				err = e.getMessage();
+				return null;
+			}
+			
+			return pl;
+		}
+		
+		@Override
+		protected void onPostExecute(Playlist result) {
+			
+			dismissDialog(PROGRESS_DIAG);
+			
+			if(err != null){
+				Toast toast = Toast.makeText(getApplicationContext(), err, Toast.LENGTH_LONG);
+	    		toast.show();        		
+	    		
+	    		RecSongsActivity.this.finish();
+	    		return;
+    		}
+			
+			populateRecommendedSongs(result);			
+		}
+		
+	}
 }
