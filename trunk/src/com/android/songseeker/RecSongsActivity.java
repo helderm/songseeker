@@ -4,37 +4,45 @@ import java.util.List;
 
 import com.android.songseeker.comm.EchoNestComm;
 import com.android.songseeker.comm.ServiceCommException;
-import com.echonest.api.v4.EchoNestException;
 import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
 import com.echonest.api.v4.PlaylistParams.PlaylistType;
 import com.echonest.api.v4.Song;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RecSongsActivity extends Activity {
+public class RecSongsActivity extends ListActivity {
 
 	private final int PROGRESS_DIAG = 0;
-
+	private RecSongsAdapter adapter;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 			
 		super.onCreate(savedInstanceState);
-	    setContentView(R.layout.rec_songs_list);	
+	    
+        // Use a custom layout file
+        setContentView(R.layout.rec_songs_list);
+        
+        // Tell the list view which view to display when the list is empty
+        getListView().setEmptyView(findViewById(R.id.empty));
+        
+        // Set up our adapter
+        adapter = new RecSongsAdapter();
+        setListAdapter(adapter);
 	    
 	    PlaylistParams plp = buildPlaylistParams();
 	    
@@ -43,7 +51,7 @@ public class RecSongsActivity extends Activity {
 	}
 
 	private void populateRecommendedSongs(Playlist pl) {
-		LinearLayout l = (LinearLayout) findViewById(R.id.rec_songs_list_layout);
+		/*LinearLayout l = (LinearLayout) findViewById(R.id.rec_songs_list_layout);
 		LayoutInflater linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
 		
 		for(Song song : pl.getSongs()){			
@@ -59,7 +67,7 @@ public class RecSongsActivity extends Activity {
 				Log.e("SongSeeker", "bug", e);
 			}
 			
-			Log.i("SongSeeker", "previewURL = ["+previewURL+"]");*/
+			Log.i("SongSeeker", "previewURL = ["+previewURL+"]");
 			
 		    View myView = linflater.inflate(R.layout.rec_song, null);                    
 		    TextView t = (TextView) myView.findViewById(R.id.song_info);          
@@ -73,7 +81,7 @@ public class RecSongsActivity extends Activity {
 	          
 	        l.addView(myView);		
 	        
-		}		
+		}*/		
 	}
 	
 	@Override
@@ -168,8 +176,61 @@ public class RecSongsActivity extends Activity {
 	    		return;
     		}
 			
-			populateRecommendedSongs(result);			
+			adapter.setPlaylist(result);
+	
+			//populateRecommendedSongs(result);			
 		}
 		
 	}
+	
+	 public class RecSongsAdapter extends BaseAdapter {
+
+	        private Playlist playlist;
+	        //private Context mContext;
+	        
+	        public RecSongsAdapter() {    
+	        	playlist = null;
+	        }
+
+	        public int getCount() {
+	            if(playlist == null)
+	            	return 0;
+	            
+	        	return playlist.getSongs().size();
+	        }
+
+	        public Song getItem(int position) {
+	            return playlist.getSongs().get(position);
+	        }
+
+	        public long getItemId(int position) {
+	            return position;
+	        }
+
+	        public View getView(int position, View convertView, ViewGroup parent) {
+                View v = convertView;
+                if (v == null) {
+                    LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    v = vi.inflate(R.layout.rec_song_row, null);
+                }
+                
+                Song song = getItem(position);
+                if (song != null) {
+                	TextView tt = (TextView) v.findViewById(R.id.recsong_firstLine);
+                    TextView bt = (TextView) v.findViewById(R.id.recsong_secondLine);
+                   
+                    bt.setText(song.getArtistName());
+                    tt.setText(song.getReleaseName());
+                }
+                return v;
+	        }
+	        
+	        public void setPlaylist(Playlist pl){
+	        	this.playlist = pl;
+	        	notifyDataSetChanged();
+	        }
+	 }
+	 
+	
+
 }

@@ -22,8 +22,7 @@
 		android:layout_weight="1">
 	    <View
 	    	android:gravity="center_horizontal"
-	        android:layout_width="wrap_content"
-	        android:layout_height="fill_parent" android:layout_weight="0.25"/>
+	        android:layout_height="fill_parent" android:layout_width="207dp"/>
 		<Button 
 			android:layout_height="wrap_content"
 		  	android:gravity="center"
