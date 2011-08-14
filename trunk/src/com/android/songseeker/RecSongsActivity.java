@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.android.songseeker.comm.EchoNestComm;
 import com.android.songseeker.comm.ServiceCommException;
+import com.echonest.api.v4.EchoNestException;
 import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
 import com.echonest.api.v4.PlaylistParams.PlaylistType;
@@ -13,6 +14,8 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,13 +23,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RecSongsActivity extends ListActivity {
+public class RecSongsActivity extends ListActivity implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
 
 	private final int PROGRESS_DIAG = 0;
 	private RecSongsAdapter adapter;
+	private MediaPlayer player;
+	Toast toast;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -43,45 +49,61 @@ public class RecSongsActivity extends ListActivity {
         // Set up our adapter
         adapter = new RecSongsAdapter();
         setListAdapter(adapter);
-	    
-	    PlaylistParams plp = buildPlaylistParams();
-	    
+        
+        //set up media player
+        player = new MediaPlayer();
+        player.setOnPreparedListener(this);
+        player.setOnErrorListener(this);
+        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        
+	    //get the playlist
+	    PlaylistParams plp = buildPlaylistParams();	    
 	    new GetPlaylistTask().execute(plp, null, null);
 
 	}
-
-	private void populateRecommendedSongs(Playlist pl) {
-		/*LinearLayout l = (LinearLayout) findViewById(R.id.rec_songs_list_layout);
-		LayoutInflater linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
+	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		String previewURL = null;
 		
-		for(Song song : pl.getSongs()){			
-			
-			/*String previewURL = null;
-			try {
-				previewURL = song.getTrack("7digital").getPreviewUrl();
-			} catch (EchoNestException e) {
-				Log.w("SongSeeker", e);
-			} catch (NullPointerException e){
-				Log.w("SongSeeker", e);
-			} catch (Exception e){
-				Log.e("SongSeeker", "bug", e);
-			}
-			
-			Log.i("SongSeeker", "previewURL = ["+previewURL+"]");
-			
-		    View myView = linflater.inflate(R.layout.rec_song, null);                    
-		    TextView t = (TextView) myView.findViewById(R.id.song_info);          
-		    t.setText((song.getReleaseName()).toString() + " - " + song.getArtistName());
-		    t.setOnClickListener(new View.OnClickListener() {
-		    public void onClick(View v) {
-		    		Toast toast = Toast.makeText(RecSongsActivity.this, "Teste - "+getPackageResourcePath(), Toast.LENGTH_LONG);
-		    		toast.show();  
-		      	}
-		    }); 
-	          
-	        l.addView(myView);		
-	        
-		}*/		
+		//TODO add this in a different thread		
+		try{
+			previewURL = adapter.getItem(position).getTrack("7digital").getPreviewUrl();	
+		} catch(EchoNestException e){
+			toast = Toast.makeText(RecSongsActivity.this, e.getMessage(), Toast.LENGTH_LONG);
+    		toast.show();
+    		return;
+		} catch(Exception e){
+			Log.e("SongSeeker", "EchoNest getTrack() exception!", e);
+			Toast toast = Toast.makeText(RecSongsActivity.this, "Error while trying to retrieve the preview song!", Toast.LENGTH_SHORT);
+    		toast.show();
+    		return;
+		}					
+		
+		toast = Toast.makeText(RecSongsActivity.this, "Preview song is ["+previewURL+"]", Toast.LENGTH_LONG);
+		toast.show();
+	
+		try {
+			player.reset();
+			player.setDataSource(previewURL);
+			player.prepareAsync();
+		} catch (Exception e) {
+			toast = Toast.makeText(RecSongsActivity.this, "Unable to start the media player!", Toast.LENGTH_SHORT);
+			toast.show();			
+		} 
+	}
+	
+	public void onPrepared(MediaPlayer arg0) {
+		player.start();
+		
+	}	
+
+	public boolean onError(MediaPlayer arg0, int arg1, int arg2) {
+		toast = Toast.makeText(RecSongsActivity.this, "Unable to start the media player!", Toast.LENGTH_LONG);
+		toast.show();
+		
+		player.reset();
+		return true;		
 	}
 	
 	@Override
@@ -140,6 +162,53 @@ public class RecSongsActivity extends ListActivity {
 	    return plp;
 	}
 	
+	private class RecSongsAdapter extends BaseAdapter {
+	
+	    private Playlist playlist;
+	    
+	    public RecSongsAdapter() {    
+	    	playlist = null;
+	    }
+	
+	    public int getCount() {
+	        if(playlist == null)
+	        	return 0;
+	        
+	    	return playlist.getSongs().size();
+	    }
+	
+	    public Song getItem(int position) {
+	        return playlist.getSongs().get(position);
+	    }
+	
+	    public long getItemId(int position) {
+	        return position;
+	    }
+	
+	    public View getView(int position, View convertView, ViewGroup parent) {
+			View v = convertView;
+			if (v == null) {
+			    LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			    v = vi.inflate(R.layout.rec_song_row, null);
+			}
+			 
+			Song song = getItem(position);
+			if (song != null) {
+				TextView tt = (TextView) v.findViewById(R.id.recsong_firstLine);
+			    TextView bt = (TextView) v.findViewById(R.id.recsong_secondLine);
+			   
+			    bt.setText(song.getArtistName());
+			    tt.setText(song.getReleaseName());
+			}
+			
+			return v;
+		}
+	    
+	    public void setPlaylist(Playlist pl){
+	    	this.playlist = pl;
+	    	notifyDataSetChanged();
+	    }	    
+	}
 	
 	private class GetPlaylistTask extends AsyncTask<PlaylistParams, Void, Playlist>{
 		private String err = null;
@@ -169,68 +238,21 @@ public class RecSongsActivity extends ListActivity {
 			dismissDialog(PROGRESS_DIAG);
 			
 			if(err != null){
-				Toast toast = Toast.makeText(getApplicationContext(), err, Toast.LENGTH_LONG);
+				toast = Toast.makeText(getApplicationContext(), err, Toast.LENGTH_LONG);
 	    		toast.show();        		
 	    		
 	    		RecSongsActivity.this.finish();
 	    		return;
     		}
 			
-			adapter.setPlaylist(result);
-	
-			//populateRecommendedSongs(result);			
-		}
-		
+			adapter.setPlaylist(result);	
+			
+		}		
 	}
-	
-	 public class RecSongsAdapter extends BaseAdapter {
 
-	        private Playlist playlist;
-	        //private Context mContext;
-	        
-	        public RecSongsAdapter() {    
-	        	playlist = null;
-	        }
-
-	        public int getCount() {
-	            if(playlist == null)
-	            	return 0;
-	            
-	        	return playlist.getSongs().size();
-	        }
-
-	        public Song getItem(int position) {
-	            return playlist.getSongs().get(position);
-	        }
-
-	        public long getItemId(int position) {
-	            return position;
-	        }
-
-	        public View getView(int position, View convertView, ViewGroup parent) {
-                View v = convertView;
-                if (v == null) {
-                    LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    v = vi.inflate(R.layout.rec_song_row, null);
-                }
-                
-                Song song = getItem(position);
-                if (song != null) {
-                	TextView tt = (TextView) v.findViewById(R.id.recsong_firstLine);
-                    TextView bt = (TextView) v.findViewById(R.id.recsong_secondLine);
-                   
-                    bt.setText(song.getArtistName());
-                    tt.setText(song.getReleaseName());
-                }
-                return v;
-	        }
-	        
-	        public void setPlaylist(Playlist pl){
-	        	this.playlist = pl;
-	        	notifyDataSetChanged();
-	        }
-	 }
-	 
-	
+	@Override
+	public void onBackPressed() {
+		player.release();
+	}
 
 }
