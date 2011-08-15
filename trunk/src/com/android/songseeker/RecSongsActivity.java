@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.android.songseeker.comm.EchoNestComm;
 import com.android.songseeker.comm.ServiceCommException;
+import com.android.songseeker.util.MediaPlayerController;
+import com.android.songseeker.util.Settings;
 import com.echonest.api.v4.EchoNestException;
 import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
@@ -14,8 +16,6 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,11 +27,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RecSongsActivity extends ListActivity implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
+public class RecSongsActivity extends ListActivity {
 
 	private final int PROGRESS_DIAG = 0;
 	private RecSongsAdapter adapter;
-	private MediaPlayer player;
 	Toast toast;
 	
 	/** Called when the activity is first created. */
@@ -50,12 +49,6 @@ public class RecSongsActivity extends ListActivity implements MediaPlayer.OnPrep
         adapter = new RecSongsAdapter();
         setListAdapter(adapter);
         
-        //set up media player
-        player = new MediaPlayer();
-        player.setOnPreparedListener(this);
-        player.setOnErrorListener(this);
-        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        
 	    //get the playlist
 	    PlaylistParams plp = buildPlaylistParams();	    
 	    new GetPlaylistTask().execute(plp, null, null);
@@ -63,47 +56,27 @@ public class RecSongsActivity extends ListActivity implements MediaPlayer.OnPrep
 	}
 	
 	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		String previewURL = null;
-		
-		//TODO add this in a different thread		
-		try{
-			previewURL = adapter.getItem(position).getTrack("7digital").getPreviewUrl();	
-		} catch(EchoNestException e){
-			toast = Toast.makeText(RecSongsActivity.this, e.getMessage(), Toast.LENGTH_LONG);
-    		toast.show();
-    		return;
-		} catch(Exception e){
-			Log.e("SongSeeker", "EchoNest getTrack() exception!", e);
-			Toast toast = Toast.makeText(RecSongsActivity.this, "Error while trying to retrieve the preview song!", Toast.LENGTH_SHORT);
-    		toast.show();
-    		return;
-		}					
-		
-		toast = Toast.makeText(RecSongsActivity.this, "Preview song is ["+previewURL+"]", Toast.LENGTH_LONG);
-		toast.show();
-	
-		try {
-			player.reset();
-			player.setDataSource(previewURL);
-			player.prepareAsync();
-		} catch (Exception e) {
-			toast = Toast.makeText(RecSongsActivity.this, "Unable to start the media player!", Toast.LENGTH_SHORT);
-			toast.show();			
-		} 
+	protected void onResume() {        
+        //set up media player
+        //player = new MediaPlayer();
+        //player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        super.onResume();
 	}
 	
-	public void onPrepared(MediaPlayer arg0) {
-		player.start();
+	@Override
+	protected void onPause() {
+		MediaPlayerController.getCon().release();
+		super.onPause();
+	}
+	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		Song song = adapter.getItem(position);
 		
-	}	
-
-	public boolean onError(MediaPlayer arg0, int arg1, int arg2) {
-		toast = Toast.makeText(RecSongsActivity.this, "Unable to start the media player!", Toast.LENGTH_LONG);
-		toast.show();
-		
-		player.reset();
-		return true;		
+		if(song != null){			
+			new StartMediaPlayerTask().execute(song);
+		}
+				
 	}
 	
 	@Override
@@ -128,25 +101,41 @@ public class RecSongsActivity extends ListActivity implements MediaPlayer.OnPrep
 		plp = new PlaylistParams();
 	    
 	    plp.setType(PlaylistType.ARTIST_RADIO);
-	    plp.setResults(Settings.getMaxResults());   
-	    plp.setVariety(Settings.getVariety());
-	    plp.setMinEnergy(Settings.getMinEnergy());
-	    plp.setMaxEnergy(Settings.getMaxEnergy());
-	    plp.setMinDanceability(Settings.getMinDanceability());
-	    plp.setMaxDanceability(Settings.getMaxDanceability());
-	    plp.setMinTempo(Settings.getMinTempo());
-	    plp.setMaxTempo(Settings.getMaxTempo());
-	    plp.setSongMinHotttnesss(Settings.getMinHotness());
-	    plp.setSongtMaxHotttnesss(Settings.getMaxHotness());
-	    
+	    plp.setResults(Settings.getMaxResults());	    
 	    plp.addIDSpace("7digital");
 	    plp.setLimit(true);
 	    
-	    List<String> moods = Settings.getMood();
-	    for(String mood : moods){
-	    	plp.add("mood", mood);
+	    if(Settings.getVariety() != -1.0f)
+	    	plp.setVariety(Settings.getVariety());
+	    
+	    if(Settings.getMinEnergy() != -1.0f){
+		    plp.setMinEnergy(Settings.getMinEnergy());
+		    plp.setMaxEnergy(Settings.getMaxEnergy());	    	
 	    }
-	    moods = null;
+	    
+	    if(Settings.getMinDanceability() != -1.0f){
+		    plp.setMinDanceability(Settings.getMinDanceability());
+		    plp.setMaxDanceability(Settings.getMaxDanceability());
+	    }
+	    
+	    if(Settings.getMinTempo() != -1.0f){
+		    plp.setMinTempo(Settings.getMinTempo());
+		    plp.setMaxTempo(Settings.getMaxTempo());	
+	    }
+
+	    if(Settings.getMinHotness() != -1.0f){
+		    plp.setSongMinHotttnesss(Settings.getMinHotness());
+		    plp.setSongtMaxHotttnesss(Settings.getMaxHotness());
+	    }
+
+	    
+	    List<String> moods = Settings.getMood();
+	    if(moods != null){
+		    for(String mood : moods){
+		    	plp.add("mood", mood);
+		    }
+		    moods = null;
+	    }
 	    
 	    int numArtists = getIntent().getIntExtra("num_artist", -1);	 
 	    
@@ -249,10 +238,44 @@ public class RecSongsActivity extends ListActivity implements MediaPlayer.OnPrep
 			
 		}		
 	}
+	
+	private class StartMediaPlayerTask extends AsyncTask<Song, Void, Void>{
 
-	@Override
-	public void onBackPressed() {
-		player.release();
+		@Override
+		protected Void doInBackground(Song... song) {
+			
+			startMediaPlayer(song[0]);
+			return null;
+
+		}
+		
+	}	
+
+	private synchronized void startMediaPlayer(Song song){
+		String previewURL = null;
+		
+		MediaPlayerController.getCon().stop();
+		
+		try{
+			previewURL = song.getTrack("7digital").getPreviewUrl();	
+		} catch(EchoNestException e){
+			toast = Toast.makeText(RecSongsActivity.this, e.getMessage(), Toast.LENGTH_LONG);
+    		toast.show();
+    		return;
+		} catch(Exception e){
+			Log.e("SongSeeker", "EchoNest getTrack() exception!", e);
+			Toast toast = Toast.makeText(RecSongsActivity.this, "Error while trying to retrieve the preview song!", Toast.LENGTH_SHORT);
+    		toast.show();
+    		return;
+		}					
+		
+		try {
+			MediaPlayerController.getCon().resetAndStart(previewURL);
+		} catch (Exception e) {
+			toast = Toast.makeText(RecSongsActivity.this, "Unable to start the media player!", Toast.LENGTH_SHORT);
+			toast.show();			
+		} 
+		
+		return;
 	}
-
 }

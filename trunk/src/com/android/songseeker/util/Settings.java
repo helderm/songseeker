@@ -1,4 +1,4 @@
-package com.android.songseeker;
+package com.android.songseeker.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +15,20 @@ public class Settings {
 	public static int pl_max_results = 50;
 	
 	public static float getMinEnergy(){
+		if(pl_energy == 0){
+			return -1.0f;
+		}
+		
 		if(pl_energy < 20){
 			return 0.0f;
 		}		
 		return (pl_energy - 20)/100.0f;
 	}	
 	public static float getMaxEnergy(){
+		if(pl_energy == 0){
+			return -1.0f;
+		}
+		
 		if(pl_energy > 80){
 			return 1.0f;
 		}		
@@ -28,12 +36,20 @@ public class Settings {
 	}
 	
 	public static float getMinDanceability(){
+		if(pl_danceability == 0){
+			return -1.0f;
+		}
+		
 		if(pl_danceability < 20){
 			return 0.0f;
 		}		
 		return (pl_danceability - 20)/100.0f;
 	}	
 	public static float getMaxDanceability(){
+		if(pl_danceability == 0){
+			return -1.0f;
+		}
+		
 		if(pl_danceability > 80){
 			return 1.0f;
 		}		
@@ -41,12 +57,20 @@ public class Settings {
 	}
 	
 	public static float getMinTempo(){
+		if(pl_tempo == 0){
+			return -1.0f;
+		}
+		
 		if(pl_tempo < 20){
 			return 0.0f;
 		}		
 		return (pl_tempo - 20)/100.0f;
 	}	
 	public static float getMaxTempo(){
+		if(pl_tempo == 0){
+			return -1.0f;
+		}
+		
 		if(pl_tempo > 80){
 			return 1.0f;
 		}		
@@ -54,12 +78,20 @@ public class Settings {
 	}
 	
 	public static float getMinHotness(){
+		if(pl_hotness == 0){
+			return -1.0f;
+		}
+		
 		if(pl_hotness < 20){
 			return 0.0f;
 		}		
 		return (pl_hotness - 20)/100.0f;
 	}	
 	public static float getMaxHotness(){
+		if(pl_hotness == 0){
+			return -1.0f;
+		}
+		
 		if(pl_hotness > 80){
 			return 1.0f;
 		}		
@@ -67,6 +99,10 @@ public class Settings {
 	}
 	
 	public static List<String> getMood(){
+		if(pl_mood == 0){
+			return null;
+		}
+		
 		List<String> moods = new ArrayList<String>();		
 		
 		if(pl_mood <= 10){
@@ -114,6 +150,10 @@ public class Settings {
 	}
 	
 	public static float getVariety(){
+		if(pl_variety == 0){
+			return -1.0f;
+		}
+		
 		return pl_variety/100.0f;		
 	}
 	

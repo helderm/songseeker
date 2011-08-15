@@ -3,6 +3,8 @@ package com.android.songseeker;
 import java.util.List;
 import java.util.Random;
 
+import com.android.songseeker.util.Settings;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -92,12 +94,22 @@ public class PlaylistOptionsActivity extends Activity implements SeekBar.OnSeekB
     	switch(seekBar.getId()){
     	case R.id.seekBar_energy:
     		Settings.pl_energy = progress;
-    		energy_label.setText(getResources().getText(R.string.energy_str) + " (" + progress + "%)");
+    		
+    		if(Settings.getMinEnergy() == -1.0f){
+    			energy_label.setText(getResources().getText(R.string.energy_str) + " (Off)");
+    		}else{
+    			energy_label.setText(getResources().getText(R.string.energy_str) + " (" + progress + "%)");
+    		}    		
     		break;
     	case R.id.seekBar_mood:
     		Settings.pl_mood = progress;
     		
     		List<String> moods = Settings.getMood();
+    		if(moods == null){
+    			mood_label.setText(getResources().getText(R.string.mood_str)+" (Off)");
+    			break;
+    		}
+    		
     		if(moods.size() == 1){    		
 	    		mood_label.setText(getResources().getText(R.string.mood_str) + 
 	    							" (" + moods.get(0) + ")");
@@ -109,19 +121,39 @@ public class PlaylistOptionsActivity extends Activity implements SeekBar.OnSeekB
     		break;
     	case R.id.seekBar_tempo:
     		Settings.pl_tempo = progress;
-    		tempo_label.setText(getResources().getText(R.string.tempo_str) + " (" + progress + "%)");
+    		
+    		if(Settings.getMinTempo() == -1.0f){
+    			tempo_label.setText(getResources().getText(R.string.tempo_str) + " (Off)");
+    		}else{
+    			tempo_label.setText(getResources().getText(R.string.tempo_str) + " (" + progress + "%)");
+    		}
     		break;
     	case R.id.seekBar_danceability:
     		Settings.pl_danceability = progress;
-    		danceability_label.setText(getResources().getText(R.string.danceability_str) + " (" + progress + "%)");
+    		
+    		if(Settings.getMinDanceability() == -1.0f){
+    			danceability_label.setText(getResources().getText(R.string.danceability_str) + " (Off)");
+    		}else{
+    			danceability_label.setText(getResources().getText(R.string.danceability_str) + " (" + progress + "%)");    			
+    		}
     		break;
     	case R.id.seekBar_hotness:
     		Settings.pl_hotness = progress;
-    		hotness_label.setText(getResources().getText(R.string.hotness_str) + " (" + progress + "%)");
+    		
+    		if(Settings.getMinHotness() == -1.0f){
+    			hotness_label.setText(getResources().getText(R.string.hotness_str) + " (Off)");
+    		}else{
+    			hotness_label.setText(getResources().getText(R.string.hotness_str) + " (" + progress + "%)");
+    		}
     		break;   
     	case R.id.seekBar_variety:
     		Settings.pl_variety = progress;
-    		variety_label.setText(getResources().getText(R.string.variety_str) + " (" + progress + "%)");
+    		
+    		if(Settings.getVariety() == -1.0f){
+    			variety_label.setText(getResources().getText(R.string.variety_str) + " (Off)");
+    		}else{
+    			variety_label.setText(getResources().getText(R.string.variety_str) + " (" + progress + "%)");
+    		}    		
     		break;
     	case R.id.seekBar_max_results:
     		if(progress < 1)
