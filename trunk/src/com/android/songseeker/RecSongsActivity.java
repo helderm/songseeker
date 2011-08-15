@@ -11,6 +11,7 @@ import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
 import com.echonest.api.v4.PlaylistParams.PlaylistType;
 import com.echonest.api.v4.Song;
+import com.echonest.api.v4.Track;
 
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -31,7 +32,9 @@ public class RecSongsActivity extends ListActivity {
 
 	private final int PROGRESS_DIAG = 0;
 	private RecSongsAdapter adapter;
-	Toast toast;
+	private StartMediaPlayerTask mp_task = new StartMediaPlayerTask();
+	private Toast toast;
+	
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -73,10 +76,21 @@ public class RecSongsActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Song song = adapter.getItem(position);
 		
-		if(song != null){			
-			new StartMediaPlayerTask().execute(song);
+		if(song == null || 
+			(MediaPlayerController.getCon().isPlaying() && adapter.isPlaying(position))){
+			
+			MediaPlayerController.getCon().stop();
+			adapter.setNowPlaying(RecSongsAdapter.NOT_PLAYING);
+			return;
 		}
-				
+		
+		MediaPlayerController.getCon().stop();
+		
+		mp_task.cancel(true);
+		mp_task = new StartMediaPlayerTask();
+		mp_task.execute(song);
+		adapter.setNowPlaying(position);
+		//new StartMediaPlayerTask().execute(song);				
 	}
 	
 	@Override
@@ -154,9 +168,12 @@ public class RecSongsActivity extends ListActivity {
 	private class RecSongsAdapter extends BaseAdapter {
 	
 	    private Playlist playlist;
+	    private int nowPlayingID;
+	    public static final int NOT_PLAYING = -1;
 	    
 	    public RecSongsAdapter() {    
 	    	playlist = null;
+	    	nowPlayingID = NOT_PLAYING;
 	    }
 	
 	    public int getCount() {
@@ -174,6 +191,17 @@ public class RecSongsActivity extends ListActivity {
 	        return position;
 	    }
 	
+	    public void setNowPlaying(int position){
+	    	nowPlayingID = position;
+	    }
+	    
+	    public boolean isPlaying(int position){
+	    	if(nowPlayingID == position)
+	    		return true;
+	    	
+	    	return false;
+	    }
+	    
 	    public View getView(int position, View convertView, ViewGroup parent) {
 			View v = convertView;
 			if (v == null) {
@@ -244,38 +272,44 @@ public class RecSongsActivity extends ListActivity {
 		@Override
 		protected Void doInBackground(Song... song) {
 			
-			startMediaPlayer(song[0]);
+			String previewURL = null;
+			
+			if(isCancelled())
+				return null;
+			
+			try{
+				Track track = song[0].getTrack("7digital");
+				if(track == null)
+					return null;
+				
+				previewURL = track.getPreviewUrl();	
+			} catch(EchoNestException e){
+				toast = Toast.makeText(RecSongsActivity.this, e.getMessage(), Toast.LENGTH_LONG);
+	    		toast.show();
+	    		return null;
+			} catch(Exception e){
+				Log.e("SongSeeker", "EchoNest getTrack() exception!", e);
+				//Toast toast = Toast.makeText(RecSongsActivity.this, "Error while trying to retrieve the preview song!", Toast.LENGTH_SHORT);
+	    		//toast.show();
+	    		return null;
+			} catch(NoSuchMethodError e){
+				Log.e("SongSeeker", "EchoNest getTrack() error!", e);
+				return null;
+			}
+			
+			if(isCancelled())
+				return null;
+			
+			try {
+				MediaPlayerController.getCon().resetAndStart(previewURL);
+			} catch (Exception e) {
+				toast = Toast.makeText(RecSongsActivity.this, "Unable to start the media player!", Toast.LENGTH_SHORT);
+				toast.show();			
+			} 
+			
 			return null;
-
 		}
 		
 	}	
 
-	private synchronized void startMediaPlayer(Song song){
-		String previewURL = null;
-		
-		MediaPlayerController.getCon().stop();
-		
-		try{
-			previewURL = song.getTrack("7digital").getPreviewUrl();	
-		} catch(EchoNestException e){
-			toast = Toast.makeText(RecSongsActivity.this, e.getMessage(), Toast.LENGTH_LONG);
-    		toast.show();
-    		return;
-		} catch(Exception e){
-			Log.e("SongSeeker", "EchoNest getTrack() exception!", e);
-			Toast toast = Toast.makeText(RecSongsActivity.this, "Error while trying to retrieve the preview song!", Toast.LENGTH_SHORT);
-    		toast.show();
-    		return;
-		}					
-		
-		try {
-			MediaPlayerController.getCon().resetAndStart(previewURL);
-		} catch (Exception e) {
-			toast = Toast.makeText(RecSongsActivity.this, "Unable to start the media player!", Toast.LENGTH_SHORT);
-			toast.show();			
-		} 
-		
-		return;
-	}
 }

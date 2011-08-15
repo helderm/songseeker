@@ -25,6 +25,10 @@ public class MediaPlayerController {
 		mp.stop();
 	}
 	
+	public boolean isPlaying(){
+		return mp.isPlaying();
+	}
+	
 	public synchronized void resetAndStart(String source) throws Exception{
 		mp.reset();
 		mp.setDataSource(source);
