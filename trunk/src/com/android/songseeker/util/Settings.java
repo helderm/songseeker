@@ -12,7 +12,9 @@ public class Settings {
 	public static int pl_hotness = 50;
 	public static int pl_mood = 50; 
 	public static int pl_variety = 50;
-	public static int pl_max_results = 50;
+	public static int pl_max_results = 20;
+	
+	public static final int PL_MAX_TEMPO = 500;
 	
 	public static float getMinEnergy(){
 		if(pl_energy == 0){
@@ -64,7 +66,7 @@ public class Settings {
 		if(pl_tempo < 20){
 			return 0.0f;
 		}		
-		return (pl_tempo - 20)/100.0f;
+		return (((pl_tempo - 20)/100.0f)*PL_MAX_TEMPO);
 	}	
 	public static float getMaxTempo(){
 		if(pl_tempo == 0){
@@ -74,7 +76,7 @@ public class Settings {
 		if(pl_tempo > 80){
 			return 1.0f;
 		}		
-		return (pl_tempo + 20)/100.0f;
+		return (((pl_tempo + 20)/100.0f)*PL_MAX_TEMPO);
 	}
 	
 	public static float getMinHotness(){

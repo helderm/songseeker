@@ -125,7 +125,8 @@ public class PlaylistOptionsActivity extends Activity implements SeekBar.OnSeekB
     		if(Settings.getMinTempo() == -1.0f){
     			tempo_label.setText(getResources().getText(R.string.tempo_str) + " (Off)");
     		}else{
-    			tempo_label.setText(getResources().getText(R.string.tempo_str) + " (" + progress + "%)");
+    			tempo_label.setText(getResources().getText(R.string.tempo_str) + 
+    					" (" + ((progress/100.0f)*Settings.PL_MAX_TEMPO) + " BPM)");
     		}
     		break;
     	case R.id.seekBar_danceability:

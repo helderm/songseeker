@@ -1,6 +1,8 @@
 package com.android.songseeker;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.android.songseeker.comm.EchoNestComm;
 import com.android.songseeker.comm.ServiceCommException;
@@ -18,6 +20,7 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -119,6 +122,7 @@ public class RecSongsActivity extends ListActivity {
 	    plp.setType(PlaylistType.ARTIST_RADIO);
 	    plp.setResults(Settings.getMaxResults());	    
 	    plp.addIDSpace(EchoNestComm.SEVEN_DIGITAL);
+	    //plp.add("bucket", EchoNestComm.RDIO);
 	    plp.includeTracks();
 	    plp.setLimit(true);
 	    
@@ -217,7 +221,7 @@ public class RecSongsActivity extends ListActivity {
 			if (song != null) {
 				TextView tt = (TextView) v.findViewById(R.id.recsong_firstLine);
 			    TextView bt = (TextView) v.findViewById(R.id.recsong_secondLine);
-			    ImageView iv = (ImageView) v.findViewById(R.id.recsong_icon);
+			    //ImageView iv = (ImageView) v.findViewById(R.id.recsong_icon);
 			    
 			    bt.setText(song.getArtistName());
 			    tt.setText(song.getReleaseName());
@@ -250,19 +254,23 @@ public class RecSongsActivity extends ListActivity {
 		protected Playlist doInBackground(PlaylistParams... plp) {
 			Playlist pl = null;
 			
+			Log.d("SongSeeker", "Checkpoint 1");
+			
 			try {
 				pl = EchoNestComm.getComm().createStaticPlaylist(plp[0]);
 			} catch (ServiceCommException e) {
 				err = e.getMessage();
 				return null;
 			}
-						
+				
+			Log.d("SongSeeker", "Checkpoint 2");
 			return pl;
 		}
 		
 		@Override
 		protected void onPostExecute(Playlist result) {
 			
+			Log.d("SongSeeker", "Checkpoint 3");
 			dismissDialog(PROGRESS_DIAG);
 			
 			if(err != null){
@@ -273,12 +281,14 @@ public class RecSongsActivity extends ListActivity {
 	    		return;
     		}
 			
-			adapter.setPlaylist(result);			
+			adapter.setPlaylist(result);
+			Log.d("SongSeeker", "Checkpoint 4");
 		}		
 	}
 	
 	private class StartMediaPlayerTask extends AsyncTask<Song, Void, Void>{
-
+		private String err = null;
+		
 		@Override
 		protected Void doInBackground(Song... song) {
 			
@@ -288,39 +298,81 @@ public class RecSongsActivity extends ListActivity {
 				return null;
 							
 			try{
+				Log.d("SongSeeker", "Checkpoint 5");
 				Track track = song[0].getTrack(EchoNestComm.SEVEN_DIGITAL);
 				if(track == null)
 					return null;
 				
-				previewURL = track.getPreviewUrl();				
-			} catch(EchoNestException e){
-				toast = Toast.makeText(RecSongsActivity.this, e.getMessage(), Toast.LENGTH_LONG);
-	    		toast.show();
-	    		return null;
+				previewURL = track.getPreviewUrl();		
+				Log.d("SongSeeker", "Checkpoint 6");
 			} catch(Exception e){
+				err = getString(R.string.err_mediaplayer);
 				Log.e("SongSeeker", "EchoNest getTrack() exception!", e);
-				//Toast toast = Toast.makeText(RecSongsActivity.this, "Error while trying to retrieve the preview song!", Toast.LENGTH_SHORT);
-	    		//toast.show();
 	    		return null;
 			} catch(NoSuchMethodError e){
+				err = getString(R.string.err_mediaplayer);
 				Log.e("SongSeeker", "EchoNest getTrack() error!", e);
 				return null;
 			}
-		
-			
+
 			if(isCancelled())
 				return null;
 			
 			try {
 				MediaPlayerController.getCon().resetAndStart(previewURL);
 			} catch (Exception e) {
-				toast = Toast.makeText(RecSongsActivity.this, "Unable to start the media player!", Toast.LENGTH_SHORT);
-				toast.show();			
+				err = getString(R.string.err_mediaplayer);
+				Log.e("SongSeeker", "mdia player exception!", e);
+				return null;
 			} 
 			
 			return null;
 		}
 		
+		@Override
+		protected void onPostExecute(Void result) {
+			if(err != null){
+				toast = Toast.makeText(getApplicationContext(), err, Toast.LENGTH_LONG);
+	    		toast.show();        		
+	    		
+	    		err = null;
+	    		return;
+    		}
+			
+		}
+		
 	}	
+	
+	private class DownloadCoverArtsTask extends AsyncTask<Object, Void, Map<String, Bitmap>>{
+
+		@Override
+		protected Map<String, Bitmap> doInBackground(Object... arg) {
+			Playlist pl = (Playlist)arg[0];
+			int init = (Integer)arg[1];
+			int end = (init+5<pl.getSongs().size())? init+5:pl.getSongs().size();
+			
+			Map<String, Bitmap> imageList = new HashMap<String, Bitmap>();
+			for(int i=init; i<end; i++){
+				String coverArt = pl.getSongs().get(i).getCoverArt();
+				if(coverArt == null)
+					continue;
+				
+				Bitmap image = Util.downloadImage(coverArt);
+				if(image != null)
+					imageList.put(pl.getSongs().get(i).getID(), image);
+			}	
+			
+			
+			return imageList;
+		}
+		
+		@Override
+		protected void onPostExecute(Map<String, Bitmap> result) {
+		
+			
+			
+		}
+		
+	}
 
 }
