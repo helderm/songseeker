@@ -14,6 +14,9 @@ public class EchoNestComm {
 	private static EchoNestComm comm = new EchoNestComm();
 	private static EchoNestAPI en;
 	
+	public static final String SEVEN_DIGITAL = "7digital";
+	public static final String RDIO = "rdio";
+	
 	private EchoNestComm(){
 		en = new EchoNestAPI(key);
 	}

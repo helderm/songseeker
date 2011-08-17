@@ -6,6 +6,7 @@ import com.android.songseeker.comm.EchoNestComm;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.util.MediaPlayerController;
 import com.android.songseeker.util.Settings;
+import com.android.songseeker.util.Util;
 import com.echonest.api.v4.EchoNestException;
 import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
@@ -24,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -116,7 +118,8 @@ public class RecSongsActivity extends ListActivity {
 	    
 	    plp.setType(PlaylistType.ARTIST_RADIO);
 	    plp.setResults(Settings.getMaxResults());	    
-	    plp.addIDSpace("7digital");
+	    plp.addIDSpace(EchoNestComm.SEVEN_DIGITAL);
+	    plp.includeTracks();
 	    plp.setLimit(true);
 	    
 	    if(Settings.getVariety() != -1.0f)
@@ -167,8 +170,9 @@ public class RecSongsActivity extends ListActivity {
 	
 	private class RecSongsAdapter extends BaseAdapter {
 	
-	    private Playlist playlist;
+	    private Playlist playlist;	    
 	    private int nowPlayingID;
+	    
 	    public static final int NOT_PLAYING = -1;
 	    
 	    public RecSongsAdapter() {    
@@ -213,9 +217,16 @@ public class RecSongsActivity extends ListActivity {
 			if (song != null) {
 				TextView tt = (TextView) v.findViewById(R.id.recsong_firstLine);
 			    TextView bt = (TextView) v.findViewById(R.id.recsong_secondLine);
-			   
+			    ImageView iv = (ImageView) v.findViewById(R.id.recsong_icon);
+			    
 			    bt.setText(song.getArtistName());
 			    tt.setText(song.getReleaseName());
+			    
+			    //String coverArt = song.getCoverArt();
+			    //Log.i("SongSeeker", "coverart = ["+(coverArt==null?"null":coverArt)+"]");
+			    
+				//iv.setImageBitmap(Util.downloadImage(song.getCoverArt()));
+		
 			}
 			
 			return v;
@@ -224,7 +235,7 @@ public class RecSongsActivity extends ListActivity {
 	    public void setPlaylist(Playlist pl){
 	    	this.playlist = pl;
 	    	notifyDataSetChanged();
-	    }	    
+	    }
 	}
 	
 	private class GetPlaylistTask extends AsyncTask<PlaylistParams, Void, Playlist>{
@@ -245,7 +256,7 @@ public class RecSongsActivity extends ListActivity {
 				err = e.getMessage();
 				return null;
 			}
-			
+						
 			return pl;
 		}
 		
@@ -262,8 +273,7 @@ public class RecSongsActivity extends ListActivity {
 	    		return;
     		}
 			
-			adapter.setPlaylist(result);	
-			
+			adapter.setPlaylist(result);			
 		}		
 	}
 	
@@ -276,13 +286,13 @@ public class RecSongsActivity extends ListActivity {
 			
 			if(isCancelled())
 				return null;
-			
+							
 			try{
-				Track track = song[0].getTrack("7digital");
+				Track track = song[0].getTrack(EchoNestComm.SEVEN_DIGITAL);
 				if(track == null)
 					return null;
 				
-				previewURL = track.getPreviewUrl();	
+				previewURL = track.getPreviewUrl();				
 			} catch(EchoNestException e){
 				toast = Toast.makeText(RecSongsActivity.this, e.getMessage(), Toast.LENGTH_LONG);
 	    		toast.show();
@@ -296,6 +306,7 @@ public class RecSongsActivity extends ListActivity {
 				Log.e("SongSeeker", "EchoNest getTrack() error!", e);
 				return null;
 			}
+		
 			
 			if(isCancelled())
 				return null;
