@@ -1,30 +1,30 @@
 package com.android.songseeker;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.android.songseeker.comm.EchoNestComm;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.util.MediaPlayerController;
 import com.android.songseeker.util.Settings;
-import com.android.songseeker.util.Util;
-import com.echonest.api.v4.EchoNestException;
 import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
 import com.echonest.api.v4.PlaylistParams.PlaylistType;
 import com.echonest.api.v4.Song;
 import com.echonest.api.v4.Track;
+import com.android.songseeker.util.ImageLoader;
 
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -65,9 +65,6 @@ public class RecSongsActivity extends ListActivity {
 	
 	@Override
 	protected void onResume() {        
-        //set up media player
-        //player = new MediaPlayer();
-        //player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         super.onResume();
 	}
 	
@@ -75,6 +72,14 @@ public class RecSongsActivity extends ListActivity {
 	protected void onPause() {
 		MediaPlayerController.getCon().release();
 		super.onPause();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		adapter.imageLoader.stopThread();
+		adapter.imageLoader.clearCache();
+		dismissDialog(PROGRESS_DIAG);
+		super.onDestroy();
 	}
 	
 	@Override
@@ -176,12 +181,14 @@ public class RecSongsActivity extends ListActivity {
 	
 	    private Playlist playlist;	    
 	    private int nowPlayingID;
+	    public ImageLoader imageLoader; 
 	    
 	    public static final int NOT_PLAYING = -1;
 	    
 	    public RecSongsAdapter() {    
 	    	playlist = null;
 	    	nowPlayingID = NOT_PLAYING;
+	    	imageLoader=new ImageLoader(getApplicationContext());
 	    }
 	
 	    public int getCount() {
@@ -210,8 +217,16 @@ public class RecSongsActivity extends ListActivity {
 	    	return false;
 	    }
 	    
+	    /*public class ViewHolder{
+	    	public TextView username;
+	    	public TextView message;
+	    	public ImageView image;
+	    }*/
+	    
 	    public View getView(int position, View convertView, ViewGroup parent) {
 			View v = convertView;
+			//ViewHolder holder;
+			
 			if (v == null) {
 			    LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			    v = vi.inflate(R.layout.rec_song_row, null);
@@ -221,10 +236,12 @@ public class RecSongsActivity extends ListActivity {
 			if (song != null) {
 				TextView tt = (TextView) v.findViewById(R.id.recsong_firstLine);
 			    TextView bt = (TextView) v.findViewById(R.id.recsong_secondLine);
-			    //ImageView iv = (ImageView) v.findViewById(R.id.recsong_icon);
+			    ImageView iv = (ImageView) v.findViewById(R.id.recsong_icon);
 			    
 			    bt.setText(song.getArtistName());
 			    tt.setText(song.getReleaseName());
+			    
+			    imageLoader.DisplayImage("http://cdn.7static.com/static/img/sleeveart/00/000/157/0000015724_200.jpg", RecSongsActivity.this, iv);
 			    
 			    //String coverArt = song.getCoverArt();
 			    //Log.i("SongSeeker", "coverart = ["+(coverArt==null?"null":coverArt)+"]");
@@ -271,7 +288,8 @@ public class RecSongsActivity extends ListActivity {
 		protected void onPostExecute(Playlist result) {
 			
 			Log.d("SongSeeker", "Checkpoint 3");
-			dismissDialog(PROGRESS_DIAG);
+			//dismissDialog(PROGRESS_DIAG);
+			removeDialog(PROGRESS_DIAG);
 			
 			if(err != null){
 				toast = Toast.makeText(getApplicationContext(), err, Toast.LENGTH_LONG);
@@ -322,7 +340,7 @@ public class RecSongsActivity extends ListActivity {
 				MediaPlayerController.getCon().resetAndStart(previewURL);
 			} catch (Exception e) {
 				err = getString(R.string.err_mediaplayer);
-				Log.e("SongSeeker", "mdia player exception!", e);
+				Log.e("SongSeeker", "media player exception!", e);
 				return null;
 			} 
 			
@@ -343,36 +361,32 @@ public class RecSongsActivity extends ListActivity {
 		
 	}	
 	
-	private class DownloadCoverArtsTask extends AsyncTask<Object, Void, Map<String, Bitmap>>{
-
-		@Override
-		protected Map<String, Bitmap> doInBackground(Object... arg) {
-			Playlist pl = (Playlist)arg[0];
-			int init = (Integer)arg[1];
-			int end = (init+5<pl.getSongs().size())? init+5:pl.getSongs().size();
-			
-			Map<String, Bitmap> imageList = new HashMap<String, Bitmap>();
-			for(int i=init; i<end; i++){
-				String coverArt = pl.getSongs().get(i).getCoverArt();
-				if(coverArt == null)
-					continue;
-				
-				Bitmap image = Util.downloadImage(coverArt);
-				if(image != null)
-					imageList.put(pl.getSongs().get(i).getID(), image);
-			}	
-			
-			
-			return imageList;
-		}
-		
-		@Override
-		protected void onPostExecute(Map<String, Bitmap> result) {
-		
-			
-			
-		}
-		
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.recsongs_menu, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+        case R.id.settings:
+        	//create settings activity
+        	return true;
+        case R.id.pl_options:
+        	Intent i = new Intent(RecSongsActivity.this, PlaylistOptionsActivity.class);
+            startActivity(i);	
+            return true;
+        case R.id.refresh:
+    	    //get the playlist
+    	    PlaylistParams plp = buildPlaylistParams();	    
+    	    new GetPlaylistTask().execute(plp, null, null);
+            return true;            
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
 
 }

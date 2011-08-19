@@ -8,8 +8,8 @@
     <ImageView
         android:id="@+id/recsong_icon"
 
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_width="55dip"
+        android:layout_height="55dip"
 
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
