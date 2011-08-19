@@ -14,10 +14,6 @@
     <string name="variety_str">Variety</string>
     <string name="max_results_str">Max Results</string>
     <string name="invalid_args_str">Please specify a valid argument.</string>
-<<<<<<< .mine
     <string name="err_mediaplayer">Unable to start the Media Player! Please try again later.</string>
     <string name="refresh_str">Refresh</string>
-=======
-    <string name="err_mediaplayer">Unable to start the media player! Please try again later.</string>
->>>>>>> .r28
 </resources>

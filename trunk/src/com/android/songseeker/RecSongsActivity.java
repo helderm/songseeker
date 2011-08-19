@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+//import android.os.Debug;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -60,6 +61,8 @@ public class RecSongsActivity extends ListActivity {
 	    //get the playlist
 	    PlaylistParams plp = buildPlaylistParams();	    
 	    new GetPlaylistTask().execute(plp, null, null);
+	    
+	    //Debug.startMethodTracing("myapp");
 
 	}
 	
@@ -78,7 +81,9 @@ public class RecSongsActivity extends ListActivity {
 	protected void onDestroy() {
 		adapter.imageLoader.stopThread();
 		adapter.imageLoader.clearCache();
-		dismissDialog(PROGRESS_DIAG);
+		//dismissDialog(PROGRESS_DIAG);
+		
+		//Debug.stopMethodTracing();
 		super.onDestroy();
 	}
 	
@@ -99,8 +104,7 @@ public class RecSongsActivity extends ListActivity {
 		mp_task.cancel(true);
 		mp_task = new StartMediaPlayerTask();
 		mp_task.execute(song);
-		adapter.setNowPlaying(position);
-		//new StartMediaPlayerTask().execute(song);				
+		adapter.setNowPlaying(position);			
 	}
 	
 	@Override
