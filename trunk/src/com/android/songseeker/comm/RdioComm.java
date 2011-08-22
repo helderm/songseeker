@@ -90,7 +90,7 @@ public class RdioComm extends Activity implements RdioListener{
 	protected void onDestroy() {
 		super.onDestroy();
 		
-		rdio.cleanup();
+		//rdio.cleanup();
 		//rdio = null;
 	}
 }
