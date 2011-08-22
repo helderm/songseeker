@@ -3,9 +3,11 @@ package com.android.songseeker;
 import java.util.List;
 
 import com.android.songseeker.comm.EchoNestComm;
+import com.android.songseeker.comm.RdioComm;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.util.MediaPlayerController;
 import com.android.songseeker.util.Settings;
+import com.android.songseeker.util.Util;
 import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
 import com.echonest.api.v4.PlaylistParams.PlaylistType;
@@ -13,10 +15,12 @@ import com.echonest.api.v4.Song;
 import com.echonest.api.v4.Track;
 import com.android.songseeker.util.ImageLoader;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,6 +41,8 @@ import android.widget.Toast;
 public class RecSongsActivity extends ListActivity {
 
 	private final int PROGRESS_DIAG = 0;
+	private final int EXPORT_DIALOG = 1;
+	
 	private RecSongsAdapter adapter;
 	private StartMediaPlayerTask mp_task = new StartMediaPlayerTask();
 	private Toast toast;
@@ -117,6 +123,24 @@ public class RecSongsActivity extends ListActivity {
 		    pd.setIndeterminate(true);
 		    pd.setCancelable(true);
 		    return pd;
+		case EXPORT_DIALOG:		  	
+			final CharSequence[] items = {"Rdio Playlist"};
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Export as...");
+			builder.setItems(items, new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog, int item) {
+			        
+			    	Intent i = new Intent(RecSongsActivity.this, RdioComm.class);
+			    	//i.putExtra("num_artist", 1);
+			        //i.putExtra("artist0", textInput.getText().toString());
+			    	
+			    	startActivity(i);  
+			    	//Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+			    }
+			});
+			AlertDialog alert = builder.create();
+			return alert;			
 		default:
 			return null;
 		}
@@ -131,6 +155,7 @@ public class RecSongsActivity extends ListActivity {
 	    plp.setType(PlaylistType.ARTIST_RADIO);
 	    plp.setResults(Settings.getMaxResults());	    
 	    plp.addIDSpace(EchoNestComm.SEVEN_DIGITAL);
+	    //plp.addIDSpace("playme");
 	    //plp.add("bucket", EchoNestComm.RDIO);
 	    plp.includeTracks();
 	    plp.setLimit(true);
@@ -157,7 +182,6 @@ public class RecSongsActivity extends ListActivity {
 		    plp.setSongMinHotttnesss(Settings.getMinHotness());
 		    plp.setSongtMaxHotttnesss(Settings.getMaxHotness());
 	    }
-
 	    
 	    List<String> moods = Settings.getMood();
 	    if(moods != null){
@@ -248,7 +272,7 @@ public class RecSongsActivity extends ListActivity {
 			    imageLoader.DisplayImage("http://cdn.7static.com/static/img/sleeveart/00/000/157/0000015724_200.jpg", RecSongsActivity.this, iv);
 			    
 			    //String coverArt = song.getCoverArt();
-			    //Log.i("SongSeeker", "coverart = ["+(coverArt==null?"null":coverArt)+"]");
+			    //Log.i(Util.APP, "coverart = ["+(coverArt==null?"null":coverArt)+"]");
 			    
 				//iv.setImageBitmap(Util.downloadImage(song.getCoverArt()));
 		
@@ -275,7 +299,7 @@ public class RecSongsActivity extends ListActivity {
 		protected Playlist doInBackground(PlaylistParams... plp) {
 			Playlist pl = null;
 			
-			Log.d("SongSeeker", "Checkpoint 1");
+			Log.d(Util.APP, "Checkpoint 1");
 			
 			try {
 				pl = EchoNestComm.getComm().createStaticPlaylist(plp[0]);
@@ -284,14 +308,14 @@ public class RecSongsActivity extends ListActivity {
 				return null;
 			}
 				
-			Log.d("SongSeeker", "Checkpoint 2");
+			Log.d(Util.APP, "Checkpoint 2");
 			return pl;
 		}
 		
 		@Override
 		protected void onPostExecute(Playlist result) {
 			
-			Log.d("SongSeeker", "Checkpoint 3");
+			Log.d(Util.APP, "Checkpoint 3");
 			//dismissDialog(PROGRESS_DIAG);
 			removeDialog(PROGRESS_DIAG);
 			
@@ -304,7 +328,7 @@ public class RecSongsActivity extends ListActivity {
     		}
 			
 			adapter.setPlaylist(result);
-			Log.d("SongSeeker", "Checkpoint 4");
+			Log.d(Util.APP, "Checkpoint 4");
 		}		
 	}
 	
@@ -320,20 +344,20 @@ public class RecSongsActivity extends ListActivity {
 				return null;
 							
 			try{
-				Log.d("SongSeeker", "Checkpoint 5");
+				Log.d(Util.APP, "Checkpoint 5");
 				Track track = song[0].getTrack(EchoNestComm.SEVEN_DIGITAL);
 				if(track == null)
 					return null;
 				
 				previewURL = track.getPreviewUrl();		
-				Log.d("SongSeeker", "Checkpoint 6");
+				Log.d(Util.APP, "Checkpoint 6");
 			} catch(Exception e){
 				err = getString(R.string.err_mediaplayer);
-				Log.e("SongSeeker", "EchoNest getTrack() exception!", e);
+				Log.e(Util.APP, "EchoNest getTrack() exception!", e);
 	    		return null;
 			} catch(NoSuchMethodError e){
 				err = getString(R.string.err_mediaplayer);
-				Log.e("SongSeeker", "EchoNest getTrack() error!", e);
+				Log.e(Util.APP, "EchoNest getTrack() error!", e);
 				return null;
 			}
 
@@ -344,7 +368,7 @@ public class RecSongsActivity extends ListActivity {
 				MediaPlayerController.getCon().resetAndStart(previewURL);
 			} catch (Exception e) {
 				err = getString(R.string.err_mediaplayer);
-				Log.e("SongSeeker", "media player exception!", e);
+				Log.e(Util.APP, "media player exception!", e);
 				return null;
 			} 
 			
@@ -387,7 +411,10 @@ public class RecSongsActivity extends ListActivity {
     	    //get the playlist
     	    PlaylistParams plp = buildPlaylistParams();	    
     	    new GetPlaylistTask().execute(plp, null, null);
-            return true;            
+            return true;
+        case R.id.export:
+        	showDialog(EXPORT_DIALOG);
+        	return true;
         default:
             return super.onOptionsItemSelected(item);
         }

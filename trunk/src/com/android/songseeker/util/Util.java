@@ -5,6 +5,8 @@ import java.io.OutputStream;
 
 public class Util {
 
+	public static final String APP = "SongSeeker";
+	
     public static void CopyStream(InputStream is, OutputStream os)
     {
         final int buffer_size=1024;

@@ -16,4 +16,5 @@
     <string name="invalid_args_str">Please specify a valid argument.</string>
     <string name="err_mediaplayer">Unable to start the Media Player! Please try again later.</string>
     <string name="refresh_str">Refresh</string>
+    <string name="export_str">Export as...</string>
 </resources>
