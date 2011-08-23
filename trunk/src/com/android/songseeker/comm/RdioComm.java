@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -23,8 +24,8 @@ public class RdioComm extends Activity implements RdioListener{
 	
 	private static String accessToken = null;
 	private static String accessTokenSecret = null;	
-	private static final String PREF_ACCESSTOKEN = "prefs.accesstoken";
-	private static final String PREF_ACCESSTOKENSECRET = "prefs.accesstokensecret";	
+	private static final String PREF_ACCESSTOKEN = "prefs.rdio.accesstoken";
+	private static final String PREF_ACCESSTOKENSECRET = "prefs.rdio.accesstokensecret";	
 	
 	private static final int REQUEST_AUTHORISE_APP = 100;
 	
@@ -61,11 +62,6 @@ public class RdioComm extends Activity implements RdioListener{
 		
 	}
 
-	public void onRdioAuthorised(String arg0, String arg1) {
-		Log.d(Util.APP, "onRdioAuthorised()");
-		
-	}
-
 	public void onRdioReady() {
 		Log.d(Util.APP, "onRdioReady()");		
 	}
@@ -81,7 +77,44 @@ public class RdioComm extends Activity implements RdioListener{
     		RdioComm.this.finish();
 		}				
 	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case REQUEST_AUTHORISE_APP:
+			if (resultCode == Rdio.RESULT_AUTHORISATION_ACCEPTED) {
+				Log.i(Util.APP, "User authorised our app.");
+				rdio.setTokenAndSecret(data);
+			} else if (resultCode == Rdio.RESULT_AUTHORISATION_REJECTED) {
+				Log.i(Util.APP, "User rejected our app.");
+			}
+			break;
+		default:
+			break;
+		}
+	}
 
+	/*
+	* Dispatched by the Rdio object once the setTokenAndSecret call has finished, and the credentials are
+	* ready to be used to make API calls. The token & token secret are passed in so that you can
+	* save/cache them for future re-use.
+	* @see com.rdio.android.api.RdioListener#onRdioAuthorised(java.lang.String, java.lang.String)
+	*/
+	@Override
+	public void onRdioAuthorised(String accessToken, String accessTokenSecret) {
+		Log.i(Util.APP, "Application authorised, saving access token & secret.");
+		Log.d(Util.APP, "Access token: " + accessToken);
+		Log.d(Util.APP, "Access token secret: " + accessTokenSecret);
+
+		SharedPreferences settings = getPreferences(MODE_PRIVATE);
+		Editor editor = settings.edit();
+		editor.putString(PREF_ACCESSTOKEN, accessToken);
+		editor.putString(PREF_ACCESSTOKENSECRET, accessTokenSecret);
+		editor.commit();
+
+		//create playlist
+	}
+	
 	public void onRdioUserPlayingElsewhere() {
 		Log.d(Util.APP, "onRdioUserPlayingElsewhere()");		
 	}
