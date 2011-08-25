@@ -269,7 +269,7 @@ public class RecSongsActivity extends ListActivity {
 			    bt.setText(song.getArtistName());
 			    tt.setText(song.getReleaseName());
 			    
-			    imageLoader.DisplayImage("http://cdn.7static.com/static/img/sleeveart/00/000/157/0000015724_200.jpg", RecSongsActivity.this, iv);
+			    imageLoader.DisplayImage(song.getString("tracks[0].release_image"), RecSongsActivity.this, iv);
 			    
 			    //String coverArt = song.getCoverArt();
 			    //Log.i(Util.APP, "coverart = ["+(coverArt==null?"null":coverArt)+"]");
