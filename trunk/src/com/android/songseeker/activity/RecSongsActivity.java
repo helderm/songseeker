@@ -112,7 +112,8 @@ public class RecSongsActivity extends ListActivity {
 		mp_task.cancel(true);
 		mp_task = new StartMediaPlayerTask();
 		mp_task.execute(song);
-		adapter.setNowPlaying(position);			
+		adapter.setNowPlaying(position);
+
 	}
 	
 	@Override
@@ -264,12 +265,14 @@ public class RecSongsActivity extends ListActivity {
 			if (song != null) {
 				TextView tt = (TextView) v.findViewById(R.id.recsong_firstLine);
 			    TextView bt = (TextView) v.findViewById(R.id.recsong_secondLine);
-			    ImageView iv = (ImageView) v.findViewById(R.id.recsong_icon);
+			    ImageView coverart = (ImageView) v.findViewById(R.id.recsong_coverart);
+			    ImageView playpause = (ImageView) v.findViewById(R.id.recsong_playpause);
 			    
 			    bt.setText(song.getArtistName());
 			    tt.setText(song.getReleaseName());
-			    
-			    imageLoader.DisplayImage(song.getString("tracks[0].release_image"), RecSongsActivity.this, iv);
+			    playpause.setImageResource(R.drawable.play2);
+			    			    
+			    imageLoader.DisplayImage(song.getString("tracks[0].release_image"), RecSongsActivity.this, coverart);
 			    
 			    //String coverArt = song.getCoverArt();
 			    //Log.i(Util.APP, "coverart = ["+(coverArt==null?"null":coverArt)+"]");
