@@ -24,6 +24,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 //import android.os.Debug;
@@ -82,6 +84,7 @@ public class RecSongsActivity extends ListActivity {
 	@Override
 	protected void onPause() {
 		MediaPlayerController.getCon().release();
+		adapter.setNowPlaying(RecSongsAdapter.NOT_PLAYING);
 		super.onPause();
 	}
 	
@@ -237,6 +240,7 @@ public class RecSongsActivity extends ListActivity {
 	
 	    public void setNowPlaying(int position){
 	    	nowPlayingID = position;
+	    	notifyDataSetChanged();
 	    }
 	    
 	    public boolean isPlaying(int position){
@@ -270,7 +274,11 @@ public class RecSongsActivity extends ListActivity {
 			    
 			    bt.setText(song.getArtistName());
 			    tt.setText(song.getReleaseName());
-			    playpause.setImageResource(R.drawable.play2);
+			    
+			    if(nowPlayingID == position)
+			    	playpause.setImageResource(R.drawable.pause);
+			    else
+			    	playpause.setImageResource(R.drawable.play);
 			    			    
 			    imageLoader.DisplayImage(song.getString("tracks[0].release_image"), RecSongsActivity.this, coverart);
 			    
@@ -335,7 +343,7 @@ public class RecSongsActivity extends ListActivity {
 		}		
 	}
 	
-	private class StartMediaPlayerTask extends AsyncTask<Song, Void, Void>{
+	private class StartMediaPlayerTask extends AsyncTask<Song, Void, Void> implements OnCompletionListener{
 		private String err = null;
 		
 		@Override
@@ -345,7 +353,9 @@ public class RecSongsActivity extends ListActivity {
 			
 			if(isCancelled())
 				return null;
-							
+				
+			MediaPlayerController.getCon().setOnCompletionListener(this);
+			
 			try{
 				Log.d(Util.APP, "Checkpoint 5");
 				Track track = song[0].getTrack(EchoNestComm.SEVEN_DIGITAL);
@@ -385,9 +395,15 @@ public class RecSongsActivity extends ListActivity {
 	    		toast.show();        		
 	    		
 	    		err = null;
+	    		adapter.setNowPlaying(RecSongsAdapter.NOT_PLAYING);
 	    		return;
     		}
 			
+			
+		}
+
+		public void onCompletion(MediaPlayer mp) {
+			adapter.setNowPlaying(RecSongsAdapter.NOT_PLAYING);			
 		}
 		
 	}	

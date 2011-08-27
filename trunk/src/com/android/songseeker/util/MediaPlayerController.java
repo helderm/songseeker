@@ -5,7 +5,8 @@ import android.media.MediaPlayer;
 
 public class MediaPlayerController {
 	private static MediaPlayerController mp_con = new MediaPlayerController();
-	private static MediaPlayer mp = null;	
+	private static MediaPlayer mp = null;
+	private static MediaPlayer.OnCompletionListener listener = null;
 	
 	public static MediaPlayerController getCon(){
 		if(mp == null){
@@ -14,6 +15,10 @@ public class MediaPlayerController {
 		}
 		
 		return mp_con; 
+	}
+	
+	public void setOnCompletionListener(MediaPlayer.OnCompletionListener l){
+		listener = l;
 	}
 	
 	public synchronized void release(){
@@ -33,6 +38,8 @@ public class MediaPlayerController {
 		mp.reset();
 		mp.setDataSource(source);
 		mp.prepare();
+		if(listener != null)
+			mp.setOnCompletionListener(listener);
 		mp.start();
 	}
 	
