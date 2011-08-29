@@ -1,5 +1,7 @@
 package com.android.songseeker.comm;
 
+import java.io.EOFException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,7 +124,6 @@ public class RdioComm extends Activity{
 
 			Log.d(Util.APP,"Fetching request token from Rdio...");
 
-			// we do not support callbacks, thus pass OOB
 			try {
 				authUrl = provider.retrieveRequestToken(consumer, "oauth://checkin4me");
 			} catch (Exception e) {
@@ -140,6 +141,7 @@ public class RdioComm extends Activity{
 			i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
+			Log.d(Util.APP, "Requesting permission to Rdio... ");
 			startActivity(i);		
 
 			return true;
@@ -159,7 +161,8 @@ public class RdioComm extends Activity{
 
 	private class CreatePlaylistTask extends AsyncTask<Void, Integer, Void>{
 		
-		SongList sl = getIntent().getExtras().getParcelable("songList");
+		private SongList sl = getIntent().getExtras().getParcelable("songList");
+		private String err = null;
 		
 		
 		@Override
@@ -170,8 +173,11 @@ public class RdioComm extends Activity{
 		
 		@Override
 		protected void onProgressUpdate(Integer... progress) {
-			createPlaylist_pd.setProgress(progress[0]);
 			
+			if(progress[0] >= 0)
+				createPlaylist_pd.setProgress(progress[0]);
+			else
+				createPlaylist_pd.setTitle("Creating playlist...");
 		}
 		
 		
@@ -191,7 +197,7 @@ public class RdioComm extends Activity{
 				sp.addIDSpace(EchoNestComm.RDIO);
 				
 				try {
-					song = EchoNestComm.getComm().identifySongs(sp);
+					song = EchoNestComm.getComm().getSongs(sp);
 					
 					String rdioID = song.getString("foreign_ids[0].foreign_id");
 					
@@ -199,12 +205,18 @@ public class RdioComm extends Activity{
 					songIDs.add(split[2]);
 					Log.d(Util.APP, "RdioID = ["+split[2]+"]");
 				} catch(ServiceCommException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					err = e.getMessage();
+					return null;
 				} catch(IndexOutOfBoundsException e){
 					//TODO not found in EchoNest, call Rdio
 					if(song != null){
 						Log.w(Util.APP, "Song ["+ song.getReleaseName()+" - " +song.getArtistName()+"] not found!");
+						
+						try{
+							queryTrackID(song.getReleaseName(), song.getArtistName());							
+						}catch(Exception ex){
+							Log.e(Util.APP, "Err while fetching track data from Rdio!", ex);
+						}
 					}					
 				}
 				
@@ -212,9 +224,15 @@ public class RdioComm extends Activity{
 			}
 			
 			Log.i(Util.APP, "SongIDs fetched! Creating playlist...");
-			//createPlaylist_pd.setTitle("Creating playlist...");
 			
-			createPlaylist(songIDs);
+			publishProgress(-1);
+			
+			try{
+				createPlaylist(songIDs);
+			}catch(Exception e){
+				Log.e(Util.APP, "Error while creating playlist!", e);
+				err = "Error while creating playlist!";				
+			}
 			
 			
 			return null;
@@ -223,6 +241,14 @@ public class RdioComm extends Activity{
 		@Override
 		protected void onPostExecute(Void result) {
 			removeDialog(CREATE_PLAYLIST);
+			
+			if(err != null){
+				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_LONG).show();
+			}else{
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.pl_created_str), Toast.LENGTH_LONG).show();
+			}
+			
+			RdioComm.this.finish();
 		}
 		
 	}
@@ -234,10 +260,17 @@ public class RdioComm extends Activity{
 
 		removeDialog(REQUEST_AUTH_DIAG);
 
+		Log.d(Util.APP, "OAuth callback started!");
+		
 		//Verificando se a chamada vem realmente do callback esperado
 		if (uri != null && uri.toString().contains("oauth")) {
+			
+			//TODO Check! If the verifier comes null in a 'Deny' operation, we can use that to return an err msg to the user!
 			String verifier = uri.getQueryParameter(oauth.signpost.OAuth.OAUTH_VERIFIER);
 			try {
+				
+				Log.d(Util.APP, "Verifier: "+verifier);
+				
 				// Definir os tokens para obter o Access Token
 				provider.retrieveAccessToken(consumer, verifier);
 
@@ -279,7 +312,7 @@ public class RdioComm extends Activity{
 	}
 	
 	
-	private void createPlaylist(List<String> songIDs){
+	private void createPlaylist(List<String> songIDs) throws Exception{
 
 		StringBuilder sb = new StringBuilder();
 		
@@ -289,65 +322,91 @@ public class RdioComm extends Activity{
 		List<NameValuePair> request_args = new ArrayList<NameValuePair>();
 		request_args.add(new BasicNameValuePair("method", "createPlaylist"));
 		request_args.add(new BasicNameValuePair("name", "teste3"));
-		request_args.add(new BasicNameValuePair("description", "teste_3"));
-		
+		request_args.add(new BasicNameValuePair("description", "teste_3"));		
 			
 		for(String rdioID : songIDs){
 			sb.append(rdioID+",");
 		}
-		sb.deleteCharAt(sb.length()-1);
+		sb.deleteCharAt(sb.length()-1);		
+		request_args.add(new BasicNameValuePair("tracks", sb.toString()));		
 		
+		StringEntity body = new StringEntity(URLEncodedUtils.format(request_args, "UTF-8"));
+		body.setContentType("application/x-www-form-urlencoded");
+		request.setEntity(body);
+
+		consumer.setTokenWithSecret(accessToken, accessTokenSecret);
 		
-		request_args.add(new BasicNameValuePair("tracks", sb.toString()));
-		
-		try{
-			StringEntity body = new StringEntity(URLEncodedUtils.format(request_args, "UTF-8"));
-			body.setContentType("application/x-www-form-urlencoded");
-			request.setEntity(body);
+		Log.d(Util.APP, "AcessToken: "+consumer.getToken());
+		Log.d(Util.APP, "AcessTokenSecret: "+consumer.getTokenSecret());			
+		consumer.sign(request);
 
-			consumer.setTokenWithSecret(accessToken, accessTokenSecret);
-			
-			Log.d(Util.APP, "AcessToken: "+consumer.getToken());
-			Log.d(Util.APP, "AcessTokenSecret: "+consumer.getTokenSecret());			
-			consumer.sign(request);
+		Log.d(Util.APP,"sending createPlaylist request to Rdio");
 
-			Log.d(Util.APP,"sending currentUser request to Rdio");
-
-			HttpClient httpClient = new DefaultHttpClient();
-			response = httpClient.execute(request);
-		}catch(Exception e){
-			Log.e(Util.APP, "Err while creating playlist!", e);
-			return;
-		}
+		HttpClient httpClient = new DefaultHttpClient();
+		response = httpClient.execute(request);	
         
         Log.d(Util.APP,"Response: " + response.getStatusLine().getStatusCode() + " "
                 + response.getStatusLine().getReasonPhrase());
 
-        if (response.getStatusLine().getStatusCode() == 200) {
-        	/*InputStreamReader reader = null;
-			try {
-				reader = new InputStreamReader(response.getEntity().getContent());
-			} catch (IllegalStateException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-        	while(true) {
-        		try {
-                	char[] buf = new char[64*1024];
-                	if (reader.read(buf) < 0) break;
-                	Log.d(Util.APP, new String(buf));
-        		} catch(EOFException ex) {
-        			break;
-        		} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-        	}*/
-        }
-        Log.d(Util.APP,"");
+        if (response.getStatusLine().getStatusCode() != 200) {
+        	Exception e = new Exception(response.getStatusLine().getReasonPhrase());
+        	throw e;
+        }               
         
 	}
+	
+	
+	private String queryTrackID(String songName, String songArtist) throws Exception{
+		HttpPost request = new HttpPost(ENDPOINT);
+		HttpResponse response;
+
+		List<NameValuePair> request_args = new ArrayList<NameValuePair>();
+		request_args.add(new BasicNameValuePair("method", "search"));
+		request_args.add(new BasicNameValuePair("types", "Track"));
+		//request_args.add(new BasicNameValuePair("never_or", "false"));
+		request_args.add(new BasicNameValuePair("count", "1"));
+		
+		request_args.add(new BasicNameValuePair("query", songName+" "+songArtist));	
+		
+		StringEntity body = new StringEntity(URLEncodedUtils.format(request_args, "UTF-8"));
+		body.setContentType("application/x-www-form-urlencoded");
+		request.setEntity(body);
+
+		consumer.setTokenWithSecret(accessToken, accessTokenSecret);
+		
+		Log.d(Util.APP, "AcessToken: "+consumer.getToken());
+		Log.d(Util.APP, "AcessTokenSecret: "+consumer.getTokenSecret());			
+		consumer.sign(request);
+
+		Log.d(Util.APP,"sending search request to Rdio");
+
+		HttpClient httpClient = new DefaultHttpClient();
+		response = httpClient.execute(request);	
+        
+        Log.d(Util.APP,"Response: " + response.getStatusLine().getStatusCode() + " "
+                + response.getStatusLine().getReasonPhrase());
+
+        if (response.getStatusLine().getStatusCode() != 200) {
+        	Exception e = new Exception(response.getStatusLine().getReasonPhrase());
+        	throw e;
+        }               
+		
+    	InputStreamReader reader = null;
+		reader = new InputStreamReader(response.getEntity().getContent());
+		
+		
+    	while(true) {
+    		try {
+            	//char[] buf = new char[64*1024];
+    			char[] buf = new char[2*1024];
+            	if (reader.read(buf) < 0) break;
+            	Log.d(Util.APP, new String(buf));
+    		} catch(EOFException ex) {
+    			break;
+    		} 
+    	}
+        
+		return null;
+	}
+	
 }

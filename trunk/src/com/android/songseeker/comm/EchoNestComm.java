@@ -53,7 +53,7 @@ public class EchoNestComm {
 		return pl;
 	}
 	
-	public Song identifySongs(SongParams sp) throws ServiceCommException{
+	public Song getSongs(SongParams sp) throws ServiceCommException{
 		List<Song> ls;
 		
 		try{			
