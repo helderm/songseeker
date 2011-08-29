@@ -17,4 +17,6 @@
     <string name="err_mediaplayer">Unable to start the Media Player! Please try again later.</string>
     <string name="refresh_str">Refresh</string>
     <string name="export_str">Export as...</string>
+    <string name="auth_str">Authorized!</string>
+    <string name="not_auth_str">Not Authorized!</string>
 </resources>

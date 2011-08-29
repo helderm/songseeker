@@ -26,7 +26,7 @@ public class MediaPlayerController {
 		mp = null;
 	}
 	
-	public synchronized void stop(){
+	public void stop(){
 		mp.stop();
 	}
 	
@@ -34,7 +34,7 @@ public class MediaPlayerController {
 		return mp.isPlaying();
 	}
 	
-	public synchronized void resetAndStart(String source) throws Exception{
+	public void resetAndStart(String source) throws Exception{
 		mp.reset();
 		mp.setDataSource(source);
 		mp.prepare();

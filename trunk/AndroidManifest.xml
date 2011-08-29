@@ -22,7 +22,16 @@
         <activity android:name=".activity.RecSongsActivity"
         		  android:screenOrientation="portrait">	
         </activity>
-        <activity android:name=".comm.RdioComm"></activity>
+        <activity android:name=".comm.RdioComm" 
+        		  android:launchMode="singleInstance"
+        		  android:screenOrientation="portrait">
+			<intent-filter>			
+				<action android:name="android.intent.action.VIEW" />			
+				<category android:name="android.intent.category.DEFAULT" />			
+				<category android:name="android.intent.category.BROWSABLE" />			
+				<data android:scheme="oauth" android:host="checkin4me" />			
+			</intent-filter>       
+        </activity>
 
     </application>
 </manifest>

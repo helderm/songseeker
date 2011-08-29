@@ -102,9 +102,9 @@ public class RecSongsActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Song song = adapter.getItem(position);
 		
-		if(song == null || 
-			(MediaPlayerController.getCon().isPlaying() && adapter.isPlaying(position))){
+		if(song == null || adapter.isPlaying(position)){
 			
+			mp_task.cancel(true);
 			MediaPlayerController.getCon().stop();
 			adapter.setNowPlaying(RecSongsAdapter.NOT_PLAYING);
 			return;
@@ -114,9 +114,9 @@ public class RecSongsActivity extends ListActivity {
 		
 		mp_task.cancel(true);
 		mp_task = new StartMediaPlayerTask();
-		mp_task.execute(song);
 		adapter.setNowPlaying(position);
-
+		mp_task.execute(song);
+		
 	}
 	
 	@Override
@@ -165,8 +165,9 @@ public class RecSongsActivity extends ListActivity {
 	    plp.setType(PlaylistType.ARTIST_RADIO);
 	    plp.setResults(Settings.getMaxResults());	    
 	    plp.addIDSpace(EchoNestComm.SEVEN_DIGITAL);
+	    //plp.addIDSpace(EchoNestComm.RDIO);
 	    //plp.addIDSpace("playme");
-	    //plp.add("bucket", EchoNestComm.RDIO);
+	    //plp.add("bucket", "rdio");
 	    plp.includeTracks();
 	    plp.setLimit(true);
 	    
