@@ -1,6 +1,5 @@
 package com.android.songseeker.comm;
 
-import java.io.EOFException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,8 +54,9 @@ public class RdioComm extends Activity{
 	private static final String PREF_ACCESSTOKENSECRET = "prefs.rdio.accesstokensecret";	
 	
 	private static final int REQUEST_AUTH_DIAG = 1;
-	private static final int CREATE_PLAYLIST = 2;
-	private ProgressDialog createPlaylist_pd;
+	private static final int FETCH_SONG_IDS_DIAG = 2;
+	private static final int CREATE_PLAYLIST_DIAG = 3;
+	private ProgressDialog fetchSongIdsDiag;
 		
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -88,17 +88,23 @@ public class RdioComm extends Activity{
 
 		switch(id){
 		case REQUEST_AUTH_DIAG:
-			ProgressDialog pd = new ProgressDialog(this);
-			pd.setMessage("Requesting authorization from Rdio...");
-			pd.setIndeterminate(true);
-			pd.setCancelable(true);
-			return pd;
-		case CREATE_PLAYLIST:
-			createPlaylist_pd = new ProgressDialog(this);
-			createPlaylist_pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			createPlaylist_pd.setMessage("Retrieving song IDs...");
-			createPlaylist_pd.setCancelable(false);			
-			return createPlaylist_pd;
+			ProgressDialog rad = new ProgressDialog(this);
+			rad.setMessage("Requesting authorization from Rdio...");
+			rad.setIndeterminate(true);
+			rad.setCancelable(true);
+			return rad;
+		case FETCH_SONG_IDS_DIAG:
+			fetchSongIdsDiag = new ProgressDialog(this);
+			fetchSongIdsDiag.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+			fetchSongIdsDiag.setMessage("Retrieving song IDs...");
+			fetchSongIdsDiag.setCancelable(false);			
+			return fetchSongIdsDiag;
+		case CREATE_PLAYLIST_DIAG:
+			ProgressDialog cpd = new ProgressDialog(this);
+			cpd.setMessage("Creating playlist on Rdio...");
+			cpd.setIndeterminate(true);
+			cpd.setCancelable(false);
+			return cpd;			
 		default:
 			return null;
 		}
@@ -167,17 +173,19 @@ public class RdioComm extends Activity{
 		
 		@Override
 		protected void onPreExecute() {
-			showDialog(CREATE_PLAYLIST);
-			createPlaylist_pd.setMax(sl.getSongIDs().size());
+			showDialog(FETCH_SONG_IDS_DIAG);
+			fetchSongIdsDiag.setMax(sl.getSongIDs().size());
 		}
 		
 		@Override
 		protected void onProgressUpdate(Integer... progress) {
 			
 			if(progress[0] >= 0)
-				createPlaylist_pd.setProgress(progress[0]);
-			else
-				createPlaylist_pd.setTitle("Creating playlist...");
+				fetchSongIdsDiag.setProgress(progress[0]);
+			else{
+				removeDialog(FETCH_SONG_IDS_DIAG);
+				showDialog(CREATE_PLAYLIST_DIAG);
+			}
 		}
 		
 		
@@ -213,7 +221,7 @@ public class RdioComm extends Activity{
 						Log.w(Util.APP, "Song ["+ song.getReleaseName()+" - " +song.getArtistName()+"] not found!");
 						
 						try{
-							queryTrackID(song.getReleaseName(), song.getArtistName());							
+							songIDs.add(queryTrackID(song.getReleaseName(), song.getArtistName()));							
 						}catch(Exception ex){
 							Log.e(Util.APP, "Err while fetching track data from Rdio!", ex);
 						}
@@ -240,7 +248,7 @@ public class RdioComm extends Activity{
 		
 		@Override
 		protected void onPostExecute(Void result) {
-			removeDialog(CREATE_PLAYLIST);
+			removeDialog(CREATE_PLAYLIST_DIAG);
 			
 			if(err != null){
 				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_LONG).show();
@@ -353,13 +361,15 @@ public class RdioComm extends Activity{
         	throw e;
         }               
         
+        Log.i(Util.APP, "Playlist created with success!");
 	}
 	
 	
 	private String queryTrackID(String songName, String songArtist) throws Exception{
 		HttpPost request = new HttpPost(ENDPOINT);
 		HttpResponse response;
-
+		int start_index, end_index;
+				
 		List<NameValuePair> request_args = new ArrayList<NameValuePair>();
 		request_args.add(new BasicNameValuePair("method", "search"));
 		request_args.add(new BasicNameValuePair("types", "Track"));
@@ -372,13 +382,11 @@ public class RdioComm extends Activity{
 		body.setContentType("application/x-www-form-urlencoded");
 		request.setEntity(body);
 
-		consumer.setTokenWithSecret(accessToken, accessTokenSecret);
-		
-		Log.d(Util.APP, "AcessToken: "+consumer.getToken());
-		Log.d(Util.APP, "AcessTokenSecret: "+consumer.getTokenSecret());			
+		consumer.setTokenWithSecret(accessToken, accessTokenSecret);	
 		consumer.sign(request);
 
-		Log.d(Util.APP,"sending search request to Rdio");
+		Log.i(Util.APP,"sending search request to Rdio...");
+		Log.d(Util.APP, "songName=["+songName+"], songArtist=["+songArtist+"]");
 
 		HttpClient httpClient = new DefaultHttpClient();
 		response = httpClient.execute(request);	
@@ -394,19 +402,50 @@ public class RdioComm extends Activity{
     	InputStreamReader reader = null;
 		reader = new InputStreamReader(response.getEntity().getContent());
 		
-		
-    	while(true) {
-    		try {
-            	//char[] buf = new char[64*1024];
-    			char[] buf = new char[2*1024];
-            	if (reader.read(buf) < 0) break;
-            	Log.d(Util.APP, new String(buf));
-    		} catch(EOFException ex) {
-    			break;
-    		} 
+       	char[] buf = new char[2*1024];
+    	if (reader.read(buf) < 0) return null;
+    	
+    	String str = new String(buf);
+    	buf = null;
+    	
+    	//parse for status OK
+    	start_index = str.indexOf("\"status\": ");
+    	start_index += 11; 
+    	end_index = str.indexOf('\"', start_index);    	
+    	char[] bufOk = new char[end_index-start_index];  
+    	str.getChars(start_index, end_index, bufOk, 0);
+    	String bufStrOK = new String(bufOk);    	    	
+    	if(!bufStrOK.equalsIgnoreCase("ok")){
+    		throw new Exception("Rdio search req returned status NOT OK! status:" +bufOk.toString());
     	}
-        
-		return null;
+    	bufOk = null;
+    	bufStrOK = null;		
+    	
+    	//parse for track_count > 0
+    	start_index = str.indexOf("\"track_count\": ");
+    	start_index += 15; 
+    	end_index = str.indexOf(',', start_index);    	
+    	char[] bufCount = new char[end_index-start_index];  
+    	str.getChars(start_index, end_index, bufCount, 0);
+    	String bufStrCount = new String(bufCount);
+    	if(Integer.parseInt(bufStrCount) <= 0){
+    		throw new Exception("Rdio search req returned no tracks!");
+    	}    	
+    	bufStrCount = null;
+    	bufCount = null;
+    	
+    	//parse the track id
+    	start_index = str.indexOf("\"key\": ");
+    	start_index += 8;    	
+    	end_index = str.indexOf('\"', start_index);    	
+    	char[] buf2 = new char[end_index-start_index];  
+    	str.getChars(start_index, end_index, buf2, 0);
+    	
+    	String retString = new String(buf2);
+    	buf2 = null;
+    	Log.d(Util.APP, "RdioID: " + retString);
+    	return retString;
+		
 	}
 	
 }
