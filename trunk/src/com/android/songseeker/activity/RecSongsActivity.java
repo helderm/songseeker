@@ -3,7 +3,6 @@ package com.android.songseeker.activity;
 import java.util.List;
 import com.android.songseeker.R;
 import com.android.songseeker.comm.EchoNestComm;
-import com.android.songseeker.comm.RdioComm;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.data.SearchSeed;
 import com.android.songseeker.data.SongList;
@@ -143,7 +142,7 @@ public class RecSongsActivity extends ListActivity {
 						songList.addSongID(song.getID());
 					}
 			    	
-			    	Intent i = new Intent(RecSongsActivity.this, RdioComm.class);
+			    	Intent i = new Intent(RecSongsActivity.this, CreatePlaylistRdioActivity.class);
 			    	i.putExtra("songList", songList);
 			    	startActivity(i);
 			    	

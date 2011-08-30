@@ -22,7 +22,7 @@
         <activity android:name=".activity.RecSongsActivity"
         		  android:screenOrientation="portrait">	
         </activity>
-        <activity android:name=".comm.RdioComm" 
+        <activity android:name=".activity.CreatePlaylistRdioActivity" 
         		  android:launchMode="singleInstance"
         		  android:screenOrientation="portrait">
 			<intent-filter>			

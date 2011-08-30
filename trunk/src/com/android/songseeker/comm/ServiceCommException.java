@@ -19,7 +19,8 @@ public class ServiceCommException extends Exception {
 	public enum ServiceID {
 		ECHONEST ("Echo Nest"), 
 		LASTFM ("Last.fm"), 
-		GROOVESHARK ("Grooveshark");
+		GROOVESHARK ("Grooveshark"),
+		RDIO ("Rdio");
 		private final String name;
 		
 		ServiceID(String name) {
@@ -33,12 +34,16 @@ public class ServiceCommException extends Exception {
 	public enum ServiceErr{
 		IO ("Unable to reach the service provider. Check your internet connection!"),
 		ID_NOT_FOUND ("Artist not found!"),
-		TRY_LATER ("Service unavailable. Try later!");
+		TRY_LATER ("Service unavailable. Try later!"),
+		NOT_AUTH ("Not authorized!"),
+		UNKNOWN ("Unknown error!");
+		
 		private final String msg;
 		
 		ServiceErr(String msg){
 			this.msg = msg;
-		}		
+		}	
+		
 		public String getMsg(){
 			return this.msg;
 		}		
