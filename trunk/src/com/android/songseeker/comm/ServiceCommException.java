@@ -16,6 +16,10 @@ public class ServiceCommException extends Exception {
 		return serv.getName() +": " + err.getMsg();
 	}
 	
+	public ServiceErr getErr() {
+		return err;
+	}
+	
 	public enum ServiceID {
 		ECHONEST ("Echo Nest"), 
 		LASTFM ("Last.fm"), 
@@ -36,6 +40,7 @@ public class ServiceCommException extends Exception {
 		ID_NOT_FOUND ("Artist not found!"),
 		TRY_LATER ("Service unavailable. Try later!"),
 		NOT_AUTH ("Not authorized!"),
+		REQ_FAILED ("The service informed that the requested operation failed. Try later!"),
 		UNKNOWN ("Unknown error!");
 		
 		private final String msg;

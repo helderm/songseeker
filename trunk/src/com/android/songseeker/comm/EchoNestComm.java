@@ -35,6 +35,8 @@ public class EchoNestComm {
 	public Playlist createStaticPlaylist(PlaylistParams plp) throws ServiceCommException{
 		Playlist pl;
 		
+		Log.i(Util.APP, "Creating static playlist on EchoNest...");
+				
 		try{
 			pl = en.createStaticPlaylist(plp);
 		}catch(EchoNestException e){
@@ -49,6 +51,8 @@ public class EchoNestComm {
 			}
 			//TODO treat exception of unknown identifier 
 		}
+		
+		Log.i(Util.APP, "Creating static playlist finished!");
 		
 		return pl;
 	}

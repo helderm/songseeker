@@ -309,24 +309,20 @@ public class RecSongsActivity extends ListActivity {
 		@Override
 		protected Playlist doInBackground(PlaylistParams... plp) {
 			Playlist pl = null;
-			
-			Log.d(Util.APP, "Checkpoint 1");
-			
+		
 			try {
 				pl = EchoNestComm.getComm().createStaticPlaylist(plp[0]);
 			} catch (ServiceCommException e) {
 				err = e.getMessage();
 				return null;
 			}
-				
-			Log.d(Util.APP, "Checkpoint 2");
+			
 			return pl;
 		}
 		
 		@Override
 		protected void onPostExecute(Playlist result) {
-			
-			Log.d(Util.APP, "Checkpoint 3");
+						
 			//dismissDialog(PROGRESS_DIAG);
 			removeDialog(PROGRESS_DIAG);
 			
@@ -338,8 +334,7 @@ public class RecSongsActivity extends ListActivity {
 	    		return;
     		}
 			
-			adapter.setPlaylist(result);
-			Log.d(Util.APP, "Checkpoint 4");
+			adapter.setPlaylist(result);			
 		}		
 	}
 	
@@ -356,14 +351,12 @@ public class RecSongsActivity extends ListActivity {
 				
 			MediaPlayerController.getCon().setOnCompletionListener(this);
 			
-			try{
-				Log.d(Util.APP, "Checkpoint 5");
+			try{				
 				Track track = song[0].getTrack(EchoNestComm.SEVEN_DIGITAL);
 				if(track == null)
 					return null;
 				
-				previewURL = track.getPreviewUrl();		
-				Log.d(Util.APP, "Checkpoint 6");
+				previewURL = track.getPreviewUrl();				
 			} catch(Exception e){
 				err = getString(R.string.err_mediaplayer);
 				Log.e(Util.APP, "EchoNest getTrack() exception!", e);
