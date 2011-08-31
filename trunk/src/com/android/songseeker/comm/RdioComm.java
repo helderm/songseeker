@@ -16,6 +16,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import com.android.songseeker.comm.ServiceCommException.ServiceErr;
 import com.android.songseeker.comm.ServiceCommException.ServiceID;
+import com.android.songseeker.data.RdioUserData;
 import com.android.songseeker.util.Util;
 
 import android.app.Activity;
@@ -314,5 +315,17 @@ public class RdioComm {
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.UNKNOWN);
 		}
 	}
+	
+	public RdioUserData getUserPlaylists(){
+		RdioUserData data = new RdioUserData();
+	
+		data.addPlaylist("teste1", "Mto boa essa playlist!", "http://m.rdio.com/_is/?aid=155648,93889,239309,235009,239149,229743,236692,246457,93787&w=200&h=200");
+		data.addPlaylist("teste2", "Essa é ainda melhor!", "http://m.rdio.com/_is/?m=album/no-album-image-square.jpg&w=200&h=200");
+		data.addPlaylist("bleh", "Essa é péssima!", "http://m.rdio.com/_is/?aid=234405,241100,250110,253238,23450,607131,225501,252798&w=200&h=200");
+		
+		return data;
+		
+	}
+	
 	
 }

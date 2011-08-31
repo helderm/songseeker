@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,20 +14,30 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.songseeker.R;
 import com.android.songseeker.comm.EchoNestComm;
 import com.android.songseeker.comm.RdioComm;
 import com.android.songseeker.comm.ServiceCommException;
+import com.android.songseeker.data.RdioUserData;
 import com.android.songseeker.data.SongList;
+import com.android.songseeker.util.ImageLoader;
 import com.android.songseeker.util.Util;
 
 import com.echonest.api.v4.Song;
 import com.echonest.api.v4.SongParams;
 
-public class CreatePlaylistRdioActivity extends Activity{
+public class CreatePlaylistRdioActivity extends ListActivity{
 
+	private RdioPlaylistsAdapter adapter;
+	
 	private static final int REQUEST_AUTH_DIAG = 1;
 	private static final int FETCH_SONG_IDS_DIAG = 2;
 	private static final int CREATE_PLAYLIST_DIAG = 3;
@@ -36,16 +47,103 @@ public class CreatePlaylistRdioActivity extends Activity{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		        
+        setContentView(R.layout.rec_songs_list);
+		
+		getListView().setEmptyView(findViewById(R.id.empty));
+		
+        adapter = new RdioPlaylistsAdapter();
+        setListAdapter(adapter);
+        
+        //TESTE
+        RdioUserData data = RdioComm.getComm().getUserPlaylists();
+        adapter.setUserData(data);
 		
 		SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
 		if(!RdioComm.getComm(settings).isAuthorized()) {
-			new RequestAuthorizeTask().execute(null, null, null);			
+			//new RequestAuthorizeTask().execute(null, null, null);			
 		} else {
-			new CreatePlaylistTask().execute(null, null, null);
+			//new CreatePlaylistTask().execute(null, null, null);
 		}	
 		
 	}
 
+	private class RdioPlaylistsAdapter extends BaseAdapter {
+
+		RdioUserData data;
+		public ImageLoader imageLoader; 
+		
+	    public RdioPlaylistsAdapter() {	 
+	    	data = null;
+	    	imageLoader=new ImageLoader(getApplicationContext());
+	    }
+		
+		@Override
+		public int getCount() {			
+			if(data == null){
+				return 0;
+			}
+			
+			return data.getPlaylistsSize()+1;
+		}
+
+		@Override
+		public Object getItem(int position) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			// TODO Auto-generated method stub
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View v = convertView;
+			//ViewHolder holder;
+			
+			if (v == null) {
+			    LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			    v = vi.inflate(R.layout.rec_song_row, null);
+			}			 
+
+			TextView tt = (TextView) v.findViewById(R.id.recsong_firstLine);
+		    TextView bt = (TextView) v.findViewById(R.id.recsong_secondLine);
+		    ImageView coverart = (ImageView) v.findViewById(R.id.recsong_coverart);
+		    //ImageView playpause = (ImageView) v.findViewById(R.id.recsong_playpause);
+		    
+		    if(position == 0){
+		    	bt.setText("New...");			    
+		    }else{			    
+			    bt.setText(data.getPlaylistDesc(position));
+			    tt.setText(data.getPlaylistName(position));
+		    }
+		    
+		    /*if(nowPlayingID == position)
+		    	playpause.setImageResource(R.drawable.pause);
+		    else
+		    	playpause.setImageResource(R.drawable.play);*/
+		    			    
+		    imageLoader.DisplayImage(data.getPlaylistImage(position), CreatePlaylistRdioActivity.this, coverart);
+		    
+		    //String coverArt = song.getCoverArt();
+		    //Log.i(Util.APP, "coverart = ["+(coverArt==null?"null":coverArt)+"]");
+		    
+			//iv.setImageBitmap(Util.downloadImage(song.getCoverArt()));
+		
+						
+			return v;
+		}
+		
+		private void setUserData(RdioUserData d){
+			data = d;
+			notifyDataSetChanged();
+		}
+		
+	}
+	
 	@Override
 	protected Dialog onCreateDialog(int id) {
 
@@ -75,7 +173,9 @@ public class CreatePlaylistRdioActivity extends Activity{
 	
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
+		adapter.imageLoader.stopThread();
+		adapter.imageLoader.clearCache();
+		super.onDestroy();		
 	}
 	
 	private class RequestAuthorizeTask extends AsyncTask<Void, Void, Boolean>{
