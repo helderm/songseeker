@@ -51,8 +51,6 @@
 
 		android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="6dip"
-
-        android:src="@drawable/icon"/>
+        android:layout_marginRight="6dip"/>
 
 </RelativeLayout>

@@ -316,12 +316,119 @@ public class RdioComm {
 		}
 	}
 	
-	public RdioUserData getUserPlaylists(){
+	public RdioUserData getUserPlaylists() throws ServiceCommException{
 		RdioUserData data = new RdioUserData();
 	
-		data.addPlaylist("teste1", "Mto boa essa playlist!", "http://m.rdio.com/_is/?aid=155648,93889,239309,235009,239149,229743,236692,246457,93787&w=200&h=200");
-		data.addPlaylist("teste2", "Essa é ainda melhor!", "http://m.rdio.com/_is/?m=album/no-album-image-square.jpg&w=200&h=200");
-		data.addPlaylist("bleh", "Essa é péssima!", "http://m.rdio.com/_is/?aid=234405,241100,250110,253238,23450,607131,225501,252798&w=200&h=200");
+		HttpPost request = new HttpPost(ENDPOINT);
+		HttpResponse response;
+		int start_index, end_index;
+				
+		List<NameValuePair> request_args = new ArrayList<NameValuePair>();
+		request_args.add(new BasicNameValuePair("method", "getPlaylists"));		
+		
+		try{
+			StringEntity body = new StringEntity(URLEncodedUtils.format(request_args, "UTF-8"));
+			body.setContentType("application/x-www-form-urlencoded");
+			request.setEntity(body);
+	
+			consumer.setTokenWithSecret(accessToken, accessTokenSecret);	
+			consumer.sign(request);
+	
+			Log.i(Util.APP,"sending getPlaylists request to Rdio...");
+				
+			HttpClient httpClient = new DefaultHttpClient();
+			response = httpClient.execute(request);	
+		}catch (OAuthCommunicationException ex){
+			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.IO);
+		}catch (IOException ex){
+			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.IO);
+		}catch (Exception ex){
+			Log.e(Util.APP, "Unknown error while trying to create playlist on Rdio!", ex);
+			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.UNKNOWN);
+		}
+		
+		
+        Log.d(Util.APP,"Response: " + response.getStatusLine().getStatusCode() + " "
+                + response.getStatusLine().getReasonPhrase());
+
+		
+        try{
+            
+	        InputStreamReader reader = null;
+			reader = new InputStreamReader(response.getEntity().getContent());
+			
+	       	char[] buf = new char[32*1024];
+	    	if (reader.read(buf) < 0) return null;	    	
+	    	String str = new String(buf);
+	    	buf = null;
+	    	
+	    	//parse for status OK
+	    	start_index = str.indexOf("\"status\": ");
+	    	start_index += 11; 
+	    	end_index = str.indexOf('\"', start_index);    	
+	    	char[] bufOk = new char[end_index-start_index];  
+	    	str.getChars(start_index, end_index, bufOk, 0);
+	    	String bufStrOK = new String(bufOk);    	    	
+	    	if(!bufStrOK.equalsIgnoreCase("ok")){
+	        	Log.e(Util.APP, "Rdio returned status different from OK! Status: "+bufStrOK);
+	        	throw new ServiceCommException(ServiceID.RDIO, ServiceErr.REQ_FAILED);
+	    	}
+	    	bufOk = null;
+	    	bufStrOK = null;		
+	    	
+	    	//parse for owned
+	    	start_index = str.indexOf("\"owned\": [");
+	    	start_index += 11; 
+	    	end_index = str.indexOf(']', start_index);    	
+	    	
+	    	if(end_index == start_index){
+	    		return data;
+	    	}
+	    	
+	    	char[] bufPls = new char[end_index-start_index];  
+	    	str.getChars(start_index, end_index, bufPls, 0);
+	    	String bufStrPls = new String(bufPls);
+	    	bufPls = null;
+	    	Log.d(Util.APP, bufStrPls);
+	    	
+	    	while(true){
+	    		
+	    		//parse the playlist
+	    		start_index = bufStrPls.indexOf("\"");
+		    	start_index += 1; 
+		    	end_index = bufStrPls.indexOf('}', start_index);
+	    		char[] bufPl = new char[end_index-start_index];  
+	    		bufStrPls.getChars(start_index, end_index, bufPl, 0);
+		    	String bufStrPl = new String(bufPl);
+	    		bufPl = null;
+	    		
+	    		//parse the name
+	    		start_index = bufStrPl.indexOf("\"name\": \"");
+		    	start_index += 9; 
+		    	end_index = bufStrPl.indexOf('\"', start_index);
+	    		char[] bufName = new char[end_index-start_index];  
+	    		bufStrPl.getChars(start_index, end_index, bufName, 0);
+		    	String bufStrName = new String(bufName);
+	    		bufName = null;	    		
+		    	
+		    	data.addPlaylist(bufStrName, "9", "test");
+	    		//if()
+	    			break;
+	    		
+	    	}
+	    	
+        } catch (IOException e){
+    		throw new ServiceCommException(ServiceID.RDIO, ServiceErr.IO);
+    	} catch (Exception e){
+			Log.e(Util.APP, "Unknown error while trying to parse response from Rdio!", e);
+			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.UNKNOWN);
+		}
+        
+		//data.addPlaylist("teste1", "Mto boa essa playlist!", "http://m.rdio.com/_is/?aid=155648,93889,239309,235009,239149,229743,236692,246457,93787&w=200&h=200");
+		//data.addPlaylist("teste2", "Essa é ainda melhor!", "http://m.rdio.com/_is/?m=album/no-album-image-square.jpg&w=200&h=200");
+		//data.addPlaylist("bleh", "Essa é péssima!", "http://m.rdio.com/_is/?aid=234405,241100,250110,253238,23450,607131,225501,252798&w=200&h=200");
+		
+		
 		
 		return data;
 		

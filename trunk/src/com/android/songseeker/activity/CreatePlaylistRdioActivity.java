@@ -56,14 +56,15 @@ public class CreatePlaylistRdioActivity extends ListActivity{
         setListAdapter(adapter);
         
         //TESTE
-        RdioUserData data = RdioComm.getComm().getUserPlaylists();
-        adapter.setUserData(data);
+        //RdioUserData data = RdioComm.getComm().getUserPlaylists();
+        //adapter.setUserData(data);
 		
 		SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
 		if(!RdioComm.getComm(settings).isAuthorized()) {
-			//new RequestAuthorizeTask().execute(null, null, null);			
+			new RequestAuthorizeTask().execute(null, null, null);			
 		} else {
-			//new CreatePlaylistTask().execute(null, null, null);
+			new GetUserPlaylistsTask().execute(null, null, null);
+			new CreatePlaylistTask().execute(null, null, null);
 		}	
 		
 	}
@@ -78,28 +79,28 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 	    	imageLoader=new ImageLoader(getApplicationContext());
 	    }
 		
-		@Override
+		//@Override
 		public int getCount() {			
 			if(data == null){
-				return 0;
+				return 1; //only the "New..." item
 			}
 			
 			return data.getPlaylistsSize()+1;
 		}
 
-		@Override
+		//@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
+		//@Override
 		public long getItemId(int position) {
 			// TODO Auto-generated method stub
 			return position;
 		}
 
-		@Override
+		//@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View v = convertView;
 			//ViewHolder holder;
@@ -117,8 +118,9 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		    if(position == 0){
 		    	bt.setText("New...");			    
 		    }else{			    
-			    bt.setText(data.getPlaylistDesc(position));
-			    tt.setText(data.getPlaylistName(position));
+			    bt.setText(data.getPlaylistNumSongs(position-1)+" songs.");
+			    tt.setText(data.getPlaylistName(position-1));
+			    imageLoader.DisplayImage(data.getPlaylistImage(position-1), CreatePlaylistRdioActivity.this, coverart);
 		    }
 		    
 		    /*if(nowPlayingID == position)
@@ -126,7 +128,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		    else
 		    	playpause.setImageResource(R.drawable.play);*/
 		    			    
-		    imageLoader.DisplayImage(data.getPlaylistImage(position), CreatePlaylistRdioActivity.this, coverart);
+		    
 		    
 		    //String coverArt = song.getCoverArt();
 		    //Log.i(Util.APP, "coverart = ["+(coverArt==null?"null":coverArt)+"]");
@@ -316,6 +318,39 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		}
 		
 	}
+
+	private class GetUserPlaylistsTask extends AsyncTask<Void, Void, RdioUserData>{
+		private String err = null;
+		
+		@Override
+		protected void onPreExecute() {
+			Toast.makeText(CreatePlaylistRdioActivity.this, "Fetching Rdio playlists...", Toast.LENGTH_LONG).show();
+		}
+		
+		@Override
+		protected RdioUserData doInBackground(Void... arg0) {
+			RdioUserData data;
+			try{
+				data = RdioComm.getComm().getUserPlaylists();
+			} catch(ServiceCommException e){
+				err = e.getMessage();
+				return null;
+			}
+			
+			return data;
+		}
+		
+		@Override
+		protected void onPostExecute(RdioUserData data) {
+			if(err != null){
+				Toast.makeText(CreatePlaylistRdioActivity.this, "Unable to fetch the user playlists...", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			
+			adapter.setUserData(data);
+		}
+		
+	}
 	
 	@Override
     protected void onNewIntent(Intent intent) {
@@ -340,6 +375,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 			return;
 		}		
 		
+		new GetUserPlaylistsTask().execute(null, null, null);
 		new CreatePlaylistTask().execute(null, null, null);		
 	}	
 }

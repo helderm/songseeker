@@ -16,8 +16,8 @@ public class RdioUserData {
 		return playlists.get(i).name;
 	}
 	
-	public String getPlaylistDesc(int i){
-		return playlists.get(i).description;
+	public String getPlaylistNumSongs(int i){
+		return playlists.get(i).numSongs;
 	}
 	
 	public String getPlaylistImage(int i){
@@ -31,12 +31,12 @@ public class RdioUserData {
 	
 	private class Playlist{
 		public String name;
-		public String description;
+		public String numSongs;
 		public String imageUrl;	
 		
 		public Playlist(String n, String d, String i){
 			name = n;
-			description = d;
+			numSongs = d;
 			imageUrl = i;
 		}
 	}
