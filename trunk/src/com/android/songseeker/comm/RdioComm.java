@@ -1,5 +1,6 @@
 package com.android.songseeker.comm;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -352,70 +353,76 @@ public class RdioComm {
                 + response.getStatusLine().getReasonPhrase());
 
 		
-        try{
-            
-	        InputStreamReader reader = null;
-			reader = new InputStreamReader(response.getEntity().getContent());
-			
-	       	char[] buf = new char[32*1024];
-	    	if (reader.read(buf) < 0) return null;	    	
-	    	String str = new String(buf);
-	    	buf = null;
-	    	
-	    	//parse for status OK
-	    	start_index = str.indexOf("\"status\": ");
-	    	start_index += 11; 
-	    	end_index = str.indexOf('\"', start_index);    	
-	    	char[] bufOk = new char[end_index-start_index];  
-	    	str.getChars(start_index, end_index, bufOk, 0);
-	    	String bufStrOK = new String(bufOk);    	    	
-	    	if(!bufStrOK.equalsIgnoreCase("ok")){
-	        	Log.e(Util.APP, "Rdio returned status different from OK! Status: "+bufStrOK);
-	        	throw new ServiceCommException(ServiceID.RDIO, ServiceErr.REQ_FAILED);
-	    	}
-	    	bufOk = null;
-	    	bufStrOK = null;		
-	    	
-	    	//parse for owned
-	    	start_index = str.indexOf("\"owned\": [");
-	    	start_index += 11; 
-	    	end_index = str.indexOf(']', start_index);    	
-	    	
-	    	if(end_index == start_index){
-	    		return data;
-	    	}
-	    	
-	    	char[] bufPls = new char[end_index-start_index];  
-	    	str.getChars(start_index, end_index, bufPls, 0);
-	    	String bufStrPls = new String(bufPls);
-	    	bufPls = null;
-	    	Log.d(Util.APP, bufStrPls);
-	    	
-	    	while(true){
-	    		
-	    		//parse the playlist
-	    		start_index = bufStrPls.indexOf("\"");
-		    	start_index += 1; 
-		    	end_index = bufStrPls.indexOf('}', start_index);
-	    		char[] bufPl = new char[end_index-start_index];  
-	    		bufStrPls.getChars(start_index, end_index, bufPl, 0);
-		    	String bufStrPl = new String(bufPl);
-	    		bufPl = null;
-	    		
-	    		//parse the name
-	    		start_index = bufStrPl.indexOf("\"name\": \"");
-		    	start_index += 9; 
-		    	end_index = bufStrPl.indexOf('\"', start_index);
-	    		char[] bufName = new char[end_index-start_index];  
-	    		bufStrPl.getChars(start_index, end_index, bufName, 0);
-		    	String bufStrName = new String(bufName);
-	    		bufName = null;	    		
+        try{            
+        	BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+	        			
+	        String line;	        
+	        while ((line = rd.readLine()) != null) {
+	        		        	
+	        	start_index = line.indexOf("\"status\": ");
+		    	start_index += 11; 
+		    	end_index = line.indexOf('\"', start_index);    	
+		    	String bufStrOK = line.substring(start_index, end_index);    	    	
+		    	if(!bufStrOK.equalsIgnoreCase("ok")){
+		        	Log.e(Util.APP, "Rdio returned status different from OK! Status: "+bufStrOK);
+		        	throw new ServiceCommException(ServiceID.RDIO, ServiceErr.REQ_FAILED);
+		    	}
+		    	bufStrOK = null;		
 		    	
-		    	data.addPlaylist(bufStrName, "9", "test");
-	    		//if()
-	    			break;
-	    		
-	    	}
+		    	//parse for owned
+		    	start_index = line.indexOf("\"owned\": [");
+		    	start_index += 11; 
+		    	end_index = line.indexOf(']', start_index);
+		    	if(end_index == start_index){
+		    		Log.i(Util.APP, "No playlist found.");
+		    		return data;
+		    	}
+	    	
+		    	String bufStrPls = line.substring(start_index, end_index);
+		    	Log.d(Util.APP, bufStrPls);
+		    	
+		    	line = null;		    	
+		    	int aux_ind = 0;
+		    	while(true){
+		    		
+		    		//parse name
+		    		start_index = bufStrPls.indexOf("\"name\": \"", aux_ind);
+		    		start_index += 9;
+		    		end_index = bufStrPls.indexOf('\"', start_index);
+		    		String bufName = bufStrPls.substring(start_index, end_index);
+		    		
+		    		//parse lenght
+		    		start_index = bufStrPls.indexOf("\"length\": ", aux_ind);
+		    		start_index += 10;
+		    		end_index = bufStrPls.indexOf(',', start_index);
+		    		String bufLenght = bufStrPls.substring(start_index, end_index);
+		    			    		
+		    		//parse id 
+		    		start_index = bufStrPls.indexOf("\"key\": \"", aux_ind);
+		    		start_index += 8;
+		    		end_index = bufStrPls.indexOf('\"', start_index);
+		    		String bufId = bufStrPls.substring(start_index, end_index);		    		
+		    		
+		    		//parse image
+		    		start_index = bufStrPls.indexOf("\"icon\": \"", aux_ind);
+		    		start_index += 9;
+		    		end_index = bufStrPls.indexOf('\"', start_index);
+		    		String bufImage = bufStrPls.substring(start_index, end_index);		    	
+		    		
+		    		//add playlist
+		    		data.addPlaylist(bufName, bufLenght, bufImage, bufId);
+		    		
+		    		aux_ind = bufStrPls.indexOf("}", aux_ind+1);
+		    		
+		    		if(aux_ind == -1)
+		    			break;
+		    		
+		    		bufName=bufLenght=bufImage=bufId=null; 		
+		    		
+		    	}
+		    	
+	        }	        
+	        rd.close();			
 	    	
         } catch (IOException e){
     		throw new ServiceCommException(ServiceID.RDIO, ServiceErr.IO);
@@ -427,9 +434,7 @@ public class RdioComm {
 		//data.addPlaylist("teste1", "Mto boa essa playlist!", "http://m.rdio.com/_is/?aid=155648,93889,239309,235009,239149,229743,236692,246457,93787&w=200&h=200");
 		//data.addPlaylist("teste2", "Essa é ainda melhor!", "http://m.rdio.com/_is/?m=album/no-album-image-square.jpg&w=200&h=200");
 		//data.addPlaylist("bleh", "Essa é péssima!", "http://m.rdio.com/_is/?aid=234405,241100,250110,253238,23450,607131,225501,252798&w=200&h=200");
-		
-		
-		
+				
 		return data;
 		
 	}

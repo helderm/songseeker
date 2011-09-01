@@ -24,8 +24,8 @@ public class RdioUserData {
 		return playlists.get(i).imageUrl;
 	}
 	
-	public void addPlaylist(String name, String description, String imageUrl){
-		Playlist pl = new Playlist(name, description, imageUrl);
+	public void addPlaylist(String name, String lenght, String imageUrl, String id){
+		Playlist pl = new Playlist(name, lenght, imageUrl, id);
 		playlists.add(pl);
 	}
 	
@@ -33,11 +33,13 @@ public class RdioUserData {
 		public String name;
 		public String numSongs;
 		public String imageUrl;	
+		public String id;
 		
-		public Playlist(String n, String d, String i){
+		public Playlist(String n, String d, String im, String i){
 			name = n;
 			numSongs = d;
-			imageUrl = i;
+			imageUrl = im;
+			id = i;
 		}
 	}
 	

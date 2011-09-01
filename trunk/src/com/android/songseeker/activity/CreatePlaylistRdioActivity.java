@@ -3,7 +3,6 @@ package com.android.songseeker.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -55,16 +54,12 @@ public class CreatePlaylistRdioActivity extends ListActivity{
         adapter = new RdioPlaylistsAdapter();
         setListAdapter(adapter);
         
-        //TESTE
-        //RdioUserData data = RdioComm.getComm().getUserPlaylists();
-        //adapter.setUserData(data);
-		
 		SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
 		if(!RdioComm.getComm(settings).isAuthorized()) {
 			new RequestAuthorizeTask().execute(null, null, null);			
 		} else {
 			new GetUserPlaylistsTask().execute(null, null, null);
-			new CreatePlaylistTask().execute(null, null, null);
+			//new CreatePlaylistTask().execute(null, null, null);
 		}	
 		
 	}
@@ -116,25 +111,14 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		    //ImageView playpause = (ImageView) v.findViewById(R.id.recsong_playpause);
 		    
 		    if(position == 0){
-		    	bt.setText("New...");			    
+		    	tt.setText("New Playlist...");
+		    	coverart.setImageResource(0);
+		    	bt.setText("");
 		    }else{			    
-			    bt.setText(data.getPlaylistNumSongs(position-1)+" songs.");
+			    bt.setText(data.getPlaylistNumSongs(position-1)+" songs");
 			    tt.setText(data.getPlaylistName(position-1));
 			    imageLoader.DisplayImage(data.getPlaylistImage(position-1), CreatePlaylistRdioActivity.this, coverart);
-		    }
-		    
-		    /*if(nowPlayingID == position)
-		    	playpause.setImageResource(R.drawable.pause);
-		    else
-		    	playpause.setImageResource(R.drawable.play);*/
-		    			    
-		    
-		    
-		    //String coverArt = song.getCoverArt();
-		    //Log.i(Util.APP, "coverart = ["+(coverArt==null?"null":coverArt)+"]");
-		    
-			//iv.setImageBitmap(Util.downloadImage(song.getCoverArt()));
-		
+		    }		
 						
 			return v;
 		}
