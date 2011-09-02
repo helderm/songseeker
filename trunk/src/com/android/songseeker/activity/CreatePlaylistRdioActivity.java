@@ -1,6 +1,7 @@
 package com.android.songseeker.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Dialog;
@@ -16,7 +17,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -71,7 +75,9 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		if(position == 0){
 			showDialog(NEW_PLAYLIST_DIAG);
 		}else{		
-			new CreatePlaylistTask().execute(adapter.getPlaylistId(position));
+			HashMap<String, String> plId = new HashMap<String, String>();
+			plId.put("id", adapter.getPlaylistId(position));
+			new CreatePlaylistTask().execute(plId, null, null);
 		}
 	}
 	
@@ -177,6 +183,39 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 			dialog.setContentView(R.layout.new_playlist_diag);
 			dialog.setTitle("Name the playlist!");
 			
+			Button create_but = (Button)dialog.findViewById(R.id.create_pl_but);
+			
+			
+			create_but.setOnClickListener(new View.OnClickListener() {
+	            public void onClick(View v) {
+	            
+	            	removeDialog(NEW_PLAYLIST_DIAG);
+	            	
+	            	View p = (View)v.getParent();	            	
+	            	View parent = (View)p.getParent();	            	
+	            	EditText textInput = (EditText) parent.findViewById(R.id.pl_name_input); 
+	            	
+	                //check if the edit text is empty
+	            	if(textInput.getText().toString().compareTo("") == 0){
+	            		    		
+	            		Toast toast = Toast.makeText(CreatePlaylistRdioActivity.this, 
+	            						getResources().getText(R.string.invalid_args_str), Toast.LENGTH_SHORT);
+	            		toast.show();
+	            		return;
+	            	}
+	            	
+	            	//remove the soft input window from view
+	            	InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
+	            	imm.hideSoftInputFromWindow(textInput.getWindowToken(), 0); 
+	            		            	
+	            	HashMap<String, String> plName = new HashMap<String, String>();
+	            	plName.put("name", textInput.getText().toString());
+	            	
+	            	new CreatePlaylistTask().execute(plName, null, null);
+	            	
+	            }
+	        }); 
+			
 			return dialog;		
 		default:
 			return null;
@@ -224,11 +263,10 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		
 	}
 
-	private class CreatePlaylistTask extends AsyncTask<String, Integer, Void>{
+	private class CreatePlaylistTask extends AsyncTask<HashMap<String, String>, Integer, Void>{
 		
 		private SongList sl = getIntent().getExtras().getParcelable("songList");
-		private String err = null;
-		
+		private String err = null;		
 		
 		@Override
 		protected void onPreExecute() {
@@ -249,7 +287,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		
 		
 		@Override
-		protected Void doInBackground(String... params) {
+		protected Void doInBackground(HashMap<String, String>... params) {
 		
 			List<String> songIDs = new ArrayList<String>();
 					
@@ -306,10 +344,13 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 			try{
 				SharedPreferences settings = getPreferences(MODE_PRIVATE);
 				
-				if(params[0] == null){					
-					RdioComm.getComm().createPlaylist(songIDs, settings);
+				String plName = params[0].get("name");
+				String plId = params[0].get("id");
+				
+				if(plName != null){					
+					RdioComm.getComm().createPlaylist(plName, songIDs, settings);
 				}else{
-					RdioComm.getComm().addToPlaylist(params[0], songIDs, settings);
+					RdioComm.getComm().addToPlaylist(plId, songIDs, settings);
 				}
 			}catch(ServiceCommException e){
 				err = e.getMessage();				

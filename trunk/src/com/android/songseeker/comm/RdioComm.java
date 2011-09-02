@@ -143,7 +143,7 @@ public class RdioComm {
 		accessTokenSecret = null;
 	}
 	
-	public void createPlaylist(List<String> songIDs, SharedPreferences settings) throws ServiceCommException{
+	public void createPlaylist(String playlistName, List<String> songIDs, SharedPreferences settings) throws ServiceCommException{
 
 		StringBuilder sb = new StringBuilder();
 		
@@ -152,8 +152,8 @@ public class RdioComm {
 
 		List<NameValuePair> request_args = new ArrayList<NameValuePair>();
 		request_args.add(new BasicNameValuePair("method", "createPlaylist"));
-		request_args.add(new BasicNameValuePair("name", "teste3"));
-		request_args.add(new BasicNameValuePair("description", "teste_3"));		
+		request_args.add(new BasicNameValuePair("name", playlistName));
+		request_args.add(new BasicNameValuePair("description", ""));		
 			
 		for(String rdioID : songIDs){
 			sb.append(rdioID+",");

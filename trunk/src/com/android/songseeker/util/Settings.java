@@ -12,7 +12,7 @@ public class Settings {
 	public static int pl_hotness = 50;
 	public static int pl_mood = 50; 
 	public static int pl_variety = 50;
-	public static int pl_max_results = 20;
+	public static int pl_max_results = 10;
 	
 	public static final int PL_MAX_TEMPO = 500;
 	

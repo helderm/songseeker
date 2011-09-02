@@ -17,18 +17,17 @@
 		android:orientation="horizontal"
 		android:layout_width="fill_parent"
 		android:layout_height="0dip"
-		android:layout_weight="1">
-   
+		android:layout_weight="1">  
 
-    <View
-    	android:gravity="center_horizontal"
-        android:layout_height="fill_parent" android:layout_width="38dp" android:layout_weight="0.20"/>
-   	<Button 
-		android:layout_height="wrap_content"
-	  	android:gravity="center"
-  	    android:id="@+id/create_pl_but" 
-  	    android:text="Create" 
-  	    android:layout_width="92dp" android:layout_weight="0.14"></Button>
+	    <View
+	    	android:gravity="center_horizontal"
+	        android:layout_height="fill_parent" android:layout_width="38dp" android:layout_weight="0.20"/>
+	   	<Button 
+			android:layout_height="wrap_content"
+		  	android:gravity="center"
+	  	    android:id="@+id/create_pl_but" 
+	  	    android:text="Create" 
+	  	    android:layout_width="92dp" android:layout_weight="0.14"></Button>
 	</LinearLayout>
 
 </LinearLayout>
