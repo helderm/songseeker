@@ -24,6 +24,10 @@ public class RdioUserData {
 		return playlists.get(i).imageUrl;
 	}
 	
+	public String getPlaylistId(int i){
+		return playlists.get(i).id;
+	}
+	
 	public void addPlaylist(String name, String lenght, String imageUrl, String id){
 		Playlist pl = new Playlist(name, lenght, imageUrl, id);
 		playlists.add(pl);

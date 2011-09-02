@@ -208,6 +208,68 @@ public class RdioComm {
         Log.i(Util.APP, "Playlist created with success!");
 	}
 	
+	public void addToPlaylist(String playlistID, List<String> songIDs, SharedPreferences settings) throws ServiceCommException{
+
+		StringBuilder sb = new StringBuilder();
+		
+		HttpPost request = new HttpPost(ENDPOINT);
+		HttpResponse response;
+
+		List<NameValuePair> request_args = new ArrayList<NameValuePair>();
+		request_args.add(new BasicNameValuePair("method", "addToPlaylist"));
+		request_args.add(new BasicNameValuePair("playlist", playlistID));
+					
+		for(String rdioID : songIDs){
+			sb.append(rdioID+",");
+		}
+		sb.deleteCharAt(sb.length()-1);		
+		request_args.add(new BasicNameValuePair("tracks", sb.toString()));		
+		
+		try{
+		
+			StringEntity body = new StringEntity(URLEncodedUtils.format(request_args, "UTF-8"));
+			body.setContentType("application/x-www-form-urlencoded");
+			request.setEntity(body);
+	
+			consumer.setTokenWithSecret(accessToken, accessTokenSecret);
+
+			consumer.sign(request);
+	
+			Log.i(Util.APP,"sending addToPlaylist request to Rdio");
+	
+			HttpClient httpClient = new DefaultHttpClient();
+			response = httpClient.execute(request);
+        
+		}catch (OAuthCommunicationException ex){
+			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.IO);
+		}catch (IOException ex){
+			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.IO);
+		}catch (Exception ex){
+			Log.e(Util.APP, "Unknown error while trying to add to playlist on Rdio!", ex);
+			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.UNKNOWN);
+		}
+		
+        Log.d(Util.APP,"Response: " + response.getStatusLine().getStatusCode() + " "
+                + response.getStatusLine().getReasonPhrase());
+
+        if (response.getStatusLine().getStatusCode() != 200) {
+        	
+        	//unauthorized
+        	if(response.getStatusLine().getStatusCode() == 401){
+        		cleanAuthTokens(settings);
+        		throw new ServiceCommException(ServiceID.RDIO, ServiceErr.NOT_AUTH);
+        	}
+        	
+        	Log.e(Util.APP, "HTTP client returned code different from 200! code: "+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
+        	throw new ServiceCommException(ServiceID.RDIO, ServiceErr.REQ_FAILED);
+        }               
+        
+        //TODO check 'status'
+        
+        Log.i(Util.APP, "Playlist created with success!");
+	}
+
+	
 	public String queryTrackID(String songName, String songArtist) throws ServiceCommException{
 		HttpPost request = new HttpPost(ENDPOINT);
 		HttpResponse response;
@@ -351,7 +413,6 @@ public class RdioComm {
 		
         Log.d(Util.APP,"Response: " + response.getStatusLine().getStatusCode() + " "
                 + response.getStatusLine().getReasonPhrase());
-
 		
         try{            
         	BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
@@ -412,10 +473,13 @@ public class RdioComm {
 		    		//add playlist
 		    		data.addPlaylist(bufName, bufLenght, bufImage, bufId);
 		    		
-		    		aux_ind = bufStrPls.indexOf("}", aux_ind+1);
+		    		start_index = aux_ind + 1;
+		    		aux_ind = bufStrPls.indexOf("{", start_index);
 		    		
-		    		if(aux_ind == -1)
+		    		if(aux_ind == -1){
+		    			Log.d(Util.APP, "Playlists parse ended!");
 		    			break;
+		    		}
 		    		
 		    		bufName=bufLenght=bufImage=bufId=null; 		
 		    		

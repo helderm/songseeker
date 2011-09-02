@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 	private static final int REQUEST_AUTH_DIAG = 1;
 	private static final int FETCH_SONG_IDS_DIAG = 2;
 	private static final int CREATE_PLAYLIST_DIAG = 3;
+	private static final int NEW_PLAYLIST_DIAG = 4;
 	
 	private ProgressDialog fetchSongIdsDiag;
 		
@@ -63,7 +65,16 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		}	
 		
 	}
-
+	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		if(position == 0){
+			showDialog(NEW_PLAYLIST_DIAG);
+		}else{		
+			new CreatePlaylistTask().execute(adapter.getPlaylistId(position));
+		}
+	}
+	
 	private class RdioPlaylistsAdapter extends BaseAdapter {
 
 		RdioUserData data;
@@ -111,9 +122,9 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		    //ImageView playpause = (ImageView) v.findViewById(R.id.recsong_playpause);
 		    
 		    if(position == 0){
-		    	tt.setText("New Playlist...");
+		    	tt.setText("New");
 		    	coverart.setImageResource(0);
-		    	bt.setText("");
+		    	bt.setText("Playlist...");
 		    }else{			    
 			    bt.setText(data.getPlaylistNumSongs(position-1)+" songs");
 			    tt.setText(data.getPlaylistName(position-1));
@@ -126,6 +137,13 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		private void setUserData(RdioUserData d){
 			data = d;
 			notifyDataSetChanged();
+		}
+		
+		private String getPlaylistId(int position){
+			if(position == 0)
+				return null;
+			
+			return data.getPlaylistId(position-1);
 		}
 		
 	}
@@ -151,7 +169,15 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 			cpd.setMessage("Creating playlist on Rdio...");
 			cpd.setIndeterminate(true);
 			cpd.setCancelable(false);
-			return cpd;			
+			return cpd;	
+		case NEW_PLAYLIST_DIAG:
+			//Context mContext = getApplicationContext();
+			Dialog dialog = new Dialog(this);
+
+			dialog.setContentView(R.layout.new_playlist_diag);
+			dialog.setTitle("Name the playlist!");
+			
+			return dialog;		
 		default:
 			return null;
 		}
@@ -198,7 +224,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		
 	}
 
-	private class CreatePlaylistTask extends AsyncTask<Void, Integer, Void>{
+	private class CreatePlaylistTask extends AsyncTask<String, Integer, Void>{
 		
 		private SongList sl = getIntent().getExtras().getParcelable("songList");
 		private String err = null;
@@ -223,7 +249,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		
 		
 		@Override
-		protected Void doInBackground(Void... params) {
+		protected Void doInBackground(String... params) {
 		
 			List<String> songIDs = new ArrayList<String>();
 					
@@ -278,9 +304,13 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 			publishProgress(-1);
 			
 			try{
-				//createPlaylist(songIDs);
 				SharedPreferences settings = getPreferences(MODE_PRIVATE);
-				RdioComm.getComm().createPlaylist(songIDs, settings);
+				
+				if(params[0] == null){					
+					RdioComm.getComm().createPlaylist(songIDs, settings);
+				}else{
+					RdioComm.getComm().addToPlaylist(params[0], songIDs, settings);
+				}
 			}catch(ServiceCommException e){
 				err = e.getMessage();				
 			}			
@@ -360,6 +390,6 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		}		
 		
 		new GetUserPlaylistsTask().execute(null, null, null);
-		new CreatePlaylistTask().execute(null, null, null);		
+		//new CreatePlaylistTask().execute(null, null, null);		
 	}	
 }

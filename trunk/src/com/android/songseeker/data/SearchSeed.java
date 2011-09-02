@@ -19,13 +19,13 @@ public class SearchSeed implements Parcelable{
 		return artistList;
 	}
 
-	@Override
+	//@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
+	//@Override
 	public void writeToParcel(Parcel out, int flags) {		
 		out.writeList(artistList);
 	}

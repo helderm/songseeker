@@ -18,13 +18,13 @@ public class SongList implements Parcelable{
 		return songIDs;
 	}
 
-	@Override
+	//@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
+	//@Override
 	public void writeToParcel(Parcel out, int flags) {		
 		out.writeList(songIDs);
 	}
