@@ -13,8 +13,6 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.WeakHashMap;
 
-import com.android.songseeker.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -34,10 +32,11 @@ public class ImageLoader {
         fileCache=new FileCache(context);
     }
     
-    final int stub_id=R.drawable.blankdisc;
-    public void DisplayImage(String url, Activity activity, ImageView imageView)
+    int stub_id;
+    public void DisplayImage(String url, Activity activity, ImageView imageView, int stubid)
     {
-        imageViews.put(imageView, url);
+        stub_id = stubid;
+    	imageViews.put(imageView, url);
         Bitmap bitmap=memoryCache.get(url);
         if(bitmap!=null)
             imageView.setImageBitmap(bitmap);
