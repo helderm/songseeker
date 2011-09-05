@@ -4,8 +4,9 @@ import java.util.List;
 import com.android.songseeker.R;
 import com.android.songseeker.comm.EchoNestComm;
 import com.android.songseeker.comm.ServiceCommException;
-import com.android.songseeker.data.SearchSeed;
-import com.android.songseeker.data.SongList;
+import com.android.songseeker.data.ArtistsParcel;
+import com.android.songseeker.data.SongIdsParcel;
+import com.android.songseeker.data.SongNamesParcel;
 import com.android.songseeker.util.MediaPlayerController;
 import com.android.songseeker.util.Settings;
 import com.android.songseeker.util.Util;
@@ -129,21 +130,39 @@ public class RecSongsActivity extends ListActivity {
 		    pd.setCancelable(true);
 		    return pd;
 		case EXPORT_DIALOG:		  	
-			final CharSequence[] items = {"Rdio Playlist"};
+			final CharSequence[] items = {"Rdio Playlist", "Last.fm Playlist"};
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Export as...");
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {			        
 					
-			    	SongList songList = new SongList();
+			    	SongIdsParcel songIds = new SongIdsParcel();
+			    	SongNamesParcel songNames = new SongNamesParcel();
+			    	ArtistsParcel songArtists = new ArtistsParcel();
 			    	
 					for(Song song : adapter.playlist.getSongs()){
-						songList.addSongID(song.getID());
+						songIds.addSongID(song.getID());
+						songNames.addName(song.getReleaseName());
+						songArtists.addArtist(song.getArtistName());
 					}
 			    	
-			    	Intent i = new Intent(RecSongsActivity.this, CreatePlaylistRdioActivity.class);
-			    	i.putExtra("songList", songList);
+					Intent i;
+					
+					switch(item){
+					case 0:
+						i = new Intent(RecSongsActivity.this, CreatePlaylistRdioActivity.class);
+						i.putExtra("songIds", songIds);
+						break;
+					case 1:
+						i = new Intent(RecSongsActivity.this, CreatePlaylistLastfmActivity.class);
+						i.putExtra("songNames", songNames);
+						i.putExtra("songArtists", songArtists);
+						break;
+					default:
+						return;							
+					}		    	
+			    	
 			    	startActivity(i);
 			    	
 			    }
@@ -201,7 +220,7 @@ public class RecSongsActivity extends ListActivity {
 		    moods = null;
 	    }
 	    
-	    SearchSeed ss = getIntent().getExtras().getParcelable("searchSeed");	    
+	    ArtistsParcel ss = getIntent().getExtras().getParcelable("searchSeed");	    
 	    for(String artist : ss.getArtistList()){
 	    	plp.addArtist(artist);	
 	    }
@@ -280,12 +299,8 @@ public class RecSongsActivity extends ListActivity {
 			    else
 			    	playpause.setImageResource(R.drawable.play);
 			    			    
-			    imageLoader.DisplayImage(song.getString("tracks[0].release_image"), RecSongsActivity.this, coverart);
-			    
-			    //String coverArt = song.getCoverArt();
-			    //Log.i(Util.APP, "coverart = ["+(coverArt==null?"null":coverArt)+"]");
-			    
-				//iv.setImageBitmap(Util.downloadImage(song.getCoverArt()));
+			    imageLoader.DisplayImage(song.getString("tracks[0].release_image"), 
+			    		RecSongsActivity.this, coverart, R.drawable.blankdisc);
 		
 			}
 			

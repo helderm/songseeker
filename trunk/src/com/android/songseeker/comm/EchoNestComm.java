@@ -63,7 +63,7 @@ public class EchoNestComm {
 		try{			
 			ls = en.getSongs(sp);
 		}catch(Exception e){
-			Log.e(Util.APP, "identifySong err!", e);
+			Log.e(Util.APP, "EchoNest getSong() err!", e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.IO);	
 		}
 		

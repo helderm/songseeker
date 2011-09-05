@@ -123,9 +123,6 @@ public class RdioComm {
 
 		accessToken = consumer.getToken();
 		accessTokenSecret = consumer.getTokenSecret();
-
-		Log.d(Util.APP, "AcessToken: "+ consumer.getToken());
-		Log.d(Util.APP, "AcessTokenSecret: "+ consumer.getTokenSecret());
 		
 		Editor editor = settings.edit();
 		editor.putString(PREF_ACCESSTOKEN, accessToken);
@@ -432,7 +429,7 @@ public class RdioComm {
 		    	
 		    	//parse for owned
 		    	start_index = line.indexOf("\"owned\": [");
-		    	start_index += 11; 
+		    	start_index += 10; 
 		    	end_index = line.indexOf(']', start_index);
 		    	if(end_index == start_index){
 		    		Log.i(Util.APP, "No playlist found.");
@@ -494,10 +491,6 @@ public class RdioComm {
 			Log.e(Util.APP, "Unknown error while trying to parse response from Rdio!", e);
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.UNKNOWN);
 		}
-        
-		//data.addPlaylist("teste1", "Mto boa essa playlist!", "http://m.rdio.com/_is/?aid=155648,93889,239309,235009,239149,229743,236692,246457,93787&w=200&h=200");
-		//data.addPlaylist("teste2", "Essa é ainda melhor!", "http://m.rdio.com/_is/?m=album/no-album-image-square.jpg&w=200&h=200");
-		//data.addPlaylist("bleh", "Essa é péssima!", "http://m.rdio.com/_is/?aid=234405,241100,250110,253238,23450,607131,225501,252798&w=200&h=200");
 				
 		return data;
 		

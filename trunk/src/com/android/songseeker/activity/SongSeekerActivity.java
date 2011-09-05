@@ -1,7 +1,7 @@
 package com.android.songseeker.activity;
 
 import com.android.songseeker.R;
-import com.android.songseeker.data.SearchSeed;
+import com.android.songseeker.data.ArtistsParcel;
 
 import android.app.Activity;
 import android.content.Context;
@@ -81,7 +81,7 @@ public class SongSeekerActivity extends Activity {
     	InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
     	imm.hideSoftInputFromWindow(textInput.getWindowToken(), 0); 
     	
-    	SearchSeed ss = new SearchSeed();
+    	ArtistsParcel ss = new ArtistsParcel();
     	ss.addArtist(textInput.getText().toString());
     	
     	Intent i = new Intent(SongSeekerActivity.this, RecSongsActivity.class);

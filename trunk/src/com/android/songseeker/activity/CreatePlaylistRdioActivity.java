@@ -31,7 +31,7 @@ import com.android.songseeker.comm.EchoNestComm;
 import com.android.songseeker.comm.RdioComm;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.data.RdioUserData;
-import com.android.songseeker.data.SongList;
+import com.android.songseeker.data.SongIdsParcel;
 import com.android.songseeker.util.ImageLoader;
 import com.android.songseeker.util.Util;
 
@@ -53,7 +53,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		        
-        setContentView(R.layout.rec_songs_list);
+        setContentView(R.layout.playlists_list);
 		
 		getListView().setEmptyView(findViewById(R.id.empty));
 		
@@ -65,12 +65,11 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 			new RequestAuthorizeTask().execute(null, null, null);			
 		} else {
 			new GetUserPlaylistsTask().execute(null, null, null);
-			//new CreatePlaylistTask().execute(null, null, null);
-		}	
-		
+		}			
 	}
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		if(position == 0){
 			showDialog(NEW_PLAYLIST_DIAG);
@@ -115,26 +114,24 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		//@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View v = convertView;
-			//ViewHolder holder;
 			
 			if (v == null) {
 			    LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			    v = vi.inflate(R.layout.rec_song_row, null);
+			    v = vi.inflate(R.layout.playlist_row, null);
 			}			 
 
-			TextView tt = (TextView) v.findViewById(R.id.recsong_firstLine);
-		    TextView bt = (TextView) v.findViewById(R.id.recsong_secondLine);
-		    ImageView coverart = (ImageView) v.findViewById(R.id.recsong_coverart);
-		    //ImageView playpause = (ImageView) v.findViewById(R.id.recsong_playpause);
-		    
+			TextView tt = (TextView) v.findViewById(R.id.pl_firstLine);
+		    TextView bt = (TextView) v.findViewById(R.id.pl_secondLine);
+		    ImageView img = (ImageView) v.findViewById(R.id.pl_art);
+		    		    
 		    if(position == 0){
 		    	tt.setText("New");
-		    	coverart.setImageResource(0);
+		    	img.setImageResource(R.drawable.plus2);
 		    	bt.setText("Playlist...");
 		    }else{			    
 			    bt.setText(data.getPlaylistNumSongs(position-1)+" songs");
 			    tt.setText(data.getPlaylistName(position-1));
-			    imageLoader.DisplayImage(data.getPlaylistImage(position-1), CreatePlaylistRdioActivity.this, coverart);
+			    imageLoader.DisplayImage(data.getPlaylistImage(position-1), CreatePlaylistRdioActivity.this, img, R.drawable.plus2);
 		    }		
 						
 			return v;
@@ -187,11 +184,9 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 			
 			
 			create_but.setOnClickListener(new View.OnClickListener() {
-	            public void onClick(View v) {
-	            
-	            	removeDialog(NEW_PLAYLIST_DIAG);
-	            	
-	            	View p = (View)v.getParent();	            	
+	            @SuppressWarnings("unchecked")
+				public void onClick(View v) {
+	               	View p = (View)v.getParent();	            	
 	            	View parent = (View)p.getParent();	            	
 	            	EditText textInput = (EditText) parent.findViewById(R.id.pl_name_input); 
 	            	
@@ -201,6 +196,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 	            		Toast toast = Toast.makeText(CreatePlaylistRdioActivity.this, 
 	            						getResources().getText(R.string.invalid_args_str), Toast.LENGTH_SHORT);
 	            		toast.show();
+	            		removeDialog(NEW_PLAYLIST_DIAG);
 	            		return;
 	            	}
 	            	
@@ -208,6 +204,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 	            	InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
 	            	imm.hideSoftInputFromWindow(textInput.getWindowToken(), 0); 
 	            		            	
+	            	removeDialog(NEW_PLAYLIST_DIAG);
 	            	HashMap<String, String> plName = new HashMap<String, String>();
 	            	plName.put("name", textInput.getText().toString());
 	            	
@@ -265,7 +262,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 
 	private class CreatePlaylistTask extends AsyncTask<HashMap<String, String>, Integer, Void>{
 		
-		private SongList sl = getIntent().getExtras().getParcelable("songList");
+		private SongIdsParcel sl = getIntent().getExtras().getParcelable("songIds");
 		private String err = null;		
 		
 		@Override
@@ -293,9 +290,6 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 					
 			int count = 0;
 			for(String id : sl.getSongIDs()){
-				
-				Log.d(Util.APP, "SongID = [" + id + "]");
-				
 				Song song = null;
 				SongParams sp = new SongParams();
 				sp.setID(id);
@@ -307,8 +301,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 					String rdioID = song.getString("foreign_ids[0].foreign_id");
 					
 					String[] split = rdioID.split(":");
-					songIDs.add(split[2]);
-					Log.d(Util.APP, "RdioID = ["+split[2]+"]");
+					songIDs.add(split[2]);					
 				}catch (NoSuchMethodError err){
 					Log.e(Util.APP, "NoSuchMethodErr from jEN strikes again!", err);
 					continue;
@@ -379,7 +372,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		
 		@Override
 		protected void onPreExecute() {
-			Toast.makeText(CreatePlaylistRdioActivity.this, "Fetching Rdio playlists...", Toast.LENGTH_LONG).show();
+			Toast.makeText(CreatePlaylistRdioActivity.this, "Fetching your Rdio playlists...", Toast.LENGTH_LONG).show();
 		}
 		
 		@Override
