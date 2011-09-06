@@ -32,6 +32,10 @@
 				<data android:scheme="oauth" android:host="checkin4me" />			
 			</intent-filter>       
         </activity>
+        <activity android:name=".activity.CreatePlaylistLastfmActivity"
+        		  android:screenOrientation="portrait">
+        </activity>
+        
 
     </application>
 </manifest>
