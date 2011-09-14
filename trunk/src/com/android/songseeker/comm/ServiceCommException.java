@@ -6,7 +6,7 @@ public class ServiceCommException extends Exception {
 	private ServiceID serv;
 	private ServiceErr err;
 	
-	ServiceCommException(ServiceID s, ServiceErr e){
+	public ServiceCommException(ServiceID s, ServiceErr e){
 		serv = s;  
 		err = e;
 	}
@@ -24,7 +24,8 @@ public class ServiceCommException extends Exception {
 		ECHONEST ("Echo Nest"), 
 		LASTFM ("Last.fm"), 
 		GROOVESHARK ("Grooveshark"),
-		RDIO ("Rdio");
+		RDIO ("Rdio"),
+		YOUTUBE ("YouTube");
 		private final String name;
 		
 		ServiceID(String name) {

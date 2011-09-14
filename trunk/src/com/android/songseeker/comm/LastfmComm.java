@@ -35,9 +35,9 @@ public class LastfmComm {
 		if(sessionKey != null)
 			return comm;
 		
-		Editor editor = settings.edit();
-		editor.putString(PREF_SESSIONKEY, null);
-		editor.commit();
+		//Editor editor = settings.edit();
+		//editor.putString(PREF_SESSIONKEY, null);
+		//editor.commit();
 		
 		sessionKey = settings.getString(PREF_SESSIONKEY, null);
 		username = settings.getString(PREF_USERNAME, null);		
