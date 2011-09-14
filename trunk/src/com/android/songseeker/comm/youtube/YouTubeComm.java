@@ -12,6 +12,7 @@ import android.os.Bundle;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.ServiceCommException.ServiceErr;
 import com.android.songseeker.comm.ServiceCommException.ServiceID;
+import com.android.songseeker.data.UserPlaylistsData;
 import com.google.api.client.googleapis.GoogleHeaders;
 import com.google.api.client.googleapis.GoogleUrl;
 import com.google.api.client.googleapis.auth.oauth2.draft10.GoogleAccessProtectedResource;
@@ -117,7 +118,7 @@ public class YouTubeComm {
 	public VideoFeed getVideoFeed(String query) throws ServiceCommException{
 		VideoFeed feed;
 		YouTubeUrl url = YouTubeUrl.forVideosFeed();
-		url.query = query;
+		//url.query = query;
 	   
 		// execute GData request for the feed
 	    try {
@@ -129,6 +130,25 @@ public class YouTubeComm {
 	    return feed;
 	}
 	
+	public UserPlaylistsData getPlaylistFeed() throws ServiceCommException{
+		PlaylistFeed feed;
+		YouTubeUrl url = YouTubeUrl.forPlaylistsFeed();		
+	   
+		// execute GData request for the feed
+	    try {
+			feed = client.executeGetPlaylistFeed(url);
+		} catch (IOException e) {
+			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.IO);
+		}
+	    
+	    UserPlaylistsData data = new UserPlaylistsData();	    
+	    for(Playlist pl : feed.items){
+	    	data.addPlaylist(pl.title, pl.id);
+	    }
+	    
+	    return data;		
+	}
+	
 	private static class YouTubeUrl extends GoogleUrl {
 
 		/** Whether to pretty print HTTP requests and responses. */
@@ -136,13 +156,11 @@ public class YouTubeComm {
 
 		static final String ROOT_URL = "https://gdata.youtube.com/feeds/api";
 
-		//@Key
-		//String author;
-		@Key("q")
-		String query;
+		//@Key("q")
+		//String query;
 
-		@Key("max-results")
-		Integer maxResults = 1;
+		//@Key("max-results")
+		//Integer maxResults = 1;
 
 		YouTubeUrl(String encodedUrl) {
 			super(encodedUrl);
@@ -156,7 +174,15 @@ public class YouTubeComm {
 
 		static YouTubeUrl forVideosFeed() {
 			YouTubeUrl result = root();
-			result.getPathParts().add("videos");
+			result.getPathParts().add("videos");			
+			return result;
+		}
+		
+		static YouTubeUrl forPlaylistsFeed(){
+			YouTubeUrl result = root();
+			result.getPathParts().add("users");
+			result.getPathParts().add("default");
+			result.getPathParts().add("playlists");
 			return result;
 		}
 	}
@@ -189,12 +215,18 @@ public class YouTubeComm {
 		public VideoFeed executeGetVideoFeed(YouTubeUrl url) throws IOException {
 			return executeGetFeed(url, VideoFeed.class);
 		}
+		
+		public PlaylistFeed executeGetPlaylistFeed(YouTubeUrl url) throws IOException{
+			return executeGetFeed(url, PlaylistFeed.class);
+		}
 
 		private <F extends Feed<? extends Item>> F executeGetFeed(YouTubeUrl url, Class<F> feedClass)
 				throws IOException {
 			HttpRequest request = requestFactory.buildGetRequest(url);
 			return request.execute().parseAs(feedClass);
 		}
+		
+		
 	}
 	
 

@@ -7,12 +7,12 @@ import java.util.List;
 
 public class Video extends Item {
 
-  @Key
-  public String description;
+	@Key
+	public String description;
 
-  @Key
-  public List<String> tags = new ArrayList<String>();
+	@Key
+	public List<String> tags = new ArrayList<String>();
 
-  @Key
-  public Player player;
+	@Key
+	public Player player;
 }

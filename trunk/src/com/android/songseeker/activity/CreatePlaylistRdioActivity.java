@@ -30,7 +30,7 @@ import com.android.songseeker.R;
 import com.android.songseeker.comm.EchoNestComm;
 import com.android.songseeker.comm.RdioComm;
 import com.android.songseeker.comm.ServiceCommException;
-import com.android.songseeker.data.RdioUserData;
+import com.android.songseeker.data.UserPlaylistsData;
 import com.android.songseeker.data.SongIdsParcel;
 import com.android.songseeker.util.ImageLoader;
 import com.android.songseeker.util.Util;
@@ -82,7 +82,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 	
 	private class RdioPlaylistsAdapter extends BaseAdapter {
 
-		RdioUserData data;
+		UserPlaylistsData data;
 		public ImageLoader imageLoader; 
 		
 	    public RdioPlaylistsAdapter() {	 
@@ -137,7 +137,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 			return v;
 		}
 		
-		private void setUserData(RdioUserData d){
+		private void setUserData(UserPlaylistsData d){
 			data = d;
 			notifyDataSetChanged();
 		}
@@ -367,7 +367,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		
 	}
 
-	private class GetUserPlaylistsTask extends AsyncTask<Void, Void, RdioUserData>{
+	private class GetUserPlaylistsTask extends AsyncTask<Void, Void, UserPlaylistsData>{
 		private String err = null;
 		
 		@Override
@@ -376,8 +376,8 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		}
 		
 		@Override
-		protected RdioUserData doInBackground(Void... arg0) {
-			RdioUserData data;
+		protected UserPlaylistsData doInBackground(Void... arg0) {
+			UserPlaylistsData data;
 			try{
 				data = RdioComm.getComm().getUserPlaylists();
 			} catch(ServiceCommException e){
@@ -389,7 +389,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		}
 		
 		@Override
-		protected void onPostExecute(RdioUserData data) {
+		protected void onPostExecute(UserPlaylistsData data) {
 			if(err != null){
 				Toast.makeText(CreatePlaylistRdioActivity.this, "Unable to fetch the user playlists...", Toast.LENGTH_SHORT).show();
 				return;

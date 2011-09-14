@@ -17,7 +17,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import com.android.songseeker.comm.ServiceCommException.ServiceErr;
 import com.android.songseeker.comm.ServiceCommException.ServiceID;
-import com.android.songseeker.data.RdioUserData;
+import com.android.songseeker.data.UserPlaylistsData;
 import com.android.songseeker.util.Util;
 
 import android.app.Activity;
@@ -376,8 +376,8 @@ public class RdioComm {
 		}
 	}
 	
-	public RdioUserData getUserPlaylists() throws ServiceCommException{
-		RdioUserData data = new RdioUserData();
+	public UserPlaylistsData getUserPlaylists() throws ServiceCommException{
+		UserPlaylistsData data = new UserPlaylistsData();
 	
 		HttpPost request = new HttpPost(ENDPOINT);
 		HttpResponse response;

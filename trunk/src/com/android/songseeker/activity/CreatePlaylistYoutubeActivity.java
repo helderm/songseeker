@@ -9,6 +9,7 @@ import com.android.songseeker.comm.youtube.VideoFeed;
 import com.android.songseeker.comm.youtube.YouTubeComm;
 import com.android.songseeker.data.ArtistsParcel;
 import com.android.songseeker.data.SongNamesParcel;
+import com.android.songseeker.data.UserPlaylistsData;
 import com.android.songseeker.util.Util;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
@@ -16,9 +17,9 @@ import com.google.api.client.http.HttpResponseException;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,15 +28,23 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class CreatePlaylistYoutubeActivity extends Activity implements AccountManagerCallback<Bundle> {
+public class CreatePlaylistYoutubeActivity extends ListActivity implements AccountManagerCallback<Bundle> {
 	
 	private static final int ACCOUNTS_DIAG = 0;
 	private static final int REQUEST_AUTH_DIAG = 1;
 	private static final int CREATE_PLAYLIST_DIAG = 2;
 	private static final int FETCH_SONG_IDS_DIAG = 3;
 	private ProgressDialog fetchSongIdsDiag;
+	
+	private YouTubePlaylistsAdapter adapter;
 	
 	public static final int REQUEST_AUTHENTICATE = 0;
 	
@@ -44,11 +53,19 @@ public class CreatePlaylistYoutubeActivity extends Activity implements AccountMa
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.playlists_list);
+
+        getListView().setEmptyView(findViewById(R.id.empty));
+		
+        adapter = new YouTubePlaylistsAdapter();
+        setListAdapter(adapter);
+        
 		SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
 		if(!YouTubeComm.getComm(this, settings).isAuthorized())
 			showDialog(ACCOUNTS_DIAG);
 		else{
-			new CreatePlaylistTask().execute();			
+			//new CreatePlaylistTask().execute();	
+			new GetUserPlaylistsTask().execute();
 		}
 				
 		//accountManager = new GoogleAccountManager(this);
@@ -85,7 +102,7 @@ public class CreatePlaylistYoutubeActivity extends Activity implements AccountMa
 		case FETCH_SONG_IDS_DIAG:
 			fetchSongIdsDiag = new ProgressDialog(this);
 			fetchSongIdsDiag.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			fetchSongIdsDiag.setMessage("Fetching song data...");
+			fetchSongIdsDiag.setMessage("Fetching video data...");
 			fetchSongIdsDiag.setCancelable(false);			
 			return fetchSongIdsDiag;
 		}
@@ -202,6 +219,64 @@ public class CreatePlaylistYoutubeActivity extends Activity implements AccountMa
 		}
 	}
 
+	private class YouTubePlaylistsAdapter extends BaseAdapter {
+		UserPlaylistsData data;
+		
+		public YouTubePlaylistsAdapter() {
+			data = null;
+		}
+		
+		@Override
+		public int getCount() {
+			if(data == null){
+				return 1; //only the "New..." item
+			}
+			
+			return data.getPlaylistsSize()+1;
+		}
+
+		@Override
+		public Object getItem(int arg0) {
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) {			
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View v = convertView;
+			
+			if (v == null) {
+			    LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			    v = vi.inflate(R.layout.playlist_row, null);
+			}			 
+
+			TextView tt = (TextView) v.findViewById(R.id.pl_firstLine);
+		    TextView bt = (TextView) v.findViewById(R.id.pl_secondLine);
+		    ImageView img = (ImageView) v.findViewById(R.id.pl_art);
+		    img.setImageResource(R.drawable.plus2);	
+		    
+		    if(position == 0){
+		    	tt.setText("New");		    	
+		    	bt.setText("Playlist...");
+		    }else{			    
+		    	tt.setText(data.getPlaylistName(position-1));
+		    	//bt.setText(data.getPlaylistNumSongs(position-1)+" songs");			    			    
+		    }		
+						
+			return v;
+		}
+
+		public void setUserData(UserPlaylistsData d) {
+			data = d;
+			notifyDataSetChanged();
+		}
+		
+	}
+	
 	private class RequestAuthorizeTask extends AsyncTask<String, Void, Void>{
 		private String err = null;
 		
@@ -238,6 +313,39 @@ public class CreatePlaylistYoutubeActivity extends Activity implements AccountMa
 			
 			//new GetUserPlaylistsTask().execute(null, null, null);
 		}		
+	}
+
+	private class GetUserPlaylistsTask extends AsyncTask<Void, Void, UserPlaylistsData>{
+		private String err = null;
+		
+		@Override
+		protected void onPreExecute() {
+			Toast.makeText(CreatePlaylistYoutubeActivity.this, "Fetching your YouTube playlists...", Toast.LENGTH_LONG).show();
+		}
+		
+		@Override
+		protected UserPlaylistsData doInBackground(Void... arg0) {
+			UserPlaylistsData data;
+			try{
+				data = YouTubeComm.getComm().getPlaylistFeed();
+			} catch(ServiceCommException e){
+				err = e.getMessage();
+				return null;
+			}
+			
+			return data;
+		}
+		
+		@Override
+		protected void onPostExecute(UserPlaylistsData data) {
+			if(err != null){
+				Toast.makeText(CreatePlaylistYoutubeActivity.this, "Unable to fetch the user playlists...", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			
+			adapter.setUserData(data);
+		}
+		
 	}
 	
 	private class CreatePlaylistTask extends AsyncTask<Void, Integer, Void>{
@@ -277,6 +385,8 @@ public class CreatePlaylistYoutubeActivity extends Activity implements AccountMa
 				
 				//publishProgress(-1);
 				
+				YouTubeComm.getComm().getPlaylistFeed();
+				
 				int i;
 				ArrayList<String> songNames = sn.getSongNames();
 				ArrayList<String> songArtists = ar.getArtistList();
@@ -290,7 +400,7 @@ public class CreatePlaylistYoutubeActivity extends Activity implements AccountMa
 						continue;
 					}
 					
-					Log.i(Util.APP, "Song ["+video.items.get(0).id+"-"+video.items.get(0).title+"]");
+					Log.i(Util.APP, "Song ["+video.items.get(0).title+" ("+ video.items.get(0).player.defaultUrl +")]");
 				}
 				publishProgress(-1);
 			}catch (ServiceCommException e){
