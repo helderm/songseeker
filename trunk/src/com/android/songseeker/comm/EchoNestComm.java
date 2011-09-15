@@ -15,7 +15,7 @@ import com.echonest.api.v4.Song;
 import com.echonest.api.v4.SongParams;
 
 public class EchoNestComm {
-	private static final String key = "OKF60XQ3DSLHDO9CX";
+	private static final String KEY = "OKF60XQ3DSLHDO9CX";
 	private static EchoNestComm comm = new EchoNestComm();
 	private static EchoNestAPI en;
 	
@@ -23,7 +23,7 @@ public class EchoNestComm {
 	public static final String RDIO = "rdio-us-streaming";
 	
 	private EchoNestComm(){
-		en = new EchoNestAPI(key);
+		en = new EchoNestAPI(KEY);
 		en.setTraceRecvs(true);
 		en.setTraceSends(true);
 	}

@@ -33,8 +33,8 @@ public class UserPlaylistsData {
 		playlists.add(pl);
 	}
 	
-	public void addPlaylist(String name, String id){
-		Playlist pl = new Playlist(name, id);
+	public void addPlaylist(String name, Integer numSongs, String id){
+		Playlist pl = new Playlist(name, String.valueOf(numSongs), id);
 		playlists.add(pl);
 	}
 	
@@ -52,9 +52,9 @@ public class UserPlaylistsData {
 			id = i;
 		}
 
-		public Playlist(String n, String i) {
+		public Playlist(String n, String d, String i) {
 			name = n;
-			numSongs = null;
+			numSongs = d;
 			imageUrl = null;
 			id = i;
 		}

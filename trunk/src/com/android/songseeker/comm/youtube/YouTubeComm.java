@@ -12,22 +12,29 @@ import android.os.Bundle;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.ServiceCommException.ServiceErr;
 import com.android.songseeker.comm.ServiceCommException.ServiceID;
+import com.android.songseeker.comm.youtube.Urls.YouTubePlaylistUrl;
+import com.android.songseeker.comm.youtube.Urls.YouTubeVideoUrl;
 import com.android.songseeker.data.UserPlaylistsData;
+import com.android.songseeker.util.Util;
 import com.google.api.client.googleapis.GoogleHeaders;
 import com.google.api.client.googleapis.GoogleUrl;
 import com.google.api.client.googleapis.auth.oauth2.draft10.GoogleAccessProtectedResource;
 import com.google.api.client.googleapis.extensions.android2.auth.GoogleAccountManager;
+import com.google.api.client.googleapis.json.JsonCContent;
 import com.google.api.client.googleapis.json.JsonCParser;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.util.Key;
 
 public class YouTubeComm {
+	
+	protected static final String DEVKEY = "AI39si6yAoZ7f6EjzMCtIex34tdlMped4mK3ZL9vg-8pn8ZXTrvhKd6_5VfR-J-GwJyFQC4lPm6YAnH0V-zSvsgAcJ-xlT0ZUg"; 
 	
 	private static YouTubeComm comm = new YouTubeComm();
 	private static YouTubeClient client = comm.new YouTubeClient();
@@ -117,7 +124,7 @@ public class YouTubeComm {
 	
 	public VideoFeed getVideoFeed(String query) throws ServiceCommException{
 		VideoFeed feed;
-		YouTubeUrl url = YouTubeUrl.forVideosFeed();
+		YouTubeVideoUrl url = YouTubeVideoUrl.forVideosFeed();
 		//url.query = query;
 	   
 		// execute GData request for the feed
@@ -132,7 +139,7 @@ public class YouTubeComm {
 	
 	public UserPlaylistsData getPlaylistFeed() throws ServiceCommException{
 		PlaylistFeed feed;
-		YouTubeUrl url = YouTubeUrl.forPlaylistsFeed();		
+		YouTubePlaylistUrl url = YouTubePlaylistUrl.forPlaylistsFeed();		
 	   
 		// execute GData request for the feed
 	    try {
@@ -143,48 +150,28 @@ public class YouTubeComm {
 	    
 	    UserPlaylistsData data = new UserPlaylistsData();	    
 	    for(Playlist pl : feed.items){
-	    	data.addPlaylist(pl.title, pl.id);
+	    	data.addPlaylist(pl.title, pl.size, pl.id);
 	    }
 	    
 	    return data;		
 	}
 	
-	private static class YouTubeUrl extends GoogleUrl {
-
-		/** Whether to pretty print HTTP requests and responses. */
-		private static final boolean PRETTY_PRINT = true;
-
-		static final String ROOT_URL = "https://gdata.youtube.com/feeds/api";
-
-		//@Key("q")
-		//String query;
-
-		//@Key("max-results")
-		//Integer maxResults = 1;
-
-		YouTubeUrl(String encodedUrl) {
-			super(encodedUrl);
-			this.alt = "jsonc";
-			this.prettyprint = PRETTY_PRINT;
-		}
-
-		private static YouTubeUrl root() {
-			return new YouTubeUrl(ROOT_URL);
-		}
-
-		static YouTubeUrl forVideosFeed() {
-			YouTubeUrl result = root();
-			result.getPathParts().add("videos");			
-			return result;
-		}
+	public Playlist createPlaylist() throws ServiceCommException{
+		Playlist pl;
+		YouTubePlaylistUrl url = YouTubePlaylistUrl.forPlaylistsFeed();	
+			
+		pl = new Playlist();
+		pl.title = "Teste";
+		pl.description = "Playlist created by Song Seeker for Android";
+		//pl.summary = "Playlist created by Song Seeker for Android";
 		
-		static YouTubeUrl forPlaylistsFeed(){
-			YouTubeUrl result = root();
-			result.getPathParts().add("users");
-			result.getPathParts().add("default");
-			result.getPathParts().add("playlists");
-			return result;
+	    try {
+			pl = client.executePostPlaylistFeed(pl, url);
+		} catch (IOException e) {
+			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.IO);
 		}
+	    
+	    return pl;
 	}
 
 	private class YouTubeClient {
@@ -201,8 +188,9 @@ public class YouTubeComm {
 				public void initialize(HttpRequest request) {
 					// headers
 					GoogleHeaders headers = new GoogleHeaders();
-					headers.setApplicationName("Google-YouTubeSample/1.0");
+					//headers.setApplicationName(Util.APP);
 					headers.gdataVersion = "2";
+					headers.setDeveloperId(DEVKEY);
 					
 					//set access token
 					headers.setGoogleLogin(accessProtectedResource.getAccessToken());
@@ -212,21 +200,33 @@ public class YouTubeComm {
 			});
 		}
 
-		public VideoFeed executeGetVideoFeed(YouTubeUrl url) throws IOException {
+		public VideoFeed executeGetVideoFeed(GoogleUrl url) throws IOException {
 			return executeGetFeed(url, VideoFeed.class);
 		}
 		
-		public PlaylistFeed executeGetPlaylistFeed(YouTubeUrl url) throws IOException{
+		public PlaylistFeed executeGetPlaylistFeed(GoogleUrl url) throws IOException{
 			return executeGetFeed(url, PlaylistFeed.class);
-		}
+		}		
 
-		private <F extends Feed<? extends Item>> F executeGetFeed(YouTubeUrl url, Class<F> feedClass)
+		private <F extends Feed<? extends Item>> F executeGetFeed(GoogleUrl url, Class<F> feedClass)
 				throws IOException {
 			HttpRequest request = requestFactory.buildGetRequest(url);
 			return request.execute().parseAs(feedClass);
 		}
 		
+		public Playlist executePostPlaylistFeed(Playlist pl, GoogleUrl url) throws IOException{
+			return executePostRequest(url, pl, Playlist.class);
+		}
 		
+		private <F extends Item> F executePostRequest(GoogleUrl url, F data, Class<F> feedClass) throws IOException{
+			JsonHttpContent result = new JsonHttpContent(jsonFactory, data.toContent(jsonFactory));
+			
+			HttpRequest request = requestFactory.buildPostRequest(url, result);
+			
+			return request.execute().parseAs(feedClass);
+		}
+
+
 	}
 	
 

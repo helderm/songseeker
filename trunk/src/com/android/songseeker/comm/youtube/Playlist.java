@@ -5,11 +5,17 @@ import com.google.api.client.util.Key;
 public class Playlist extends Item{
 	  
 	@Key
-	public FeedLink feedLink;
+	public Integer size;
 	
 	@Key
 	public String description;
 	
 	@Key
 	public String author;
+
+	/*@Override
+	public JsonHttpContent toContent(JsonFactory jsonFactory) {
+		JsonHttpContent result = new JsonHttpContent(jsonFactory, this);
+		return result;
+	}*/
 }

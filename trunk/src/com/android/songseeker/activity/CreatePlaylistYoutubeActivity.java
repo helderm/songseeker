@@ -78,7 +78,7 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		switch (id) {
 		case REQUEST_AUTH_DIAG:
 			ProgressDialog rad = new ProgressDialog(this);
-			rad.setMessage("Requesting authorization from Rdio...");
+			rad.setMessage("Requesting authorization from YouTube...");
 			rad.setIndeterminate(true);
 			rad.setCancelable(true);
 			return rad;
@@ -264,7 +264,7 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		    	bt.setText("Playlist...");
 		    }else{			    
 		    	tt.setText(data.getPlaylistName(position-1));
-		    	//bt.setText(data.getPlaylistNumSongs(position-1)+" songs");			    			    
+		    	bt.setText(data.getPlaylistNumSongs(position-1)+" videos");			    			    
 		    }		
 						
 			return v;
@@ -327,6 +327,8 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		protected UserPlaylistsData doInBackground(Void... arg0) {
 			UserPlaylistsData data;
 			try{
+				YouTubeComm.getComm().createPlaylist();
+				
 				data = YouTubeComm.getComm().getPlaylistFeed();
 			} catch(ServiceCommException e){
 				err = e.getMessage();
