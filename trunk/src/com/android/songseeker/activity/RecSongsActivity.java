@@ -14,7 +14,6 @@ import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
 import com.echonest.api.v4.PlaylistParams.PlaylistType;
 import com.echonest.api.v4.Song;
-import com.echonest.api.v4.Track;
 import com.android.songseeker.util.ImageLoader;
 
 import android.app.AlertDialog;
@@ -45,7 +44,7 @@ import android.widget.Toast;
 public class RecSongsActivity extends ListActivity {
 
 	private final int PROGRESS_DIAG = 0;
-	private final int EXPORT_DIALOG = 1;
+	private final int EXPORT_DIAG = 1;
 	
 	private RecSongsAdapter adapter;
 		
@@ -100,27 +99,29 @@ public class RecSongsActivity extends ListActivity {
 	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Intent i = new Intent(RecSongsActivity.this, SongInfoActvity
-				.class);
-		startActivity(i);
-		
-		/*Song song = adapter.getItem(position);
-		
-		if(song == null || adapter.isPlaying(position)){
-			
-			mp_task.cancel(true);
-			MediaPlayerController.getCon().stop();
-			adapter.setNowPlaying(RecSongsAdapter.NOT_PLAYING);
+		Song song = adapter.playlist.getSongs().get(position);
+
+		String foreignId;
+		try {
+			foreignId = song.getString("tracks[0].foreign_id");
+		} catch (IndexOutOfBoundsException e) {
+			Toast.makeText(this, "Unable to retrieve track details!", Toast.LENGTH_SHORT).show();
 			return;
-		}
+		}		
+				
+    	SongIdsParcel songIds = new SongIdsParcel();
+    	SongNamesParcel songNames = new SongNamesParcel();
+    	ArtistsParcel songArtists = new ArtistsParcel();    	
 		
-		MediaPlayerController.getCon().stop();
-		
-		mp_task.cancel(true);
-		mp_task = new StartMediaPlayerTask();
-		adapter.setNowPlaying(position);
-		mp_task.execute(song);*/
-		
+    	songIds.addSongID(foreignId);
+    	songNames.addName(song.getReleaseName());
+    	songArtists.addArtist(song.getArtistName());
+	
+		Intent i = new Intent(RecSongsActivity.this, SongInfoActvity.class);
+		i.putExtra("songId", songIds);
+		i.putExtra("songName", songNames);
+		i.putExtra("songArtist", songArtists);  
+		startActivity(i);
 	}
 	
 	@Override
@@ -133,7 +134,7 @@ public class RecSongsActivity extends ListActivity {
 		    pd.setIndeterminate(true);
 		    pd.setCancelable(true);
 		    return pd;
-		case EXPORT_DIALOG:		  	
+		case EXPORT_DIAG:		  	
 			final CharSequence[] items = {"Rdio Playlist", "Last.fm Playlist", "Youtube Playlist"};
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -380,11 +381,7 @@ public class RecSongsActivity extends ListActivity {
 			MediaPlayerController.getCon().setOnCompletionListener(this);
 			
 			try{				
-				Track track = song[0].getTrack(EchoNestComm.SEVEN_DIGITAL);
-				if(track == null)
-					return null;
-				
-				previewURL = track.getPreviewUrl();				
+				previewURL = song[0].getString("tracks[0].preview_url");
 			} catch(Exception e){
 				err = getString(R.string.err_mediaplayer);
 				Log.e(Util.APP, "EchoNest getTrack() exception!", e);
@@ -450,7 +447,7 @@ public class RecSongsActivity extends ListActivity {
     	    new GetPlaylistTask().execute(plp, null, null);
             return true;
         case R.id.export:
-        	showDialog(EXPORT_DIALOG);
+        	showDialog(EXPORT_DIAG);
         	return true;
         default:
             return super.onOptionsItemSelected(item);

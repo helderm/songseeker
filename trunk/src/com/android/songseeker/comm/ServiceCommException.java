@@ -25,7 +25,8 @@ public class ServiceCommException extends Exception {
 		LASTFM ("Last.fm"), 
 		GROOVESHARK ("Grooveshark"),
 		RDIO ("Rdio"),
-		YOUTUBE ("YouTube");
+		YOUTUBE ("YouTube"),
+		SEVENDIGITAL ("7Digital");
 		private final String name;
 		
 		ServiceID(String name) {
