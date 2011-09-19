@@ -11,7 +11,8 @@
 	
 	<EditText 
 		android:id="@+id/find_input" 
-		android:layout_width="fill_parent" android:layout_height="50dp">
+		android:layout_width="fill_parent" android:layout_height="50dp"
+		android:text="u2">
 	    <requestFocus></requestFocus>
 	</EditText>
 	

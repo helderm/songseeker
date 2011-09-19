@@ -100,7 +100,11 @@ public class RecSongsActivity extends ListActivity {
 	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Song song = adapter.getItem(position);
+		Intent i = new Intent(RecSongsActivity.this, SongInfoActvity
+				.class);
+		startActivity(i);
+		
+		/*Song song = adapter.getItem(position);
 		
 		if(song == null || adapter.isPlaying(position)){
 			
@@ -115,7 +119,7 @@ public class RecSongsActivity extends ListActivity {
 		mp_task.cancel(true);
 		mp_task = new StartMediaPlayerTask();
 		adapter.setNowPlaying(position);
-		mp_task.execute(song);
+		mp_task.execute(song);*/
 		
 	}
 	
@@ -282,7 +286,7 @@ public class RecSongsActivity extends ListActivity {
 	    
 	    public View getView(int position, View convertView, ViewGroup parent) {
 			View v = convertView;
-			//ViewHolder holder;
+			final int pos = position;
 			
 			if (v == null) {
 			    LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -303,10 +307,14 @@ public class RecSongsActivity extends ListActivity {
 			    	playpause.setImageResource(R.drawable.pause);
 			    else
 			    	playpause.setImageResource(R.drawable.play);
-			    			    
+			    playpause.setOnClickListener(new View.OnClickListener() {
+		            public void onClick(View v) {
+		            	playPausePreview(pos);
+		            }
+		        }); 			    
+			    
 			    imageLoader.DisplayImage(song.getString("tracks[0].release_image"), 
-			    		RecSongsActivity.this, coverart, R.drawable.blankdisc);
-		
+			    		RecSongsActivity.this, coverart, R.drawable.blankdisc);		
 			}
 			
 			return v;
@@ -410,15 +418,12 @@ public class RecSongsActivity extends ListActivity {
 	    		err = null;
 	    		adapter.setNowPlaying(RecSongsAdapter.NOT_PLAYING);
 	    		return;
-    		}
-			
-			
+    		}			
 		}
 
 		public void onCompletion(MediaPlayer mp) {
 			adapter.setNowPlaying(RecSongsAdapter.NOT_PLAYING);			
-		}
-		
+		}		
 	}	
 	
     @Override
@@ -451,5 +456,26 @@ public class RecSongsActivity extends ListActivity {
             return super.onOptionsItemSelected(item);
         }
     }
+    
+    private void playPausePreview(int position){
+    	Song song = adapter.getItem(position);
+
+    	if(song == null || adapter.isPlaying(position)){
+
+    		mp_task.cancel(true);
+    		MediaPlayerController.getCon().stop();
+    		adapter.setNowPlaying(RecSongsAdapter.NOT_PLAYING);
+    		return;
+    	}
+
+    	MediaPlayerController.getCon().stop();
+
+    	mp_task.cancel(true);
+    	mp_task = new StartMediaPlayerTask();
+    	adapter.setNowPlaying(position);
+    	mp_task.execute(song);
+    }
 
 }
+
+
