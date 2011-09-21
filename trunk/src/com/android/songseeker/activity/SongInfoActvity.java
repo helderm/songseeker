@@ -5,18 +5,26 @@ import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.SevenDigitalComm;
 import com.android.songseeker.data.ArtistsParcel;
 import com.android.songseeker.data.SongIdsParcel;
+import com.android.songseeker.data.SongInfo;
 import com.android.songseeker.data.SongNamesParcel;
+import com.android.songseeker.util.ImageLoader;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SongInfoActvity extends Activity {
 
 	private static final int SONG_DETAILS_DIAG = 0;
+	private ImageLoader imageLoader;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -25,6 +33,7 @@ public class SongInfoActvity extends Activity {
 	
 	    setContentView(R.layout.song_info);
 	    
+	    imageLoader = new ImageLoader(getApplicationContext());
 	    
 	    SongNamesParcel songName = getIntent().getExtras().getParcelable("songName");
 	    ArtistsParcel songArtist = getIntent().getExtras().getParcelable("songArtist");
@@ -52,31 +61,64 @@ public class SongInfoActvity extends Activity {
 		}
 	}
 	
-	private class GetSongDetails extends AsyncTask<Void, Void, Void>{
-
+	private class GetSongDetails extends AsyncTask<Void, Void, SongInfo>{
+		String err = null;
+				
 		@Override
 		protected void onPreExecute() {
 			showDialog(SONG_DETAILS_DIAG);
 		}
 		
 		@Override
-		protected Void doInBackground(Void... arg0) {
+		protected SongInfo doInBackground(Void... arg0) {
+			SongInfo song;
+			
 			SongIdsParcel songIdParcel = getIntent().getExtras().getParcelable("songId");			
 			
 			try{
-				SevenDigitalComm.getComm().queryTrackDetails(songIdParcel.getSongIDs().get(0));
+				song = SevenDigitalComm.getComm().querySongDetails(songIdParcel.getSongIDs().get(0));
 			}catch(ServiceCommException e){
-				
+				err = e.getMessage();		
+				return null;
 			}
 			
-			return null;
+			return song;
 		}
 		
 		@Override
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(SongInfo s) {
+			final SongInfo song = s;
+			
 			removeDialog(SONG_DETAILS_DIAG);
+			
+			if(err != null){
+				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
+				SongInfoActvity.this.finish();
+			}
+			
+		    TextView tvAlbumName = (TextView) findViewById(R.id.songinfo_albumName);
+		    tvAlbumName.setText(song.release.name);
+		    tvAlbumName.setOnClickListener(new View.OnClickListener() {
+		    	public void onClick(View v) {
+		    		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(song.release.buyUrl));
+		    		intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+		    		startActivity(intent);
+		    	}
+		    });
+		    
+		    
+		    
+		    ImageView coverart = (ImageView) findViewById(R.id.songinfo_coverArt);
+		    imageLoader.DisplayImage(song.release.image, SongInfoActvity.this, coverart, R.drawable.blankdisc);	
 		}
 		
+	}
+	
+	@Override
+	protected void onDestroy() {
+		imageLoader.stopThread();
+		imageLoader.clearCache();
+		super.onDestroy();
 	}
 
 }

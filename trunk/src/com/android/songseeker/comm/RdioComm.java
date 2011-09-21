@@ -95,8 +95,9 @@ public class RdioComm {
 
 		//TODO: Check how can we start this activity without adding it to the call stack
 		Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(authUrl));
-		i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		i.setFlags(i.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+		//i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		//i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 		Log.d(Util.APP, "Requesting permission to Rdio... ");
 		a.startActivity(i);		

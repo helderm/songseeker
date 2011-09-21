@@ -34,17 +34,19 @@
      android:id="@+id/songinfo_artistName" 
      android:textAppearance="?android:attr/textAppearanceSmall" 
      android:layout_below="@+id/by" 
-     android:layout_alignLeft="@+id/by" android:gravity="center"></TextView>
+     android:layout_alignLeft="@+id/by" 
+     android:gravity="center"></TextView>
     
     <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="on" android:id="@+id/on" 
     android:textAppearance="?android:attr/textAppearanceSmall" android:layout_below="@+id/songinfo_artistName" android:layout_toRightOf="@+id/filler1" android:gravity="bottom"></TextView>
     
     <TextView android:layout_height="wrap_content" 
-    android:layout_width="wrap_content" 
+    android:layout_width="fill_parent" 
     android:id="@+id/songinfo_albumName" 
     android:textAppearance="?android:attr/textAppearanceSmall" 
     android:layout_below="@+id/on" 
-    android:layout_alignLeft="@+id/on" android:gravity="center"></TextView>
+    android:layout_alignLeft="@+id/on" 
+    android:gravity="center"></TextView>
     
     <ImageView android:id="@+id/play" 
     android:layout_height="wrap_content" 
@@ -53,6 +55,17 @@
     android:layout_below="@+id/songinfo_coverArt" 
     android:layout_alignRight="@+id/songinfo_coverArt" 
     android:layout_marginRight="48dp"></ImageView>
+    
+    <TextView android:layout_height="60dip" android:id="@+id/filler2" android:layout_width="wrap_content" android:layout_below="@+id/play" 
+    android:layout_alignParentLeft="true" android:layout_alignParentRight="true"></TextView>
+        
+    <Button android:layout_height="wrap_content" 
+    android:layout_width="wrap_content" 
+    android:id="@+id/songinfo_buy" 
+    android:text="Buy" 
+    android:layout_below="@+id/filler2" 
+    android:layout_alignLeft="@+id/songinfo_coverArt" 
+    android:layout_alignRight="@+id/songinfo_coverArt"></Button>
     
 
     
