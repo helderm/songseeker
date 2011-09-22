@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -96,18 +97,25 @@ public class SongInfoActvity extends Activity {
 				SongInfoActvity.this.finish();
 			}
 			
+	        Button buy = (Button)findViewById(R.id.songinfo_buy);
+	        buy.setOnClickListener(new View.OnClickListener() {
+	            public void onClick(View v) {
+		    		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(song.buyUrl));
+		    		intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+		    		startActivity(intent);
+	            }
+	        });
+			
 		    TextView tvAlbumName = (TextView) findViewById(R.id.songinfo_albumName);
 		    tvAlbumName.setText(song.release.name);
 		    tvAlbumName.setOnClickListener(new View.OnClickListener() {
 		    	public void onClick(View v) {
-		    		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(song.release.buyUrl));
-		    		intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
-		    		startActivity(intent);
+		    		//Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(song.release.buyUrl));
+		    		//intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+		    		//startActivity(intent);
 		    	}
 		    });
-		    
-		    
-		    
+		    		    
 		    ImageView coverart = (ImageView) findViewById(R.id.songinfo_coverArt);
 		    imageLoader.DisplayImage(song.release.image, SongInfoActvity.this, coverart, R.drawable.blankdisc);	
 		}

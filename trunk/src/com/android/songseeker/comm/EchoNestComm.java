@@ -22,6 +22,8 @@ public class EchoNestComm {
 	public static final String SEVEN_DIGITAL = "7digital";
 	public static final String RDIO = "rdio-us-streaming";
 	
+	private static int MAX_WS_RETRIES = 5;
+	
 	private EchoNestComm(){
 		en = new EchoNestAPI(KEY);
 		en.setTraceRecvs(true);
@@ -34,22 +36,45 @@ public class EchoNestComm {
 	
 	public Playlist createStaticPlaylist(PlaylistParams plp) throws ServiceCommException{
 		Playlist pl;
+		int tries = 1;
 		
 		Log.i(Util.APP, "Creating static playlist on EchoNest...");
 				
-		try{
-			pl = en.createStaticPlaylist(plp);
-		}catch(EchoNestException e){
-			switch(e.getCode()){
-			case 4:
-				throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.TRY_LATER);				
-			case 5:
-				throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.ID_NOT_FOUND);				
-			default:	
-				Log.e(Util.APP, "createStaticPlaylist failed!", e);
-				throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.IO);				
+		while(true){		
+			try{				
+				pl = en.createStaticPlaylist(plp);
+				break;
+			}catch(EchoNestException e){
+				switch(e.getCode()){
+				case -1:
+					tries++;
+					if(tries > MAX_WS_RETRIES){
+						throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
+					}
+					
+					try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e1) {	}			
+					
+					break;
+				case 4:
+					tries++;				
+					if(tries > MAX_WS_RETRIES){
+						throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.TRY_LATER);
+					}
+					
+					try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e1) {	}	
+					
+					break;
+				case 5:
+					throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.ID_NOT_FOUND);				
+				default:	
+					Log.e(Util.APP, "createStaticPlaylist failed!", e);
+					throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.IO);				
+				}
 			}
-			//TODO treat exception of unknown identifier 
 		}
 		
 		Log.i(Util.APP, "Creating static playlist finished!");
