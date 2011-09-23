@@ -2,6 +2,7 @@ package com.android.songseeker.comm;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -34,14 +35,14 @@ public class SevenDigitalComm {
 	}
 	
 	public SongInfo querySongDetails(String trackId) throws ServiceCommException{
-		Element fstNmElmnt;
-		NodeList fstNm;
+		Element fstNmElmnt, fstElmnt;
+		NodeList fstNm, fstNmElmntLst;
 		
 		SongInfo song = new SongInfo();;
 		String id = trackId.split(":")[2];
 		
 		String urlStr = ENDPOINT + "track/details?";
-		String reqParam = "trackid="+id+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize=350";
+		String reqParam = "trackid="+id+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize=175";
 		
 		try {
 			//result = Util.sendGetRequest(urlStr, reqParam);
@@ -49,18 +50,26 @@ public class SevenDigitalComm {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document doc = db.parse(urlStr+reqParam);
 			doc.getDocumentElement().normalize();
-			NodeList nodeLst = doc.getElementsByTagName("track");
-					
+
+			//check response
+			fstNmElmntLst = doc.getElementsByTagName("response");
+			fstNmElmnt = (Element) fstNmElmntLst.item(0);
+			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
+				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+			}	
+			
+			NodeList nodeLst = doc.getElementsByTagName("track");					
 			for (int s=0; s<nodeLst.getLength(); s++) {
 
 				Node fstNode = nodeLst.item(s);
 
 				if (fstNode.getNodeType() != Node.ELEMENT_NODE) 
 					continue;
+								
+				fstElmnt = (Element) fstNode;
 				
 				//get title
-				Element fstElmnt = (Element) fstNode;
-				NodeList fstNmElmntLst = fstElmnt.getElementsByTagName("title");				
+				fstNmElmntLst = fstElmnt.getElementsByTagName("title");				
 				for(int j=0; j<fstNmElmntLst.getLength(); j++){
 					fstNmElmnt = (Element) fstNmElmntLst.item(j);
 					fstNm = fstNmElmnt.getChildNodes();
@@ -101,9 +110,9 @@ public class SevenDigitalComm {
 				song.artist.id = fstNmElmnt.getAttribute("id");
 				
 				//mount buy urls
-				song.release.buyUrl = MOBILE_URL + "GB/releases/" + song.release.id + "?partner=" + PARTNER_ID;
+				song.release.buyUrl = MOBILE_URL + "releases/" + song.release.id + "?partner=" + PARTNER_ID;
 				song.buyUrl = song.release.buyUrl;
-				song.artist.buyUrl = MOBILE_URL + "GB/artists/" + song.artist.id + "?partner=" + PARTNER_ID;
+				song.artist.buyUrl = MOBILE_URL + "artists/" + song.artist.id + "?partner=" + PARTNER_ID;
 			}			
 		}catch(IOException e) {
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);		
@@ -115,6 +124,100 @@ public class SevenDigitalComm {
         return song;
     }
 	
+	public ArrayList<SongInfo> queryArtistTopTracks(String artistId) throws ServiceCommException{
+		ArrayList<SongInfo> songs = new ArrayList<SongInfo>();
+		SongInfo song;
+		
+		Element fstNmElmnt, fstElmnt;
+		NodeList fstNm, fstNmElmntLst;
+		
+		String urlStr = ENDPOINT + "artist/toptracks?";
+		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&&pagesize=5&page=1";
+		
+		try {
+			//result = Util.sendGetRequest(urlStr, reqParam);
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.parse(urlStr+reqParam);
+			doc.getDocumentElement().normalize();
+
+			//check response
+			fstNmElmntLst = doc.getElementsByTagName("response");
+			fstNmElmnt = (Element) fstNmElmntLst.item(0);
+			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
+				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+			}	
+			
+			NodeList nodeLst = doc.getElementsByTagName("track");					
+			for (int s=0; s<nodeLst.getLength(); s++) {
+				song = new SongInfo();
+				
+				Node fstNode = nodeLst.item(s);
+
+				if (fstNode.getNodeType() != Node.ELEMENT_NODE) 
+					continue;
+								
+				fstElmnt = (Element) fstNode;
+				
+				//get title
+				fstNmElmntLst = fstElmnt.getElementsByTagName("title");				
+				for(int j=0; j<fstNmElmntLst.getLength(); j++){
+					fstNmElmnt = (Element) fstNmElmntLst.item(j);
+					fstNm = fstNmElmnt.getChildNodes();
+					
+					if(fstNmElmnt.getParentNode().getNodeName().equalsIgnoreCase("track")){
+						song.name = ((Node) fstNm.item(0)).getNodeValue();
+					}else if(fstNmElmnt.getParentNode().getNodeName().equalsIgnoreCase("release")){
+						song.release.name = ((Node) fstNm.item(0)).getNodeValue();
+					}	
+				}
+				
+				//get trackNumber
+				fstNmElmntLst = fstElmnt.getElementsByTagName("trackNumber");
+				fstNmElmnt = (Element) fstNmElmntLst.item(0);
+				fstNm = fstNmElmnt.getChildNodes();
+				song.trackNum = ((Node) fstNm.item(0)).getNodeValue();
+				
+				//get duration
+				fstNmElmntLst = fstElmnt.getElementsByTagName("duration");
+				fstNmElmnt = (Element) fstNmElmntLst.item(0);
+				fstNm = fstNmElmnt.getChildNodes();
+				song.duration = ((Node) fstNm.item(0)).getNodeValue();
+				
+				//get image
+				fstNmElmntLst = fstElmnt.getElementsByTagName("image");
+				fstNmElmnt = (Element) fstNmElmntLst.item(0);
+				fstNm = fstNmElmnt.getChildNodes();
+				song.release.image = ((Node) fstNm.item(0)).getNodeValue();
+				
+				//get release id
+				fstNmElmntLst = fstElmnt.getElementsByTagName("release");
+				fstNmElmnt = (Element) fstNmElmntLst.item(0);
+				song.release.id = fstNmElmnt.getAttribute("id");
+				
+				//get artist id
+				fstNmElmntLst = fstElmnt.getElementsByTagName("artist");
+				fstNmElmnt = (Element) fstNmElmntLst.item(0);
+				song.artist.id = fstNmElmnt.getAttribute("id");
+				
+				//mount buy urls
+				song.release.buyUrl = MOBILE_URL + "releases/" + song.release.id + "?partner=" + PARTNER_ID;
+				song.buyUrl = song.release.buyUrl;
+				song.artist.buyUrl = MOBILE_URL + "artists/" + song.artist.id + "?partner=" + PARTNER_ID;
+				
+				songs.add(song);
+			}			
+		}catch(IOException e) {
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);		
+		}catch(Exception e){
+			Log.e(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
+		}
+
+		
+		
+		return songs;
+	}
 	
 	
 }

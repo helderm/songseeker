@@ -1,5 +1,7 @@
 package com.android.songseeker.activity;
 
+import java.util.ArrayList;
+
 import com.android.songseeker.R;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.SevenDigitalComm;
@@ -26,6 +28,8 @@ public class SongInfoActvity extends Activity {
 
 	private static final int SONG_DETAILS_DIAG = 0;
 	private ImageLoader imageLoader;
+	
+	private ArrayList<SongInfo> topTracks;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -78,6 +82,7 @@ public class SongInfoActvity extends Activity {
 			
 			try{
 				song = SevenDigitalComm.getComm().querySongDetails(songIdParcel.getSongIDs().get(0));
+				topTracks = SevenDigitalComm.getComm().queryArtistTopTracks(song.artist.id);
 			}catch(ServiceCommException e){
 				err = e.getMessage();		
 				return null;
@@ -95,12 +100,13 @@ public class SongInfoActvity extends Activity {
 			if(err != null){
 				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
 				SongInfoActvity.this.finish();
+				return;
 			}
 			
 	        Button buy = (Button)findViewById(R.id.songinfo_buy);
 	        buy.setOnClickListener(new View.OnClickListener() {
 	            public void onClick(View v) {
-		    		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(song.buyUrl));
+ 		    		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(song.buyUrl));
 		    		intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
 		    		startActivity(intent);
 	            }
@@ -116,8 +122,15 @@ public class SongInfoActvity extends Activity {
 		    	}
 		    });
 		    		    
+		    //set image
 		    ImageView coverart = (ImageView) findViewById(R.id.songinfo_coverArt);
 		    imageLoader.DisplayImage(song.release.image, SongInfoActvity.this, coverart, R.drawable.blankdisc);	
+		    
+		    
+		    //set toptracks
+		    //TextView topTrackName1 = (TextView)((View)findViewById(R.id.songinfo_toptrack1)).findViewById(R.id.recsong_firstLine);
+		    //topTrackName1.setText(topTracks.get(0).name);
+		    
 		}
 		
 	}

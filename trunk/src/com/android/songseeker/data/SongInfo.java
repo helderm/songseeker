@@ -17,6 +17,7 @@ public class SongInfo {
 	public class ArtistInfo{
 		public String name;
 		public String buyUrl;
+		public String id;
 	}
 	
 	public class ReleaseInfo{
