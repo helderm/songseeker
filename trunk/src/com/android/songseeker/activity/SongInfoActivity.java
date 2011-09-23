@@ -14,17 +14,21 @@ import com.android.songseeker.util.ImageLoader;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SongInfoActvity extends Activity {
+public class SongInfoActivity extends Activity {
 
 	private static final int SONG_DETAILS_DIAG = 0;
 	private ImageLoader imageLoader;
@@ -99,7 +103,7 @@ public class SongInfoActvity extends Activity {
 			
 			if(err != null){
 				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
-				SongInfoActvity.this.finish();
+				SongInfoActivity.this.finish();
 				return;
 			}
 			
@@ -124,13 +128,56 @@ public class SongInfoActvity extends Activity {
 		    		    
 		    //set image
 		    ImageView coverart = (ImageView) findViewById(R.id.songinfo_coverArt);
-		    imageLoader.DisplayImage(song.release.image, SongInfoActvity.this, coverart, R.drawable.blankdisc);	
-		    
+		    imageLoader.DisplayImage(song.release.image, SongInfoActivity.this, coverart, R.drawable.blankdisc);			    
 		    
 		    //set toptracks
-		    //TextView topTrackName1 = (TextView)((View)findViewById(R.id.songinfo_toptrack1)).findViewById(R.id.recsong_firstLine);
-		    //topTrackName1.setText(topTracks.get(0).name);
+//		    TextView topTrackName = (TextView)((View)findViewById(R.id.songinfo_toptrack1)).findViewById(R.id.recsong_firstLine);
+//		    TextView topTrackRelease = (TextView)((View)findViewById(R.id.songinfo_toptrack1)).findViewById(R.id.recsong_secondLine);
+//		    coverart = (ImageView) ((View)findViewById(R.id.songinfo_toptrack1)).findViewById(R.id.recsong_coverart);
+//		    
+//		    topTrackName.setText(topTracks.get(0).name);
+//		    topTrackRelease.setText(topTracks.get(0).release.name);
+//		    imageLoader.DisplayImage(topTracks.get(0).release.image, SongInfoActivity.this, coverart, R.drawable.blankdisc);		    
+//		    
+//		    topTrackName = (TextView)((View)findViewById(R.id.songinfo_toptrack2)).findViewById(R.id.recsong_firstLine);
+//		    topTrackRelease = (TextView)((View)findViewById(R.id.songinfo_toptrack2)).findViewById(R.id.recsong_secondLine);
+//		    coverart = (ImageView) ((View)findViewById(R.id.songinfo_toptrack2)).findViewById(R.id.recsong_coverart);
+//		    
+//		    topTrackName.setText(topTracks.get(1).name);
+//		    topTrackRelease.setText(topTracks.get(1).release.name);
+//		    imageLoader.DisplayImage(topTracks.get(1).release.image, SongInfoActivity.this, coverart, R.drawable.blankdisc);
+//
+//		    topTrackName = (TextView)((View)findViewById(R.id.songinfo_toptrack3)).findViewById(R.id.recsong_firstLine);
+//		    topTrackRelease = (TextView)((View)findViewById(R.id.songinfo_toptrack3)).findViewById(R.id.recsong_secondLine);
+//		    coverart = (ImageView) ((View)findViewById(R.id.songinfo_toptrack3)).findViewById(R.id.recsong_coverart);
+//		    
+//		    topTrackName.setText(topTracks.get(2).name);
+//		    topTrackRelease.setText(topTracks.get(2).release.name);
+//		    imageLoader.DisplayImage(topTracks.get(2).release.image, SongInfoActivity.this, coverart, R.drawable.blankdisc);
 		    
+		    
+		    LinearLayout parent = (LinearLayout) findViewById(R.id.songinfo_topTracks);		    
+		    LayoutInflater  inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		    
+		    for(SongInfo si : topTracks){
+			    
+			    RelativeLayout row = (RelativeLayout) inflater.inflate(R.layout.rec_song_row, null);	    
+			    
+			    TextView topTrackName = (TextView)row.findViewById(R.id.recsong_firstLine);
+			    TextView topTrackRelease = (TextView)row.findViewById(R.id.recsong_secondLine);
+			    coverart = (ImageView) row.findViewById(R.id.recsong_coverart);		    
+			    topTrackName.setText(si.name);
+			    topTrackRelease.setText(si.release.name);
+			    imageLoader.DisplayImage(si.release.image, SongInfoActivity.this, coverart, R.drawable.blankdisc);			    
+			    
+			    parent.addView(row);
+		    }
+		    
+		    
+//		    LinearLayout ll = (LinearLayout) a.findViewById(R.id.content2);
+//		    ViewInflate vi = (ViewInflate) a.getSystemService(Context.INFLATE_SERVICE);
+//		    View vv = vi.inflate(R.layout.mynewxmllayout, null, null);
+//		    ll.addView(vv, new LinearLayout.LayoutParams(ll.getLayoutParams().width, ll.getLayoutParams().height));
 		}
 		
 	}

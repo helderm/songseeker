@@ -117,7 +117,7 @@ public class RecSongsActivity extends ListActivity {
     	songNames.addName(song.getReleaseName());
     	songArtists.addArtist(song.getArtistName());
 	
-		Intent i = new Intent(RecSongsActivity.this, SongInfoActvity.class);
+		Intent i = new Intent(RecSongsActivity.this, SongInfoActivity.class);
 		i.putExtra("songId", songIds);
 		i.putExtra("songName", songNames);
 		i.putExtra("songArtist", songArtists);  
