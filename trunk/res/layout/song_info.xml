@@ -1,110 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-    android:layout_height="fill_parent"  
-    android:fillViewport="true" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:fillViewport="true">
 
-<RelativeLayout android:layout_width="fill_parent" 
-  	android:layout_height="fill_parent"
-  	android:id="@+id/songinfo">    
-    
-	    <ImageView 
-	    android:layout_width="120dip"
-	    android:layout_height="120dip" 
-	    android:src="@drawable/blankdisc" 
-	    android:id="@+id/songinfo_coverArt" 
-	    android:layout_alignParentTop="true" 
-	    android:layout_alignParentLeft="true" 
-	    android:layout_marginLeft="18dp" 
-	    android:layout_marginTop="40dp"></ImageView>
-	    
-	    <TextView android:layout_height="fill_parent" android:layout_width="15dip" android:id="@+id/filler1" 
-	    android:layout_alignTop="@+id/songinfo_coverArt" android:layout_toRightOf="@+id/songinfo_coverArt" android:layout_alignBottom="@+id/play"></TextView>
-	
-	    <TextView android:layout_height="wrap_content" 
-		android:id="@+id/songinfo_songName" 
-		android:layout_alignTop="@+id/filler1" 
-		android:layout_toRightOf="@+id/filler1" 
-		android:layout_width="fill_parent" 
-		android:gravity="center"
-		android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
-	   
-	    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="by" android:id="@+id/by" 
-	    android:textAppearance="?android:attr/textAppearanceSmall" android:layout_below="@+id/songinfo_songName" android:layout_alignLeft="@+id/songinfo_songName"></TextView>
-	    
-	    <TextView android:layout_height="wrap_content" 
-	     android:layout_width="fill_parent"
-	     android:id="@+id/songinfo_artistName" 
-	     android:textAppearance="?android:attr/textAppearanceMedium" 
-	     android:layout_below="@+id/by" 
-	     android:layout_alignLeft="@+id/by" 
-	     android:gravity="center"></TextView>
-	    
-	    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="on" android:id="@+id/on" 
-	    android:textAppearance="?android:attr/textAppearanceSmall" android:layout_below="@+id/songinfo_artistName" android:layout_toRightOf="@+id/filler1" android:gravity="bottom"></TextView>
-	    
-	    <TextView android:layout_height="wrap_content" 
-	    android:layout_width="fill_parent" 
-	    android:id="@+id/songinfo_albumName" 
-	    android:textAppearance="?android:attr/textAppearanceMedium" 
-	    android:layout_below="@+id/on" 
-	    android:layout_alignLeft="@+id/on" 
-	    android:gravity="center"></TextView>
-	    
-	    <ImageView android:id="@+id/play" 
-	    android:layout_height="wrap_content" 
-	    android:src="@drawable/play2" 
-	    android:layout_width="wrap_content" 
-	    android:layout_below="@+id/songinfo_coverArt" 
-	    android:layout_alignRight="@+id/songinfo_coverArt" 
-	    android:layout_marginRight="48dp"></ImageView>
-	    
-	    <TextView android:layout_height="60dip" android:id="@+id/filler2" android:layout_width="wrap_content" android:layout_below="@+id/play" 
-	    android:layout_alignParentLeft="true" android:layout_alignParentRight="true"></TextView>
-	        
-	    <Button android:layout_height="wrap_content" 
-	    android:layout_width="110dip" 
-	    android:id="@+id/songinfo_buy" 
-	    android:text="Buy" 
-	    android:layout_below="@+id/filler2" 
-		android:layout_toLeftOf="@+id/songinfo_albumName"></Button>
-	    
-	    <Button android:layout_height="wrap_content" 
-	    android:layout_width="110dip" 
-	    android:id="@+id/songinfo_watch" 
-	    android:text="Watch" 
-	    android:layout_below="@+id/filler2" 
-	    android:layout_toRightOf="@+id/songinfo_buy"></Button>
-	    
-	    <Button android:layout_height="wrap_content" 
-	    android:layout_width="110dip" 
-	    android:id="@+id/songinfo_add" 
-	    android:text="Add" 
-	    android:layout_below="@+id/songinfo_buy" 
-	    android:layout_toLeftOf="@+id/songinfo_albumName"></Button>
-	    
-	    <Button android:layout_height="wrap_content" 
-	    android:layout_width="110dip" 
-	    android:id="@+id/songinfo_share" 
-	    android:text="Share" 
-	    android:layout_below="@+id/songinfo_buy" 
-	    android:layout_toRightOf="@+id/songinfo_add"></Button>   
-	    
-	    <TextView android:layout_height="fill_parent" 
-	    android:layout_width="fill_parent" 
-	    android:text="Artist's Top Tracks" 
-	    android:id="@+id/songinfo_topTrackTitle"
-	    android:textAppearance="?android:attr/textAppearanceMedium" 
-	    android:layout_below="@+id/songinfo_add" android:gravity="center|top"></TextView>
-	    
-		<LinearLayout android:id="@+id/songinfo_topTracks"
-  		android:orientation="vertical"
-		android:layout_width="fill_parent"
-  		android:layout_height="fill_parent"
-		android:layout_below="@+id/songinfo_topTrackTitle" 
-		android:layout_alignParentRight="true">
-		
-		</LinearLayout>	    		    	
-   
-</RelativeLayout>
+	<LinearLayout android:id="@+id/songinfo_info"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:orientation="vertical">
+
+		<RelativeLayout android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+
+			<ImageView android:layout_width="120dip"
+				android:layout_height="120dip" android:src="@drawable/blankdisc"
+				android:id="@+id/songinfo_coverArt" android:layout_alignParentTop="true"
+				android:layout_alignParentLeft="true" android:layout_marginLeft="18dp"
+				android:layout_marginTop="40dp"></ImageView>
+
+			<TextView android:layout_height="fill_parent"
+				android:layout_width="15dip" android:id="@+id/filler1"
+				android:layout_alignTop="@+id/songinfo_coverArt"
+				android:layout_toRightOf="@+id/songinfo_coverArt"
+				android:layout_alignBottom="@+id/songinfo_playpause"></TextView>
+
+			<TextView android:layout_height="wrap_content" android:id="@+id/songinfo_songName"
+				android:layout_alignTop="@+id/filler1" android:layout_toRightOf="@+id/filler1"
+				android:layout_width="fill_parent" android:gravity="center"
+				android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
+
+			<View android:id="@+id/horizontal_bar1" android:layout_width="fill_parent"
+				android:layout_height="2dip" android:background="#FFFFFFFF"
+				android:layout_below="@+id/songinfo_songName"
+				android:layout_marginRight="10dip" android:layout_marginTop="5dip"
+				android:layout_alignLeft="@+id/by"></View>
+
+			<TextView android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:text="by" android:id="@+id/by"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_below="@+id/horizontal_bar1"
+				android:layout_alignLeft="@+id/songinfo_songName"
+				android:layout_marginTop="5dip"></TextView>
+
+			<TextView android:layout_height="wrap_content"
+				android:layout_width="fill_parent" android:id="@+id/songinfo_artistName"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_marginLeft="5dip" android:layout_marginTop="5dip"
+				android:layout_marginBottom="5dip" android:textStyle="bold"
+				android:layout_below="@+id/horizontal_bar1"
+				android:layout_toRightOf="@+id/by" android:gravity="center"
+				android:layout_alignBottom="@+id/horizontal_bar2"></TextView>
+
+			<View android:id="@+id/horizontal_bar2" android:layout_width="fill_parent"
+				android:layout_height="2dip" android:background="#FFFFFFFF"
+				android:layout_below="@+id/by" android:layout_marginRight="10dip"
+				android:layout_marginTop="10dip" android:layout_alignLeft="@+id/on"></View>
+
+			<TextView android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:text="on" android:id="@+id/on"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_below="@+id/horizontal_bar2"
+				android:layout_toRightOf="@+id/filler1" android:gravity="bottom"
+				android:layout_marginTop="10dip"></TextView>
+
+			<TextView android:id="@+id/songinfo_albumName"
+				android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="fill_parent" android:gravity="center"
+				android:layout_marginTop="5dip" android:layout_marginBottom="5dip"
+				android:textStyle="bold" android:layout_below="@+id/horizontal_bar2"
+				android:layout_toRightOf="@+id/on"></TextView>
+			<ImageView android:src="@drawable/play"
+				android:layout_height="35dip" android:layout_width="35dip"
+				android:id="@+id/songinfo_playpause" android:layout_below="@+id/songinfo_coverArt"
+				android:layout_alignLeft="@+id/songinfo_coverArt"
+				android:layout_marginLeft="42dp"></ImageView>
+
+		</RelativeLayout>
+
+		<RelativeLayout android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+
+			<Button android:layout_height="40dip" android:layout_width="110dip"
+				android:id="@+id/songinfo_buy" android:text="Buy" android:layout_marginTop="40dip" android:layout_marginLeft="60dip"
+				android:layout_toLeftOf="@+id/songinfo_albumName"></Button>
+
+			<Button android:layout_height="40dip" android:layout_width="110dip"
+				android:id="@+id/songinfo_watch" android:text="Watch" android:layout_alignTop="@+id/songinfo_buy"
+				android:layout_toRightOf="@+id/songinfo_buy"></Button>
+
+			<Button android:layout_height="40dip" android:layout_width="110dip"
+				android:id="@+id/songinfo_add" android:text="Add" android:layout_alignLeft="@+id/songinfo_buy"
+				android:layout_below="@+id/songinfo_buy" android:layout_toLeftOf="@+id/songinfo_albumName"></Button>
+
+			<Button android:layout_height="40dip" android:layout_width="110dip"
+				android:id="@+id/songinfo_share" android:text="Share"
+				android:layout_below="@+id/songinfo_buy" android:layout_toRightOf="@+id/songinfo_add"></Button>
+
+			<TextView android:layout_height="fill_parent"
+				android:layout_width="fill_parent" android:text="Artist's Top Tracks"
+				android:id="@+id/songinfo_topTrackTitle" android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_marginTop="20dip"
+				android:gravity="center|top" android:layout_below="@+id/songinfo_add"></TextView>
+
+			<LinearLayout android:id="@+id/songinfo_topTracks"
+				android:orientation="vertical" android:layout_width="fill_parent"
+				android:layout_height="fill_parent" android:layout_below="@+id/songinfo_topTrackTitle"
+				android:layout_alignParentRight="true">
+
+			</LinearLayout>
+		</RelativeLayout>
+
+	</LinearLayout>
 </ScrollView>

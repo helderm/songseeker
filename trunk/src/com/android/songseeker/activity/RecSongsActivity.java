@@ -101,27 +101,34 @@ public class RecSongsActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Song song = adapter.playlist.getSongs().get(position);
 
-		String foreignId;
 		try {
-			foreignId = song.getString("tracks[0].foreign_id");
+			String foreignId = song.getString("tracks[0].foreign_id");
+			String previewURL = song.getString("tracks[0].preview_url");
+			
+	    	SongIdsParcel songIds = new SongIdsParcel();
+	    	SongNamesParcel songNames = new SongNamesParcel();
+	    	ArtistsParcel songArtists = new ArtistsParcel();    	
+			
+	    	songIds.addSongID(foreignId.split(":")[2]);
+	    	songNames.addName(song.getReleaseName());
+	    	songArtists.addArtist(song.getArtistName());
+		
+	    	//add other info from song into the same parcel
+	    	songNames.addName(previewURL);
+	    	
+			Intent i = new Intent(RecSongsActivity.this, SongInfoActivity.class);
+			i.putExtra("songId", songIds); 
+			i.putExtra("songName", songNames);
+			i.putExtra("songArtist", songArtists);  
+			startActivity(i);
 		} catch (IndexOutOfBoundsException e) {
 			Toast.makeText(this, "Unable to retrieve track details!", Toast.LENGTH_SHORT).show();
 			return;
-		}		
-				
-    	SongIdsParcel songIds = new SongIdsParcel();
-    	SongNamesParcel songNames = new SongNamesParcel();
-    	ArtistsParcel songArtists = new ArtistsParcel();    	
-		
-    	songIds.addSongID(foreignId.split(":")[2]);
-    	songNames.addName(song.getReleaseName());
-    	songArtists.addArtist(song.getArtistName());
-	
-		Intent i = new Intent(RecSongsActivity.this, SongInfoActivity.class);
-		i.putExtra("songId", songIds); 
-		i.putExtra("songName", songNames);
-		i.putExtra("songArtist", songArtists);  
-		startActivity(i);
+		} catch (Exception e){
+			Toast.makeText(this, "Unable to retrieve track details!", Toast.LENGTH_SHORT).show();
+			Log.e(Util.APP, e.getMessage(), e);
+			return;
+		}
 	}
 	
 	@Override
@@ -312,7 +319,11 @@ public class RecSongsActivity extends ListActivity {
 		            }
 		        }); 			    
 			    
-			    ImageLoader.getLoader(getCacheDir()).DisplayImage(song.getString("tracks[0].release_image"), coverart, R.drawable.blankdisc);		
+			    try{
+			    	ImageLoader.getLoader(getCacheDir()).DisplayImage(song.getString("tracks[0].release_image"), coverart, R.drawable.blankdisc);
+			    }catch(IndexOutOfBoundsException e){
+			    	Log.w(Util.APP, "Unable to fetch the release image from Echo Nest!");
+			    }
 			}
 			
 			return v;
@@ -381,7 +392,7 @@ public class RecSongsActivity extends ListActivity {
 				previewURL = song[0].getString("tracks[0].preview_url");
 			} catch(Exception e){
 				err = getString(R.string.err_mediaplayer);
-				Log.e(Util.APP, "EchoNest getTrack() exception!", e);
+				Log.e(Util.APP, e.getMessage(), e);
 	    		return null;
 			} catch(NoSuchMethodError e){
 				err = getString(R.string.err_mediaplayer);
