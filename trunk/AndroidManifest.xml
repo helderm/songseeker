@@ -42,7 +42,7 @@
         </activity>
         <activity android:name=".activity.CreatePlaylistYoutubeActivity"
         		  android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.SongInfoActvity"
+        <activity android:name=".activity.SongInfoActivity"
         		  android:screenOrientation="portrait"></activity>
         
 

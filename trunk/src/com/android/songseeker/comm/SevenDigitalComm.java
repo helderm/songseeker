@@ -39,10 +39,9 @@ public class SevenDigitalComm {
 		NodeList fstNm, fstNmElmntLst;
 		
 		SongInfo song = new SongInfo();;
-		String id = trackId.split(":")[2];
-		
+				
 		String urlStr = ENDPOINT + "track/details?";
-		String reqParam = "trackid="+id+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize=175";
+		String reqParam = "trackid="+trackId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize=200";
 		
 		try {
 			//result = Util.sendGetRequest(urlStr, reqParam);
@@ -67,6 +66,9 @@ public class SevenDigitalComm {
 					continue;
 								
 				fstElmnt = (Element) fstNode;
+
+				//get id
+				song.id = fstElmnt.getAttribute("id");
 				
 				//get title
 				fstNmElmntLst = fstElmnt.getElementsByTagName("title");				
@@ -109,13 +111,23 @@ public class SevenDigitalComm {
 				fstNmElmnt = (Element) fstNmElmntLst.item(0);
 				song.artist.id = fstNmElmnt.getAttribute("id");
 				
+				//get artist name
+				fstNmElmntLst = fstElmnt.getElementsByTagName("name");
+				fstNmElmnt = (Element) fstNmElmntLst.item(0);
+				fstNm = fstNmElmnt.getChildNodes();
+				song.artist.name = ((Node) fstNm.item(0)).getNodeValue();
+				
 				//mount buy urls
 				song.release.buyUrl = MOBILE_URL + "releases/" + song.release.id + "?partner=" + PARTNER_ID;
 				song.buyUrl = song.release.buyUrl;
 				song.artist.buyUrl = MOBILE_URL + "artists/" + song.artist.id + "?partner=" + PARTNER_ID;
 			}			
 		}catch(IOException e) {
-			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);		
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	
+		}catch(NullPointerException e){
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+		}catch(ServiceCommException e){
+			throw e;
 		}catch(Exception e){
 			Log.e(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
@@ -132,7 +144,7 @@ public class SevenDigitalComm {
 		NodeList fstNm, fstNmElmntLst;
 		
 		String urlStr = ENDPOINT + "artist/toptracks?";
-		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&&pagesize=5&page=1";
+		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=5&page=1";
 		
 		try {
 			//result = Util.sendGetRequest(urlStr, reqParam);
@@ -159,6 +171,9 @@ public class SevenDigitalComm {
 								
 				fstElmnt = (Element) fstNode;
 				
+				//get id
+				song.id = fstElmnt.getAttribute("id");
+				
 				//get title
 				fstNmElmntLst = fstElmnt.getElementsByTagName("title");				
 				for(int j=0; j<fstNmElmntLst.getLength(); j++){
@@ -200,6 +215,12 @@ public class SevenDigitalComm {
 				fstNmElmnt = (Element) fstNmElmntLst.item(0);
 				song.artist.id = fstNmElmnt.getAttribute("id");
 				
+				//get artist name
+				fstNmElmntLst = fstElmnt.getElementsByTagName("name");
+				fstNmElmnt = (Element) fstNmElmntLst.item(0);
+				fstNm = fstNmElmnt.getChildNodes();
+				song.artist.name = ((Node) fstNm.item(0)).getNodeValue();
+				
 				//mount buy urls
 				song.release.buyUrl = MOBILE_URL + "releases/" + song.release.id + "?partner=" + PARTNER_ID;
 				song.buyUrl = song.release.buyUrl;
@@ -208,16 +229,59 @@ public class SevenDigitalComm {
 				songs.add(song);
 			}			
 		}catch(IOException e) {
-			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);		
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);
+		}catch(NullPointerException e){
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+		}catch(ServiceCommException e){
+			throw e;
 		}catch(Exception e){
 			Log.e(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
-		}
-
-		
+		}		
 		
 		return songs;
 	}
 	
-	
+	public String getPreviewUrl(String trackId) throws ServiceCommException{
+		String previewUrl;
+		
+		Element fstNmElmnt;
+		NodeList fstNmElmntLst;
+		
+		String urlStr = ENDPOINT + "track/preview?";
+		String reqParam = "trackid="+trackId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&redirect=false";
+		
+		try {
+			//result = Util.sendGetRequest(urlStr, reqParam);
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.parse(urlStr+reqParam);
+			doc.getDocumentElement().normalize();
+
+			//check response
+			fstNmElmntLst = doc.getElementsByTagName("response");
+			fstNmElmnt = (Element) fstNmElmntLst.item(0);
+			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
+				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+			}				
+			
+			fstNmElmntLst = doc.getElementsByTagName("url");
+			fstNmElmnt = (Element) fstNmElmntLst.item(0);
+			NodeList fstNm = fstNmElmnt.getChildNodes();
+			previewUrl = ((Node) fstNm.item(0)).getNodeValue();
+			
+		}catch(IOException e) {
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);
+		}catch(NullPointerException e){
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+		}catch(ServiceCommException e){
+			throw e;
+		}catch(Exception e){
+			Log.e(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
+		}	
+		
+		return previewUrl;
+	}
 }
+

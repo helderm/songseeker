@@ -1,18 +1,17 @@
 package com.android.songseeker.util;
 
 import java.io.File;
-import android.content.Context;
 
 public class FileCache {
     
     private File cacheDir;
     
-    public FileCache(Context context){
+    public FileCache(File unmountedCacheDir){
         //Find the dir to save cached images
         if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
             cacheDir=new File(android.os.Environment.getExternalStorageDirectory(),"data/SongSeeker");
         else
-            cacheDir=context.getCacheDir();
+            cacheDir=unmountedCacheDir;
         if(!cacheDir.exists())
             cacheDir.mkdirs();
     }

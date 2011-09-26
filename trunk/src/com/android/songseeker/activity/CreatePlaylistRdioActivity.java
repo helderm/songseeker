@@ -83,11 +83,9 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 	private class RdioPlaylistsAdapter extends BaseAdapter {
 
 		UserPlaylistsData data;
-		public ImageLoader imageLoader; 
-		
+				
 	    public RdioPlaylistsAdapter() {	 
-	    	data = null;
-	    	imageLoader=new ImageLoader(getApplicationContext());
+	    	data = null;	    	
 	    }
 		
 		//@Override
@@ -131,7 +129,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		    }else{			    
 			    bt.setText(data.getPlaylistNumSongs(position-1)+" songs");
 			    tt.setText(data.getPlaylistName(position-1));
-			    imageLoader.DisplayImage(data.getPlaylistImage(position-1), CreatePlaylistRdioActivity.this, img, R.drawable.plus2);
+			    ImageLoader.getLoader(getCacheDir()).DisplayImage(data.getPlaylistImage(position-1), img, R.drawable.plus2);
 		    }		
 						
 			return v;
@@ -218,14 +216,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 			return null;
 		}
 	}
-	
-	@Override
-	protected void onDestroy() {
-		adapter.imageLoader.stopThread();
-		adapter.imageLoader.clearCache();
-		super.onDestroy();		
-	}
-	
+		
 	private class RequestAuthorizeTask extends AsyncTask<Void, Void, Boolean>{
 		private String err = null;
 		

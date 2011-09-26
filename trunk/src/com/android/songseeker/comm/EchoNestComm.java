@@ -49,7 +49,10 @@ public class EchoNestComm {
 				case -1:
 					tries++;
 					if(tries > MAX_WS_RETRIES){
-						throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
+						if(e.getMessage().contains("java.io.IOException"))
+							throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.IO);
+						else
+							throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
 					}
 					
 					try {

@@ -90,10 +90,19 @@
 	    android:layout_below="@+id/songinfo_buy" 
 	    android:layout_toRightOf="@+id/songinfo_add"></Button>   
 	    
+	    <TextView android:layout_height="fill_parent" 
+	    android:layout_width="fill_parent" 
+	    android:text="Artist's Top Tracks" 
+	    android:id="@+id/songinfo_topTrackTitle"
+	    android:textAppearance="?android:attr/textAppearanceMedium" 
+	    android:layout_below="@+id/songinfo_add" android:gravity="center|top"></TextView>
+	    
 		<LinearLayout android:id="@+id/songinfo_topTracks"
-		android:layout_height="wrap_content" 
-	    android:layout_width="wrap_content"
-		android:layout_below="@+id/songinfo_add" >
+  		android:orientation="vertical"
+		android:layout_width="fill_parent"
+  		android:layout_height="fill_parent"
+		android:layout_below="@+id/songinfo_topTrackTitle" 
+		android:layout_alignParentRight="true">
 		
 		</LinearLayout>	    		    	
    

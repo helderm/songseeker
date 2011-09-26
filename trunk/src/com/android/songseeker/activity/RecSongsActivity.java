@@ -89,8 +89,8 @@ public class RecSongsActivity extends ListActivity {
 	
 	@Override
 	protected void onDestroy() {
-		adapter.imageLoader.stopThread();
-		adapter.imageLoader.clearCache();
+		ImageLoader.getLoader(getCacheDir()).stopThread();
+		ImageLoader.getLoader(getCacheDir()).clearCache();
 		//dismissDialog(PROGRESS_DIAG);
 		
 		//Debug.stopMethodTracing();
@@ -113,12 +113,12 @@ public class RecSongsActivity extends ListActivity {
     	SongNamesParcel songNames = new SongNamesParcel();
     	ArtistsParcel songArtists = new ArtistsParcel();    	
 		
-    	songIds.addSongID(foreignId);
+    	songIds.addSongID(foreignId.split(":")[2]);
     	songNames.addName(song.getReleaseName());
     	songArtists.addArtist(song.getArtistName());
 	
 		Intent i = new Intent(RecSongsActivity.this, SongInfoActivity.class);
-		i.putExtra("songId", songIds);
+		i.putExtra("songId", songIds); 
 		i.putExtra("songName", songNames);
 		i.putExtra("songArtist", songArtists);  
 		startActivity(i);
@@ -242,14 +242,11 @@ public class RecSongsActivity extends ListActivity {
 	
 	    private Playlist playlist;	    
 	    private int nowPlayingID;
-	    public ImageLoader imageLoader; 
-	    
 	    public static final int NOT_PLAYING = -1;
 	    
 	    public RecSongsAdapter() {    
 	    	playlist = null;
 	    	nowPlayingID = NOT_PLAYING;
-	    	imageLoader=new ImageLoader(getApplicationContext());
 	    }
 	
 	    public int getCount() {
@@ -308,14 +305,14 @@ public class RecSongsActivity extends ListActivity {
 			    	playpause.setImageResource(R.drawable.pause);
 			    else
 			    	playpause.setImageResource(R.drawable.play);
+
 			    playpause.setOnClickListener(new View.OnClickListener() {
 		            public void onClick(View v) {
 		            	playPausePreview(pos);
 		            }
 		        }); 			    
 			    
-			    imageLoader.DisplayImage(song.getString("tracks[0].release_image"), 
-			    		RecSongsActivity.this, coverart, R.drawable.blankdisc);		
+			    ImageLoader.getLoader(getCacheDir()).DisplayImage(song.getString("tracks[0].release_image"), coverart, R.drawable.blankdisc);		
 			}
 			
 			return v;
@@ -458,13 +455,14 @@ public class RecSongsActivity extends ListActivity {
     	Song song = adapter.getItem(position);
 
     	if(song == null || adapter.isPlaying(position)){
-
+    		//pause preview
     		mp_task.cancel(true);
     		MediaPlayerController.getCon().stop();
     		adapter.setNowPlaying(RecSongsAdapter.NOT_PLAYING);
     		return;
     	}
 
+    	//play preview
     	MediaPlayerController.getCon().stop();
 
     	mp_task.cancel(true);

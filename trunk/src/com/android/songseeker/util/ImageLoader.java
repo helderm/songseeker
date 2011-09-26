@@ -14,27 +14,35 @@ import java.util.Stack;
 import java.util.WeakHashMap;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
 public class ImageLoader {
+	
+	private static ImageLoader loader = new ImageLoader();
     
-    MemoryCache memoryCache=new MemoryCache();
-    FileCache fileCache;
-    private Map<ImageView, String> imageViews=Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
+	private static MemoryCache memoryCache = new MemoryCache();
+	private static PhotosQueue photosQueue = loader.new PhotosQueue();
+	private static FileCache fileCache = null;
     
-    public ImageLoader(Context context){
-        //Make the background thead low priority. This way it will not affect the UI performance
-        photoLoaderThread.setPriority(Thread.NORM_PRIORITY-1);
-        
-        fileCache=new FileCache(context);
-    }
+    private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
+    private static PhotosLoader photoLoaderThread = null;
+    int stub_id;    
     
-    int stub_id;
-    public void DisplayImage(String url, Activity activity, ImageView imageView, int stubid)
-    {
+	private ImageLoader(){}
+	
+	public static ImageLoader getLoader(File unmountedCacheDir){
+		if(fileCache == null)
+			fileCache = new FileCache(unmountedCacheDir);
+		
+		if(photoLoaderThread == null)
+			photoLoaderThread = loader.new PhotosLoader();
+		
+		return loader;
+	}
+	
+    public void DisplayImage(String url, ImageView imageView, int stubid){
         stub_id = stubid;
     	imageViews.put(imageView, url);
         Bitmap bitmap=memoryCache.get(url);
@@ -42,12 +50,14 @@ public class ImageLoader {
             imageView.setImageBitmap(bitmap);
         else
         {
-            queuePhoto(url, activity, imageView);
+            if(url != null)
+            	queuePhoto(url, imageView);
+            
             imageView.setImageResource(stub_id);
         }    
     }
         
-    private void queuePhoto(String url, Activity activity, ImageView imageView)
+    private void queuePhoto(String url, ImageView imageView)
     {
         //This ImageView may be used for other images before. So there may be some old tasks in the queue. We need to discard them. 
         photosQueue.Clean(imageView);
@@ -58,8 +68,10 @@ public class ImageLoader {
         }
         
         //start thread if it's not started yet
-        if(photoLoaderThread.getState()==Thread.State.NEW)
-            photoLoaderThread.start();
+        if(photoLoaderThread.getState()==Thread.State.NEW ||
+        	photoLoaderThread.getState()==Thread.State.TERMINATED)
+            
+        	photoLoaderThread.start();
     }
     
     private Bitmap getBitmap(String url) 
@@ -129,11 +141,10 @@ public class ImageLoader {
         }
     }
     
-    PhotosQueue photosQueue=new PhotosQueue();
-    
     public void stopThread()
     {
         photoLoaderThread.interrupt();
+        photoLoaderThread = null;
     }
     
     //stores list of photos to download
@@ -186,8 +197,6 @@ public class ImageLoader {
             }
         }
     }
-    
-    PhotosLoader photoLoaderThread=new PhotosLoader();
     
     //Used to display bitmap in the UI thread
     class BitmapDisplayer implements Runnable
