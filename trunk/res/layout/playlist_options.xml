@@ -1,106 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent" 
-  android:weightSum="1"
-  android:fillViewport="true">
- 	
-  <TextView 
-  	android:layout_height="wrap_content"
-  	android:id="@+id/label_mood" 
-  	android:text="@string/mood_str" 
-  	android:layout_width="fill_parent" android:layout_weight="0.11" android:layout_gravity="center" android:gravity="center"></TextView>	
-  	
-  <SeekBar 
-  	android:layout_height="wrap_content" 
-  	android:id="@+id/seekBar_mood" 
-  	android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
-    
-  <TextView 
-  	android:layout_weight="0.11" 
-  	android:layout_height="wrap_content" 
-  	android:id="@+id/label_tempo" 
-  	android:text="@string/tempo_str"  	
-  	android:layout_width="fill_parent" android:layout_gravity="center" android:gravity="center"></TextView>
-    
-  <SeekBar 
-  	android:layout_height="wrap_content" 
-  	android:id="@+id/seekBar_tempo" 
-  	android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
-  	
-  <TextView 
-  	android:layout_weight="0.11" 
-  	android:layout_height="wrap_content" 
-  	android:id="@+id/label_danceability"
-  	android:text="@string/danceability_str" 
-  	android:layout_width="fill_parent" android:layout_gravity="center" android:gravity="center"></TextView>
-  		
-  <SeekBar
-  	android:layout_height="wrap_content" 
-  	android:id="@+id/seekBar_danceability" 
-  	android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
-  	
-  <TextView 
-  	android:layout_weight="0.11" 
-  	android:layout_height="wrap_content" 
-  	android:id="@+id/label_energy" 
-    android:text="@string/energy_str"  	
-  	android:layout_width="fill_parent" android:layout_gravity="center" android:gravity="center"></TextView>
-  
-  <SeekBar 
-  	android:layout_height="wrap_content" 
-  	android:id="@+id/seekBar_energy" 
-  	android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
-    
-  <TextView 
-  	android:layout_weight="0.11" 
-  	android:layout_height="wrap_content" 
-  	android:id="@+id/label_hotness"
-  	android:text="@string/hotness_str" 
-  	android:layout_width="fill_parent" android:layout_gravity="center" android:gravity="center"></TextView> 
-    
-  <SeekBar 
-  	android:layout_height="wrap_content" 
-  	android:id="@+id/seekBar_hotness" 
-  	android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
-  	
-  <TextView 
-  	android:layout_weight="0.11" 
-  	android:layout_height="wrap_content" 
-  	android:id="@+id/label_variety"
-  	android:text="@string/variety_str" 
-  	android:layout_width="fill_parent" android:layout_gravity="center" android:gravity="center"></TextView> 
-    
-  <SeekBar 
-  	android:layout_height="wrap_content" 
-  	android:id="@+id/seekBar_variety" 
-  	android:layout_width="236dp" android:layout_gravity="center"></SeekBar>  	
 
-   <TextView 
-  	android:layout_weight="0.11" 
-  	android:layout_height="wrap_content" 
-  	android:id="@+id/label_max_results"
-  	android:text="@string/max_results_str" 
-  	android:layout_width="fill_parent" android:layout_gravity="center" android:gravity="center"></TextView> 
-    
-  <SeekBar 
-  	android:layout_height="wrap_content" 
-  	android:id="@+id/seekBar_max_results" 
-  	android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
-  
-  <TextView 
-  	android:layout_height="wrap_content" 
-  	android:text="" 
-  	android:layout_width="fill_parent" android:layout_weight="0.1"></TextView>
- 
-  <Button 
-  	android:layout_height="wrap_content" 
-  	android:id="@+id/shuffle_pl_options" 
-  	android:text="@string/shuffle_str" 
-  	android:layout_weight="0.04" 
-  	android:layout_width="117dp" 
-  	android:layout_gravity="center"></Button>
-    
-</LinearLayout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent" android:layout_width="fill_parent">
+
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:weightSum="1" android:fillViewport="true">
+
+		<TextView android:layout_height="wrap_content" android:id="@+id/label_mood"
+			android:text="@string/mood_str" android:layout_width="fill_parent"
+			android:layout_weight="0.11" android:layout_gravity="center"
+			android:gravity="center"></TextView>
+
+		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar_mood"
+			android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
+
+		<TextView android:layout_weight="0.11" android:layout_height="wrap_content"
+			android:id="@+id/label_tempo" android:text="@string/tempo_str"
+			android:layout_width="fill_parent" android:layout_gravity="center"
+			android:gravity="center"></TextView>
+
+		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar_tempo"
+			android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
+
+		<TextView android:layout_weight="0.11" android:layout_height="wrap_content"
+			android:id="@+id/label_danceability" android:text="@string/danceability_str"
+			android:layout_width="fill_parent" android:layout_gravity="center"
+			android:gravity="center"></TextView>
+
+		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar_danceability"
+			android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
+
+		<TextView android:layout_weight="0.11" android:layout_height="wrap_content"
+			android:id="@+id/label_energy" android:text="@string/energy_str"
+			android:layout_width="fill_parent" android:layout_gravity="center"
+			android:gravity="center"></TextView>
+
+		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar_energy"
+			android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
+
+		<TextView android:layout_weight="0.11" android:layout_height="wrap_content"
+			android:id="@+id/label_hotness" android:text="@string/hotness_str"
+			android:layout_width="fill_parent" android:layout_gravity="center"
+			android:gravity="center"></TextView>
+
+		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar_hotness"
+			android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
+
+		<TextView android:layout_weight="0.11" android:layout_height="wrap_content"
+			android:id="@+id/label_variety" android:text="@string/variety_str"
+			android:layout_width="fill_parent" android:layout_gravity="center"
+			android:gravity="center"></TextView>
+
+		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar_variety"
+			android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
+
+		<TextView android:layout_weight="0.11" android:layout_height="wrap_content"
+			android:id="@+id/label_max_results" android:text="@string/max_results_str"
+			android:layout_width="fill_parent" android:layout_gravity="center"
+			android:gravity="center"></TextView>
+
+		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar_max_results"
+			android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
+
+		<TextView android:layout_height="wrap_content" android:text=""
+			android:layout_width="fill_parent" android:layout_weight="0.1"></TextView>
+
+		<Button android:layout_height="wrap_content" android:id="@+id/shuffle_pl_options"
+			android:text="@string/shuffle_str" android:layout_weight="0.04"
+			android:layout_width="117dp" android:layout_gravity="center"></Button>
+
+	</LinearLayout>
+</ScrollView>
