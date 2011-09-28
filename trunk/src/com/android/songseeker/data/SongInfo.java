@@ -6,6 +6,7 @@ public class SongInfo {
 	public String buyUrl;
 	public String duration;
 	public String id;
+	public String previewUrl;
 	
 	public ArtistInfo artist;
 	public ReleaseInfo release;	

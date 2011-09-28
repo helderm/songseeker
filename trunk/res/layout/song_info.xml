@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<!--  <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:fillViewport="true">
+	android:fillViewport="true">-->
 
-	<LinearLayout android:id="@+id/songinfo_info"
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/songinfo_info"
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
 		android:orientation="vertical">
 
@@ -66,7 +66,7 @@
 				android:layout_marginTop="5dip" android:layout_marginBottom="5dip"
 				android:textStyle="bold" android:layout_below="@+id/horizontal_bar2"
 				android:layout_toRightOf="@+id/on"></TextView>
-		
+
 			<ImageView android:src="@drawable/play"
 				android:layout_height="35dip" android:layout_width="35dip"
 				android:id="@+id/songinfo_playpause" android:layout_below="@+id/songinfo_coverArt"
@@ -76,11 +76,11 @@
 		</RelativeLayout>
 
 		<RelativeLayout android:layout_width="fill_parent"
-			android:layout_height="fill_parent">
+			android:layout_height="wrap_content">
 
 			<Button android:layout_height="40dip" android:layout_width="110dip"
 				android:id="@+id/songinfo_buy" android:text="Buy"
-				android:layout_marginTop="40dip" android:layout_marginLeft="60dip"
+				android:layout_marginTop="30dip" android:layout_marginLeft="60dip"
 				android:layout_toLeftOf="@+id/songinfo_albumName"></Button>
 
 			<Button android:layout_height="40dip" android:layout_width="110dip"
@@ -97,19 +97,21 @@
 				android:id="@+id/songinfo_share" android:text="Share"
 				android:layout_below="@+id/songinfo_buy" android:layout_toRightOf="@+id/songinfo_add"></Button>
 
-			<TextView android:layout_height="fill_parent"
+			<TextView android:layout_height="wrap_content"
 				android:layout_width="fill_parent" android:text="Artist's Top Tracks"
 				android:id="@+id/songinfo_topTrackTitle" android:textAppearance="?android:attr/textAppearanceMedium"
 				android:layout_marginTop="20dip" android:gravity="center|top"
 				android:layout_below="@+id/songinfo_add"></TextView>
 
-			<LinearLayout android:id="@+id/songinfo_topTracks"
-				android:orientation="vertical" android:layout_width="fill_parent"
-				android:layout_height="fill_parent" android:layout_below="@+id/songinfo_topTrackTitle"
-				android:layout_alignParentRight="true">
-
-			</LinearLayout>
+			<!-- <LinearLayout android:id="@+id/songinfo_topTracks" android:orientation="vertical" 
+				android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@+id/songinfo_topTrackTitle" 
+				android:layout_alignParentRight="true"> </LinearLayout> -->
 		</RelativeLayout>
 
+		<!-- <include layout="@layout/rec_songs_list" android:id="@+id/songinfo_topTracks"/> 
+		<ListView android:id="@+id/android:list"
+			android:layout_width="fill_parent" android:layout_height="fill_parent" />-->
+
+
 	</LinearLayout>
-</ScrollView>
+<!-- </ScrollView> -->

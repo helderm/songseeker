@@ -99,7 +99,7 @@ public class RecSongsActivity extends ListActivity {
 	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Song song = adapter.playlist.getSongs().get(position);
+		Song song = adapter.getItem(position);
 
 		try {
 			String foreignId = song.getString("tracks[0].foreign_id");
