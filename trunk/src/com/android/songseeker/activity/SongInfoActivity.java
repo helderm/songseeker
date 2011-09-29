@@ -18,8 +18,6 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -64,6 +62,12 @@ public class SongInfoActivity extends ListActivity {
 		default:
 			return null;		    	
 		}
+	}
+	
+	@Override
+	protected void onPause() {
+		MediaPlayerController.getCon().release();
+		super.onPause();
 	}
 
 	private class GetSongDetails extends AsyncTask<Void, Void, Void>{
@@ -128,17 +132,15 @@ public class SongInfoActivity extends ListActivity {
 			ImageView playpause = (ImageView) header.findViewById(R.id.songinfo_playpause);
 			playpause.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					playPausePreview(song);
+					mp_task.cancel(true);
+					mp_task = new StartMediaPlayerTask();
+					mp_task.icon = (ImageView) v;
+					mp_task.execute(song);
 				}
 			}); 
 
-			getListView().addHeaderView(header);
-
-			//set adapter for top tracks
-			SongInfoActivity.this.setListAdapter(adapter); 	
-
 			//set buy button
-			Button buy = (Button)findViewById(R.id.songinfo_buy);
+			Button buy = (Button)header.findViewById(R.id.songinfo_buy);
 			buy.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(song.buyUrl));
@@ -148,25 +150,26 @@ public class SongInfoActivity extends ListActivity {
 			});
 
 			//set album name
-			TextView tvAlbumName = (TextView) findViewById(R.id.songinfo_albumName);
+			TextView tvAlbumName = (TextView) header.findViewById(R.id.songinfo_albumName);
 			tvAlbumName.setText(song.release.name);
 
 			//set image
-			ImageView coverart = (ImageView) findViewById(R.id.songinfo_coverArt);
-			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.blankdisc);			    
+			ImageView coverart = (ImageView) header.findViewById(R.id.songinfo_coverArt);
+			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.blankdisc);
+			
+			getListView().addHeaderView(header);
+
+			//set adapter for top tracks
+			SongInfoActivity.this.setListAdapter(adapter); 	
 		}		
 	}	
 
 	private class TopTracksAdapter extends BaseAdapter {
 
 		private ArrayList<SongInfo> topTracks;    
-		private int nowPlayingID;
-		public static final int NOT_PLAYING = -1;
-		public static final int PLAYING_OWN_SONG = -2;
 
 		public TopTracksAdapter() {    
 			topTracks = null;
-			nowPlayingID = NOT_PLAYING;
 		}
 
 		public int getCount() {
@@ -208,14 +211,12 @@ public class SongInfoActivity extends ListActivity {
 				bt.setText(song.release.name);
 				tt.setText(song.name);
 
-				if(nowPlayingID == position)
-					playpause.setImageResource(R.drawable.pause);
-				else
-					playpause.setImageResource(R.drawable.play);
-
 				playpause.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						playPausePreview(song);
+						mp_task.cancel(true);
+						mp_task = new StartMediaPlayerTask();
+						mp_task.icon = (ImageView) v;
+						mp_task.execute(song);
 					}
 				}); 			    
 
@@ -230,43 +231,11 @@ public class SongInfoActivity extends ListActivity {
 			this.topTracks = tp;
 			//notifyDataSetChanged();
 		}
-
-		public void setNowPlaying(int position){			
-			
-			nowPlayingID = position;
-			notifyDataSetChanged();
-		}
-		
-		public void setNowPlaying(SongInfo song){
-			int i;
-			
-			for(i=0; i<topTracks.size(); i++){
-				if(topTracks.get(i).id.equalsIgnoreCase(song.id))
-					break;
-			}
-			
-			nowPlayingID = i;
-			notifyDataSetChanged();
-		}
-
-		public boolean isPlaying(SongInfo song){
-			int i;
-			
-			for(i=0; i<topTracks.size(); i++){
-				if(topTracks.get(i).id.equalsIgnoreCase(song.id))
-					break;
-			}
-			
-			if(nowPlayingID == i)
-				return true;
-
-			return false;
-		}
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		SongInfo si = adapter.getItem(position);
+		SongInfo si = adapter.getItem(position-1);
 
 		SongIdsParcel songIds = new SongIdsParcel();
 		SongNamesParcel songNames = new SongNamesParcel();
@@ -283,17 +252,18 @@ public class SongInfoActivity extends ListActivity {
 		startActivity(i);
 	}
 
-	private class StartMediaPlayerTask extends AsyncTask<SongInfo, Void, Void> implements OnCompletionListener{
+	private class StartMediaPlayerTask extends AsyncTask<SongInfo, Void, SongInfo>{
 		private String err = null;
+		public ImageView icon = null;
 
 		@Override
-		protected Void doInBackground(SongInfo... song) {
+		protected SongInfo doInBackground(SongInfo... song) {
 
 
 			if(isCancelled())
 				return null;
 
-			MediaPlayerController.getCon().setOnCompletionListener(this);
+			//MediaPlayerController.getCon().setOnCompletionListener(this);
 
 			if(song[0].previewUrl == null){
 				
@@ -301,62 +271,24 @@ public class SongInfoActivity extends ListActivity {
 					song[0].previewUrl = SevenDigitalComm.getComm().getPreviewUrl(song[0].id);
 				} catch(Exception e){
 					err = getString(R.string.err_mediaplayer);
-					Log.e(Util.APP, "EchoNest getTrack() exception!", e);
+					Log.e(Util.APP, "7digital getPreviewUrl() exception!", e);
 					return null;
-				} catch(NoSuchMethodError e){
-					err = getString(R.string.err_mediaplayer);
-					Log.e(Util.APP, "EchoNest getTrack() error!", e);
-					return null;
-				}
+				} 
 			}
 
-			if(isCancelled())
-				return null;
-
-			try {
-				MediaPlayerController.getCon().resetAndStart(song[0].previewUrl);
-			} catch (Exception e) {
-				err = getString(R.string.err_mediaplayer);
-				Log.e(Util.APP, "media player exception!", e);
-				return null;
-			} 
-
-			return null;
+			return song[0];
 		}
 
 		@Override
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(SongInfo song) {
 			if(err != null){
 				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_LONG).show();
-
 				err = null;
-				adapter.setNowPlaying(TopTracksAdapter.NOT_PLAYING);
 				return;
-			}			
+			}	
+			
+			if(!isCancelled())
+				MediaPlayerController.getCon().startStopMedia(song.previewUrl, icon);
 		}
-
-		public void onCompletion(MediaPlayer mp) {
-			adapter.setNowPlaying(TopTracksAdapter.NOT_PLAYING);			
-		}		
 	}	
-
-	private void playPausePreview(SongInfo song){
-		//SongInfo song = adapter.getItem(position);
-
-		if(song == null || adapter.isPlaying(song)){
-			//pause preview
-			mp_task.cancel(true);
-			MediaPlayerController.getCon().stop();
-			adapter.setNowPlaying(TopTracksAdapter.NOT_PLAYING);
-			return;
-		}
-
-		//play preview
-		MediaPlayerController.getCon().stop();
-
-		mp_task.cancel(true);
-		mp_task = new StartMediaPlayerTask();
-		adapter.setNowPlaying(song);
-		mp_task.execute(song);
-	}
 }

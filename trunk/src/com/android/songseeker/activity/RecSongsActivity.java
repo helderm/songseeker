@@ -23,8 +23,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 //import android.os.Debug;
@@ -47,8 +45,6 @@ public class RecSongsActivity extends ListActivity {
 	private final int EXPORT_DIAG = 1;
 	
 	private RecSongsAdapter adapter;
-		
-	private StartMediaPlayerTask mp_task = new StartMediaPlayerTask();
 	private Toast toast;
 	
 	
@@ -76,14 +72,8 @@ public class RecSongsActivity extends ListActivity {
 	}
 	
 	@Override
-	protected void onResume() {        
-        super.onResume();
-	}
-	
-	@Override
 	protected void onPause() {
 		MediaPlayerController.getCon().release();
-		adapter.setNowPlaying(RecSongsAdapter.NOT_PLAYING);
 		super.onPause();
 	}
 	
@@ -248,12 +238,9 @@ public class RecSongsActivity extends ListActivity {
 	private class RecSongsAdapter extends BaseAdapter {
 	
 	    private Playlist playlist;	    
-	    private int nowPlayingID;
-	    public static final int NOT_PLAYING = -1;
 	    
 	    public RecSongsAdapter() {    
 	    	playlist = null;
-	    	nowPlayingID = NOT_PLAYING;
 	    }
 	
 	    public int getCount() {
@@ -271,18 +258,6 @@ public class RecSongsActivity extends ListActivity {
 	        return position;
 	    }
 	
-	    public void setNowPlaying(int position){
-	    	nowPlayingID = position;
-	    	notifyDataSetChanged();
-	    }
-	    
-	    public boolean isPlaying(int position){
-	    	if(nowPlayingID == position)
-	    		return true;
-	    	
-	    	return false;
-	    }
-	    
 	    /*public class ViewHolder{
 	    	public TextView username;
 	    	public TextView message;
@@ -291,14 +266,13 @@ public class RecSongsActivity extends ListActivity {
 	    
 	    public View getView(int position, View convertView, ViewGroup parent) {
 			View v = convertView;
-			final int pos = position;
 			
 			if (v == null) {
 			    LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			    v = vi.inflate(R.layout.rec_song_row, null);
 			}
 			 
-			Song song = getItem(position);
+			final Song song = getItem(position);
 			if (song != null) {
 				TextView tt = (TextView) v.findViewById(R.id.recsong_firstLine);
 			    TextView bt = (TextView) v.findViewById(R.id.recsong_secondLine);
@@ -307,15 +281,15 @@ public class RecSongsActivity extends ListActivity {
 			    
 			    bt.setText(song.getArtistName());
 			    tt.setText(song.getReleaseName());
-			    
-			    if(nowPlayingID == position)
-			    	playpause.setImageResource(R.drawable.pause);
-			    else
-			    	playpause.setImageResource(R.drawable.play);
 
 			    playpause.setOnClickListener(new View.OnClickListener() {
-		            public void onClick(View v) {
-		            	playPausePreview(pos);
+		            public void onClick(View v) {		            	
+		            	try{
+		            		String previewUrl = song.getString("tracks[0].preview_url");
+		            		MediaPlayerController.getCon().startStopMedia(previewUrl, (ImageView)v);
+		            	}catch(IndexOutOfBoundsException e){
+		            		Log.w(Util.APP, "Preview Url for song ["+song.getReleaseName()+" - "+song.getArtistName()+"] not found!", e);
+		            	}		            	
 		            }
 		        }); 			    
 			    
@@ -374,63 +348,7 @@ public class RecSongsActivity extends ListActivity {
 			adapter.setPlaylist(result);			
 		}		
 	}
-	
-	private class StartMediaPlayerTask extends AsyncTask<Song, Void, Void> implements OnCompletionListener{
-		private String err = null;
-		
-		@Override
-		protected Void doInBackground(Song... song) {
-			
-			String previewURL = null;
-			
-			if(isCancelled())
-				return null;
-				
-			MediaPlayerController.getCon().setOnCompletionListener(this);
-			
-			try{				
-				previewURL = song[0].getString("tracks[0].preview_url");
-			} catch(Exception e){
-				err = getString(R.string.err_mediaplayer);
-				Log.e(Util.APP, e.getMessage(), e);
-	    		return null;
-			} catch(NoSuchMethodError e){
-				err = getString(R.string.err_mediaplayer);
-				Log.e(Util.APP, "EchoNest getTrack() error!", e);
-				return null;
-			}
 
-			if(isCancelled())
-				return null;
-			
-			try {
-				MediaPlayerController.getCon().resetAndStart(previewURL);
-			} catch (Exception e) {
-				err = getString(R.string.err_mediaplayer);
-				Log.e(Util.APP, "media player exception!", e);
-				return null;
-			} 
-			
-			return null;
-		}
-		
-		@Override
-		protected void onPostExecute(Void result) {
-			if(err != null){
-				toast = Toast.makeText(getApplicationContext(), err, Toast.LENGTH_LONG);
-	    		toast.show();        		
-	    		
-	    		err = null;
-	    		adapter.setNowPlaying(RecSongsAdapter.NOT_PLAYING);
-	    		return;
-    		}			
-		}
-
-		public void onCompletion(MediaPlayer mp) {
-			adapter.setNowPlaying(RecSongsAdapter.NOT_PLAYING);			
-		}		
-	}	
-	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -461,27 +379,6 @@ public class RecSongsActivity extends ListActivity {
             return super.onOptionsItemSelected(item);
         }
     }
-    
-    private void playPausePreview(int position){
-    	Song song = adapter.getItem(position);
-
-    	if(song == null || adapter.isPlaying(position)){
-    		//pause preview
-    		mp_task.cancel(true);
-    		MediaPlayerController.getCon().stop();
-    		adapter.setNowPlaying(RecSongsAdapter.NOT_PLAYING);
-    		return;
-    	}
-
-    	//play preview
-    	MediaPlayerController.getCon().stop();
-
-    	mp_task.cancel(true);
-    	mp_task = new StartMediaPlayerTask();
-    	adapter.setNowPlaying(position);
-    	mp_task.execute(song);
-    }
-
 }
 
 

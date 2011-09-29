@@ -34,6 +34,7 @@
 
 <ImageView
         android:id="@+id/recsong_playpause"
+        android:src="@drawable/play"
         android:layout_width="40dip"
         android:layout_height="40dip"
 		android:layout_alignParentRight="true"
