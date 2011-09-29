@@ -259,7 +259,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		@Override
 		protected void onPreExecute() {
 			showDialog(FETCH_SONG_IDS_DIAG);
-			fetchSongIdsDiag.setMax(sl.getSongIDs().size());
+			fetchSongIdsDiag.setMax(sl.getIds().size());
 		}
 		
 		@Override
@@ -280,7 +280,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 			List<String> songIDs = new ArrayList<String>();
 					
 			int count = 0;
-			for(String id : sl.getSongIDs()){
+			for(String id : sl.getIds()){
 				Song song = null;
 				SongParams sp = new SongParams();
 				sp.setID(id);

@@ -86,8 +86,8 @@ public class SongInfoActivity extends ListActivity {
 			IdsParcel songIdParcel = getIntent().getExtras().getParcelable("songId");			
 
 			try{
-				song = SevenDigitalComm.getComm().querySongDetails(songIdParcel.getSongIDs().get(0));
-				topTracks = SevenDigitalComm.getComm().queryArtistTopTracks(song.artist.id);
+				song = SevenDigitalComm.getComm().querySongDetails(songIdParcel.getIds().get(0));
+				topTracks = SevenDigitalComm.getComm().queryArtistTopTracks(song.release.artist.id);
 			}catch(ServiceCommException e){
 				err = e.getMessage();		
 				return null;
@@ -152,6 +152,15 @@ public class SongInfoActivity extends ListActivity {
 			//set album name
 			TextView tvAlbumName = (TextView) header.findViewById(R.id.songinfo_albumName);
 			tvAlbumName.setText(song.release.name);
+			tvAlbumName.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					IdsParcel releaseId = new IdsParcel();
+					releaseId.addId(song.release.id);					
+					Intent i = new Intent(SongInfoActivity.this, ReleaseInfoActivity.class);
+					i.putExtra("releaseId", releaseId);
+					startActivity(i);
+				}
+			});
 
 			//set image
 			ImageView coverart = (ImageView) header.findViewById(R.id.songinfo_coverArt);
@@ -241,9 +250,9 @@ public class SongInfoActivity extends ListActivity {
 		SongNamesParcel songNames = new SongNamesParcel();
 		ArtistsParcel songArtists = new ArtistsParcel();    	
 
-		songIds.addSongID(si.id);
+		songIds.addId(si.id);
 		songNames.addName(si.name);
-		songArtists.addArtist(si.artist.name);
+		songArtists.addArtist(si.release.artist.name);
 
 		Intent i = new Intent(SongInfoActivity.this, SongInfoActivity.class);
 		i.putExtra("songId", songIds);

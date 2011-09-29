@@ -12,8 +12,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.apache.http.ProtocolException;
-
 public class Util {
 
 	public static final String APP = "SongSeeker";

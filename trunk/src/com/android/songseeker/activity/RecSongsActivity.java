@@ -99,7 +99,7 @@ public class RecSongsActivity extends ListActivity {
 	    	SongNamesParcel songNames = new SongNamesParcel();
 	    	ArtistsParcel songArtists = new ArtistsParcel();    	
 			
-	    	songIds.addSongID(foreignId.split(":")[2]);
+	    	songIds.addId(foreignId.split(":")[2]);
 	    	songNames.addName(song.getReleaseName());
 	    	songArtists.addArtist(song.getArtistName());
 		
@@ -144,7 +144,7 @@ public class RecSongsActivity extends ListActivity {
 			    	ArtistsParcel songArtists = new ArtistsParcel();
 			    	
 					for(Song song : adapter.playlist.getSongs()){
-						songIds.addSongID(song.getID());
+						songIds.addId(song.getID());
 						songNames.addName(song.getReleaseName());
 						songArtists.addArtist(song.getArtistName());
 					}

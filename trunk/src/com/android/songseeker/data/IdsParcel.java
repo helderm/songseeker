@@ -6,16 +6,16 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class IdsParcel implements Parcelable{
-	private ArrayList<String> songIDs = new ArrayList<String>();
+	private ArrayList<String> ids = new ArrayList<String>();
 
 	public IdsParcel(){;}
 	
-	public void addSongID(String id) {
-		songIDs.add(id);
+	public void addId(String id) {
+		ids.add(id);
 	}
 
-	public ArrayList<String> getSongIDs() {
-		return songIDs;
+	public ArrayList<String> getIds() {
+		return ids;
 	}
 
 	//@Override
@@ -26,7 +26,7 @@ public class IdsParcel implements Parcelable{
 
 	//@Override
 	public void writeToParcel(Parcel out, int flags) {		
-		out.writeList(songIDs);
+		out.writeList(ids);
 	}
 
     public static final Parcelable.Creator<IdsParcel> CREATOR
@@ -41,7 +41,7 @@ public class IdsParcel implements Parcelable{
     };
     
     private IdsParcel(Parcel in) {
-    	in.readList(songIDs, null);
+    	in.readList(ids, null);
     	//mData = in.readInt();
     }
 	
