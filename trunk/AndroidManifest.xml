@@ -44,6 +44,8 @@
         		  android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.SongInfoActivity"
         		  android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.ReleaseInfoActivity"
+        		  android:screenOrientation="portrait"></activity>
         
 
     </application>
