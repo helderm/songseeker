@@ -5,7 +5,7 @@ import com.android.songseeker.R;
 import com.android.songseeker.comm.EchoNestComm;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.data.ArtistsParcel;
-import com.android.songseeker.data.SongIdsParcel;
+import com.android.songseeker.data.IdsParcel;
 import com.android.songseeker.data.SongNamesParcel;
 import com.android.songseeker.util.MediaPlayerController;
 import com.android.songseeker.util.Settings;
@@ -95,7 +95,7 @@ public class RecSongsActivity extends ListActivity {
 			String foreignId = song.getString("tracks[0].foreign_id");
 			String previewURL = song.getString("tracks[0].preview_url");
 			
-	    	SongIdsParcel songIds = new SongIdsParcel();
+	    	IdsParcel songIds = new IdsParcel();
 	    	SongNamesParcel songNames = new SongNamesParcel();
 	    	ArtistsParcel songArtists = new ArtistsParcel();    	
 			
@@ -139,7 +139,7 @@ public class RecSongsActivity extends ListActivity {
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {			        
 					
-			    	SongIdsParcel songIds = new SongIdsParcel();
+			    	IdsParcel songIds = new IdsParcel();
 			    	SongNamesParcel songNames = new SongNamesParcel();
 			    	ArtistsParcel songArtists = new ArtistsParcel();
 			    	

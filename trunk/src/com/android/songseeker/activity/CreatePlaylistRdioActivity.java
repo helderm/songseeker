@@ -31,7 +31,7 @@ import com.android.songseeker.comm.EchoNestComm;
 import com.android.songseeker.comm.RdioComm;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.data.UserPlaylistsData;
-import com.android.songseeker.data.SongIdsParcel;
+import com.android.songseeker.data.IdsParcel;
 import com.android.songseeker.util.ImageLoader;
 import com.android.songseeker.util.Util;
 
@@ -253,7 +253,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 
 	private class CreatePlaylistTask extends AsyncTask<HashMap<String, String>, Integer, Void>{
 		
-		private SongIdsParcel sl = getIntent().getExtras().getParcelable("songIds");
+		private IdsParcel sl = getIntent().getExtras().getParcelable("songIds");
 		private String err = null;		
 		
 		@Override

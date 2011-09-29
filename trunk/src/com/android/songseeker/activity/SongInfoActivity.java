@@ -6,7 +6,7 @@ import com.android.songseeker.R;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.SevenDigitalComm;
 import com.android.songseeker.data.ArtistsParcel;
-import com.android.songseeker.data.SongIdsParcel;
+import com.android.songseeker.data.IdsParcel;
 import com.android.songseeker.data.SongInfo;
 import com.android.songseeker.data.SongNamesParcel;
 import com.android.songseeker.util.ImageLoader;
@@ -83,7 +83,7 @@ public class SongInfoActivity extends ListActivity {
 		protected Void doInBackground(Void... arg0) {
 			ArrayList<SongInfo> topTracks;	
 
-			SongIdsParcel songIdParcel = getIntent().getExtras().getParcelable("songId");			
+			IdsParcel songIdParcel = getIntent().getExtras().getParcelable("songId");			
 
 			try{
 				song = SevenDigitalComm.getComm().querySongDetails(songIdParcel.getSongIDs().get(0));
@@ -237,7 +237,7 @@ public class SongInfoActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		SongInfo si = adapter.getItem(position-1);
 
-		SongIdsParcel songIds = new SongIdsParcel();
+		IdsParcel songIds = new IdsParcel();
 		SongNamesParcel songNames = new SongNamesParcel();
 		ArtistsParcel songArtists = new ArtistsParcel();    	
 
