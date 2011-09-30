@@ -83,10 +83,16 @@ public class SongInfoActivity extends ListActivity {
 		protected Void doInBackground(Void... arg0) {
 			ArrayList<SongInfo> topTracks;	
 
-			IdsParcel songIdParcel = getIntent().getExtras().getParcelable("songId");			
+					
 
 			try{
-				song = SevenDigitalComm.getComm().querySongDetails(songIdParcel.getIds().get(0));
+				//if we already have the info, dont query it again
+				song = getIntent().getExtras().getParcelable("songParcel");	
+				if(song == null){
+					IdsParcel songIdParcel = getIntent().getExtras().getParcelable("songId");	
+					song = SevenDigitalComm.getComm().querySongDetails(songIdParcel.getIds().get(0));					
+				}				
+				
 				topTracks = SevenDigitalComm.getComm().queryArtistTopTracks(song.release.artist.id);
 			}catch(ServiceCommException e){
 				err = e.getMessage();		
@@ -116,18 +122,11 @@ public class SongInfoActivity extends ListActivity {
 			LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			LinearLayout header = (LinearLayout)inflater.inflate(R.layout.song_info, null);
 
-			//set data that we already have
-			SongNamesParcel songName = getIntent().getExtras().getParcelable("songName");
-			ArtistsParcel songArtist = getIntent().getExtras().getParcelable("songArtist");
-
 			TextView tvSongName = (TextView) header.findViewById(R.id.songinfo_songName);
-			tvSongName.setText(songName.getSongNames().get(0));
+			tvSongName.setText(song.name);
 
 			TextView tvSongArtist = (TextView) header.findViewById(R.id.songinfo_artistName);
-			tvSongArtist.setText(songArtist.getArtistList().get(0));
-
-			if(songName.getSongNames().size() > 1)
-				song.previewUrl = songName.getSongNames().get(1); 
+			tvSongArtist.setText(song.release.artist.name);
 
 			ImageView playpause = (ImageView) header.findViewById(R.id.songinfo_playpause);
 			playpause.setOnClickListener(new View.OnClickListener() {
@@ -154,10 +153,10 @@ public class SongInfoActivity extends ListActivity {
 			tvAlbumName.setText(song.release.name);
 			tvAlbumName.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					IdsParcel releaseId = new IdsParcel();
-					releaseId.addId(song.release.id);					
+					//IdsParcel releaseId = new IdsParcel();
+					//releaseId.addId(song.release.id);					
 					Intent i = new Intent(SongInfoActivity.this, ReleaseInfoActivity.class);
-					i.putExtra("releaseId", releaseId);
+					i.putExtra("releaseParcel", song.release);
 					startActivity(i);
 				}
 			});
@@ -238,26 +237,14 @@ public class SongInfoActivity extends ListActivity {
 
 		public void setTopTracks(ArrayList<SongInfo> tp){
 			this.topTracks = tp;
-			//notifyDataSetChanged();
 		}
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		SongInfo si = adapter.getItem(position-1);
-
-		IdsParcel songIds = new IdsParcel();
-		SongNamesParcel songNames = new SongNamesParcel();
-		ArtistsParcel songArtists = new ArtistsParcel();    	
-
-		songIds.addId(si.id);
-		songNames.addName(si.name);
-		songArtists.addArtist(si.release.artist.name);
-
 		Intent i = new Intent(SongInfoActivity.this, SongInfoActivity.class);
-		i.putExtra("songId", songIds);
-		i.putExtra("songName", songNames);
-		i.putExtra("songArtist", songArtists);  
+		i.putExtra("songParcel", si);
 		startActivity(i);
 	}
 
@@ -271,8 +258,6 @@ public class SongInfoActivity extends ListActivity {
 
 			if(isCancelled())
 				return null;
-
-			//MediaPlayerController.getCon().setOnCompletionListener(this);
 
 			if(song[0].previewUrl == null){
 				

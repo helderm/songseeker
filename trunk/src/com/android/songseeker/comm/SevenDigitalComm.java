@@ -158,6 +158,13 @@ public class SevenDigitalComm {
 						song.name = ((Node) fstNm.item(0)).getNodeValue();
 					}
 				}
+				
+				//get version
+				fstNmElmntLst = fstElmnt.getElementsByTagName("version");
+				fstNmElmnt = (Element) fstNmElmntLst.item(0);
+				fstNm = fstNmElmnt.getChildNodes();
+				if(fstNm.item(0) != null)
+					song.name += " (" + ((Node) fstNm.item(0)).getNodeValue() + ")";				
 
 				//get trackNumber
 				fstNmElmntLst = fstElmnt.getElementsByTagName("trackNumber");

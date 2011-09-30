@@ -41,7 +41,7 @@
 
 		<View android:id="@+id/horizontal_bar2" android:layout_width="fill_parent"
 			android:layout_height="2dip" android:background="#FFFFFFFF"
-			android:layout_below="@+id/by"
+			android:layout_below="@+id/songinfo_artistName"
 			android:layout_alignRight="@+id/songinfo_songName" android:layout_alignLeft="@+id/songinfo_songName"
 			android:layout_marginTop="5dip"></View>
 

@@ -31,6 +31,12 @@ public class MediaPlayerController implements OnCompletionListener {
 	}
 	
 	public synchronized void release(){
+		commander.cancel(true);
+		
+		if(media != null && media.icon != null){
+			media.icon.setImageResource(R.drawable.play);			
+		}
+		
 		mp.release();
 		mp = null;
 	}

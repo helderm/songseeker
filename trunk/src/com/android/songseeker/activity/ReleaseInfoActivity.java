@@ -52,7 +52,7 @@ public class ReleaseInfoActivity extends ListActivity {
 		switch(id){
 		case RELEASE_DETAILS_DIAG:
 			ProgressDialog pd = new ProgressDialog(this);
-			pd.setMessage("Fetching song details...");
+			pd.setMessage("Fetching album details...");
 			pd.setIndeterminate(true);
 			pd.setCancelable(true);
 			return pd;
@@ -79,10 +79,14 @@ public class ReleaseInfoActivity extends ListActivity {
 		protected Void doInBackground(Void... arg0) {
 			//ArrayList<SongInfo> topTracks;	
 
-			IdsParcel releaseIdParcel = getIntent().getExtras().getParcelable("releaseId");			
-
 			try{
-				release = SevenDigitalComm.getComm().queryReleaseDetails(releaseIdParcel.getIds().get(0));
+				release = getIntent().getExtras().getParcelable("releaseParcel");
+				if(release == null){
+					IdsParcel releaseIdParcel = getIntent().getExtras().getParcelable("releaseId");
+					release = SevenDigitalComm.getComm().queryReleaseDetails(releaseIdParcel.getIds().get(0));
+				}
+				
+				
 				//topTracks = SevenDigitalComm.getComm().queryArtistTopTracks(song.artist.id);
 			}catch(ServiceCommException e){
 				err = e.getMessage();		
@@ -108,11 +112,12 @@ public class ReleaseInfoActivity extends ListActivity {
 			//set content for main screen
 			setContentView(R.layout.listview);		
 
-			/*
+			
 			//set song info header
 			LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			LinearLayout header = (LinearLayout)inflater.inflate(R.layout.song_info, null);
 
+			/*
 			//set data that we already have
 			SongNamesParcel songName = getIntent().getExtras().getParcelable("songName");
 			ArtistsParcel songArtist = getIntent().getExtras().getParcelable("songArtist");
