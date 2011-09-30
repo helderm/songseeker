@@ -12,6 +12,7 @@ import com.android.songseeker.data.SongInfo;
 import com.android.songseeker.data.SongNamesParcel;
 import com.android.songseeker.util.ImageLoader;
 import com.android.songseeker.util.MediaPlayerController;
+import com.android.songseeker.util.Util;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -22,8 +23,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,7 +39,7 @@ public class ReleaseInfoActivity extends ListActivity {
 	private ReleaseInfo release;
 	
 	private static final int RELEASE_DETAILS_DIAG = 0;
-	//private ReleaseTracksAdapter adapter = new ReleaseTracksAdapter();;
+	private SongListAdapter adapter = new SongListAdapter();;
 
 	//private StartMediaPlayerTask mp_task = new StartMediaPlayerTask();
 
@@ -77,7 +81,7 @@ public class ReleaseInfoActivity extends ListActivity {
 
 		@Override
 		protected Void doInBackground(Void... arg0) {
-			//ArrayList<SongInfo> topTracks;	
+			ArrayList<SongInfo> songList;
 
 			try{
 				release = getIntent().getExtras().getParcelable("releaseParcel");
@@ -87,13 +91,13 @@ public class ReleaseInfoActivity extends ListActivity {
 				}
 				
 				
-				//topTracks = SevenDigitalComm.getComm().queryArtistTopTracks(song.artist.id);
+				songList = SevenDigitalComm.getComm().queryReleaseSongList(release.id);
 			}catch(ServiceCommException e){
 				err = e.getMessage();		
 				return null;
-			}
+			}			
 			
-			//adapter.setTopTracks(topTracks);
+			adapter.setSongList(songList);
 
 			return null;
 		}
@@ -110,69 +114,98 @@ public class ReleaseInfoActivity extends ListActivity {
 			}
 
 			//set content for main screen
-			setContentView(R.layout.listview);		
-
+			setContentView(R.layout.listview);	
 			
-			//set song info header
+			//set album info header
 			LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			LinearLayout header = (LinearLayout)inflater.inflate(R.layout.song_info, null);
+			LinearLayout header = (LinearLayout)inflater.inflate(R.layout.release_info, null);
+			
+			TextView releaseName = (TextView) header.findViewById(R.id.releaseinfo_releaseName);
+			releaseName.setText(release.name);
 
-			/*
-			//set data that we already have
-			SongNamesParcel songName = getIntent().getExtras().getParcelable("songName");
-			ArtistsParcel songArtist = getIntent().getExtras().getParcelable("songArtist");
-
-			TextView tvSongName = (TextView) header.findViewById(R.id.songinfo_songName);
-			tvSongName.setText(songName.getSongNames().get(0));
-
-			TextView tvSongArtist = (TextView) header.findViewById(R.id.songinfo_artistName);
-			tvSongArtist.setText(songArtist.getArtistList().get(0));
-
-			if(songName.getSongNames().size() > 1)
-				song.previewUrl = songName.getSongNames().get(1); 
-
-			ImageView playpause = (ImageView) header.findViewById(R.id.songinfo_playpause);
-			playpause.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					mp_task.cancel(true);
-					mp_task = new StartMediaPlayerTask();
-					mp_task.icon = (ImageView) v;
-					mp_task.execute(song);
-				}
-			}); 
+			TextView releaseArtist = (TextView) header.findViewById(R.id.releaseinfo_artistName);
+			releaseArtist.setText(release.artist.name);
 
 			//set buy button
-			Button buy = (Button)header.findViewById(R.id.songinfo_buy);
+			Button buy = (Button)header.findViewById(R.id.releaseinfo_buy);
 			buy.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(song.buyUrl));
+					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(release.buyUrl));
 					intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
 					startActivity(intent);
 				}
 			});
 
-			//set album name
-			TextView tvAlbumName = (TextView) header.findViewById(R.id.songinfo_albumName);
-			tvAlbumName.setText(song.release.name);
-			tvAlbumName.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					IdsParcel releaseId = new IdsParcel();
-					releaseId.addSongID(song.release.id);					
-					Intent i = new Intent(SongInfoActivity.this, ReleaseInfoActivity.class);
-					i.putExtra("releaseId", releaseId);
-					startActivity(i);
-				}
-			});
-
 			//set image
-			ImageView coverart = (ImageView) header.findViewById(R.id.songinfo_coverArt);
-			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.blankdisc);
+			ImageView coverart = (ImageView) header.findViewById(R.id.releaseinfo_coverArt);
+			ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, coverart, R.drawable.blankdisc);
 			
 			getListView().addHeaderView(header);
 
 			//set adapter for top tracks
-			ReleaseInfoActivity.this.setListAdapter(adapter); */	
+			ReleaseInfoActivity.this.setListAdapter(adapter); 	
 		}		
 	}	
+	
+	private class SongListAdapter extends BaseAdapter {
+
+		private ArrayList<SongInfo> songList;    
+
+		public SongListAdapter() {    
+			songList = null;
+		}
+
+		public int getCount() {
+			if(songList == null)
+				return 0;
+
+			return songList.size();
+		}
+
+		public SongInfo getItem(int position) {
+			return songList.get(position);
+		}
+
+		public long getItemId(int position) {
+			return position;
+		}
+
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View v = convertView;
+
+			if (v == null) {
+				LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				v = vi.inflate(R.layout.rec_song_row, null);
+			}
+
+			final SongInfo song = getItem(position);
+			if (song != null) {
+				TextView tt = (TextView) v.findViewById(R.id.recsong_firstLine);
+				TextView bt = (TextView) v.findViewById(R.id.recsong_secondLine);
+				ImageView coverart = (ImageView) v.findViewById(R.id.recsong_coverart);
+				ImageView playpause = (ImageView) v.findViewById(R.id.recsong_playpause);
+
+				bt.setText(song.release.name);
+				tt.setText(song.name);
+
+				playpause.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						//mp_task.cancel(true);
+						//mp_task = new StartMediaPlayerTask();
+						//mp_task.icon = (ImageView) v;
+						//mp_task.execute(song);
+					}
+				}); 			    
+
+				ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.blankdisc);
+			}
+
+			return v;
+		}
+
+		public void setSongList(ArrayList<SongInfo> tp){
+			this.songList = tp;
+		}
+	}
 
 }

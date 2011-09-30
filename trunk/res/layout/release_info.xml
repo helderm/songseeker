@@ -52,8 +52,7 @@
 
 		<Button android:layout_height="40dip" android:layout_width="110dip"
 			android:id="@+id/releaseinfo_buy" android:text="Buy"
-			android:layout_marginTop="30dip" android:layout_marginLeft="60dip"
-			android:layout_toLeftOf="@+id/releaseinfo_albumName"></Button>
+			android:layout_marginTop="30dip" android:layout_marginLeft="60dip"></Button>
 
 		<Button android:layout_height="40dip" android:layout_width="110dip"
 			android:id="@+id/releaseinfo_share" android:text="Share"

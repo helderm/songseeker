@@ -79,9 +79,10 @@ public class RecSongsActivity extends ListActivity {
 	
 	@Override
 	protected void onDestroy() {
-		ImageLoader.getLoader(getCacheDir()).stopThread();
-		ImageLoader.getLoader(getCacheDir()).clearCache();
-		//dismissDialog(PROGRESS_DIAG);
+		//TODO decomment, leave it there to save bandwidht
+		//ImageLoader.getLoader(getCacheDir()).stopThread();
+		//ImageLoader.getLoader(getCacheDir()).clearCache();
+		
 		
 		//Debug.stopMethodTracing();
 		super.onDestroy();

@@ -52,7 +52,7 @@ public class EchoNestComm {
 						if(e.getMessage().contains("java.io.IOException"))
 							throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.IO);
 						else
-							throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
+							throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.REQ_FAILED);
 					}
 					
 					try {
