@@ -239,9 +239,12 @@ public class RecSongsActivity extends ListActivity {
 	private class RecSongsAdapter extends BaseAdapter {
 	
 	    private Playlist playlist;	    
+	    private LayoutInflater inflater;
 	    
 	    public RecSongsAdapter() {    
 	    	playlist = null;
+	    	//inflater = LayoutInflater.from(getApplicationContext());
+	    	inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    }
 	
 	    public int getCount() {
@@ -258,36 +261,53 @@ public class RecSongsActivity extends ListActivity {
 	    public long getItemId(int position) {
 	        return position;
 	    }
-	
-	    /*public class ViewHolder{
-	    	public TextView username;
-	    	public TextView message;
-	    	public ImageView image;
-	    }*/
 	    
 	    public View getView(int position, View convertView, ViewGroup parent) {
-			View v = convertView;
-			
-			if (v == null) {
-			    LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			    v = vi.inflate(R.layout.rec_song_row, null);
+			ViewHolder holder;
+	    	
+			if (convertView == null) {
+			    //LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = inflater.inflate(R.layout.rec_song_row, null);
+				
+				holder = new ViewHolder();
+				holder.topText = (TextView) convertView.findViewById(R.id.recsong_firstLine);
+			    holder.botText = (TextView) convertView.findViewById(R.id.recsong_secondLine);
+			    holder.coverArt = (ImageView) convertView.findViewById(R.id.recsong_coverart);
+			    holder.playPause = (ImageView) convertView.findViewById(R.id.recsong_playpause);	
+			    
+			    convertView.setTag(holder);
+			}else{
+				holder = (ViewHolder) convertView.getTag();
 			}
 			 
 			final Song song = getItem(position);
+			final int pos = position;
 			if (song != null) {
-				TextView tt = (TextView) v.findViewById(R.id.recsong_firstLine);
-			    TextView bt = (TextView) v.findViewById(R.id.recsong_secondLine);
-			    ImageView coverart = (ImageView) v.findViewById(R.id.recsong_coverart);
-			    ImageView playpause = (ImageView) v.findViewById(R.id.recsong_playpause);
 			    
-			    bt.setText(song.getArtistName());
-			    tt.setText(song.getReleaseName());
+				holder.botText.setText(song.getArtistName());
+				holder.topText.setText(song.getReleaseName());
 
-			    playpause.setOnClickListener(new View.OnClickListener() {
+				switch(MediaPlayerController.getCon().getStatus(pos)){				
+				case PLAYING:
+					holder.playPause.setImageResource(R.drawable.pause);
+					break;
+				case LOADING:
+				case PREPARED:
+					holder.playPause.setImageResource(R.drawable.icon);
+					break;				
+				case STOPPED:
+				default:
+					holder.playPause.setImageResource(R.drawable.play);
+					break;
+					
+				}
+				
+				holder.playPause.setOnClickListener(new View.OnClickListener() {
 		            public void onClick(View v) {		            	
 		            	try{
 		            		String previewUrl = song.getString("tracks[0].preview_url");
-		            		MediaPlayerController.getCon().startStopMedia(previewUrl, (ImageView)v);
+		            		MediaPlayerController.getCon().startStopMedia(previewUrl, pos, adapter);
+		            		adapter.notifyDataSetChanged();
 		            	}catch(IndexOutOfBoundsException e){
 		            		Log.w(Util.APP, "Preview Url for song ["+song.getReleaseName()+" - "+song.getArtistName()+"] not found!", e);
 		            	}		            	
@@ -295,18 +315,26 @@ public class RecSongsActivity extends ListActivity {
 		        }); 			    
 			    
 			    try{
-			    	ImageLoader.getLoader(getCacheDir()).DisplayImage(song.getString("tracks[0].release_image"), coverart, R.drawable.blankdisc);
+			    	ImageLoader.getLoader(getCacheDir()).DisplayImage(song.getString("tracks[0].release_image"), holder.coverArt, R.drawable.blankdisc);
 			    }catch(IndexOutOfBoundsException e){
 			    	Log.w(Util.APP, "Unable to fetch the release image from Echo Nest!");
 			    }
 			}
 			
-			return v;
+			return convertView;
 		}
 	    
 	    public void setPlaylist(Playlist pl){
 	    	this.playlist = pl;
 	    	notifyDataSetChanged();
+	    }
+	    
+		
+	    public class ViewHolder{
+	    	public TextView topText;
+	    	public TextView botText;
+	    	public ImageView coverArt;
+	    	public ImageView playPause;
 	    }
 	}
 	

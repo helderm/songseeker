@@ -5,16 +5,13 @@ import java.util.ArrayList;
 import com.android.songseeker.R;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.SevenDigitalComm;
-import com.android.songseeker.data.ArtistsParcel;
 import com.android.songseeker.data.IdsParcel;
 import com.android.songseeker.data.ReleaseInfo;
 import com.android.songseeker.data.SongInfo;
-import com.android.songseeker.data.SongNamesParcel;
 import com.android.songseeker.util.ImageLoader;
 import com.android.songseeker.util.MediaPlayerController;
 import com.android.songseeker.util.Util;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -31,6 +28,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +39,7 @@ public class ReleaseInfoActivity extends ListActivity {
 	private static final int RELEASE_DETAILS_DIAG = 0;
 	private SongListAdapter adapter = new SongListAdapter();;
 
-	//private StartMediaPlayerTask mp_task = new StartMediaPlayerTask();
+	private StartMediaPlayerTask mp_task = new StartMediaPlayerTask();
 
 	/** Called when the activity is first created. */
 	@Override
@@ -88,8 +86,7 @@ public class ReleaseInfoActivity extends ListActivity {
 				if(release == null){
 					IdsParcel releaseIdParcel = getIntent().getExtras().getParcelable("releaseId");
 					release = SevenDigitalComm.getComm().queryReleaseDetails(releaseIdParcel.getIds().get(0));
-				}
-				
+				}				
 				
 				songList = SevenDigitalComm.getComm().queryReleaseSongList(release.id);
 			}catch(ServiceCommException e){
@@ -185,15 +182,15 @@ public class ReleaseInfoActivity extends ListActivity {
 				ImageView coverart = (ImageView) v.findViewById(R.id.recsong_coverart);
 				ImageView playpause = (ImageView) v.findViewById(R.id.recsong_playpause);
 
-				bt.setText(song.release.name);
+				bt.setText(song.artist.name);
 				tt.setText(song.name);
 
 				playpause.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						//mp_task.cancel(true);
-						//mp_task = new StartMediaPlayerTask();
-						//mp_task.icon = (ImageView) v;
-						//mp_task.execute(song);
+						mp_task.cancel(true);
+						mp_task = new StartMediaPlayerTask();
+						mp_task.icon = (ImageView) v;
+						mp_task.execute(song);
 					}
 				}); 			    
 
@@ -208,4 +205,49 @@ public class ReleaseInfoActivity extends ListActivity {
 		}
 	}
 
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		SongInfo si = adapter.getItem(position-1);
+		Intent i = new Intent(ReleaseInfoActivity.this, SongInfoActivity.class);
+		i.putExtra("songParcel", si);
+		startActivity(i);
+	}
+	
+	private class StartMediaPlayerTask extends AsyncTask<SongInfo, Void, SongInfo>{
+		private String err = null;
+		public ImageView icon = null;
+
+		@Override
+		protected SongInfo doInBackground(SongInfo... song) {
+
+
+			if(isCancelled())
+				return null;
+
+			if(song[0].previewUrl == null){
+				
+				try{
+					song[0].previewUrl = SevenDigitalComm.getComm().getPreviewUrl(song[0].id);
+				} catch(Exception e){
+					err = getString(R.string.err_mediaplayer);
+					Log.e(Util.APP, "7digital getPreviewUrl() exception!", e);
+					return null;
+				} 
+			}
+
+			return song[0];
+		}
+
+		@Override
+		protected void onPostExecute(SongInfo song) {
+			if(err != null){
+				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_LONG).show();
+				err = null;
+				return;
+			}	
+			
+			if(!isCancelled())
+				MediaPlayerController.getCon().startStopMedia(song.previewUrl, icon);
+		}
+	}	
 }

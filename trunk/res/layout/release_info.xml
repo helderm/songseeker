@@ -39,11 +39,11 @@
 			android:textStyle="bold" android:layout_below="@+id/horizontal_bar1"
 			android:layout_toRightOf="@+id/by" android:gravity="center"></TextView>
 
-		<View android:id="@+id/horizontal_bar2" android:layout_width="fill_parent"
+		<!-- <View android:id="@+id/horizontal_bar2" android:layout_width="fill_parent"
 			android:layout_height="2dip" android:background="#FFFFFFFF"
 			android:layout_below="@+id/by"
 			android:layout_alignRight="@+id/releaseinfo_releaseName" android:layout_alignLeft="@+id/releaseinfo_releaseName"
-			android:layout_marginTop="5dip"></View>
+			android:layout_marginTop="5dip"></View>-->
 
 	</RelativeLayout>
 

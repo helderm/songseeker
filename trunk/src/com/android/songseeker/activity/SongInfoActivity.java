@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import com.android.songseeker.R;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.SevenDigitalComm;
-import com.android.songseeker.data.ArtistsParcel;
 import com.android.songseeker.data.IdsParcel;
 import com.android.songseeker.data.SongInfo;
-import com.android.songseeker.data.SongNamesParcel;
 import com.android.songseeker.util.ImageLoader;
 import com.android.songseeker.util.MediaPlayerController;
 import com.android.songseeker.util.Util;
@@ -38,7 +36,7 @@ public class SongInfoActivity extends ListActivity {
 	private SongInfo song;
 	
 	private static final int SONG_DETAILS_DIAG = 0;
-	private TopTracksAdapter adapter = new TopTracksAdapter();;
+	private TopTracksAdapter adapter = new TopTracksAdapter();
 
 	private StartMediaPlayerTask mp_task = new StartMediaPlayerTask();
 
@@ -81,9 +79,7 @@ public class SongInfoActivity extends ListActivity {
 
 		@Override
 		protected Void doInBackground(Void... arg0) {
-			ArrayList<SongInfo> topTracks;	
-
-					
+			ArrayList<SongInfo> topTracks;						
 
 			try{
 				//if we already have the info, dont query it again
@@ -93,7 +89,7 @@ public class SongInfoActivity extends ListActivity {
 					song = SevenDigitalComm.getComm().querySongDetails(songIdParcel.getIds().get(0));					
 				}				
 				
-				topTracks = SevenDigitalComm.getComm().queryArtistTopTracks(song.release.artist.id);
+				topTracks = SevenDigitalComm.getComm().queryArtistTopTracks(song.artist.id);
 			}catch(ServiceCommException e){
 				err = e.getMessage();		
 				return null;
@@ -124,17 +120,27 @@ public class SongInfoActivity extends ListActivity {
 
 			TextView tvSongName = (TextView) header.findViewById(R.id.songinfo_songName);
 			tvSongName.setText(song.name);
+			
+			TextView tvSongVersion = (TextView) header.findViewById(R.id.songinfo_songVersion);
+			tvSongVersion.setText(song.version);
 
 			TextView tvSongArtist = (TextView) header.findViewById(R.id.songinfo_artistName);
-			tvSongArtist.setText(song.release.artist.name);
-
+			tvSongArtist.setText(song.artist.name);
+			tvSongArtist.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					Intent i = new Intent(SongInfoActivity.this, ArtistInfoActivity.class);
+					i.putExtra("artistParcel", song.artist);
+					startActivity(i);
+				}
+			});
+			
 			ImageView playpause = (ImageView) header.findViewById(R.id.songinfo_playpause);
 			playpause.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					mp_task.cancel(true);
-					mp_task = new StartMediaPlayerTask();
-					mp_task.icon = (ImageView) v;
-					mp_task.execute(song);
+					//mp_task.cancel(true);
+					//mp_task = new StartMediaPlayerTask();
+					//mp_task.icon = (ImageView) v;
+					//mp_task.execute(song);
 				}
 			}); 
 
@@ -153,8 +159,6 @@ public class SongInfoActivity extends ListActivity {
 			tvAlbumName.setText(song.release.name);
 			tvAlbumName.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					//IdsParcel releaseId = new IdsParcel();
-					//releaseId.addId(song.release.id);					
 					Intent i = new Intent(SongInfoActivity.this, ReleaseInfoActivity.class);
 					i.putExtra("releaseParcel", song.release);
 					startActivity(i);
@@ -210,6 +214,7 @@ public class SongInfoActivity extends ListActivity {
 			}
 
 			final SongInfo song = getItem(position);
+			final int pos = position;
 			if (song != null) {
 				TextView tt = (TextView) v.findViewById(R.id.recsong_firstLine);
 				TextView bt = (TextView) v.findViewById(R.id.recsong_secondLine);
@@ -219,11 +224,26 @@ public class SongInfoActivity extends ListActivity {
 				bt.setText(song.release.name);
 				tt.setText(song.name);
 
+				switch(MediaPlayerController.getCon().getStatus(pos)){				
+				case PLAYING:
+					playpause.setImageResource(R.drawable.pause);
+					break;
+				case LOADING:
+				case PREPARED:
+					playpause.setImageResource(R.drawable.icon);
+					break;				
+				case STOPPED:
+				default:
+					playpause.setImageResource(R.drawable.play);
+					break;
+					
+				}
+				
 				playpause.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						mp_task.cancel(true);
 						mp_task = new StartMediaPlayerTask();
-						mp_task.icon = (ImageView) v;
+						mp_task.position = pos;
 						mp_task.execute(song);
 					}
 				}); 			    
@@ -250,7 +270,7 @@ public class SongInfoActivity extends ListActivity {
 
 	private class StartMediaPlayerTask extends AsyncTask<SongInfo, Void, SongInfo>{
 		private String err = null;
-		public ImageView icon = null;
+		public int position = 0;
 
 		@Override
 		protected SongInfo doInBackground(SongInfo... song) {
@@ -282,7 +302,7 @@ public class SongInfoActivity extends ListActivity {
 			}	
 			
 			if(!isCancelled())
-				MediaPlayerController.getCon().startStopMedia(song.previewUrl, icon);
+				MediaPlayerController.getCon().startStopMedia(song.previewUrl, position, adapter);
 		}
 	}	
 }

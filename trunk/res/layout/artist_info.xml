@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/artistinfo_info" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:orientation="vertical">
+
+	<RelativeLayout android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+
+		<ImageView android:layout_width="120dip"
+			android:layout_height="120dip" android:src="@drawable/blankdisc"
+			android:id="@+id/artistinfo_coverArt" android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true" android:layout_marginLeft="18dp"
+			android:layout_marginTop="40dp"></ImageView>
+
+		<TextView android:id="@+id/artistinfo_artistName"
+			android:layout_height="wrap_content" android:layout_alignTop="@+id/artistinfo_coverArt"
+			android:layout_toRightOf="@+id/artistinfo_coverArt"
+			android:layout_marginLeft="10dip" android:layout_marginRight="10dip"
+			android:layout_width="fill_parent" android:gravity="center"
+			android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
+
+		<TextView android:id="@+id/artistinfo_details"
+			android:layout_height="wrap_content" android:layout_below="@+id/artistinfo_artistName"
+			android:layout_alignRight="@+id/artistinfo_artistName"
+			android:layout_alignLeft="@+id/artistinfo_artistName"
+			android:layout_marginLeft="20dip" android:layout_marginRight="10dip"
+			android:layout_width="fill_parent" android:gravity="center"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textStyle="italic" android:layout_marginTop="5dip"></TextView>
+
+		<View android:id="@+id/horizontal_bar1" android:layout_width="fill_parent"
+			android:layout_height="2dip" android:background="#FFFFFFFF"
+			android:layout_below="@+id/artistinfo_details"
+			android:layout_alignRight="@+id/artistinfo_artistName"
+			android:layout_alignLeft="@+id/artistinfo_artistName"
+			android:layout_marginTop="5dip"></View>
+
+		<TextView android:layout_height="wrap_content"
+			android:layout_width="fill_parent" android:id="@+id/artistinfo_biography"
+			android:text="Biography >>" android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_marginTop="5dip" android:layout_alignLeft="@+id/artistinfo_artistName"
+			android:layout_alignRight="@+id/artistinfo_artistName" android:textStyle="bold"
+			android:layout_below="@+id/horizontal_bar1" android:gravity="right"></TextView>
+
+		<View android:id="@+id/horizontal_bar2" android:layout_width="fill_parent"
+			android:layout_height="2dip" android:background="#FFFFFFFF"
+			android:layout_below="@+id/artistinfo_biography"
+			android:layout_alignRight="@+id/artistinfo_artistName"
+			android:layout_alignLeft="@+id/artistinfo_artistName"
+			android:layout_marginTop="5dip"></View>
+
+		<TextView android:id="@+id/artistinfo_news" android:text="News >>"
+			android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="fill_parent" android:gravity="right"
+			android:textStyle="bold" android:layout_below="@+id/horizontal_bar2"
+			android:layout_marginTop="5dip" android:layout_alignRight="@+id/artistinfo_artistName"
+			android:layout_alignLeft="@+id/artistinfo_artistName"></TextView>
+
+		<View android:id="@+id/horizontal_bar3" android:layout_width="fill_parent"
+			android:layout_height="2dip" android:background="#FFFFFFFF"
+			android:layout_below="@+id/artistinfo_news"
+			android:layout_alignRight="@+id/artistinfo_artistName"
+			android:layout_alignLeft="@+id/artistinfo_artistName"
+			android:layout_marginTop="5dip"></View>
+			
+		<TextView android:id="@+id/artistinfo_similar" android:text="Similar Artists >>"
+			android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="fill_parent" android:gravity="right"
+			android:textStyle="bold" android:layout_below="@+id/horizontal_bar3"
+			android:layout_marginTop="5dip" android:layout_alignRight="@+id/artistinfo_artistName"
+			android:layout_alignLeft="@+id/artistinfo_artistName"></TextView>			
+
+	</RelativeLayout>
+
+	<RelativeLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+		<Button android:layout_height="40dip" android:layout_width="90dip"
+			android:id="@+id/artistinfo_buy" android:text="Buy"
+			android:layout_marginTop="30dip" android:layout_marginLeft="30dip"
+			android:layout_toLeftOf="@+id/artistinfo_news"></Button>
+
+		<Button android:layout_height="40dip" android:layout_width="90dip"
+			android:id="@+id/artistinfo_watch" android:text="Watch"
+			android:layout_alignTop="@+id/artistinfo_buy" android:layout_toRightOf="@+id/artistinfo_buy"></Button>
+
+		<Button android:layout_height="40dip" android:layout_width="90dip"
+			android:id="@+id/artistinfo_share" android:text="Share"
+			android:layout_alignTop="@+id/artistinfo_buy" android:layout_toRightOf="@+id/artistinfo_watch"></Button>
+
+		<TextView android:layout_height="wrap_content"
+			android:layout_width="fill_parent" android:text="Artist's Top Albums"
+			android:id="@+id/artistinfo_topTrackTitle" android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_marginTop="20dip" android:layout_marginBottom="15dip"
+			android:gravity="center|top" android:layout_below="@+id/artistinfo_buy"></TextView>
+
+	</RelativeLayout>
+</LinearLayout>

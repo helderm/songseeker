@@ -176,7 +176,7 @@ public class SevenDigitalComm {
 				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 			}	
 
-			release = parseReleaseDetails(doc);			
+			release = parseReleaseDetails(doc).get(0);			
 
 		}catch(IOException e) {
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	
@@ -199,7 +199,7 @@ public class SevenDigitalComm {
 		NodeList fstNmElmntLst;
 
 		String urlStr = ENDPOINT + "release/tracks?";
-		String reqParam = "releaseid="+releaseId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=50&page=1";
+		String reqParam = "releaseid="+releaseId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=30&page=1";
 
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -229,47 +229,97 @@ public class SevenDigitalComm {
 
 		return songs;		
 	}
-	
-	private ReleaseInfo parseReleaseDetails(Document doc) throws Exception{
-		ReleaseInfo release = new ReleaseInfo();				
+
+	public ArrayList<ReleaseInfo> getArtistReleases(String artistId) throws ServiceCommException{
+		ArrayList<ReleaseInfo> releases;
+
+		Element fstNmElmnt;
+		NodeList fstNmElmntLst;
+
+		String urlStr = ENDPOINT + "artist/releases?";
+		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize=200";
+
+		try {
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.parse(urlStr+reqParam);
+			doc.getDocumentElement().normalize();
+
+			//check response
+			fstNmElmntLst = doc.getElementsByTagName("response");
+			fstNmElmnt = (Element) fstNmElmntLst.item(0);
+			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
+				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+			}	
+
+			releases = parseReleaseDetails(doc);			
+
+		}catch(IOException e) {
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	
+		}catch(NullPointerException e){
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+		}catch(ServiceCommException e){
+			throw e;
+		}catch(Exception e){
+			Log.e(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
+		}		
+
+		return releases;
+	}
+
+	private ArrayList<ReleaseInfo> parseReleaseDetails(Document doc) throws Exception{
+		ArrayList<ReleaseInfo> releases = new ArrayList<ReleaseInfo>();
+		ReleaseInfo release;
 		Element fstNmElmnt, fstElmnt;
 		NodeList fstNm, fstNmElmntLst;
 
 		NodeList nodeLst = doc.getElementsByTagName("release");					
 
-		if(nodeLst.getLength() < 1)
-			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+		//if(nodeLst.getLength() < 1)
+		//	throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 
-		Node fstNode = nodeLst.item(0);
-		fstElmnt = (Element) fstNode;
+		for (int s=0; s<nodeLst.getLength(); s++) {
+			release = new ReleaseInfo();
 
-		//get id
-		release.id = fstElmnt.getAttribute("id");
+			Node fstNode = nodeLst.item(s);
 
-		//get title
-		fstNmElmntLst = fstElmnt.getElementsByTagName("title");				
-		for(int j=0; j<fstNmElmntLst.getLength(); j++){
-			fstNmElmnt = (Element) fstNmElmntLst.item(j);
+			if (fstNode.getNodeType() != Node.ELEMENT_NODE) 
+				continue;
+
+			fstElmnt = (Element) fstNode;
+
+			//get id
+			release.id = fstElmnt.getAttribute("id");
+
+			//get title
+			fstNmElmntLst = fstElmnt.getElementsByTagName("title");				
+			for(int j=0; j<fstNmElmntLst.getLength(); j++){
+				fstNmElmnt = (Element) fstNmElmntLst.item(j);
+				fstNm = fstNmElmnt.getChildNodes();
+
+				if(fstNmElmnt.getParentNode().getNodeName().equalsIgnoreCase("release")){
+					release.name = ((Node) fstNm.item(0)).getNodeValue();
+					break;
+				}	
+			}
+
+			//get image
+			fstNmElmntLst = fstElmnt.getElementsByTagName("image");
+			fstNmElmnt = (Element) fstNmElmntLst.item(0);
 			fstNm = fstNmElmnt.getChildNodes();
+			release.image = ((Node) fstNm.item(0)).getNodeValue();
 
-			if(fstNmElmnt.getParentNode().getNodeName().equalsIgnoreCase("release")){
-				release.name = ((Node) fstNm.item(0)).getNodeValue();
-				break;
-			}	
+			//get artist details
+			release.artist = parseReleaseArtistDetails(doc);
+
+			//mount buy url
+			release.buyUrl = MOBILE_URL + "releases/" + release.id + "?partner=" + PARTNER_ID;		
+			
+			releases.add(release);
 		}
 
-		//get image
-		fstNmElmntLst = fstElmnt.getElementsByTagName("image");
-		fstNmElmnt = (Element) fstNmElmntLst.item(0);
-		fstNm = fstNmElmnt.getChildNodes();
-		release.image = ((Node) fstNm.item(0)).getNodeValue();
-
-		//get artist details
-		release.artist = parseArtistDetails(doc);
-
-		//mount buy url
-		release.buyUrl = MOBILE_URL + "releases/" + release.id + "?partner=" + PARTNER_ID;		
-		return release;
+		return releases;
 	}	
 
 	private ArtistInfo parseArtistDetails(Document doc) throws Exception{
@@ -298,19 +348,54 @@ public class SevenDigitalComm {
 		artist.buyUrl = MOBILE_URL + "artists/" + artist.id + "?partner=" + PARTNER_ID;
 		return artist;
 	}
-	
-	private ArrayList<SongInfo> parseSongDetails(Document doc) throws Exception{
-		ArrayList<SongInfo> songs = new ArrayList<SongInfo>();
-		SongInfo song;
-		
+
+	private ArtistInfo parseReleaseArtistDetails(Document doc) throws Exception{
+		ArtistInfo artist = new ArtistInfo();				
 		Element fstNmElmnt, fstElmnt;
 		NodeList fstNm, fstNmElmntLst;
-		
-		NodeList nodeLst = doc.getElementsByTagName("track");					
+
+		NodeList nodeLst = doc.getElementsByTagName("artist");					
+
 		if(nodeLst.getLength() < 1)
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 
-		
+		for (int s=0; s<nodeLst.getLength(); s++) {
+
+			Node fstNode = nodeLst.item(s);
+			fstElmnt = (Element) fstNode;
+
+			if(!fstElmnt.getParentNode().getNodeName().equalsIgnoreCase("release")){
+				continue;
+			}
+
+			//get id
+			artist.id = fstElmnt.getAttribute("id");
+
+			//get artist name
+			fstNmElmntLst = fstElmnt.getElementsByTagName("name");
+			fstNmElmnt = (Element) fstNmElmntLst.item(0);
+			fstNm = fstNmElmnt.getChildNodes();
+			artist.name = ((Node) fstNm.item(0)).getNodeValue();
+
+			//mount buy url
+			artist.buyUrl = MOBILE_URL + "artists/" + artist.id + "?partner=" + PARTNER_ID;
+
+		}
+
+		return artist;
+	} 
+
+	private ArrayList<SongInfo> parseSongDetails(Document doc) throws Exception{
+		ArrayList<SongInfo> songs = new ArrayList<SongInfo>();
+		SongInfo song;
+
+		Element fstNmElmnt, fstElmnt;
+		NodeList fstNm, fstNmElmntLst;
+
+		NodeList nodeLst = doc.getElementsByTagName("track");					
+		//if(nodeLst.getLength() < 1)
+		//	throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+
 		for (int s=0; s<nodeLst.getLength(); s++) {
 			song = new SongInfo();
 
@@ -318,48 +403,57 @@ public class SevenDigitalComm {
 
 			if (fstNode.getNodeType() != Node.ELEMENT_NODE) 
 				continue;
-		
-		
+
 			fstElmnt = (Element) fstNode;
-	
+
 			//get id
 			song.id = fstElmnt.getAttribute("id");
-	
+
 			//get title
 			fstNmElmntLst = fstElmnt.getElementsByTagName("title");				
 			for(int j=0; j<fstNmElmntLst.getLength(); j++){
 				fstNmElmnt = (Element) fstNmElmntLst.item(j);
 				fstNm = fstNmElmnt.getChildNodes();
-	
+
 				if(fstNmElmnt.getParentNode().getNodeName().equalsIgnoreCase("track")){
 					song.name = ((Node) fstNm.item(0)).getNodeValue();
 					break;
 				}
 			}
-	
+
 			//get trackNumber
 			fstNmElmntLst = fstElmnt.getElementsByTagName("trackNumber");
 			fstNmElmnt = (Element) fstNmElmntLst.item(0);
 			fstNm = fstNmElmnt.getChildNodes();
 			song.trackNum = ((Node) fstNm.item(0)).getNodeValue();
-	
+
 			//get duration
 			fstNmElmntLst = fstElmnt.getElementsByTagName("duration");
 			fstNmElmnt = (Element) fstNmElmntLst.item(0);
 			fstNm = fstNmElmnt.getChildNodes();
 			song.duration = ((Node) fstNm.item(0)).getNodeValue();
-			
+
+			//get version
+			fstNmElmntLst = fstElmnt.getElementsByTagName("version");
+			fstNmElmnt = (Element) fstNmElmntLst.item(0);
+			fstNm = fstNmElmnt.getChildNodes();			
+			if(fstNm.item(0) != null)
+				song.version = ((Node) fstNm.item(0)).getNodeValue();
+
+			//get artist
+			song.artist = parseArtistDetails(doc);
+
 			//get release details
-			song.release = parseReleaseDetails(doc);
-	
+			song.release = parseReleaseDetails(doc).get(0);
+
 			//mount buy urls
 			song.buyUrl = song.release.buyUrl;
-			
+
 			songs.add(song);
 		}
-			
+
 		return songs;
 	}	
-	
+
 }
 

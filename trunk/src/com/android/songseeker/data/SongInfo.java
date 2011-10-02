@@ -10,7 +10,9 @@ public class SongInfo implements Parcelable{
 	public String duration;
 	public String id;
 	public String previewUrl;
+	public String version;
 	
+	public ArtistInfo artist;
 	public ReleaseInfo release;	
 	
 	public SongInfo() {
@@ -35,6 +37,8 @@ public class SongInfo implements Parcelable{
 		dest.writeString(duration);
 		dest.writeString(id);
 		dest.writeString(previewUrl);
+		dest.writeString(version);
+		dest.writeParcelable(artist, flags);
 		dest.writeParcelable(release, flags);
 	}
  
@@ -56,6 +60,8 @@ public class SongInfo implements Parcelable{
 		duration = in.readString();
 		id = in.readString();
 		previewUrl = in.readString();
+		version = in.readString();
+		artist = in.readParcelable(ArtistInfo.class.getClassLoader());
 		release = in.readParcelable(ReleaseInfo.class.getClassLoader());
 	}
  
