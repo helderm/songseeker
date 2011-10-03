@@ -55,16 +55,18 @@ public class SevenDigitalComm {
 			fstNmElmntLst = doc.getElementsByTagName("response");
 			fstNmElmnt = (Element) fstNmElmntLst.item(0);
 			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
+				Log.w(Util.APP, "7digital 'track/details' call failed with code ["+fstNmElmnt.getAttribute("status")+"]");
 				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 			}	
 
-			song = parseSongDetails(doc).get(0);
+			song = parseSongDetails(doc, false).get(0);
 			if(song == null)
 				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 
 		}catch(IOException e) {
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	
 		}catch(NullPointerException e){
+			Log.e(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 		}catch(ServiceCommException e){
 			throw e;
@@ -95,10 +97,11 @@ public class SevenDigitalComm {
 			fstNmElmntLst = doc.getElementsByTagName("response");
 			fstNmElmnt = (Element) fstNmElmntLst.item(0);
 			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
+				Log.w(Util.APP, "7digital 'artist/toptracks' call failed with code ["+fstNmElmnt.getAttribute("status")+"]");
 				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 			}	
 
-			songs = parseSongDetails(doc);
+			songs = parseSongDetails(doc, false);
 
 		}catch(IOException e) {
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);
@@ -133,6 +136,7 @@ public class SevenDigitalComm {
 			fstNmElmntLst = doc.getElementsByTagName("response");
 			fstNmElmnt = (Element) fstNmElmntLst.item(0);
 			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
+				Log.w(Util.APP, "7digital 'track/preview' call failed with code ["+fstNmElmnt.getAttribute("status")+"]");
 				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 			}				
 
@@ -173,6 +177,7 @@ public class SevenDigitalComm {
 			fstNmElmntLst = doc.getElementsByTagName("response");
 			fstNmElmnt = (Element) fstNmElmntLst.item(0);
 			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
+				Log.w(Util.APP, "7digital 'release/details' call failed with code ["+fstNmElmnt.getAttribute("status")+"]");
 				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 			}	
 
@@ -211,10 +216,11 @@ public class SevenDigitalComm {
 			fstNmElmntLst = doc.getElementsByTagName("response");
 			fstNmElmnt = (Element) fstNmElmntLst.item(0);
 			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
+				Log.w(Util.APP, "7digital 'release/tracks' call failed with code ["+fstNmElmnt.getAttribute("status")+"]");
 				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 			}	
 
-			songs = parseSongDetails(doc);
+			songs = parseSongDetails(doc, true);
 
 		}catch(IOException e) {
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);
@@ -249,6 +255,7 @@ public class SevenDigitalComm {
 			fstNmElmntLst = doc.getElementsByTagName("response");
 			fstNmElmnt = (Element) fstNmElmntLst.item(0);
 			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
+				Log.w(Util.APP, "7digital 'artist/releases' call failed with code ["+fstNmElmnt.getAttribute("status")+"]");
 				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 			}	
 
@@ -385,9 +392,10 @@ public class SevenDigitalComm {
 		return artist;
 	} 
 
-	private ArrayList<SongInfo> parseSongDetails(Document doc) throws Exception{
+	private ArrayList<SongInfo> parseSongDetails(Document doc, boolean queryReleaseOnce) throws Exception{
 		ArrayList<SongInfo> songs = new ArrayList<SongInfo>();
 		SongInfo song;
+		ReleaseInfo release = null;
 
 		Element fstNmElmnt, fstElmnt;
 		NodeList fstNm, fstNmElmntLst;
@@ -397,6 +405,9 @@ public class SevenDigitalComm {
 		//	throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 
 		for (int s=0; s<nodeLst.getLength(); s++) {
+			if(Thread.interrupted())
+				return songs;
+			
 			song = new SongInfo();
 
 			Node fstNode = nodeLst.item(s);
@@ -444,7 +455,14 @@ public class SevenDigitalComm {
 			song.artist = parseArtistDetails(doc);
 
 			//get release details
-			song.release = parseReleaseDetails(doc).get(0);
+			if(queryReleaseOnce){
+				if(release == null)
+					release = parseReleaseDetails(doc).get(0);
+				
+				song.release = release;
+			}else{
+				song.release = parseReleaseDetails(doc).get(0);
+			}
 
 			//mount buy urls
 			song.buyUrl = song.release.buyUrl;

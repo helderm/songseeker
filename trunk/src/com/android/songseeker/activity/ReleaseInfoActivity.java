@@ -40,13 +40,14 @@ public class ReleaseInfoActivity extends ListActivity {
 	private SongListAdapter adapter = new SongListAdapter();;
 
 	private StartMediaPlayerTask mp_task = new StartMediaPlayerTask();
-
+	private GetReleaseDetails rl_task = new GetReleaseDetails();
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		new GetReleaseDetails().execute();
+		rl_task.execute();
 	}
 
 	@Override
@@ -67,6 +68,12 @@ public class ReleaseInfoActivity extends ListActivity {
 	protected void onPause() {
 		MediaPlayerController.getCon().release();
 		super.onPause();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		rl_task.cancel(true);
 	}
 	
 	private class GetReleaseDetails extends AsyncTask<Void, Void, Void>{
@@ -176,6 +183,7 @@ public class ReleaseInfoActivity extends ListActivity {
 			}
 
 			final SongInfo song = getItem(position);
+			final int pos = position;
 			if (song != null) {
 				TextView tt = (TextView) v.findViewById(R.id.recsong_firstLine);
 				TextView bt = (TextView) v.findViewById(R.id.recsong_secondLine);
@@ -185,11 +193,24 @@ public class ReleaseInfoActivity extends ListActivity {
 				bt.setText(song.artist.name);
 				tt.setText(song.name);
 
+				switch(MediaPlayerController.getCon().getStatus(pos)){				
+				case PLAYING:
+					playpause.setImageResource(R.drawable.pause);
+					break;
+				case LOADING:
+				case PREPARED:
+					playpause.setImageResource(R.drawable.icon);
+					break;				
+				case STOPPED:
+				default:
+					playpause.setImageResource(R.drawable.play);
+					break;					
+				}
 				playpause.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						mp_task.cancel(true);
 						mp_task = new StartMediaPlayerTask();
-						mp_task.icon = (ImageView) v;
+						mp_task.position = pos;
 						mp_task.execute(song);
 					}
 				}); 			    
@@ -215,7 +236,7 @@ public class ReleaseInfoActivity extends ListActivity {
 	
 	private class StartMediaPlayerTask extends AsyncTask<SongInfo, Void, SongInfo>{
 		private String err = null;
-		public ImageView icon = null;
+		public int position = -1;
 
 		@Override
 		protected SongInfo doInBackground(SongInfo... song) {
@@ -247,7 +268,7 @@ public class ReleaseInfoActivity extends ListActivity {
 			}	
 			
 			if(!isCancelled())
-				MediaPlayerController.getCon().startStopMedia(song.previewUrl, icon);
+				MediaPlayerController.getCon().startStopMedia(song.previewUrl, position, adapter);
 		}
 	}	
 }

@@ -235,8 +235,7 @@ public class SongInfoActivity extends ListActivity {
 				case STOPPED:
 				default:
 					playpause.setImageResource(R.drawable.play);
-					break;
-					
+					break;					
 				}
 				
 				playpause.setOnClickListener(new View.OnClickListener() {

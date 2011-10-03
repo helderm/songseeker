@@ -2,15 +2,12 @@ package com.android.songseeker.util;
 
 import java.io.IOException;
 
-import com.android.songseeker.R;
-
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 
 public class MediaPlayerController implements OnCompletionListener {
 	private static MediaPlayerController controller = new MediaPlayerController();
@@ -37,29 +34,15 @@ public class MediaPlayerController implements OnCompletionListener {
 		//if(media != null && media.icon != null){
 		//	media.icon.setImageResource(R.drawable.play);			
 		//}
-		BaseAdapter adapter;
+		
 		if(media != null){
-			adapter = media.adapter;
+			BaseAdapter adapter = media.adapter;
 			media = null;
 			adapter.notifyDataSetChanged();			
 		}		
 
 		mp.release();
 		mp = null;
-	}
-
-	public void startStopMedia(String source, ImageView icon){
-		if(media == null || !media.source.equalsIgnoreCase(source) || media.status == MediaStatus.STOPPED){
-
-			//if(media != null && media.icon != null){
-			//media.icon.setImageResource(R.drawable.play);
-			//media.icon = icon;
-			//}
-
-			//start(source, icon);
-		}
-		else
-			stop();
 	}
 
 	public void startStopMedia(String source, int position, BaseAdapter adapter){

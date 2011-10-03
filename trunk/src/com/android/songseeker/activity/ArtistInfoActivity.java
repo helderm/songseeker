@@ -6,11 +6,9 @@ import com.android.songseeker.R;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.SevenDigitalComm;
 import com.android.songseeker.data.ArtistInfo;
-import com.android.songseeker.data.IdsParcel;
 import com.android.songseeker.data.ReleaseInfo;
 import com.android.songseeker.util.ImageLoader;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -26,6 +24,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +32,7 @@ public class ArtistInfoActivity extends ListActivity {
 
 	private ArtistInfo artist;
 	
-	private ArtistReleasesAdapter adapter = new ArtistReleasesAdapter();
+	private ArtistReleasesAdapter adapter;
 	private static final int RELEASE_DETAILS_DIAG = 0;
 	
 	/** Called when the activity is first created. */
@@ -41,6 +40,7 @@ public class ArtistInfoActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	
+	    adapter = new ArtistReleasesAdapter();
 	    new GetArtistDetails().execute();
 	}
 	
@@ -133,9 +133,11 @@ public class ArtistInfoActivity extends ListActivity {
 	private class ArtistReleasesAdapter extends BaseAdapter {
 
 		private ArrayList<ReleaseInfo> releases;    
-
+		private LayoutInflater inflater;
+		
 		public ArtistReleasesAdapter() {    
 			releases = null;
+			inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
 		public int getCount() {
@@ -160,31 +162,51 @@ public class ArtistInfoActivity extends ListActivity {
 	    }*/
 
 		public View getView(int position, View convertView, ViewGroup parent) {
-			View v = convertView;
-
-			if (v == null) {
-				LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = vi.inflate(R.layout.rec_song_row, null);
+			ViewHolder holder;
+	    	
+			if (convertView == null) {			    
+				convertView = inflater.inflate(R.layout.rec_song_row, null);
+				
+				holder = new ViewHolder();
+				holder.topText = (TextView) convertView.findViewById(R.id.recsong_firstLine);
+			    holder.botText = (TextView) convertView.findViewById(R.id.recsong_secondLine);
+			    holder.coverArt = (ImageView) convertView.findViewById(R.id.recsong_coverart);
+			    holder.playPause = (ImageView) convertView.findViewById(R.id.recsong_playpause);	
+			    
+			    convertView.setTag(holder);
+			}else{
+				holder = (ViewHolder) convertView.getTag();
 			}
 
 			ReleaseInfo release = getItem(position);
-			if (release != null) {
-				TextView tt = (TextView) v.findViewById(R.id.recsong_firstLine);
-				TextView bt = (TextView) v.findViewById(R.id.recsong_secondLine);
-				ImageView coverart = (ImageView) v.findViewById(R.id.recsong_coverart);
-
-				bt.setText(release.artist.name);
-				tt.setText(release.name);
-
-				ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, coverart, R.drawable.blankdisc);
+			if (release != null) {				
+				holder.botText.setText(release.artist.name);
+				holder.topText.setText(release.name);
+				holder.playPause.setVisibility(View.INVISIBLE);
+				
+				ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, holder.coverArt, R.drawable.blankdisc);
 			}
 
-			return v;
+			return convertView;
 		}
 
 		public void setArtistReleases(ArrayList<ReleaseInfo> tp){
 			this.releases = tp;
 		}
+		
+	    public class ViewHolder{
+	    	public TextView topText;
+	    	public TextView botText;
+	    	public ImageView coverArt;
+	    	public ImageView playPause;
+	    }
 	}
 
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		ReleaseInfo ri = adapter.getItem(position-1);
+		Intent i = new Intent(ArtistInfoActivity.this, ReleaseInfoActivity.class);
+		i.putExtra("releaseParcel", ri);
+		startActivity(i);
+	}
 }

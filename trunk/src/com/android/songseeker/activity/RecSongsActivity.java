@@ -330,7 +330,7 @@ public class RecSongsActivity extends ListActivity {
 	    }
 	    
 		
-	    public class ViewHolder{
+	    private class ViewHolder{
 	    	public TextView topText;
 	    	public TextView botText;
 	    	public ImageView coverArt;
