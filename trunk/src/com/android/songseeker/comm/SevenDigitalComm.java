@@ -55,6 +55,7 @@ public class SevenDigitalComm {
 			fstNmElmntLst = doc.getElementsByTagName("response");
 			fstNmElmnt = (Element) fstNmElmntLst.item(0);
 			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
+				//TODO if(errorCode == 2001 (track not found)) then query 7digital id with 'search'
 				Log.w(Util.APP, "7digital 'track/details' call failed with code ["+fstNmElmnt.getAttribute("status")+"]");
 				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 			}	

@@ -118,6 +118,16 @@ public class ArtistInfoActivity extends ListActivity {
 					startActivity(intent);
 				}
 			});
+			
+			TextView tvBio = (TextView)header.findViewById(R.id.artistinfo_biography);
+			tvBio.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+				
+					Intent i = new Intent(ArtistInfoActivity.this, ArtistBioActivity.class);
+					i.putExtra("artistParcel", artist);
+					startActivity(i);
+				}
+			});
 
 			//set image
 			//ImageView coverart = (ImageView) header.findViewById(R.id.releaseinfo_coverArt);
@@ -182,7 +192,7 @@ public class ArtistInfoActivity extends ListActivity {
 			if (release != null) {				
 				holder.botText.setText(release.artist.name);
 				holder.topText.setText(release.name);
-				holder.playPause.setVisibility(View.INVISIBLE);
+				holder.playPause.setVisibility(View.GONE);
 				
 				ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, holder.coverArt, R.drawable.blankdisc);
 			}
