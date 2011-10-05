@@ -17,52 +17,10 @@ public class ReleaseInfo implements Parcelable {
 		artist = new ArtistInfo(); 
 	}
  
-	/**
-	 *
-	 * Constructor to use when re-constructing object
-	 * from a parcel
-	 *
-	 * @param in a parcel from which to read this object
-	 */
 	public ReleaseInfo(Parcel in) {
 		readFromParcel(in);
 	} 
 	
-	public String getName() {
-		return name;
-	} 
-	public void setName(String name) {
-		this.name = name;
-	}
- 
-	public String getBuyUrl() {
-		return buyUrl;
-	} 
-	public void seBuyUrl(String buyUrl) {
-		this.buyUrl = buyUrl;
-	}
-	
-	public String getId() {
-		return name;
-	} 
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	public String getImage(){
-		return image;
-	}
-	public void setImage(String image){
-		this.image = image;
-	}
-	
-	public ArtistInfo getArtist(){
-		return artist;
-	}
-	public void setArtist(ArtistInfo artist){
-		this.artist = artist;
-	}
- 
 	@Override
 	public int describeContents() {
 		return 0;

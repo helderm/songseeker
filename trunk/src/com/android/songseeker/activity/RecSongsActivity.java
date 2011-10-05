@@ -55,7 +55,7 @@ public class RecSongsActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 	    
         // Use a custom layout file
-        setContentView(R.layout.rec_songs_list);
+        setContentView(R.layout.listview);
         
         // Tell the list view which view to display when the list is empty
         getListView().setEmptyView(findViewById(R.id.empty));

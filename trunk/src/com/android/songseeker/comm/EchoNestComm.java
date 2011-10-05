@@ -1,5 +1,6 @@
 package com.android.songseeker.comm;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.util.Log;
@@ -11,6 +12,7 @@ import com.echonest.api.v4.Artist;
 import com.echonest.api.v4.Biography;
 import com.echonest.api.v4.EchoNestAPI;
 import com.echonest.api.v4.EchoNestException;
+import com.echonest.api.v4.News;
 import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
 import com.echonest.api.v4.Song;
@@ -100,18 +102,36 @@ public class EchoNestComm {
 		return ls.get(0);
 	}
 
-	public Biography getArtistBioFromBucket(String id) throws ServiceCommException{
-		Artist artist = null;
+	public Biography getArtistBioFromBucket(String id) throws ServiceCommException {
 		Biography bio = null;
 		
 		try {
-			artist = en.newArtistByID("7digital-US:artist:"+id);
+			Artist artist = en.newArtistByID("7digital-US:artist:"+id);
 			bio = artist.getBiographies(0, 1, "cc-by-sa").get(0);
 		} catch (EchoNestException e) {
 			treatEchoNestException(e);
+		} catch (Exception e){
+			Log.w(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
 		}
 		
 		return bio;
+	}
+	
+	public ArrayList<News> getArtistNewsFromBucket(String id, int count, boolean highRelevance) throws ServiceCommException{
+		ArrayList<News> news = new ArrayList<News>();
+		
+		try {
+			Artist artist = en.newArtistByID("7digital-US:artist:"+id);
+			news = artist.getNews(0, 10, highRelevance);
+		} catch (EchoNestException e) {
+			treatEchoNestException(e);
+		} catch (Exception e){
+			Log.w(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
+		}
+		
+		return news;
 	}
 
 	private void treatEchoNestException(EchoNestException e) throws ServiceCommException{

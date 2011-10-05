@@ -1,53 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.android.songseeker"
-      android:versionCode="1"
-      android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="7" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    
-    <application android:icon="@drawable/icon" 
-    			 android:label="@string/app_name" 
-    			 android:debuggable="true">
-        <activity android:name=".activity.SongSeekerActivity"
-                  android:label="@string/app_name"
-                  android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.PlaylistOptionsActivity"
-        		  android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".activity.RecSongsActivity"
-        		  android:screenOrientation="portrait">	
-        </activity>
-        <activity android:name=".activity.CreatePlaylistRdioActivity" 
-        		  android:launchMode="singleInstance"
-        		  android:screenOrientation="portrait">
-			<intent-filter>			
-				<action android:name="android.intent.action.VIEW" />			
-				<category android:name="android.intent.category.DEFAULT" />			
-				<category android:name="android.intent.category.BROWSABLE" />			
-				<data android:scheme="oauth" android:host="checkin4me" />			
-			</intent-filter>       
-        </activity>
+	package="com.android.songseeker" android:versionCode="1"
+	android:versionName="1.0">
+	<uses-sdk android:minSdkVersion="7" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	<uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
-        <activity android:name=".activity.CreatePlaylistLastfmActivity"
-        		  android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".activity.CreatePlaylistYoutubeActivity"
-        		  android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.SongInfoActivity"
-        		  android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.ReleaseInfoActivity"
-        		  android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.ArtistInfoActivity"></activity>
-        
+	<application android:icon="@drawable/icon" android:label="@string/app_name"
+		android:debuggable="true">
+		<activity android:name=".activity.SongSeekerActivity"
+			android:label="@string/app_name" android:screenOrientation="portrait">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		
+		<activity android:name=".activity.PlaylistOptionsActivity"
+			android:screenOrientation="portrait"></activity>
+		<activity android:name=".activity.RecSongsActivity"
+			android:screenOrientation="portrait"></activity>
+			
+		<activity android:name=".activity.CreatePlaylistRdioActivity"
+			android:launchMode="singleInstance" android:screenOrientation="portrait">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="oauth" android:host="checkin4me" />
+			</intent-filter>
+		</activity>
 
-    </application>
+		<activity android:name=".activity.CreatePlaylistLastfmActivity"
+			android:screenOrientation="portrait"></activity>
+		<activity android:name=".activity.CreatePlaylistYoutubeActivity"
+			android:screenOrientation="portrait"></activity>
+		<activity android:name=".activity.SongInfoActivity"
+			android:screenOrientation="portrait"></activity>
+		<activity android:name=".activity.ReleaseInfoActivity"
+			android:screenOrientation="portrait"></activity>
+		<activity android:name=".activity.ArtistInfoActivity"
+			android:screenOrientation="portrait"></activity>
+		<activity android:name=".activity.ArtistBioActivity"
+			android:screenOrientation="portrait"></activity>
+		<activity android:name=".activity.ArtistNewsActivity"
+			android:screenOrientation="portrait"></activity>
+
+	</application>
 </manifest>

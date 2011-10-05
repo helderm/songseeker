@@ -129,6 +129,13 @@ public class ReleaseInfoActivity extends ListActivity {
 
 			TextView releaseArtist = (TextView) header.findViewById(R.id.releaseinfo_artistName);
 			releaseArtist.setText(release.artist.name);
+			releaseArtist.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					Intent i = new Intent(ReleaseInfoActivity.this, ArtistInfoActivity.class);
+					i.putExtra("artistParcel", release.artist);
+					startActivity(i);
+				}
+			});
 
 			//set buy button
 			Button buy = (Button)header.findViewById(R.id.releaseinfo_buy);

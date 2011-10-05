@@ -276,6 +276,44 @@ public class SevenDigitalComm {
 		return releases;
 	}
 
+	public ArtistInfo queryArtistDetails(String artistId) throws ServiceCommException{
+		ArtistInfo artist;		
+		Element fstNmElmnt;
+		NodeList fstNmElmntLst;
+
+		String urlStr = ENDPOINT + "artist/details?";
+		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize=200";
+
+		try {
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.parse(urlStr+reqParam);
+			doc.getDocumentElement().normalize();
+
+			//check response
+			fstNmElmntLst = doc.getElementsByTagName("response");
+			fstNmElmnt = (Element) fstNmElmntLst.item(0);
+			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
+				Log.w(Util.APP, "7digital 'artist/details' call failed with code ["+fstNmElmnt.getAttribute("status")+"]");
+				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+			}	
+
+			artist = parseArtistDetails(doc);			
+
+		}catch(IOException e) {
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	
+		}catch(NullPointerException e){
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+		}catch(ServiceCommException e){
+			throw e;
+		}catch(Exception e){
+			Log.e(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
+		}		
+
+		return artist;
+	}
+	
 	private ArrayList<ReleaseInfo> parseReleaseDetails(Document doc) throws Exception{
 		ArrayList<ReleaseInfo> releases = new ArrayList<ReleaseInfo>();
 		ReleaseInfo release;
@@ -351,6 +389,15 @@ public class SevenDigitalComm {
 		fstNmElmnt = (Element) fstNmElmntLst.item(0);
 		fstNm = fstNmElmnt.getChildNodes();
 		artist.name = ((Node) fstNm.item(0)).getNodeValue();
+		
+		//get image
+		fstNmElmntLst = fstElmnt.getElementsByTagName("image");
+		fstNmElmnt = (Element) fstNmElmntLst.item(0);
+		if(fstNmElmnt != null){	
+			fstNm = fstNmElmnt.getChildNodes();			
+			if(fstNm.item(0) != null)
+				artist.image = ((Node) fstNm.item(0)).getNodeValue();
+		}
 
 		//mount buy url
 		artist.buyUrl = MOBILE_URL + "artists/" + artist.id + "?partner=" + PARTNER_ID;

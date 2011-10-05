@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="80dip"
+	android:padding="6dip">
+
+	<TextView android:id="@+id/artistnews_firstLine"
+		android:layout_width="fill_parent" android:layout_height="26dip"
+		android:layout_alignParentTop="true" android:singleLine="true"
+		android:ellipsize="marquee" android:layout_alignParentRight="true"
+		android:textStyle="bold" />
+
+	<TextView android:id="@+id/artistnews_secondLine"
+		android:layout_width="fill_parent" android:layout_height="26dip"
+		android:layout_below="@+id/artistnews_firstLine" android:singleLine="true"
+		android:ellipsize="marquee" android:layout_alignParentRight="true"
+		android:layout_alignParentLeft="true"/>
+
+	<TextView android:id="@+id/artistnews_thirdLine"
+		android:layout_width="fill_parent" android:layout_height="26dip"
+		android:layout_below="@+id/artistnews_secondLine" android:singleLine="true"
+		android:ellipsize="marquee" android:layout_alignParentRight="true"
+		android:textStyle="italic"
+		android:layout_alignParentLeft="true"/>
+
+</RelativeLayout>

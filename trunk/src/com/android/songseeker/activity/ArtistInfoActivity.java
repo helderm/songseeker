@@ -49,7 +49,7 @@ public class ArtistInfoActivity extends ListActivity {
 		switch(id){
 		case RELEASE_DETAILS_DIAG:
 			ProgressDialog pd = new ProgressDialog(this);
-			pd.setMessage("Fetching song details...");
+			pd.setMessage("Fetching artist details...");
 			pd.setIndeterminate(true);
 			pd.setCancelable(true);
 			return pd;
@@ -72,10 +72,11 @@ public class ArtistInfoActivity extends ListActivity {
 
 			try{
 				artist = getIntent().getExtras().getParcelable("artistParcel");
-				//if(artist == null){
-				//	IdsParcel releaseIdParcel = getIntent().getExtras().getParcelable("releaseId");
-				//	artist = SevenDigitalComm.getComm().queryArtistDetails(releaseIdParcel.getIds().get(0));
-				//}				
+				
+				//will need to fetch artist details, since we dont have the artist image url 
+				if(artist.image == null){				
+					artist = SevenDigitalComm.getComm().queryArtistDetails(artist.id);
+				}				
 				
 				releases = SevenDigitalComm.getComm().getArtistReleases(artist.id);
 			}catch(ServiceCommException e){
@@ -129,9 +130,19 @@ public class ArtistInfoActivity extends ListActivity {
 				}
 			});
 
+			TextView tvNews = (TextView)header.findViewById(R.id.artistinfo_news);
+			tvNews.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+				
+					Intent i = new Intent(ArtistInfoActivity.this, ArtistNewsActivity.class);
+					i.putExtra("artistParcel", artist);
+					startActivity(i);
+				}
+			});			
+			
 			//set image
-			//ImageView coverart = (ImageView) header.findViewById(R.id.releaseinfo_coverArt);
-			//ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, coverart, R.drawable.blankdisc);
+			ImageView coverart = (ImageView) header.findViewById(R.id.artistinfo_image);
+			ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, coverart, R.drawable.blankdisc);
 			
 			getListView().addHeaderView(header);
 
@@ -215,6 +226,12 @@ public class ArtistInfoActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		ReleaseInfo ri = adapter.getItem(position-1);
+		
+		//set the image in the parcel to avoid calling the ws again
+		if(artist.image != null && artist.id.equalsIgnoreCase(ri.artist.id)){
+			ri.artist.image = artist.image;
+		}		
+		
 		Intent i = new Intent(ArtistInfoActivity.this, ReleaseInfoActivity.class);
 		i.putExtra("releaseParcel", ri);
 		startActivity(i);

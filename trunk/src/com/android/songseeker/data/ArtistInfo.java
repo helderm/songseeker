@@ -7,33 +7,13 @@ public class ArtistInfo implements Parcelable{
 	public String name;
 	public String buyUrl;
 	public String id;
+	public String image;
 
 	public ArtistInfo() { ; };
  
 	public ArtistInfo(Parcel in) {
 		readFromParcel(in);
 	} 
-	
-	public String getName() {
-		return name;
-	} 
-	public void setName(String name) {
-		this.name = name;
-	}
- 
-	public String getBuyUrl() {
-		return buyUrl;
-	} 
-	public void seBuyUrl(String buyUrl) {
-		this.buyUrl = buyUrl;
-	}
-	
-	public String getId() {
-		return name;
-	} 
-	public void setId(String id) {
-		this.id = id;
-	}
  
 	@Override
 	public int describeContents() {
@@ -46,15 +26,9 @@ public class ArtistInfo implements Parcelable{
 		dest.writeString(name);
 		dest.writeString(buyUrl);
 		dest.writeString(id);
+		dest.writeString(image);
 	}
  
-	/**
-	 *
-	 * Called from the constructor to create this
-	 * object from a parcel.
-	 *
-	 * @param in parcel from which to re-create object
-	 */
 	private void readFromParcel(Parcel in) {
  
 		// We just need to read back each
@@ -63,21 +37,9 @@ public class ArtistInfo implements Parcelable{
 		name = in.readString();
 		buyUrl = in.readString();
 		id = in.readString();
+		image = in.readString();
 	}
  
-    /**
-     *
-     * This field is needed for Android to be able to
-     * create new objects, individually or as arrays.
-     *
-     * This also means that you can use use the default
-     * constructor to create the object and use another
-     * method to hyrdate it as necessary.
-     *
-     * I just find it easier to use the constructor.
-     * It makes sense for the way my brain thinks ;-)
-     *
-     */
     public static final Parcelable.Creator CREATOR =
     	new Parcelable.Creator() {
             public ArtistInfo createFromParcel(Parcel in) {

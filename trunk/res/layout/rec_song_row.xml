@@ -21,6 +21,7 @@
 		android:layout_alignParentBottom="true" android:layout_below="@id/recsong_firstLine"
 		android:singleLine="true" android:ellipsize="marquee"
 		 android:layout_alignRight="@+id/recsong_firstLine"/>
+		<!-- alignWithParentIfMissing="true" --> 
 
 	<ImageView android:id="@+id/recsong_playpause" android:src="@drawable/play"
 		android:layout_width="40dip" android:layout_height="40dip"

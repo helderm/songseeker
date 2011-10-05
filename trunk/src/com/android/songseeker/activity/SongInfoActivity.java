@@ -71,7 +71,6 @@ public class SongInfoActivity extends ListActivity {
 	private class GetSongDetails extends AsyncTask<Void, Void, Void>{
 		String err = null;
 
-
 		@Override
 		protected void onPreExecute() {
 			showDialog(SONG_DETAILS_DIAG);
@@ -87,7 +86,7 @@ public class SongInfoActivity extends ListActivity {
 				if(song == null){
 					IdsParcel songIdParcel = getIntent().getExtras().getParcelable("songId");	
 					song = SevenDigitalComm.getComm().querySongDetails(songIdParcel.getIds().get(0));					
-				}				
+				}	
 				
 				topTracks = SevenDigitalComm.getComm().queryArtistTopTracks(song.artist.id);
 			}catch(ServiceCommException e){
