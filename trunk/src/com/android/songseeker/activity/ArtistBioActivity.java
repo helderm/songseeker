@@ -69,7 +69,7 @@ public class ArtistBioActivity extends Activity {
 			removeDialog(ARTIST_BIO_DIAG);
 			
 			if(err != null){
-				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT);
+				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
 				ArtistBioActivity.this.finish();
 				return;
 			}

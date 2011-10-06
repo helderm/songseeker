@@ -134,6 +134,22 @@ public class EchoNestComm {
 		return news;
 	}
 
+	public ArrayList<Artist> getSimilarArtistsFromBucket(String id, int count) throws ServiceCommException{
+		ArrayList<Artist> similar = new ArrayList<Artist>();
+		
+		try {
+			Artist artist = en.newArtistByID("7digital-US:artist:"+id);
+			similar = (ArrayList<Artist>) artist.getSimilar(count);
+		} catch (EchoNestException e) {
+			treatEchoNestException(e);
+		} catch (Exception e){
+			Log.w(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
+		}
+		
+		return similar;
+	}	
+
 	private void treatEchoNestException(EchoNestException e) throws ServiceCommException{
 
 		switch(e.getCode()){

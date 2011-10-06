@@ -138,7 +138,17 @@ public class ArtistInfoActivity extends ListActivity {
 					i.putExtra("artistParcel", artist);
 					startActivity(i);
 				}
-			});			
+			});	
+			
+			TextView tvSimilar = (TextView)header.findViewById(R.id.artistinfo_similar);
+			tvSimilar.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+				
+					Intent i = new Intent(ArtistInfoActivity.this, SimilarArtistsActivity.class);
+					i.putExtra("artistParcel", artist);
+					startActivity(i);
+				}
+			});	
 			
 			//set image
 			ImageView coverart = (ImageView) header.findViewById(R.id.artistinfo_image);

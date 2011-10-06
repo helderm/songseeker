@@ -92,7 +92,7 @@ public class ArtistNewsActivity extends ListActivity {
 			removeDialog(ARTIST_NEWS_DIAG);
 			
 			if(err != null){
-				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT);
+				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
 				ArtistNewsActivity.this.finish();
 				return;
 			}

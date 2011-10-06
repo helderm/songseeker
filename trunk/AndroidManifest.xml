@@ -17,12 +17,12 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+
 		<activity android:name=".activity.PlaylistOptionsActivity"
 			android:screenOrientation="portrait"></activity>
 		<activity android:name=".activity.RecSongsActivity"
 			android:screenOrientation="portrait"></activity>
-			
+
 		<activity android:name=".activity.CreatePlaylistRdioActivity"
 			android:launchMode="singleInstance" android:screenOrientation="portrait">
 			<intent-filter>
@@ -46,6 +46,8 @@
 		<activity android:name=".activity.ArtistBioActivity"
 			android:screenOrientation="portrait"></activity>
 		<activity android:name=".activity.ArtistNewsActivity"
+			android:screenOrientation="portrait"></activity>
+		<activity android:name=".activity.SimilarArtistsActivity"
 			android:screenOrientation="portrait"></activity>
 
 	</application>
