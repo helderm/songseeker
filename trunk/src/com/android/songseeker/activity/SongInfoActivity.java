@@ -34,7 +34,7 @@ import android.widget.Toast;
 public class SongInfoActivity extends ListActivity {
 
 	private SongInfo song;
-	
+
 	private static final int SONG_DETAILS_DIAG = 0;
 	private TopTracksAdapter adapter = new TopTracksAdapter();
 
@@ -61,7 +61,7 @@ public class SongInfoActivity extends ListActivity {
 			return null;		    	
 		}
 	}
-	
+
 	@Override
 	protected void onPause() {
 		MediaPlayerController.getCon().release();
@@ -87,13 +87,13 @@ public class SongInfoActivity extends ListActivity {
 					IdsParcel songIdParcel = getIntent().getExtras().getParcelable("songId");	
 					song = SevenDigitalComm.getComm().querySongDetails(songIdParcel.getIds().get(0));					
 				}	
-				
+
 				topTracks = SevenDigitalComm.getComm().queryArtistTopTracks(song.artist.id);
 			}catch(ServiceCommException e){
 				err = e.getMessage();		
 				return null;
 			}
-			
+
 			adapter.setTopTracks(topTracks);
 
 			return null;
@@ -119,9 +119,12 @@ public class SongInfoActivity extends ListActivity {
 
 			TextView tvSongName = (TextView) header.findViewById(R.id.songinfo_songName);
 			tvSongName.setText(song.name);
-			
+
 			TextView tvSongVersion = (TextView) header.findViewById(R.id.songinfo_songVersion);
-			tvSongVersion.setText(song.version);
+			if(song.version != null)
+				tvSongVersion.setText(song.version);
+			else
+				tvSongVersion.setVisibility(View.GONE);
 
 			TextView tvSongArtist = (TextView) header.findViewById(R.id.songinfo_artistName);
 			tvSongArtist.setText(song.artist.name);
@@ -132,7 +135,7 @@ public class SongInfoActivity extends ListActivity {
 					startActivity(i);
 				}
 			});
-			
+
 			ImageView playpause = (ImageView) header.findViewById(R.id.songinfo_playpause);
 			playpause.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
@@ -153,6 +156,17 @@ public class SongInfoActivity extends ListActivity {
 				}
 			});
 
+			Button share = (Button)header.findViewById(R.id.songinfo_share);
+			share.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					final Intent intent = new Intent(Intent.ACTION_SEND);					 
+					intent.setType("text/plain");
+					intent.putExtra(Intent.EXTRA_SUBJECT, "Testing");
+					intent.putExtra(Intent.EXTRA_TEXT, song.buyUrl);
+					startActivity(Intent.createChooser(intent, "Share using..."));
+				}				
+			});
+
 			//set album name
 			TextView tvAlbumName = (TextView) header.findViewById(R.id.songinfo_albumName);
 			tvAlbumName.setText(song.release.name);
@@ -167,7 +181,7 @@ public class SongInfoActivity extends ListActivity {
 			//set image
 			ImageView coverart = (ImageView) header.findViewById(R.id.songinfo_coverArt);
 			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.blankdisc);
-			
+
 			getListView().addHeaderView(header);
 
 			//set adapter for top tracks
@@ -236,7 +250,7 @@ public class SongInfoActivity extends ListActivity {
 					playpause.setImageResource(R.drawable.play);
 					break;					
 				}
-				
+
 				playpause.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						mp_task.cancel(true);
@@ -278,7 +292,7 @@ public class SongInfoActivity extends ListActivity {
 				return null;
 
 			if(song[0].previewUrl == null){
-				
+
 				try{
 					song[0].previewUrl = SevenDigitalComm.getComm().getPreviewUrl(song[0].id);
 				} catch(Exception e){
@@ -298,7 +312,7 @@ public class SongInfoActivity extends ListActivity {
 				err = null;
 				return;
 			}	
-			
+
 			if(!isCancelled())
 				MediaPlayerController.getCon().startStopMedia(song.previewUrl, position, adapter);
 		}

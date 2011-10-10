@@ -32,7 +32,8 @@
 			android:layout_below="@+id/songinfo_songVersion"
 			android:layout_alignRight="@+id/songinfo_songName"
 			android:layout_alignLeft="@+id/songinfo_songName"
-			android:layout_marginTop="5dip"></View>
+			android:layout_marginTop="5dip"
+			android:layout_alignWithParentIfMissing="true">	</View>
 
 		<TextView android:layout_height="wrap_content"
 			android:layout_width="wrap_content" android:text="by" android:id="@+id/by"

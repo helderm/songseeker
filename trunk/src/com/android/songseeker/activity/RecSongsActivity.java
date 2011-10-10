@@ -243,7 +243,6 @@ public class RecSongsActivity extends ListActivity {
 	    
 	    public RecSongsAdapter() {    
 	    	playlist = null;
-	    	//inflater = LayoutInflater.from(getApplicationContext());
 	    	inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    }
 	
@@ -266,8 +265,7 @@ public class RecSongsActivity extends ListActivity {
 			ViewHolder holder;
 	    	
 			if (convertView == null) {
-			    //LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				convertView = inflater.inflate(R.layout.rec_song_row, null);
+			   	convertView = inflater.inflate(R.layout.rec_song_row, null);
 				
 				holder = new ViewHolder();
 				holder.topText = (TextView) convertView.findViewById(R.id.recsong_firstLine);

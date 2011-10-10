@@ -9,6 +9,7 @@ import com.android.songseeker.comm.ServiceCommException.ServiceErr;
 import com.android.songseeker.comm.ServiceCommException.ServiceID;
 import com.android.songseeker.util.Util;
 import com.echonest.api.v4.Artist;
+import com.echonest.api.v4.ArtistParams;
 import com.echonest.api.v4.Biography;
 import com.echonest.api.v4.EchoNestAPI;
 import com.echonest.api.v4.EchoNestException;
@@ -118,12 +119,12 @@ public class EchoNestComm {
 		return bio;
 	}
 	
-	public ArrayList<News> getArtistNewsFromBucket(String id, int count, boolean highRelevance) throws ServiceCommException{
+	public ArrayList<News> getArtistNewsFromBucket(String id, int count, boolean isHighRelevance) throws ServiceCommException{
 		ArrayList<News> news = new ArrayList<News>();
 		
 		try {
 			Artist artist = en.newArtistByID("7digital-US:artist:"+id);
-			news = artist.getNews(0, 10, highRelevance);
+			news = artist.getNews(0, 10, isHighRelevance);
 		} catch (EchoNestException e) {
 			treatEchoNestException(e);
 		} catch (Exception e){
@@ -138,8 +139,12 @@ public class EchoNestComm {
 		ArrayList<Artist> similar = new ArrayList<Artist>();
 		
 		try {
-			Artist artist = en.newArtistByID("7digital-US:artist:"+id);
-			similar = (ArrayList<Artist>) artist.getSimilar(count);
+			ArtistParams ap = new ArtistParams();						
+			ap.addIDSpace(EchoNestComm.SEVEN_DIGITAL);
+		    ap.setID("7digital-US:artist:"+id);
+			ap.setLimit(true);
+			similar = (ArrayList<Artist>) en.getSimilarArtists(ap);
+			
 		} catch (EchoNestException e) {
 			treatEchoNestException(e);
 		} catch (Exception e){
