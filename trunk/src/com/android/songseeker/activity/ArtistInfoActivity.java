@@ -120,6 +120,19 @@ public class ArtistInfoActivity extends ListActivity {
 				}
 			});
 			
+			//set share button
+			Button share = (Button)header.findViewById(R.id.artistinfo_share);
+			share.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					final Intent intent = new Intent(Intent.ACTION_SEND);					 
+					intent.setType("text/plain");
+					intent.putExtra(Intent.EXTRA_SUBJECT, "New artist!");
+					intent.putExtra(Intent.EXTRA_TEXT, "I discovered the artist '"+ artist.name   
+							+ "' using the Song Seeker app for Android! Check it out! "+ artist.buyUrl);
+					startActivity(Intent.createChooser(intent, "Share using..."));
+				}				
+			});
+			
 			TextView tvBio = (TextView)header.findViewById(R.id.artistinfo_biography);
 			tvBio.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {

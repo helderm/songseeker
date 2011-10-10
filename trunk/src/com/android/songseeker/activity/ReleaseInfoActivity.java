@@ -147,6 +147,19 @@ public class ReleaseInfoActivity extends ListActivity {
 				}
 			});
 
+			//set share button
+			Button share = (Button)header.findViewById(R.id.releaseinfo_share);
+			share.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					final Intent intent = new Intent(Intent.ACTION_SEND);					 
+					intent.setType("text/plain");
+					intent.putExtra(Intent.EXTRA_SUBJECT, "New release!");
+					intent.putExtra(Intent.EXTRA_TEXT, "I discovered the album '"+ release.name + " by "+ release.artist.name 
+							+ "' using the Song Seeker app for Android! Check it out! "+ release.buyUrl);
+					startActivity(Intent.createChooser(intent, "Share using..."));
+				}				
+			});
+			
 			//set image
 			ImageView coverart = (ImageView) header.findViewById(R.id.releaseinfo_coverArt);
 			ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, coverart, R.drawable.blankdisc);

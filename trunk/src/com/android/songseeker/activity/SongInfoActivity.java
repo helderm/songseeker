@@ -139,10 +139,10 @@ public class SongInfoActivity extends ListActivity {
 			ImageView playpause = (ImageView) header.findViewById(R.id.songinfo_playpause);
 			playpause.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					//mp_task.cancel(true);
-					//mp_task = new StartMediaPlayerTask();
-					//mp_task.icon = (ImageView) v;
-					//mp_task.execute(song);
+					mp_task.cancel(true);
+					mp_task = new StartMediaPlayerTask();
+					mp_task.icon = (ImageView) v;
+					mp_task.execute(song);
 				}
 			}); 
 
@@ -156,13 +156,15 @@ public class SongInfoActivity extends ListActivity {
 				}
 			});
 
+			//set share button
 			Button share = (Button)header.findViewById(R.id.songinfo_share);
 			share.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					final Intent intent = new Intent(Intent.ACTION_SEND);					 
 					intent.setType("text/plain");
-					intent.putExtra(Intent.EXTRA_SUBJECT, "Testing");
-					intent.putExtra(Intent.EXTRA_TEXT, song.buyUrl);
+					intent.putExtra(Intent.EXTRA_SUBJECT, "New song!");
+					intent.putExtra(Intent.EXTRA_TEXT, "I discovered the song '"+ song.name + " by "+ song.artist.name +
+							"' using the Song Seeker app for Android! Check it out! "+song.buyUrl);
 					startActivity(Intent.createChooser(intent, "Share using..."));
 				}				
 			});
@@ -283,11 +285,11 @@ public class SongInfoActivity extends ListActivity {
 	private class StartMediaPlayerTask extends AsyncTask<SongInfo, Void, SongInfo>{
 		private String err = null;
 		public int position = 0;
-
+		public ImageView icon = null;
+		
 		@Override
 		protected SongInfo doInBackground(SongInfo... song) {
-
-
+			
 			if(isCancelled())
 				return null;
 
@@ -313,8 +315,12 @@ public class SongInfoActivity extends ListActivity {
 				return;
 			}	
 
-			if(!isCancelled())
-				MediaPlayerController.getCon().startStopMedia(song.previewUrl, position, adapter);
+			if(!isCancelled()){
+				if(icon != null)
+					MediaPlayerController.getCon().startStopMedia(song.previewUrl, icon);
+				else
+					MediaPlayerController.getCon().startStopMedia(song.previewUrl, position, adapter);
+			}
 		}
 	}	
 }
