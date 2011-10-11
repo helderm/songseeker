@@ -2,12 +2,15 @@ package com.android.songseeker.util;
 
 import java.io.IOException;
 
+import com.android.songseeker.R;
+
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 
 public class MediaPlayerController implements OnCompletionListener {
 	private static MediaPlayerController controller = new MediaPlayerController();
@@ -30,15 +33,16 @@ public class MediaPlayerController implements OnCompletionListener {
 
 	public synchronized void release(){
 		commander.cancel(true);
-
-		//if(media != null && media.icon != null){
-		//	media.icon.setImageResource(R.drawable.play);			
-		//}
 		
 		if(media != null){
-			BaseAdapter adapter = media.adapter;
-			media = null;
-			adapter.notifyDataSetChanged();			
+			if(media.icon != null){
+				media.icon.setImageResource(R.drawable.play);	
+				media = null;
+			}else if(media.adapter != null){
+				BaseAdapter adapter = media.adapter;
+				media = null;
+				adapter.notifyDataSetChanged();
+			}
 		}		
 
 		mp.release();
@@ -51,10 +55,29 @@ public class MediaPlayerController implements OnCompletionListener {
 			if(media != null){
 				media.position = position;
 				media.status = MediaStatus.LOADING;
-				media.adapter.notifyDataSetChanged();
+				
+				if(media.icon != null)
+					media.icon.setImageResource(R.drawable.play);
+				
+				if(media.adapter != null)
+					media.adapter.notifyDataSetChanged();
 			}
 
 			start(source, position, adapter);
+		}
+		else
+			stop();
+	}
+	
+	public void startStopMedia(String source, ImageView icon){
+		if(media == null || !media.source.equalsIgnoreCase(source) || media.status == MediaStatus.STOPPED){
+			
+			if(media != null && media.icon != null){
+				media.icon.setImageResource(R.drawable.play);
+				media.icon = icon;
+			}
+			
+			start(source, icon);
 		}
 		else
 			stop();
@@ -77,6 +100,7 @@ public class MediaPlayerController implements OnCompletionListener {
 		newMedia.source = source;
 		newMedia.position = position;
 		newMedia.adapter = adapter;
+		newMedia.icon = null;
 		newMedia.status = MediaStatus.LOADING;		
 		setNewMedia(newMedia);
 
@@ -87,6 +111,24 @@ public class MediaPlayerController implements OnCompletionListener {
 		commander.execute(tp);
 	}
 
+	public void start(String source, ImageView icon){
+		commander.cancel(true);
+		commander = new MediaPlayerCommander();
+				
+		MediaInfo newMedia = new MediaInfo();
+		newMedia.source = source;
+		newMedia.icon = icon;
+		newMedia.adapter = null;
+		newMedia.position = -1;
+		newMedia.status = MediaStatus.LOADING;		
+		
+		TaskParams tp = new TaskParams();
+		tp.media = newMedia;
+		tp.action = MP_PLAY;
+		
+		commander.execute(tp);
+	}
+	
 	private void setNewMedia(MediaInfo m){
 		media = m;
 		media.adapter.notifyDataSetChanged();
@@ -102,21 +144,39 @@ public class MediaPlayerController implements OnCompletionListener {
 		commander.execute(tp);
 	}
 
-	private class MediaPlayerCommander extends AsyncTask<TaskParams, Void, TaskParams>{
+	private class MediaPlayerCommander extends AsyncTask<TaskParams, MediaInfo, TaskParams>{
 		private String err = null;
 
 		@Override
 		protected void onPreExecute() {			
 			//set imageview to not playing icon
-			if(media != null)
-				setIcon(MediaStatus.STOPPED);
+			//if(media != null)
+			//	setIcon(MediaStatus.STOPPED);
 		}
 
 		@Override
-		protected void onProgressUpdate(Void... values) {
-			if(media != null)
-				media.adapter.notifyDataSetChanged();
+		protected void onProgressUpdate(MediaInfo... m) {
+			
+			if(m[0] != null && m[0].adapter != null){
+				m[0].adapter.notifyDataSetChanged();
+			}			
+				
+			if(m[0]!= null && m[0].icon != null){
+				switch(m[0].status){
+				case LOADING:
+					m[0].icon.setImageResource(R.drawable.icon);
+					break;
+				case PLAYING:
+					m[0].icon.setImageResource(R.drawable.pause);
+					break;
+				case STOPPED:
+				default:				
+					m[0].icon.setImageResource(R.drawable.play);
+					break;
+				}	
+			}
 		}
+
 
 		@Override
 		protected TaskParams doInBackground(TaskParams... tp) {
@@ -130,15 +190,15 @@ public class MediaPlayerController implements OnCompletionListener {
 						return null;
 
 					preparePlayer(params.media);
-					publishProgress();
+					publishProgress(media);
 
 					if(isCancelled()){
-						publishProgress();
+						publishProgress(media);
 						return null;
 					}
 
 					startPlayer();
-					publishProgress();
+					publishProgress(media);
 
 					break;
 				case MP_STOP:
@@ -147,7 +207,7 @@ public class MediaPlayerController implements OnCompletionListener {
 						return null;
 
 					stopPlayer();
-					publishProgress();
+					publishProgress(media);
 
 					break;
 				}
@@ -186,11 +246,10 @@ public class MediaPlayerController implements OnCompletionListener {
 			mp.setOnCompletionListener(this);
 		}	
 
-		m.status = MediaStatus.PREPARED;
-
 		if(Thread.interrupted())
 			return;
-
+		
+		m.status = MediaStatus.PREPARED;
 		media = m;
 	}
 
@@ -207,23 +266,15 @@ public class MediaPlayerController implements OnCompletionListener {
 
 	}
 
-	private void setIcon(MediaStatus status){
-		switch(status) {
-		case PLAYING:
-			//media.icon.setImageResource(R.drawable.pause);
-			break;
-		case STOPPED:
-		default:				
-			//media.icon.setImageResource(R.drawable.play);
-			break;
-		}
-	}		
-
 	@Override
 	public void onCompletion(MediaPlayer mp) {
 		stopPlayer();
-		media.adapter.notifyDataSetChanged();
-		//media.icon.setImageResource(R.drawable.play);
+		if(media != null){
+			if(media.adapter != null)
+				media.adapter.notifyDataSetChanged();
+			if(media.icon != null)
+				media.icon.setImageResource(R.drawable.play);
+		}
 	}
 
 	private class TaskParams{
@@ -234,8 +285,8 @@ public class MediaPlayerController implements OnCompletionListener {
 	private class MediaInfo{
 		public String source;
 		public BaseAdapter adapter;
-		//public ImageView icon;
-		public int position;
+		public int position;	
+		public ImageView icon;	//this is used only for the play button outside the adapter
 		public MediaStatus status;
 	}
 
