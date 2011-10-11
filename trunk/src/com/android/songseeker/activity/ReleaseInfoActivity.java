@@ -249,7 +249,7 @@ public class ReleaseInfoActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		SongInfo si = adapter.getItem(position-1);
-		Intent i = new Intent(ReleaseInfoActivity.this, SongInfoActivity.class);
+		Intent i = new Intent(ReleaseInfoActivity.this, MusicInfoTab.class);
 		i.putExtra("songParcel", si);
 		startActivity(i);
 	}

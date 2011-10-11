@@ -255,7 +255,7 @@ public class ArtistInfoActivity extends ListActivity {
 			ri.artist.image = artist.image;
 		}		
 		
-		Intent i = new Intent(ArtistInfoActivity.this, ReleaseInfoActivity.class);
+		Intent i = new Intent(ArtistInfoActivity.this, MusicInfoTab.class);
 		i.putExtra("releaseParcel", ri);
 		startActivity(i);
 	}

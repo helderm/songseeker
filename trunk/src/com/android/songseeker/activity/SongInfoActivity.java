@@ -128,13 +128,9 @@ public class SongInfoActivity extends ListActivity {
 
 			TextView tvSongArtist = (TextView) header.findViewById(R.id.songinfo_artistName);
 			tvSongArtist.setText(song.artist.name);
-			tvSongArtist.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					Intent i = new Intent(SongInfoActivity.this, ArtistInfoActivity.class);
-					i.putExtra("artistParcel", song.artist);
-					startActivity(i);
-				}
-			});
+			
+			TextView tvAlbumName = (TextView) header.findViewById(R.id.songinfo_albumName);
+			tvAlbumName.setText(song.release.name);
 
 			ImageView playpause = (ImageView) header.findViewById(R.id.songinfo_playpause);
 			playpause.setOnClickListener(new View.OnClickListener() {
@@ -167,17 +163,6 @@ public class SongInfoActivity extends ListActivity {
 							"' using the Song Seeker app for Android! Check it out! "+song.buyUrl);
 					startActivity(Intent.createChooser(intent, "Share using..."));
 				}				
-			});
-
-			//set album name
-			TextView tvAlbumName = (TextView) header.findViewById(R.id.songinfo_albumName);
-			tvAlbumName.setText(song.release.name);
-			tvAlbumName.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					Intent i = new Intent(SongInfoActivity.this, ReleaseInfoActivity.class);
-					i.putExtra("releaseParcel", song.release);
-					startActivity(i);
-				}
 			});
 
 			//set image
@@ -277,7 +262,7 @@ public class SongInfoActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		SongInfo si = adapter.getItem(position-1);
-		Intent i = new Intent(SongInfoActivity.this, SongInfoActivity.class);
+		Intent i = new Intent(SongInfoActivity.this, MusicInfoTab.class);
 		i.putExtra("songParcel", si);
 		startActivity(i);
 	}

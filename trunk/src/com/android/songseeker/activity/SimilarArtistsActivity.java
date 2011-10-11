@@ -199,7 +199,7 @@ public class SimilarArtistsActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		ArtistInfo artist = adapter.getItem(position);
 		
-		Intent i = new Intent(SimilarArtistsActivity.this, ArtistInfoActivity.class);
+		Intent i = new Intent(SimilarArtistsActivity.this, MusicInfoTab.class);
 		i.putExtra("artistParcel", artist);
 		startActivity(i);
 	}
