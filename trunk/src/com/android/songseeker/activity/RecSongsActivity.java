@@ -94,23 +94,12 @@ public class RecSongsActivity extends ListActivity {
 
 		try {
 			String foreignId = song.getString("tracks[0].foreign_id");
-			String previewURL = song.getString("tracks[0].preview_url");
-			
-	    	IdsParcel songIds = new IdsParcel();
-	    	SongNamesParcel songNames = new SongNamesParcel();
-	    	ArtistsParcel songArtists = new ArtistsParcel();    	
-			
-	    	songIds.addId(foreignId.split(":")[2]);
-	    	songNames.addName(song.getReleaseName());
-	    	songArtists.addArtist(song.getArtistName());
-		
-	    	//add other info from song into the same parcel
-	    	songNames.addName(previewURL);
 	    	
-			Intent i = new Intent(RecSongsActivity.this, SongInfoActivity.class);
+			IdsParcel songIds = new IdsParcel();
+	    	songIds.addId(foreignId.split(":")[2]);
+		
+			Intent i = new Intent(RecSongsActivity.this, MusicInfoTab.class);
 			i.putExtra("songId", songIds); 
-			i.putExtra("songName", songNames);
-			i.putExtra("songArtist", songArtists);  
 			startActivity(i);
 		} catch (IndexOutOfBoundsException e) {
 			Toast.makeText(this, "Unable to retrieve track details!", Toast.LENGTH_SHORT).show();
