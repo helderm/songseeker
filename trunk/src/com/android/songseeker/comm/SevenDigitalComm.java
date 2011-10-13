@@ -2,6 +2,7 @@ package com.android.songseeker.comm;
 
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -12,6 +13,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import android.util.Log;
 
@@ -46,9 +48,11 @@ public class SevenDigitalComm {
 		String reqParam = "trackid="+trackId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize=200";
 
 		try {
+			URL url = new URL(urlStr+reqParam);
+			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			Document doc = db.parse(urlStr+reqParam);
+			Document doc = db.parse(new InputSource(url.openStream()));
 			doc.getDocumentElement().normalize();
 
 			//check response

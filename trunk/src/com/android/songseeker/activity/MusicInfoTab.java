@@ -8,6 +8,7 @@ import com.android.songseeker.data.IdsParcel;
 import com.android.songseeker.data.ReleaseInfo;
 import com.android.songseeker.data.SongInfo;
 
+
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TabActivity;
@@ -15,7 +16,9 @@ import android.content.Intent;
 import android.content.res.Resources;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TabHost;
 
 import android.widget.Toast;
@@ -30,7 +33,74 @@ public class MusicInfoTab extends TabActivity {
 		ReleaseInfo release = null;
 		ArtistInfo artist = null;
 
-		setContentView(R.layout.music_info_tab);
+		Resources res = getResources(); // Resource object to get Drawables
+		TabHost tabHost = getTabHost();  // The activity TabHost
+		TabHost.TabSpec spec;  // Resusable TabSpec for each tab
+		Intent intent;  // Reusable Intent for each tab
+        
+		//prepare the song info tab, if available
+		song = getIntent().getExtras().getParcelable("songParcel");
+		songId = getIntent().getExtras().getParcelable("songId");
+
+		//if we dont have froyo, then we cant call the async task 
+		if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.ECLAIR_MR1){
+			Log.i("SongSeeker", "Not Froyo or higher");
+		}else{
+			if(song != null || songId != null){
+				if(song == null){
+					//fetch parcel based on songId
+					new GetSongDetails().execute();
+					return;
+				}
+
+				intent = new Intent().setClass(this, SongInfoActivity.class);
+				intent.putExtra("songParcel", song);
+
+				spec = tabHost.newTabSpec("songs").setIndicator("Song",
+						res.getDrawable(R.drawable.tab_artists))
+						.setContent(intent);
+				tabHost.addTab(spec);
+			}
+
+			//prepare the release info tab, if available
+			if(song != null)
+				release = song.release;
+			else
+				release = getIntent().getExtras().getParcelable("releaseParcel");
+			
+			if(release != null){
+				intent = new Intent().setClass(this, ReleaseInfoActivity.class);
+				intent.putExtra("releaseParcel", release);
+
+				spec = tabHost.newTabSpec("albums").setIndicator("Album",
+						res.getDrawable(R.drawable.tab_artists))
+						.setContent(intent);
+				tabHost.addTab(spec);
+			}
+
+
+			//prepare the artist info tab
+			if(song != null)
+				artist = song.artist;
+			else if(release != null)
+				artist = release.artist;
+			else
+				artist = getIntent().getExtras().getParcelable("artistParcel");
+			
+			if(artist != null){
+				intent = new Intent().setClass(this, ArtistInfoActivity.class);
+				intent.putExtra("artistParcel", artist);
+
+				spec = tabHost.newTabSpec("artists").setIndicator("Artist",
+						res.getDrawable(R.drawable.tab_artists))
+						.setContent(intent);
+				tabHost.addTab(spec);
+			}
+		}
+
+   
+		
+		/*setContentView(R.layout.music_info_tab);
 
 		Resources res = getResources(); // Resource object to get Drawables
 		TabHost tabHost = getTabHost();  // The activity TabHost
@@ -92,7 +162,7 @@ public class MusicInfoTab extends TabActivity {
 			tabHost.addTab(spec);
 		}
 
-		tabHost.setCurrentTab(0);
+		tabHost.setCurrentTab(0);*/
 	}
 
 	private class GetSongDetails extends AsyncTask<Void, Void, SongInfo>{
