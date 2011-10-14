@@ -122,7 +122,8 @@ public class RecSongsActivity extends ListActivity {
 		    pd.setCancelable(true);
 		    return pd;
 		case EXPORT_DIAG:		  	
-			final CharSequence[] items = {"Rdio Playlist", "Last.fm Playlist", "Youtube Playlist"};
+			final CharSequence[] items = {"Rdio Playlist", "Last.fm Playlist", "Youtube Playlist",
+											"Grooveshark Playlist"};
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Export as...");
@@ -156,6 +157,11 @@ public class RecSongsActivity extends ListActivity {
 						i.putExtra("songNames", songNames);
 						i.putExtra("songArtists", songArtists);
 						break;
+					case 3:
+						i = new Intent(RecSongsActivity.this, CreatePlaylistGroovesharkActivity.class);
+						i.putExtra("songNames", songNames);
+						i.putExtra("songArtists", songArtists);
+						break;						
 					default:
 						return;							
 					}		    	
