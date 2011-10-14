@@ -18,7 +18,6 @@ import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TabHost;
 
 import android.widget.Toast;
@@ -44,7 +43,63 @@ public class MusicInfoTab extends TabActivity {
 
 		//if we dont have froyo, then we cant call the async task 
 		if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.ECLAIR_MR1){
-			Log.i("SongSeeker", "Not Froyo or higher");
+			if(song != null || songId != null){
+				
+				intent = new Intent().setClass(this, SongInfoActivity.class);
+				if(song != null){
+					intent.putExtra("songParcel", song);
+				}else{
+					intent.putExtra("songId", songId);
+				}			
+
+				spec = tabHost.newTabSpec("songs").setIndicator("Song",
+						res.getDrawable(R.drawable.tab_artists))
+						.setContent(intent);
+				tabHost.addTab(spec);
+			}
+
+			//prepare the release info tab, if available
+			if(song != null)
+				release = song.release;
+			else
+				release = getIntent().getExtras().getParcelable("releaseParcel");
+			
+			if(release != null || songId != null){
+				intent = new Intent().setClass(this, ReleaseInfoActivity.class);
+				
+				if(release != null)
+					intent.putExtra("releaseParcel", release);
+				else
+					intent.putExtra("songId", songId);
+
+				spec = tabHost.newTabSpec("albums").setIndicator("Album",
+						res.getDrawable(R.drawable.tab_artists))
+						.setContent(intent);
+				tabHost.addTab(spec);
+			}
+
+
+			//prepare the artist info tab
+			if(song != null)
+				artist = song.artist;
+			else if(release != null)
+				artist = release.artist;
+			else
+				artist = getIntent().getExtras().getParcelable("artistParcel");
+			
+			if(artist != null || songId != null){
+				intent = new Intent().setClass(this, ArtistInfoActivity.class);
+								
+				if(artist != null)
+					intent.putExtra("artistParcel", artist);
+				else
+					intent.putExtra("songId", songId);
+				
+				spec = tabHost.newTabSpec("artists").setIndicator("Artist",
+						res.getDrawable(R.drawable.tab_artists))
+						.setContent(intent);
+				tabHost.addTab(spec);
+			}
 		}else{
 			if(song != null || songId != null){
 				if(song == null){

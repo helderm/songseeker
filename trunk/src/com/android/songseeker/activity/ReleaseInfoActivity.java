@@ -91,8 +91,9 @@ public class ReleaseInfoActivity extends ListActivity {
 			try{
 				release = getIntent().getExtras().getParcelable("releaseParcel");
 				if(release == null){
-					IdsParcel releaseIdParcel = getIntent().getExtras().getParcelable("releaseId");
-					release = SevenDigitalComm.getComm().queryReleaseDetails(releaseIdParcel.getIds().get(0));
+					IdsParcel songIdParcel = getIntent().getExtras().getParcelable("songId");	
+					SongInfo song = SevenDigitalComm.getComm().querySongDetails(songIdParcel.getIds().get(0));
+					release = song.release;
 				}				
 				
 				songList = SevenDigitalComm.getComm().queryReleaseSongList(release.id);

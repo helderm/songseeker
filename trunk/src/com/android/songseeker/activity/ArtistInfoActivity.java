@@ -6,7 +6,9 @@ import com.android.songseeker.R;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.SevenDigitalComm;
 import com.android.songseeker.data.ArtistInfo;
+import com.android.songseeker.data.IdsParcel;
 import com.android.songseeker.data.ReleaseInfo;
+import com.android.songseeker.data.SongInfo;
 import com.android.songseeker.util.ImageLoader;
 
 import android.app.Dialog;
@@ -72,6 +74,12 @@ public class ArtistInfoActivity extends ListActivity {
 
 			try{
 				artist = getIntent().getExtras().getParcelable("artistParcel");
+				
+				if(artist == null){
+					IdsParcel songIdParcel = getIntent().getExtras().getParcelable("songId");	
+					SongInfo song = SevenDigitalComm.getComm().querySongDetails(songIdParcel.getIds().get(0));
+					artist = song.artist;
+				}
 				
 				//will need to fetch artist details, since we dont have the artist image url 
 				if(artist.image == null){				

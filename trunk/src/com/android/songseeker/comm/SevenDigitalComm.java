@@ -48,8 +48,7 @@ public class SevenDigitalComm {
 		String reqParam = "trackid="+trackId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize=200";
 
 		try {
-			URL url = new URL(urlStr+reqParam);
-			
+			URL url = new URL(urlStr+reqParam);			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document doc = db.parse(new InputSource(url.openStream()));
@@ -93,9 +92,10 @@ public class SevenDigitalComm {
 		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=5&page=1";
 
 		try {
+			URL url = new URL(urlStr+reqParam);			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			Document doc = db.parse(urlStr+reqParam);
+			Document doc = db.parse(new InputSource(url.openStream()));
 			doc.getDocumentElement().normalize();
 
 			//check response
@@ -132,9 +132,10 @@ public class SevenDigitalComm {
 		String reqParam = "trackid="+trackId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&redirect=false";
 
 		try {
+			URL url = new URL(urlStr+reqParam);			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			Document doc = db.parse(urlStr+reqParam);
+			Document doc = db.parse(new InputSource(url.openStream()));
 			doc.getDocumentElement().normalize();
 
 			//check response
@@ -173,9 +174,10 @@ public class SevenDigitalComm {
 		String reqParam = "releaseid="+releaseId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize=200";
 
 		try {
+			URL url = new URL(urlStr+reqParam);			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			Document doc = db.parse(urlStr+reqParam);
+			Document doc = db.parse(new InputSource(url.openStream()));
 			doc.getDocumentElement().normalize();
 
 			//check response
@@ -212,9 +214,10 @@ public class SevenDigitalComm {
 		String reqParam = "releaseid="+releaseId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=50&page=1";
 
 		try {
+			URL url = new URL(urlStr+reqParam);			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			Document doc = db.parse(urlStr+reqParam);
+			Document doc = db.parse(new InputSource(url.openStream()));
 			doc.getDocumentElement().normalize();
 
 			//check response
@@ -252,9 +255,10 @@ public class SevenDigitalComm {
 		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize=200";
 
 		try {
+			URL url = new URL(urlStr+reqParam);			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			Document doc = db.parse(urlStr+reqParam);
+			Document doc = db.parse(new InputSource(url.openStream()));
 			doc.getDocumentElement().normalize();
 
 			//check response
@@ -290,9 +294,10 @@ public class SevenDigitalComm {
 		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize=200";
 
 		try {
+			URL url = new URL(urlStr+reqParam);			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			Document doc = db.parse(urlStr+reqParam);
+			Document doc = db.parse(new InputSource(url.openStream()));
 			doc.getDocumentElement().normalize();
 
 			//check response
