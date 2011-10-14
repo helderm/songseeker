@@ -89,7 +89,7 @@ public class SevenDigitalComm {
 		NodeList fstNmElmntLst;
 
 		String urlStr = ENDPOINT + "artist/toptracks?";
-		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=5&page=1";
+		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=10&page=1&imageSize=200";
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -211,7 +211,7 @@ public class SevenDigitalComm {
 		NodeList fstNmElmntLst;
 
 		String urlStr = ENDPOINT + "release/tracks?";
-		String reqParam = "releaseid="+releaseId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=50&page=1";
+		String reqParam = "releaseid="+releaseId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=50&page=1&imageSize=200";
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
