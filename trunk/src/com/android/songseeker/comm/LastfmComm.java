@@ -35,10 +35,6 @@ public class LastfmComm {
 		if(sessionKey != null)
 			return comm;
 		
-		//Editor editor = settings.edit();
-		//editor.putString(PREF_SESSIONKEY, null);
-		//editor.commit();
-		
 		sessionKey = settings.getString(PREF_SESSIONKEY, null);
 		username = settings.getString(PREF_USERNAME, null);		
 		
@@ -58,8 +54,7 @@ public class LastfmComm {
 		Editor editor = settings.edit();
 		editor.putString(PREF_SESSIONKEY, session.getKey());
 		editor.putString(PREF_USERNAME, session.getUsername());
-		editor.commit();
-		
+		editor.commit();		
 	}
 	
 	public Collection<Playlist> getUserPlaylists(){

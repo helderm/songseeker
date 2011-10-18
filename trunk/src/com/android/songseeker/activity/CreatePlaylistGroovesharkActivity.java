@@ -4,6 +4,8 @@ import com.android.songseeker.comm.GroovesharkComm;
 import com.android.songseeker.comm.ServiceCommException;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 public class CreatePlaylistGroovesharkActivity extends Activity {
@@ -14,11 +16,12 @@ public class CreatePlaylistGroovesharkActivity extends Activity {
 	    super.onCreate(savedInstanceState);
 	
 	    try {
-			GroovesharkComm.getComm().authorizeUser("heldergaray", "teste");
+	    	SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
+			GroovesharkComm.getComm(settings).requestAuthorize("malakias23", "hema*poa5", settings);
+			GroovesharkComm.getComm().getUserPlaylists();
 		} catch (ServiceCommException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			
+		} catch (Exception e){}
 	    
 	}
 
