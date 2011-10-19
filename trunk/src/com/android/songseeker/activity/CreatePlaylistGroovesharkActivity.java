@@ -7,6 +7,7 @@ import com.android.songseeker.comm.GroovesharkComm;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.data.UserPlaylistsData;
 
+
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -52,7 +53,8 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 	    
         if(!GroovesharkComm.getComm(settings).isAuthorized()){
         	showDialog(USER_AUTH_DIAG);
-        }
+        }else
+        	new GetUserPlaylistsTask().execute();
         
 	    /*try {
 	    	//SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
@@ -171,12 +173,55 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 			removeDialog(REQUEST_AUTH_DIAG);
 			
 			if(err != null){
-				Toast.makeText(getApplicationContext(), err , Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
 				CreatePlaylistGroovesharkActivity.this.finish();
+				return;
 			}
+			
+			new GetUserPlaylistsTask().execute();
 		}		
 	}	
 
+	private class GetUserPlaylistsTask extends AsyncTask<Void, Void, UserPlaylistsData>{
+		private String err = null;		
+		
+		@Override
+		protected void onPreExecute() {
+			Toast.makeText(CreatePlaylistGroovesharkActivity.this, "Fetching your Grooveshark playlists...", 
+								Toast.LENGTH_LONG).show();
+		}
+		
+		@Override
+		protected UserPlaylistsData doInBackground(Void... arg0) {			
+			SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
+			UserPlaylistsData data = null;
+			
+			try{
+				data = GroovesharkComm.getComm().getUserPlaylists(settings);
+			} catch(ServiceCommException e) {
+				err = e.getMessage();
+				return null;
+			}
+			
+			return data;
+		}
+		
+		@Override
+		protected void onPostExecute(UserPlaylistsData data) {
+			
+			if(err != null){
+				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
+				CreatePlaylistGroovesharkActivity.this.finish();
+				return;
+			}
+			
+			adapter.setPlaylists(data);
+		}		
+	}
+	
+	
+	
+	
 	@Override
 	protected Dialog onCreateDialog(int id) {
 
