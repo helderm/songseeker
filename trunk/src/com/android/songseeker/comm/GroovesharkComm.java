@@ -1,26 +1,18 @@
 package com.android.songseeker.comm;
 
 import java.io.IOException;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
-import java.security.InvalidKeyException;
-import java.security.Key;
+
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.AlgorithmParameterSpec;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -30,14 +22,11 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
 
 import com.android.songseeker.comm.ServiceCommException.ServiceErr;
 import com.android.songseeker.comm.ServiceCommException.ServiceID;
 import com.android.songseeker.data.UserPlaylistsData;
 import com.android.songseeker.util.Util;
-import com.google.api.client.util.Base64;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -66,10 +55,14 @@ public class GroovesharkComm {
 		return comm;
 	}
 	
-	public void requestAuthorize(String username, String password, SharedPreferences settings) throws ServiceCommException{
-		if(sessionID != null)
-			return;
+	public boolean isAuthorized(){
+		//if(sessionID != null)
+		//	return true;
 		
+		return false;
+	}
+	
+	public void requestAuthorize(String username, String password, SharedPreferences settings) throws ServiceCommException{
 		String unauthSession = null;
 		
 		try{
@@ -108,15 +101,21 @@ public class GroovesharkComm {
 			String jsonString = EntityUtils.toString(r_entity);		
 			JSONParser parser = new JSONParser();
 			
+			//check for errors
+			parseError(jsonString, parser);
+			
 			JSONObject result = (JSONObject)((JSONObject)parser.parse(jsonString)).get("result");
 			
 			//if we have a UserID, the our session is autheticated
 			String userID = Long.toString((Long)result.get("UserID"));
-			if(userID == null){
+			if(userID == null || userID.equals("0")){
 				throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.NOT_AUTH);
 			}
 		
 		} catch(ServiceCommException e){
+ 			if(e.getErr() == ServiceErr.NOT_AUTH)
+ 				cleanAuth(settings);
+ 			
 			throw e;		
 		} catch (IOException e){
 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
@@ -160,10 +159,14 @@ public class GroovesharkComm {
 				throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
 			} 			
 
-			//parse the response
 			HttpEntity r_entity = response.getEntity();
 			String jsonString = EntityUtils.toString(r_entity);
-			JSONParser parser=new JSONParser();			
+			JSONParser parser = new JSONParser();			
+			
+			//check for errors
+			parseError(jsonString, parser);			
+
+			//parse the response
 			JSONObject result = (JSONObject)((JSONObject)parser.parse(jsonString)).get("result");
 
 			//get result status
@@ -175,7 +178,7 @@ public class GroovesharkComm {
 			//get unauthenticated session id
 			String unauthSessionID = (String)result.get("sessionID");
 			if(unauthSessionID == null){
-				throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.REQ_FAILED);
+				throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.NOT_AUTH);
 			}			
 			
 			return unauthSessionID;
@@ -190,7 +193,7 @@ public class GroovesharkComm {
 		}
 	}
 
- 	public UserPlaylistsData getUserPlaylists() throws ServiceCommException{
+ 	public UserPlaylistsData getUserPlaylists(SharedPreferences settings) throws ServiceCommException{
  		UserPlaylistsData data = new UserPlaylistsData();
  		HttpResponse response;
  		
@@ -219,22 +222,30 @@ public class GroovesharkComm {
  	 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
  	 		} 
  			
-			//parse the response
 			HttpEntity r_entity = response.getEntity();
-			String jsonString = EntityUtils.toString(r_entity);
-			
+			String jsonString = EntityUtils.toString(r_entity);			
 			JSONParser parser = new JSONParser();			
-			JSONArray result = (JSONArray)((JSONObject)parser.parse(jsonString)).get("playlists");
-
-			for(int i=0; i<result.size(); i++){
-				JSONObject pl = (JSONObject) result.get(i);
+			
+			//check for errors
+			parseError(jsonString, parser);
+			
+			//parse the response
+			JSONObject result = (JSONObject)((JSONObject)parser.parse(jsonString)).get("result");
+			JSONArray array = (JSONArray) result.get("playlists");			
+			
+			for(int i=0; i<array.size(); i++){
+				JSONObject pl = (JSONObject) array.get(i);
 				
 				String id = Long.toString((Long) pl.get("PlaylistID"));
-				String name = (String) pl.get("PlaylistName");				
+				String name = (String) pl.get("PlaylistName");
 				
-			}
- 
+				data.addPlaylist(name, -1, id);
+				
+			} 
  		} catch(ServiceCommException e){
+ 			if(e.getErr() == ServiceErr.NOT_AUTH)
+ 				cleanAuth(settings); 			
+ 			
  			throw e;		
  		} catch (IOException ex){
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
@@ -242,9 +253,6 @@ public class GroovesharkComm {
  			Log.e(Util.APP, e.getMessage(), e);
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.UNKNOWN);
  		}
-
- 		
- 		//...
  		
  		return data;
  	}
@@ -263,7 +271,8 @@ public class GroovesharkComm {
  
  			LinkedHashMap<String, String> parameters = new LinkedHashMap<String, String>();
  			parameters.put("query", songName + " " + artistName);
- 			parameters.put("limit", "5");
+ 			parameters.put("country", "");
+ 			parameters.put("limit", "20");
  			args.put("parameters", parameters);
  			
  			String signature = getSignature(args);			
@@ -273,7 +282,42 @@ public class GroovesharkComm {
  
  			request.setEntity(body);			
  			HttpClient httpClient = new DefaultHttpClient();
- 			response = httpClient.execute(request);
+ 			response = httpClient.execute(request); 			
+ 			 
+ 	 		if (response.getStatusLine().getStatusCode() != 200){
+ 	 			Log.e(Util.APP, "HTTP client returned code different from 200! code: "
+ 	 						+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
+ 	 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
+ 	 		} 		
+ 	 		
+ 			HttpEntity r_entity = response.getEntity();
+ 			String jsonString = EntityUtils.toString(r_entity);			
+ 			JSONParser parser = new JSONParser();			
+ 			
+ 			//check for errors
+ 			parseError(jsonString, parser);
+ 			
+ 			//parse the response
+ 			JSONObject result = (JSONObject)((JSONObject)parser.parse(jsonString)).get("result");
+ 			JSONArray array = (JSONArray) result.get("songs");			
+ 			
+ 			//search for the song
+ 			for(int i=0; i<array.size(); i++){
+ 				JSONObject song = (JSONObject) array.get(i);
+ 				
+ 				String id = Long.toString((Long) song.get("SongID"));
+ 				
+ 				String name = (String) song.get("SongName");
+ 				String artist = (String) song.get("ArtistName"); 				
+ 				
+ 				if((songName.equalsIgnoreCase(name) || name.toLowerCase().contains(songName.toLowerCase()) || songName.toLowerCase().contains(name.toLowerCase())) && 
+ 					(artistName.equalsIgnoreCase(artist) || artist.toLowerCase().contains(artistName.toLowerCase()) || artistName.toLowerCase().contains(artist.toLowerCase()))){
+ 					
+ 					return id;
+ 				} 							
+ 			} 
+ 			
+ 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.ID_NOT_FOUND);
  
  		} catch(ServiceCommException e){
  			throw e;		
@@ -283,16 +327,6 @@ public class GroovesharkComm {
  			Log.e(Util.APP, e.getMessage(), e);
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.UNKNOWN);
  		}
- 
- 		if (response.getStatusLine().getStatusCode() != 200){
- 			Log.e(Util.APP, "HTTP client returned code different from 200! code: "
- 								+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
- 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
- 		} 		
- 		
- 		//...
- 		
- 		return null;
  	}
  	
  	public void createPlaylist(String name, ArrayList<String> songIDs) throws ServiceCommException{
@@ -307,15 +341,16 @@ public class GroovesharkComm {
  			header.put("sessionID", sessionID);
  			args.put("header", header);	
  
- 			LinkedHashMap<String, String> parameters = new LinkedHashMap<String, String>();
+ 			LinkedHashMap<String, Object> parameters = new LinkedHashMap<String, Object>();
  			parameters.put("name", name);
  			
- 			StringBuilder sb = new StringBuilder();
- 			for(String id : songIDs){
- 				sb.append(id+",");
- 			}
- 			sb.deleteCharAt(sb.length()-1);		
- 			parameters.put("songIDs", sb.toString());
+ 			//StringBuilder sb = new StringBuilder();
+ 			//for(String id : songIDs){
+ 			//	sb.append(id+",");
+ 			//}
+ 			//sb.deleteCharAt(sb.length()-1);		
+ 			//parameters.put("songIDs", sb.toString());
+ 			parameters.put("songIDs", songIDs);
  			
  			args.put("parameters", parameters);
  			
@@ -327,6 +362,28 @@ public class GroovesharkComm {
  			request.setEntity(body);			
  			HttpClient httpClient = new DefaultHttpClient();
  			response = httpClient.execute(request);
+ 			
+	 		if (response.getStatusLine().getStatusCode() != 200){
+ 	 			Log.e(Util.APP, "HTTP client returned code different from 200! code: "
+ 	 						+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
+ 	 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
+ 	 		} 		
+ 	 		
+			HttpEntity r_entity = response.getEntity();
+			String jsonString = EntityUtils.toString(r_entity);
+			JSONParser parser = new JSONParser();			
+			
+			//check for errors
+			parseError(jsonString, parser);			
+
+			//parse the response
+			JSONObject result = (JSONObject)((JSONObject)parser.parse(jsonString)).get("result");
+
+			//get result status
+			Boolean success = (Boolean)result.get("success");
+			if(success == null || success != true){
+				throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.REQ_FAILED);
+			}	
  
  		} catch(ServiceCommException e){
  			throw e;		
@@ -337,13 +394,7 @@ public class GroovesharkComm {
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.UNKNOWN);
  		}
  
- 		if (response.getStatusLine().getStatusCode() != 200){
- 			Log.e(Util.APP, "HTTP client returned code different from 200! code: "
- 								+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
- 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
- 		} 		
- 		
- 		//...		
+
  	}
  	
 	private String getSignature(LinkedHashMap<String, Object> args) throws Exception{
@@ -375,5 +426,44 @@ public class GroovesharkComm {
 		}
 		
 		return token;
+	}
+	
+	private void parseError(String jsonString, JSONParser parser) throws ServiceCommException{		
+		
+		try{
+		
+			JSONArray errors = (JSONArray)((JSONObject)parser.parse(jsonString)).get("errors");
+			
+			if(errors == null)
+				return;
+			
+			Long code = (Long)((JSONObject)errors.get(0)).get("code");
+			if(code == null)
+				throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.REQ_FAILED);
+			
+			switch(code.intValue()){
+			case 11: //rate limit exceded
+				throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.TRY_LATER);
+			case 100:
+			case 101:
+				throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.NOT_AUTH);			
+			default:
+				throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.REQ_FAILED);
+			}
+		
+		} catch(ServiceCommException e){
+			throw e;
+		} catch(NullPointerException e){
+			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.REQ_FAILED);
+		} catch(Exception e){
+			Log.e(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.UNKNOWN);
+		}		
+	}
+	
+	private void cleanAuth(SharedPreferences settings){
+		Editor editor = settings.edit();
+		editor.putString(PREF_SESSIONID, null);
+		editor.commit();
 	}
 }

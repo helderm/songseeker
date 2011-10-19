@@ -320,8 +320,7 @@ public class RecSongsActivity extends ListActivity {
 	    public void setPlaylist(Playlist pl){
 	    	this.playlist = pl;
 	    	notifyDataSetChanged();
-	    }
-	    
+	    }	    
 		
 	    private class ViewHolder{
 	    	public TextView topText;
