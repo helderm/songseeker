@@ -16,6 +16,7 @@ public class SongInfo implements Parcelable{
 	public ReleaseInfo release;	
 	
 	public SongInfo() {
+		artist = new ArtistInfo();
 		release = new ReleaseInfo();
 	}
 	

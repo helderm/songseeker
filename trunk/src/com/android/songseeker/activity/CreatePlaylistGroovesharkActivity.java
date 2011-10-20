@@ -1,12 +1,16 @@
 package com.android.songseeker.activity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.android.songseeker.R;
 import com.android.songseeker.comm.GroovesharkComm;
 import com.android.songseeker.comm.ServiceCommException;
+import com.android.songseeker.comm.ServiceCommException.ServiceErr;
+import com.android.songseeker.data.ArtistsParcel;
+import com.android.songseeker.data.SongNamesParcel;
 import com.android.songseeker.data.UserPlaylistsData;
-
+import com.android.songseeker.util.Util;
 
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -15,6 +19,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +28,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +43,7 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 	private static final int USER_AUTH_DIAG = 5;
 	
 	private ProgressDialog fetchSongIdsDiag;
+	SharedPreferences settings;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -49,8 +56,8 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
         adapter = new PlaylistsAdapter();
         setListAdapter(adapter);
 				
-        SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
-	    
+        settings = getPreferences(Context.MODE_PRIVATE);
+        
         if(!GroovesharkComm.getComm(settings).isAuthorized()){
         	showDialog(USER_AUTH_DIAG);
         }else
@@ -156,7 +163,6 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 		protected Void doInBackground(HashMap<String, String>... args) {
 			String user = args[0].get("user");
 			String pwd = args[0].get("pwd");
-			SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
 			
 			try {				
 				GroovesharkComm.getComm().requestAuthorize(user, pwd, settings);
@@ -193,7 +199,6 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 		
 		@Override
 		protected UserPlaylistsData doInBackground(Void... arg0) {			
-			SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
 			UserPlaylistsData data = null;
 			
 			try{
@@ -217,10 +222,101 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 			
 			adapter.setPlaylists(data);
 		}		
+	}	
+	
+	private class CreatePlaylistTask extends AsyncTask<HashMap<String, String>, Integer, Void>{
+		
+		private SongNamesParcel sn = getIntent().getExtras().getParcelable("songNames");
+		private ArtistsParcel ar = getIntent().getExtras().getParcelable("songArtists");
+		private String err = null;		
+		
+		@Override
+		protected void onPreExecute() {
+			showDialog(FETCH_SONG_IDS_DIAG);
+			fetchSongIdsDiag.setMax(sn.getSongNames().size());
+		}
+		
+		@Override
+		protected void onProgressUpdate(Integer... progress) {
+			
+			if(progress[0] >= 0)
+				fetchSongIdsDiag.setProgress(progress[0]);
+			else{
+				removeDialog(FETCH_SONG_IDS_DIAG);
+				showDialog(CREATE_PLAYLIST_DIAG);
+			}
+		}		
+		
+		@Override
+		protected Void doInBackground(HashMap<String, String>... params) {
+		
+			ArrayList<String> songIDs = new ArrayList<String>();
+			
+			int count = 0;
+			for(int i=0; i<sn.getSongNames().size(); i++){
+				
+				try {					
+					String gsID = GroovesharkComm.getComm().getSongID(sn.getSongNames().get(i), ar.getArtistList().get(i), settings);
+					songIDs.add(gsID);					
+				}catch (ServiceCommException e) {
+					if(e.getErr() == ServiceErr.ID_NOT_FOUND){
+						publishProgress(++count);
+						Log.w(Util.APP, "Song ["+sn.getSongNames().get(i)+" - "+ar.getArtistList().get(i)+"] not found in Grooveshark, ignoring...");
+						continue;
+					}
+					
+					err = e.getMessage();
+					return null;
+				} 
+				
+				publishProgress(++count);
+			}
+			
+			//show createPlaylist diag
+			publishProgress(-1);
+			
+			try{
+				
+				String plName = params[0].get("name");
+				String plId = params[0].get("id");
+				
+				if(plName != null){					
+					GroovesharkComm.getComm().createPlaylist(plName, songIDs, settings);
+				}//else{
+				//	RdioComm.getComm().addToPlaylist(plId, songIDs, settings);
+				//}
+			}catch(ServiceCommException e){
+				err = e.getMessage();				
+			}			
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			removeDialog(CREATE_PLAYLIST_DIAG);
+			
+			if(err != null){
+				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
+			}else{
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.pl_created_str), Toast.LENGTH_LONG).show();
+			}
+			
+			CreatePlaylistGroovesharkActivity.this.finish();
+		}
+		
 	}
 	
 	
-	
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		if(position == 0){
+			showDialog(NEW_PLAYLIST_DIAG);
+		}else{		
+			HashMap<String, String> plId = new HashMap<String, String>();
+			plId.put("id", adapter.getPlaylistId(position));
+			new CreatePlaylistTask().execute(plId);
+		}
+	}
 	
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -275,7 +371,7 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 	            	HashMap<String, String> plName = new HashMap<String, String>();
 	            	plName.put("name", textInput.getText().toString());
 	            	
-	            	//new CreatePlaylistTask().execute(plName, null, null);	            	
+	            	new CreatePlaylistTask().execute(plName);	            	
 	            }
 	        }); 
 			

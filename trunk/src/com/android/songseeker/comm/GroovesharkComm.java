@@ -56,8 +56,8 @@ public class GroovesharkComm {
 	}
 	
 	public boolean isAuthorized(){
-		//if(sessionID != null)
-		//	return true;
+		if(sessionID != null)
+			return true;
 		
 		return false;
 	}
@@ -257,7 +257,7 @@ public class GroovesharkComm {
  		return data;
  	}
  	
- 	public String getSongID(String songName, String artistName) throws ServiceCommException{		
+ 	public String getSongID(String songName, String artistName, SharedPreferences settings) throws ServiceCommException{		
  		HttpResponse response;
  		
  		try{	
@@ -266,7 +266,6 @@ public class GroovesharkComm {
  
  			LinkedHashMap<String, String> header = new LinkedHashMap<String, String>();
  			header.put("wsKey", KEY);
- 			header.put("sessionID", sessionID);
  			args.put("header", header);	
  
  			LinkedHashMap<String, String> parameters = new LinkedHashMap<String, String>();
@@ -319,7 +318,10 @@ public class GroovesharkComm {
  			
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.ID_NOT_FOUND);
  
- 		} catch(ServiceCommException e){
+ 		} catch(ServiceCommException e){ 			
+ 			if(e.getErr() == ServiceErr.NOT_AUTH)
+ 				cleanAuth(settings);
+ 			
  			throw e;		
  		} catch (IOException ex){
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
@@ -329,7 +331,7 @@ public class GroovesharkComm {
  		}
  	}
  	
- 	public void createPlaylist(String name, ArrayList<String> songIDs) throws ServiceCommException{
+ 	public void createPlaylist(String name, ArrayList<String> songIDs, SharedPreferences settings) throws ServiceCommException{
  		HttpResponse response;
  		
  		try{	
@@ -343,15 +345,7 @@ public class GroovesharkComm {
  
  			LinkedHashMap<String, Object> parameters = new LinkedHashMap<String, Object>();
  			parameters.put("name", name);
- 			
- 			//StringBuilder sb = new StringBuilder();
- 			//for(String id : songIDs){
- 			//	sb.append(id+",");
- 			//}
- 			//sb.deleteCharAt(sb.length()-1);		
- 			//parameters.put("songIDs", sb.toString());
- 			parameters.put("songIDs", songIDs);
- 			
+			parameters.put("songIDs", songIDs); 			
  			args.put("parameters", parameters);
  			
  			String signature = getSignature(args);			
@@ -386,6 +380,9 @@ public class GroovesharkComm {
 			}	
  
  		} catch(ServiceCommException e){
+ 			if(e.getErr() == ServiceErr.NOT_AUTH)
+ 				cleanAuth(settings); 	
+ 			
  			throw e;		
  		} catch (IOException ex){
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
