@@ -37,7 +37,11 @@ public class GroovesharkComm {
 
 	private static final String KEY = "heldermartins";
 	private static final String SECRET = "b0518075945c057909da9829fe1639df";
-	private static final String ENDPOINT = "https://api.grooveshark.com/ws/3.0/?sig=";
+	
+	private static final String ENDPOINT = "api.grooveshark.com/ws/3.0/?sig=";
+	private static final String HTTP = "http://";
+	private static final String HTTPS = "https://";
+	
 	private static final String PREF_SESSIONID = "prefs.grooveshark.sessionid";	
 	private static final String CRYPT_ALG = "HmacMD5";
 
@@ -90,7 +94,7 @@ public class GroovesharkComm {
 			
 			//call authenticate
 			String signature = getSignature(args);	
-			HttpPost request = new HttpPost(ENDPOINT+signature);
+			HttpPost request = new HttpPost(HTTPS+ENDPOINT+signature);
 			StringEntity body = new StringEntity(JSONValue.toJSONString(args));				
 			request.setEntity(body);			
 			HttpClient httpClient = new DefaultHttpClient();
@@ -147,7 +151,7 @@ public class GroovesharkComm {
 
 			//call start session	
 			String signature = getSignature(args);	
-			HttpPost request = new HttpPost(ENDPOINT+signature);
+			HttpPost request = new HttpPost(HTTPS+ENDPOINT+signature);
 			StringEntity body = new StringEntity(JSONValue.toJSONString(args));				
 			request.setEntity(body);			
 			HttpClient httpClient = new DefaultHttpClient();
@@ -209,7 +213,7 @@ public class GroovesharkComm {
  
  			String signature = getSignature(args);			
  
- 			HttpPost request = new HttpPost(ENDPOINT+signature);
+ 			HttpPost request = new HttpPost(HTTP+ENDPOINT+signature);
  			StringEntity body = new StringEntity(JSONValue.toJSONString(args));
  
  			request.setEntity(body);			
@@ -258,7 +262,6 @@ public class GroovesharkComm {
  	}
  	
  	public String getSongID(String songName, String artistName, SharedPreferences settings) throws ServiceCommException{		
- 		HttpResponse response;
  		
  		try{	
  			LinkedHashMap<String, Object> args = new LinkedHashMap<String, Object>();
@@ -276,12 +279,12 @@ public class GroovesharkComm {
  			
  			String signature = getSignature(args);			
  
- 			HttpPost request = new HttpPost(ENDPOINT+signature);
+ 			HttpPost request = new HttpPost(HTTP+ENDPOINT+signature);
  			StringEntity body = new StringEntity(JSONValue.toJSONString(args));
  
  			request.setEntity(body);			
  			HttpClient httpClient = new DefaultHttpClient();
- 			response = httpClient.execute(request); 			
+ 			HttpResponse response = httpClient.execute(request); 			
  			 
  	 		if (response.getStatusLine().getStatusCode() != 200){
  	 			Log.e(Util.APP, "HTTP client returned code different from 200! code: "
@@ -332,7 +335,6 @@ public class GroovesharkComm {
  	}
  	
  	public void createPlaylist(String name, ArrayList<String> songIDs, SharedPreferences settings) throws ServiceCommException{
- 		HttpResponse response;
  		
  		try{	
  			LinkedHashMap<String, Object> args = new LinkedHashMap<String, Object>();
@@ -350,12 +352,12 @@ public class GroovesharkComm {
  			
  			String signature = getSignature(args);			
  
- 			HttpPost request = new HttpPost(ENDPOINT+signature);
+ 			HttpPost request = new HttpPost(HTTP+ENDPOINT+signature);
  			StringEntity body = new StringEntity(JSONValue.toJSONString(args));
  
  			request.setEntity(body);			
  			HttpClient httpClient = new DefaultHttpClient();
- 			response = httpClient.execute(request);
+ 			HttpResponse response = httpClient.execute(request);
  			
 	 		if (response.getStatusLine().getStatusCode() != 200){
  	 			Log.e(Util.APP, "HTTP client returned code different from 200! code: "
@@ -390,9 +392,132 @@ public class GroovesharkComm {
  			Log.e(Util.APP, e.getMessage(), e);
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.UNKNOWN);
  		}
- 
-
  	}
+ 	
+ 	public ArrayList<String> getPlaylistSongs(String playlistID, SharedPreferences settings) throws ServiceCommException{
+ 		ArrayList<String> plSongs = new ArrayList<String>();
+ 		
+ 		try{	
+ 			LinkedHashMap<String, Object> args = new LinkedHashMap<String, Object>();
+ 			args.put("method", "getPlaylistSongs");
+ 
+ 			LinkedHashMap<String, String> header = new LinkedHashMap<String, String>();
+ 			header.put("wsKey", KEY);
+ 			header.put("sessionID", sessionID);
+ 			args.put("header", header);	
+ 
+ 			LinkedHashMap<String, String> parameters = new LinkedHashMap<String, String>();
+ 			parameters.put("playlistID", playlistID);
+ 			args.put("parameters", parameters);
+ 			
+ 			String signature = getSignature(args);			
+ 
+ 			HttpPost request = new HttpPost(HTTP+ENDPOINT+signature);
+ 			StringEntity body = new StringEntity(JSONValue.toJSONString(args));
+ 
+ 			request.setEntity(body);			
+ 			HttpClient httpClient = new DefaultHttpClient();
+ 			HttpResponse response = httpClient.execute(request); 			
+ 			 
+ 	 		if (response.getStatusLine().getStatusCode() != 200){
+ 	 			Log.e(Util.APP, "HTTP client returned code different from 200! code: "
+ 	 						+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
+ 	 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
+ 	 		} 		
+ 	 		
+ 			HttpEntity r_entity = response.getEntity();
+ 			String jsonString = EntityUtils.toString(r_entity);			
+ 			JSONParser parser = new JSONParser();			
+ 			
+ 			//check for errors
+ 			parseError(jsonString, parser);
+ 			
+ 			//parse the response
+ 			JSONObject result = (JSONObject)((JSONObject)parser.parse(jsonString)).get("result");
+ 			JSONArray array = (JSONArray) result.get("songs"); 			
+ 	 		
+ 			//search for songs
+ 			for(int i=0; i<array.size(); i++){
+ 				JSONObject song = (JSONObject) array.get(i);
+ 				
+ 				String id = Long.toString((Long) song.get("SongID"));
+ 				plSongs.add(id);					
+ 			} 
+ 			
+ 	 		return plSongs;
+ 	 		
+ 		} catch(ServiceCommException e){ 			
+ 			if(e.getErr() == ServiceErr.NOT_AUTH)
+ 				cleanAuth(settings);
+ 			
+ 			throw e;		
+ 		} catch (IOException ex){
+ 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
+ 		} catch(Exception e){
+ 			Log.e(Util.APP, e.getMessage(), e);
+ 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.UNKNOWN);
+ 		} 		
+ 	}
+ 	
+ 	public void setPlaylistSongs(String playlistID, ArrayList<String> songIDs, SharedPreferences settings) throws ServiceCommException{
+ 		
+ 		try{	
+ 			LinkedHashMap<String, Object> args = new LinkedHashMap<String, Object>();
+ 			args.put("method", "setPlaylistSongs");
+ 
+ 			LinkedHashMap<String, String> header = new LinkedHashMap<String, String>();
+ 			header.put("wsKey", KEY);
+ 			header.put("sessionID", sessionID);
+ 			args.put("header", header);	
+ 
+ 			LinkedHashMap<String, Object> parameters = new LinkedHashMap<String, Object>();
+ 			parameters.put("playlistID", playlistID);
+			parameters.put("songIDs", songIDs); 			
+ 			args.put("parameters", parameters);
+ 			
+ 			String signature = getSignature(args);			
+ 
+ 			HttpPost request = new HttpPost(HTTP+ENDPOINT+signature);
+ 			StringEntity body = new StringEntity(JSONValue.toJSONString(args));
+ 
+ 			request.setEntity(body);			
+ 			HttpClient httpClient = new DefaultHttpClient();
+ 			HttpResponse response = httpClient.execute(request);
+ 			
+	 		if (response.getStatusLine().getStatusCode() != 200){
+ 	 			Log.e(Util.APP, "HTTP client returned code different from 200! code: "
+ 	 						+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
+ 	 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
+ 	 		} 		
+ 	 		
+			HttpEntity r_entity = response.getEntity();
+			String jsonString = EntityUtils.toString(r_entity);
+			JSONParser parser = new JSONParser();			
+			
+			//check for errors
+			parseError(jsonString, parser);			
+
+			//parse the response
+			JSONObject result = (JSONObject)((JSONObject)parser.parse(jsonString)).get("result");
+
+			//get result status
+			Long success = (Long)result.get("success");
+			if(success == null || success != 1){
+				throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.REQ_FAILED);
+			}	
+ 
+ 		} catch(ServiceCommException e){
+ 			if(e.getErr() == ServiceErr.NOT_AUTH)
+ 				cleanAuth(settings); 	
+ 			
+ 			throw e;		
+ 		} catch (IOException ex){
+ 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
+ 		} catch(Exception e){
+ 			Log.e(Util.APP, e.getMessage(), e);
+ 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.UNKNOWN);
+ 		}
+ 	} 	
  	
 	private String getSignature(LinkedHashMap<String, Object> args) throws Exception{
 

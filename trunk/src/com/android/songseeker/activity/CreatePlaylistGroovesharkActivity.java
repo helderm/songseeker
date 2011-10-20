@@ -126,7 +126,8 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 		    	holder.topText.setText("New");		    	
 		    	holder.botText.setText("Playlist...");
 		    }else{			    
-		    	holder.topText.setText(playlists.getPlaylistName(position-1));			    
+		    	holder.topText.setText(playlists.getPlaylistName(position-1));		
+		    	holder.botText.setText("");
 		    }	
 		    
 		    return convertView;
@@ -278,13 +279,15 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 			try{
 				
 				String plName = params[0].get("name");
-				String plId = params[0].get("id");
+				String plID = params[0].get("id");
 				
 				if(plName != null){					
 					GroovesharkComm.getComm().createPlaylist(plName, songIDs, settings);
-				}//else{
-				//	RdioComm.getComm().addToPlaylist(plId, songIDs, settings);
-				//}
+				}else{
+					ArrayList<String> plSongs = GroovesharkComm.getComm().getPlaylistSongs(plID, settings);
+					songIDs.addAll(plSongs);
+					GroovesharkComm.getComm().setPlaylistSongs(plID, songIDs, settings);					
+				}
 			}catch(ServiceCommException e){
 				err = e.getMessage();				
 			}			
