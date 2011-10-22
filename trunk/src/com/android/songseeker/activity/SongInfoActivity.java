@@ -167,7 +167,7 @@ public class SongInfoActivity extends ListActivity {
 
 			//set image
 			ImageView coverart = (ImageView) header.findViewById(R.id.songinfo_coverArt);
-			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.blankdisc);
+			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.ic_menu_disc);
 
 			getListView().addHeaderView(header);
 
@@ -210,16 +210,16 @@ public class SongInfoActivity extends ListActivity {
 
 			if (v == null) {
 				LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = vi.inflate(R.layout.rec_song_row, null);
+				v = vi.inflate(R.layout.list_row, null);
 			}
 
 			final SongInfo song = getItem(position);
 			final int pos = position;
 			if (song != null) {
-				TextView tt = (TextView) v.findViewById(R.id.recsong_firstLine);
-				TextView bt = (TextView) v.findViewById(R.id.recsong_secondLine);
-				ImageView coverart = (ImageView) v.findViewById(R.id.recsong_coverart);
-				ImageView playpause = (ImageView) v.findViewById(R.id.recsong_playpause);
+				TextView tt = (TextView) v.findViewById(R.id.firstLine);
+				TextView bt = (TextView) v.findViewById(R.id.secondLine);
+				ImageView coverart = (ImageView) v.findViewById(R.id.coverart);
+				ImageView playpause = (ImageView) v.findViewById(R.id.playpause);
 
 				bt.setText(song.release.name);
 				tt.setText(song.name);
@@ -247,7 +247,7 @@ public class SongInfoActivity extends ListActivity {
 					}
 				}); 			    
 
-				ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.blankdisc);
+				ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.ic_menu_disc);
 
 			}
 

@@ -48,7 +48,7 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	
-	    setContentView(R.layout.playlists_list);
+	    setContentView(R.layout.listview);
 		
 		getListView().setEmptyView(findViewById(R.id.empty));
 		
@@ -205,17 +205,21 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
 			
 			if (v == null) {
 			    LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			    v = vi.inflate(R.layout.playlist_row, null);
+			    v = vi.inflate(R.layout.list_row, null);
 			}			 
 
-			TextView tt = (TextView) v.findViewById(R.id.pl_firstLine);
-		    TextView bt = (TextView) v.findViewById(R.id.pl_secondLine);
-		    ImageView img = (ImageView) v.findViewById(R.id.pl_art);
-		    img.setImageResource(R.drawable.plus2);	
+			TextView tt = (TextView) v.findViewById(R.id.firstLine);
+		    TextView bt = (TextView) v.findViewById(R.id.secondLine);
+		    
+		    ImageView img = (ImageView) v.findViewById(R.id.coverart);
+		    img.setImageResource(R.drawable.ic_menu_database);
+		    
+		    ImageView playPause = (ImageView) v.findViewById(R.id.playpause);
+		    playPause.setVisibility(View.GONE);
 		    
 		    if(position == 0){
-		    	tt.setText("New");		    	
-		    	bt.setText("Playlist...");
+		    	tt.setText("New Playlist...");		    	
+		    	bt.setText("");
 		    }else{			    
 			    bt.setText(pls.get(position-1).getSize()+" songs");
 			    tt.setText(pls.get(position-1).getTitle());			    

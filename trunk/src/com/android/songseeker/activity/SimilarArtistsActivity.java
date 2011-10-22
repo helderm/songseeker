@@ -151,13 +151,13 @@ public class SimilarArtistsActivity extends ListActivity {
 			ViewHolder holder;
 
 			if(convertView == null) {
-				convertView = inflater.inflate(R.layout.rec_song_row, null);
+				convertView = inflater.inflate(R.layout.list_row, null);
 
 				holder = new ViewHolder();
-				holder.topText = (TextView) convertView.findViewById(R.id.recsong_firstLine);
-				holder.botText = (TextView) convertView.findViewById(R.id.recsong_secondLine);
-				holder.coverArt = (ImageView) convertView.findViewById(R.id.recsong_coverart);
-				holder.playPause = (ImageView) convertView.findViewById(R.id.recsong_playpause);	
+				holder.topText = (TextView) convertView.findViewById(R.id.firstLine);
+				holder.botText = (TextView) convertView.findViewById(R.id.secondLine);
+				holder.coverArt = (ImageView) convertView.findViewById(R.id.coverart);
+				holder.playPause = (ImageView) convertView.findViewById(R.id.playpause);	
 
 				convertView.setTag(holder);
 			}else{

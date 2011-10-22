@@ -3,29 +3,29 @@
 	android:layout_width="fill_parent" android:layout_height="?android:attr/listPreferredItemHeight"
 	android:padding="6dip">
 
-	<ImageView android:id="@+id/recsong_coverart"
+	<ImageView android:id="@+id/coverart"
 		android:layout_width="55dip" android:layout_height="55dip"
 		android:layout_alignParentTop="true" android:layout_alignParentBottom="true"
 		android:layout_marginRight="6dip" />
 
-	<TextView android:id="@+id/recsong_firstLine"
+	<TextView android:id="@+id/firstLine"
 		android:layout_width="fill_parent" android:layout_height="26dip"
-		android:layout_toRightOf="@id/recsong_coverart" android:layout_toLeftOf="@+id/recsong_playpause"
+		android:layout_toRightOf="@id/coverart" android:layout_toLeftOf="@+id/playpause"
 		android:layout_alignWithParentIfMissing="true"
 		android:layout_alignParentTop="true" 
 		android:singleLine="true" android:ellipsize="marquee" android:gravity="center_vertical"
 		android:textStyle="bold" />
 
-	<TextView android:id="@+id/recsong_secondLine"
+	<TextView android:id="@+id/secondLine"
 		android:layout_width="50dip" android:layout_height="26dip"
-		android:layout_toRightOf="@id/recsong_coverart"
-		android:layout_alignParentBottom="true" android:layout_below="@id/recsong_firstLine"
+		android:layout_toRightOf="@id/coverart"
+		android:layout_alignParentBottom="true" android:layout_below="@id/firstLine"
 		android:singleLine="true" android:ellipsize="marquee"
-		android:layout_alignRight="@+id/recsong_firstLine"
+		android:layout_alignRight="@+id/firstLine"
 		android:layout_alignWithParentIfMissing="true" />
 
 
-	<ImageView android:id="@+id/recsong_playpause" android:src="@drawable/play"
+	<ImageView android:id="@+id/playpause" android:src="@drawable/play"
 		android:layout_width="40dip" android:layout_height="40dip"
 		android:layout_alignParentRight="true"
 		android:layout_alignParentBottom="true" android:layout_marginRight="3dip" />

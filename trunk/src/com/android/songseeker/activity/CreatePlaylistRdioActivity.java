@@ -53,7 +53,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		        
-        setContentView(R.layout.playlists_list);
+        setContentView(R.layout.listview);
 		
 		getListView().setEmptyView(findViewById(R.id.empty));
 		
@@ -115,21 +115,24 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 			
 			if (v == null) {
 			    LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			    v = vi.inflate(R.layout.playlist_row, null);
+			    v = vi.inflate(R.layout.list_row, null);
 			}			 
 
-			TextView tt = (TextView) v.findViewById(R.id.pl_firstLine);
-		    TextView bt = (TextView) v.findViewById(R.id.pl_secondLine);
-		    ImageView img = (ImageView) v.findViewById(R.id.pl_art);
+			TextView tt = (TextView) v.findViewById(R.id.firstLine);
+		    TextView bt = (TextView) v.findViewById(R.id.secondLine);
+		    ImageView img = (ImageView) v.findViewById(R.id.coverart);
+		    
+		    ImageView playPause = (ImageView) v.findViewById(R.id.playpause);
+		    playPause.setVisibility(View.GONE);
 		    		    
 		    if(position == 0){
-		    	tt.setText("New");
-		    	img.setImageResource(R.drawable.plus2);
-		    	bt.setText("Playlist...");
+		    	tt.setText("New Playlist...");
+		    	img.setImageResource(R.drawable.ic_menu_database);
+		    	bt.setText("");
 		    }else{			    
 			    bt.setText(data.getPlaylistNumSongs(position-1)+" songs");
 			    tt.setText(data.getPlaylistName(position-1));
-			    ImageLoader.getLoader(getCacheDir()).DisplayImage(data.getPlaylistImage(position-1), img, R.drawable.plus2);
+			    ImageLoader.getLoader(getCacheDir()).DisplayImage(data.getPlaylistImage(position-1), img, R.drawable.ic_menu_database);
 		    }		
 						
 			return v;

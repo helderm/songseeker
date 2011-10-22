@@ -50,7 +50,7 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);	    
 	    
-	    setContentView(R.layout.playlists_list);		
+	    setContentView(R.layout.listview);		
 		getListView().setEmptyView(findViewById(R.id.empty));
 		
         adapter = new PlaylistsAdapter();
@@ -109,22 +109,24 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 			ViewHolder holder;
 	    	
 			if (convertView == null) {
-			   	convertView = inflater.inflate(R.layout.playlist_row, null);
+			   	convertView = inflater.inflate(R.layout.list_row, null);
 				
 				holder = new ViewHolder();
-				holder.topText = (TextView) convertView.findViewById(R.id.pl_firstLine);
-			    holder.botText = (TextView) convertView.findViewById(R.id.pl_secondLine);
-			    holder.image = (ImageView) convertView.findViewById(R.id.pl_art);
+				holder.topText = (TextView) convertView.findViewById(R.id.firstLine);
+			    holder.botText = (TextView) convertView.findViewById(R.id.secondLine);
+			    holder.image = (ImageView) convertView.findViewById(R.id.coverart);
+			    holder.playPause = (ImageView) convertView.findViewById(R.id.playpause);
 				convertView.setTag(holder);
 			}else{
 				holder = (ViewHolder) convertView.getTag();
 			}				
 			
-			holder.image.setImageResource(R.drawable.plus2);
+			holder.image.setImageResource(R.drawable.ic_menu_database);
+			holder.playPause.setVisibility(View.GONE);
 		    
 		    if(position == 0){
-		    	holder.topText.setText("New");		    	
-		    	holder.botText.setText("Playlist...");
+		    	holder.topText.setText("New Playlist...");		    	
+		    	holder.botText.setText("");
 		    }else{			    
 		    	holder.topText.setText(playlists.getPlaylistName(position-1));		
 		    	holder.botText.setText("");
@@ -149,6 +151,7 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 	    	public TextView topText;
 	    	public TextView botText;
 	    	public ImageView image;
+	    	public ImageView playPause;
 	    }
 	}
 	
@@ -311,6 +314,7 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		if(position == 0){
 			showDialog(NEW_PLAYLIST_DIAG);
@@ -351,6 +355,7 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 			Button create_but = (Button)dialog.findViewById(R.id.create_pl_but);		
 			
 			create_but.setOnClickListener(new View.OnClickListener() {
+				@SuppressWarnings("unchecked")
 				public void onClick(View v) {
 	               	View p = (View)v.getParent();	            	
 	            	View parent = (View)p.getParent();	            	

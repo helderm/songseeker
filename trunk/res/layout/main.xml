@@ -1,35 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:weightSum="1">
-	
-	<View  
-	    android:layout_width="fill_parent" 
-		android:layout_height="88dp"/>
-	
-	<EditText 
-		android:id="@+id/find_input" 
-		android:layout_width="fill_parent" android:layout_height="50dp"
-		android:text="u2">
-	    <requestFocus></requestFocus>
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:weightSum="1">
+
+	<View android:layout_width="fill_parent" android:layout_height="88dp" />
+
+	<EditText android:id="@+id/find_input" android:layout_width="fill_parent"
+		android:layout_height="50dp" android:text="u2">
+		<requestFocus></requestFocus>
 	</EditText>
-	
-	<LinearLayout
-		android:orientation="horizontal"
-		android:layout_width="fill_parent"
-		android:layout_height="0dip"
+
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent" android:layout_height="0dip"
 		android:layout_weight="1">
-	    <View
-	    	android:gravity="center_horizontal"
-	        android:layout_height="fill_parent" android:layout_width="207dp"/>
-		<Button 
-			android:layout_height="wrap_content"
-		  	android:gravity="center"
-	  	    android:id="@+id/search_but" 
-	  	    android:text="@string/search_but" 
-	  	    android:layout_width="92dp" android:layout_weight="0.07"></Button>
+		<View android:gravity="center_horizontal" android:layout_height="fill_parent"
+			android:layout_width="207dp" />
+		<Button android:layout_height="wrap_content" android:gravity="center"
+			android:id="@+id/search_but" android:text="@string/search_but"
+			android:layout_width="92dp" android:layout_weight="0.07"
+			style="@style/Button"></Button>
 	</LinearLayout>
 
 </LinearLayout>

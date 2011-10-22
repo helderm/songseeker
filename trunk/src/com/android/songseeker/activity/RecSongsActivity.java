@@ -260,13 +260,13 @@ public class RecSongsActivity extends ListActivity {
 			ViewHolder holder;
 	    	
 			if (convertView == null) {
-			   	convertView = inflater.inflate(R.layout.rec_song_row, null);
+			   	convertView = inflater.inflate(R.layout.list_row, null);
 				
 				holder = new ViewHolder();
-				holder.topText = (TextView) convertView.findViewById(R.id.recsong_firstLine);
-			    holder.botText = (TextView) convertView.findViewById(R.id.recsong_secondLine);
-			    holder.coverArt = (ImageView) convertView.findViewById(R.id.recsong_coverart);
-			    holder.playPause = (ImageView) convertView.findViewById(R.id.recsong_playpause);	
+				holder.topText = (TextView) convertView.findViewById(R.id.firstLine);
+			    holder.botText = (TextView) convertView.findViewById(R.id.secondLine);
+			    holder.coverArt = (ImageView) convertView.findViewById(R.id.coverart);
+			    holder.playPause = (ImageView) convertView.findViewById(R.id.playpause);	
 			    
 			    convertView.setTag(holder);
 			}else{
@@ -308,7 +308,7 @@ public class RecSongsActivity extends ListActivity {
 		        }); 			    
 			    
 			    try{
-			    	ImageLoader.getLoader(getCacheDir()).DisplayImage(song.getString("tracks[0].release_image"), holder.coverArt, R.drawable.blankdisc);
+			    	ImageLoader.getLoader(getCacheDir()).DisplayImage(song.getString("tracks[0].release_image"), holder.coverArt, R.drawable.ic_menu_disc);
 			    }catch(IndexOutOfBoundsException e){
 			    	Log.w(Util.APP, "Unable to fetch the release image from Echo Nest!");
 			    }
