@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.android.songseeker.R;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.SevenDigitalComm;
-import com.android.songseeker.data.IdsParcel;
 import com.android.songseeker.data.SongInfo;
 import com.android.songseeker.util.ImageLoader;
 import com.android.songseeker.util.MediaPlayerController;
@@ -84,8 +83,8 @@ public class SongInfoActivity extends ListActivity {
 				//if we already have the info, dont query it again
 				song = getIntent().getExtras().getParcelable("songParcel");	
 				if(song == null){
-					IdsParcel songIdParcel = getIntent().getExtras().getParcelable("songId");	
-					song = SevenDigitalComm.getComm().querySongDetails(songIdParcel.getIds().get(0));					
+					song = getIntent().getExtras().getParcelable("songId");	
+					song = SevenDigitalComm.getComm().querySongDetails(song.id, song.name, song.artist.name);		
 				}	
 
 				topTracks = SevenDigitalComm.getComm().queryArtistTopTracks(song.artist.id);

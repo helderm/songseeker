@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.android.songseeker.R;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.SevenDigitalComm;
-import com.android.songseeker.data.IdsParcel;
 import com.android.songseeker.data.ReleaseInfo;
 import com.android.songseeker.data.SongInfo;
 import com.android.songseeker.util.ImageLoader;
@@ -91,8 +90,8 @@ public class ReleaseInfoActivity extends ListActivity {
 			try{
 				release = getIntent().getExtras().getParcelable("releaseParcel");
 				if(release == null){
-					IdsParcel songIdParcel = getIntent().getExtras().getParcelable("songId");	
-					SongInfo song = SevenDigitalComm.getComm().querySongDetails(songIdParcel.getIds().get(0));
+					SongInfo song = getIntent().getExtras().getParcelable("songId");	
+					song = SevenDigitalComm.getComm().querySongDetails(song.id, song.name, song.artist.name);	
 					release = song.release;
 				}				
 				

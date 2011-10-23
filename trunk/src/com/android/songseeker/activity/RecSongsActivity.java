@@ -6,6 +6,7 @@ import com.android.songseeker.comm.EchoNestComm;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.data.ArtistsParcel;
 import com.android.songseeker.data.IdsParcel;
+import com.android.songseeker.data.SongInfo;
 import com.android.songseeker.data.SongNamesParcel;
 import com.android.songseeker.util.MediaPlayerController;
 import com.android.songseeker.util.Settings;
@@ -94,12 +95,15 @@ public class RecSongsActivity extends ListActivity {
 
 		try {
 			String foreignId = song.getString("tracks[0].foreign_id");
-	    	
-			IdsParcel songIds = new IdsParcel();
-	    	songIds.addId(foreignId.split(":")[2]);
 		
+			SongInfo songInfo = new SongInfo();
+			songInfo.id = foreignId.split(":")[2];
+			songInfo.name = song.getReleaseName();
+			songInfo.artist.name = song.getArtistName();
+			songInfo.previewUrl = song.getString("tracks[0].preview_url");			
+			
 			Intent i = new Intent(RecSongsActivity.this, MusicInfoTab.class);
-			i.putExtra("songId", songIds); 
+			i.putExtra("songId", songInfo); 
 			startActivity(i);
 		} catch (IndexOutOfBoundsException e) {
 			Toast.makeText(this, "Unable to retrieve track details!", Toast.LENGTH_SHORT).show();
@@ -122,7 +126,7 @@ public class RecSongsActivity extends ListActivity {
 		    pd.setCancelable(true);
 		    return pd;
 		case EXPORT_DIAG:		  	
-			final CharSequence[] items = {"Rdio Playlist", "Last.fm Playlist", "Youtube Playlist",
+			final CharSequence[] items = {"Rdio Playlist", "Last.fm Playlist", "You Tube Playlist",
 											"Grooveshark Playlist"};
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);

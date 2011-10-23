@@ -4,7 +4,6 @@ import com.android.songseeker.R;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.SevenDigitalComm;
 import com.android.songseeker.data.ArtistInfo;
-import com.android.songseeker.data.IdsParcel;
 import com.android.songseeker.data.ReleaseInfo;
 import com.android.songseeker.data.SongInfo;
 
@@ -23,11 +22,11 @@ import android.widget.TabHost;
 import android.widget.Toast;
 
 public class MusicInfoTab extends TabActivity {
-
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		IdsParcel songId = null;
+		boolean isFromRecSongs = true;
 		SongInfo song = null;
 		ReleaseInfo release = null;
 		ArtistInfo artist = null;
@@ -38,18 +37,22 @@ public class MusicInfoTab extends TabActivity {
 		Intent intent;  // Reusable Intent for each tab
         
 		//prepare the song info tab, if available
-		song = getIntent().getExtras().getParcelable("songParcel");
-		songId = getIntent().getExtras().getParcelable("songId");
-
+		song = getIntent().getExtras().getParcelable("songId");
+		
+		if(song == null){
+			isFromRecSongs = false;
+			song = getIntent().getExtras().getParcelable("songParcel");
+		}
+		
 		//if we dont have froyo, then we cant call the async task 
 		if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.ECLAIR_MR1){
-			if(song != null || songId != null){
+			if(song != null){
 				
 				intent = new Intent().setClass(this, SongInfoActivity.class);
-				if(song != null){
+				if(!isFromRecSongs){
 					intent.putExtra("songParcel", song);
 				}else{
-					intent.putExtra("songId", songId);
+					intent.putExtra("songId", song);
 				}			
 
 				spec = tabHost.newTabSpec("songs").setIndicator("Song",
@@ -59,18 +62,18 @@ public class MusicInfoTab extends TabActivity {
 			}
 
 			//prepare the release info tab, if available
-			if(song != null)
+			if(song != null && song.release != null)
 				release = song.release;
 			else
 				release = getIntent().getExtras().getParcelable("releaseParcel");
 			
-			if(release != null || songId != null){
+			if(release != null){
 				intent = new Intent().setClass(this, ReleaseInfoActivity.class);
 				
-				if(release != null)
+				if(!isFromRecSongs)
 					intent.putExtra("releaseParcel", release);
 				else
-					intent.putExtra("songId", songId);
+					intent.putExtra("songId", song);
 
 				spec = tabHost.newTabSpec("albums").setIndicator("Album",
 						res.getDrawable(R.drawable.tab_artists))
@@ -80,20 +83,20 @@ public class MusicInfoTab extends TabActivity {
 
 
 			//prepare the artist info tab
-			if(song != null)
+			if(song != null && song.artist != null)
 				artist = song.artist;
 			else if(release != null)
 				artist = release.artist;
 			else
 				artist = getIntent().getExtras().getParcelable("artistParcel");
 			
-			if(artist != null || songId != null){
+			if(artist != null){
 				intent = new Intent().setClass(this, ArtistInfoActivity.class);
 								
-				if(artist != null)
+				if(!isFromRecSongs)
 					intent.putExtra("artistParcel", artist);
 				else
-					intent.putExtra("songId", songId);
+					intent.putExtra("songId", song);
 				
 				spec = tabHost.newTabSpec("artists").setIndicator("Artist",
 						res.getDrawable(R.drawable.tab_artists))
@@ -101,10 +104,11 @@ public class MusicInfoTab extends TabActivity {
 				tabHost.addTab(spec);
 			}
 		}else{
-			if(song != null || songId != null){
-				if(song == null){
+			if(song != null){
+				//if we got here from RecSongs
+				if(isFromRecSongs){
 					//fetch parcel based on songId
-					new GetSongDetails().execute();
+					new GetSongDetails().execute(song);
 					return;
 				}
 
@@ -118,7 +122,7 @@ public class MusicInfoTab extends TabActivity {
 			}
 
 			//prepare the release info tab, if available
-			if(song != null)
+			if(song != null && song.release != null)
 				release = song.release;
 			else
 				release = getIntent().getExtras().getParcelable("releaseParcel");
@@ -135,7 +139,7 @@ public class MusicInfoTab extends TabActivity {
 
 
 			//prepare the artist info tab
-			if(song != null)
+			if(song != null && song.artist != null)
 				artist = song.artist;
 			else if(release != null)
 				artist = release.artist;
@@ -152,75 +156,9 @@ public class MusicInfoTab extends TabActivity {
 				tabHost.addTab(spec);
 			}
 		}
-
-   
-		
-		/*setContentView(R.layout.music_info_tab);
-
-		Resources res = getResources(); // Resource object to get Drawables
-		TabHost tabHost = getTabHost();  // The activity TabHost
-		TabHost.TabSpec spec;  // Resusable TabSpec for each tab
-		Intent intent;  // Reusable Intent for each tab
-
-		//prepare the song info tab, if available
-		song = getIntent().getExtras().getParcelable("songParcel");
-		songId = getIntent().getExtras().getParcelable("songId");
-
-		if(song != null || songId != null){
-			if(song == null){
-				//fetch parcel based on songId
-				new GetSongDetails().execute();
-				return;
-			}
-
-			intent = new Intent().setClass(this, SongInfoActivity.class);
-			intent.putExtra("songParcel", song);
-
-			spec = tabHost.newTabSpec("songs").setIndicator("Song",
-					res.getDrawable(R.drawable.tab_artists))
-					.setContent(intent);
-			tabHost.addTab(spec);
-		}
-
-		//prepare the release info tab, if available
-		if(song != null)
-			release = song.release;
-		else
-			release = getIntent().getExtras().getParcelable("releaseParcel");
-		
-		if(release != null){
-			intent = new Intent().setClass(this, ReleaseInfoActivity.class);
-			intent.putExtra("releaseParcel", release);
-
-			spec = tabHost.newTabSpec("albums").setIndicator("Album",
-					res.getDrawable(R.drawable.tab_artists))
-					.setContent(intent);
-			tabHost.addTab(spec);
-		}
-
-
-		//prepare the artist info tab
-		if(song != null)
-			artist = song.artist;
-		else if(release != null)
-			artist = release.artist;
-		else
-			artist = getIntent().getExtras().getParcelable("artistParcel");
-		
-		if(artist != null){
-			intent = new Intent().setClass(this, ArtistInfoActivity.class);
-			intent.putExtra("artistParcel", artist);
-
-			spec = tabHost.newTabSpec("artists").setIndicator("Artist",
-					res.getDrawable(R.drawable.tab_artists))
-					.setContent(intent);
-			tabHost.addTab(spec);
-		}
-
-		tabHost.setCurrentTab(0);*/
 	}
 
-	private class GetSongDetails extends AsyncTask<Void, Void, SongInfo>{
+	private class GetSongDetails extends AsyncTask<SongInfo, Void, SongInfo>{
 		String err = null;
 
 		@Override
@@ -229,12 +167,11 @@ public class MusicInfoTab extends TabActivity {
 		}
 
 		@Override
-		protected SongInfo doInBackground(Void... arg0) {
-			SongInfo song;				
+		protected SongInfo doInBackground(SongInfo... args) {
+			SongInfo song = args[0];				
 
 			try{
-				IdsParcel songIdParcel = getIntent().getExtras().getParcelable("songId");	
-				song = SevenDigitalComm.getComm().querySongDetails(songIdParcel.getIds().get(0));				
+				song = SevenDigitalComm.getComm().querySongDetails(song.id, song.name, song.artist.name);				
 			}catch(ServiceCommException e){
 				err = e.getMessage();		
 				return null;

@@ -2,6 +2,7 @@ package com.android.songseeker.comm;
 
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class SevenDigitalComm {
 		return comm;
 	}
 
-	public SongInfo querySongDetails(String trackId) throws ServiceCommException{
+	public SongInfo querySongDetails(String trackId, String trackName, String artistName) throws ServiceCommException{
 		Element fstNmElmnt;
 		NodeList fstNmElmntLst;
 
@@ -58,9 +59,16 @@ public class SevenDigitalComm {
 			fstNmElmntLst = doc.getElementsByTagName("response");
 			fstNmElmnt = (Element) fstNmElmntLst.item(0);
 			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
-				//TODO if(errorCode == 2001 (track not found)) then query 7digital id with 'search'
-				Log.w(Util.APP, "7digital 'track/details' call for track ["+trackId+"] failed with code ["+fstNmElmnt.getAttribute("status")+"]");
-				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+				
+				try{
+					parseError(fstNmElmnt);
+				}catch(ServiceCommException e){
+					if(e.getErr() == ServiceErr.ID_NOT_FOUND){
+						//call ws using song and artist name
+						song = querySongSearch(trackName, artistName);
+						return song;
+					}
+				}
 			}	
 
 			song = parseSongDetails(doc.getDocumentElement()).get(0);
@@ -80,6 +88,62 @@ public class SevenDigitalComm {
 		}
 
 		return song;
+	}
+	
+	public SongInfo querySongSearch(String trackName, String artistName) throws ServiceCommException{
+		Element fstNmElmnt;
+		NodeList fstNmElmntLst;
+
+		ArrayList<SongInfo> songs;
+
+		int aux = 0;//Math.abs(5-trackName.length());
+
+		String urlStr = ENDPOINT + "track/search?";
+		String reqParam = "q="+trackName.substring(0, trackName.length()-aux)+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=10&page=1&imageSize=200";
+
+		try {
+			URL url = new URL(urlStr+reqParam);			
+			InputStream is = url.openStream();
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.parse(is /*urlStr+reqParamnew InputSource(url.openStream())*/);
+			doc.getDocumentElement().normalize();
+
+			//check response
+			fstNmElmntLst = doc.getElementsByTagName("response");
+			fstNmElmnt = (Element) fstNmElmntLst.item(0);
+			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
+				parseError(fstNmElmnt);
+			}	
+
+			songs = parseSongDetails(doc.getDocumentElement());
+			if(songs == null)
+				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.ID_NOT_FOUND);
+			
+			//search for the track with the same artist
+			for(SongInfo song : songs){				
+ 				
+ 				if(artistName.equalsIgnoreCase(song.artist.name) || song.artist.name.toLowerCase().contains(artistName.toLowerCase()) 
+ 						|| artistName.toLowerCase().contains(song.artist.name.toLowerCase())){
+ 					
+ 					return song;
+ 				} 	
+			}
+			
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.ID_NOT_FOUND);				
+
+		}catch(IOException e) {
+			Log.e(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	
+		}catch(NullPointerException e){
+			Log.e(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+		}catch(ServiceCommException e){
+			throw e;
+		}catch(Exception e){
+			Log.e(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
+		}
 	}
 
 	public ArrayList<SongInfo> queryArtistTopTracks(String artistId) throws ServiceCommException{
@@ -488,6 +552,26 @@ public class SevenDigitalComm {
 		//mount buy url
 		artist.buyUrl = MOBILE_URL + "artists/" + artist.id + "?partner=" + PARTNER_ID;
 		return artist;
+	}
+	
+	private void parseError(Element element) throws ServiceCommException, Exception{
+		Element fstNmElmnt;
+		NodeList fstNmElmntLst;
+
+		//check response
+		fstNmElmntLst = element.getElementsByTagName("error");
+		fstNmElmnt = (Element) fstNmElmntLst.item(0);
+
+		int code = Integer.parseInt(fstNmElmnt.getAttribute("code"));
+		
+		Log.w(Util.APP, "7digital ws call failed with code ["+code+"]");
+		
+		switch(code){
+		case 2001:
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.ID_NOT_FOUND);
+		default:
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);			
+		}
 	}
 
 }
