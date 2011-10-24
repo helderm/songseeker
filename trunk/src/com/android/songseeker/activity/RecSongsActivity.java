@@ -1,17 +1,17 @@
 package com.android.songseeker.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.android.songseeker.R;
 import com.android.songseeker.comm.EchoNestComm;
-import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.data.ArtistsParcel;
 import com.android.songseeker.data.IdsParcel;
+import com.android.songseeker.data.RecSongsPlaylist;
 import com.android.songseeker.data.SongInfo;
 import com.android.songseeker.data.SongNamesParcel;
 import com.android.songseeker.util.MediaPlayerController;
 import com.android.songseeker.util.Settings;
 import com.android.songseeker.util.Util;
-import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
 import com.echonest.api.v4.PlaylistParams.PlaylistType;
 import com.echonest.api.v4.Song;
@@ -24,7 +24,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 //import android.os.Debug;
 import android.util.Log;
@@ -46,7 +45,6 @@ public class RecSongsActivity extends ListActivity {
 	private final int EXPORT_DIAG = 1;
 	
 	private RecSongsAdapter adapter;
-	private Toast toast;
 	
 	
 	/** Called when the activity is first created. */
@@ -67,7 +65,8 @@ public class RecSongsActivity extends ListActivity {
         
 	    //get the playlist
 	    PlaylistParams plp = buildPlaylistParams();	    
-	    new GetPlaylistTask().execute(plp, null, null);
+	    RecSongsPlaylist.getInstance(adapter).getPlaylist(plp, this, PROGRESS_DIAG);
+	    //new GetPlaylistTask().execute(plp, null, null);
 
 	    //Debug.startMethodTracing("myapp");
 	}
@@ -138,7 +137,7 @@ public class RecSongsActivity extends ListActivity {
 			    	SongNamesParcel songNames = new SongNamesParcel();
 			    	ArtistsParcel songArtists = new ArtistsParcel();
 			    	
-					for(Song song : adapter.playlist.getSongs()){
+					for(Song song : adapter.playlist){
 						songIds.addId(song.getID());
 						songNames.addName(song.getReleaseName());
 						songArtists.addArtist(song.getArtistName());
@@ -235,10 +234,11 @@ public class RecSongsActivity extends ListActivity {
 	    return plp;
 	}
 	
-	private class RecSongsAdapter extends BaseAdapter {
+	public class RecSongsAdapter extends BaseAdapter {
 	
-	    private Playlist playlist;	    
-	    private LayoutInflater inflater;
+	    //private Playlist playlist;	    
+	    private ArrayList<Song> playlist;
+		private LayoutInflater inflater;
 	    
 	    public RecSongsAdapter() {    
 	    	playlist = null;
@@ -249,11 +249,11 @@ public class RecSongsActivity extends ListActivity {
 	        if(playlist == null)
 	        	return 0;
 	        
-	    	return playlist.getSongs().size();
+	    	return playlist.size();
 	    }
 	
 	    public Song getItem(int position) {
-	        return playlist.getSongs().get(position);
+	        return playlist.get(position);
 	    }
 	
 	    public long getItemId(int position) {
@@ -321,7 +321,7 @@ public class RecSongsActivity extends ListActivity {
 			return convertView;
 		}
 	    
-	    public void setPlaylist(Playlist pl){
+	    public void setPlaylist(ArrayList<Song> pl){
 	    	this.playlist = pl;
 	    	notifyDataSetChanged();
 	    }	    
@@ -332,46 +332,6 @@ public class RecSongsActivity extends ListActivity {
 	    	public ImageView coverArt;
 	    	public ImageView playPause;
 	    }
-	}
-	
-	private class GetPlaylistTask extends AsyncTask<PlaylistParams, Void, Playlist>{
-		private String err = null;
-		
-		@Override
-		protected void onPreExecute() {
-			showDialog(PROGRESS_DIAG);
-		}
-		
-		@Override
-		protected Playlist doInBackground(PlaylistParams... plp) {
-			Playlist pl = null;
-		
-			try {
-				pl = EchoNestComm.getComm().createStaticPlaylist(plp[0]);
-			} catch (ServiceCommException e) {
-				err = e.getMessage();
-				return null;
-			}
-			
-			return pl;
-		}
-		
-		@Override
-		protected void onPostExecute(Playlist result) {
-						
-			//dismissDialog(PROGRESS_DIAG);
-			removeDialog(PROGRESS_DIAG);
-			
-			if(err != null){
-				toast = Toast.makeText(getApplicationContext(), err, Toast.LENGTH_LONG);
-	    		toast.show();        		
-	    		
-	    		RecSongsActivity.this.finish();
-	    		return;
-    		}
-			
-			adapter.setPlaylist(result);			
-		}		
 	}
 
     @Override
@@ -395,7 +355,8 @@ public class RecSongsActivity extends ListActivity {
         case R.id.refresh:
     	    //get the playlist
     	    PlaylistParams plp = buildPlaylistParams();	    
-    	    new GetPlaylistTask().execute(plp, null, null);
+    	    RecSongsPlaylist.getInstance(adapter).getPlaylist(plp, this, PROGRESS_DIAG);
+    	    //new GetPlaylistTask().execute(plp, null, null);
             return true;
         case R.id.export:
         	showDialog(EXPORT_DIAG);

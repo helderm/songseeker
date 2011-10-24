@@ -91,15 +91,20 @@ public class EchoNestComm {
 	}
 
 	public Song getSongs(SongParams sp) throws ServiceCommException{
-		List<Song> ls;
-
+		List<Song> ls = null;
+		
 		try{			
 			ls = en.getSongs(sp);
-		}catch(Exception e){
-			Log.e(Util.APP, "EchoNest getSong() err!", e);
-			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.IO);	
+		}catch (EchoNestException e) {
+			treatEchoNestException(e);
+		} catch (Exception e){
+			Log.w(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
 		}
 
+		if(ls.size() <= 0)
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.ID_NOT_FOUND);
+		
 		return ls.get(0);
 	}
 

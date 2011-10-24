@@ -2,7 +2,6 @@ package com.android.songseeker.comm;
 
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -96,17 +95,14 @@ public class SevenDigitalComm {
 
 		ArrayList<SongInfo> songs;
 
-		int aux = 0;//Math.abs(5-trackName.length());
-
 		String urlStr = ENDPOINT + "track/search?";
-		String reqParam = "q="+trackName.substring(0, trackName.length()-aux)+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=10&page=1&imageSize=200";
+		String reqParam = "q="+trackName.replace(' ', '+')+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=10&page=1&imageSize=200";
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
-			InputStream is = url.openStream();
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			Document doc = db.parse(is /*urlStr+reqParamnew InputSource(url.openStream())*/);
+			Document doc = db.parse(new InputSource(url.openStream()));
 			doc.getDocumentElement().normalize();
 
 			//check response
