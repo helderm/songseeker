@@ -20,4 +20,5 @@
     <string name="auth_str">Authorized!</string>
     <string name="not_auth_str">Not Authorized!</string>
     <string name="pl_created_str">Playlist created!</string>
+    <string name="remove_song_str">Remove Song</string>
 </resources>

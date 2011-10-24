@@ -110,7 +110,7 @@ public class RecSongsPlaylist {
 			
 				for(SongInfo songInfo : params[0]){
 					SongParams sp = new SongParams();
-					sp.setID("7digital:track:"+songInfo.id);
+					sp.add("track_id", "7digital:track:"+songInfo.id);
 					sp.addIDSpace(EchoNestComm.SEVEN_DIGITAL);
 				    sp.includeTracks();
 				    sp.setLimit(true);
@@ -148,4 +148,8 @@ public class RecSongsPlaylist {
 		songs.addAll(songList);
 	}
 	
+	public void removeSongFromPlaylist(int position){
+		songs.remove(position);
+		adapter.notifyDataSetChanged();
+	}
 }

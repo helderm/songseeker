@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.android.songseeker.R;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.SevenDigitalComm;
+import com.android.songseeker.data.RecSongsPlaylist;
 import com.android.songseeker.data.ReleaseInfo;
 import com.android.songseeker.data.SongInfo;
 import com.android.songseeker.util.ImageLoader;
@@ -147,6 +148,14 @@ public class ReleaseInfoActivity extends ListActivity {
 				}
 			});
 
+			//set add button
+			Button add = (Button)header.findViewById(R.id.releaseinfo_add);
+			add.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					RecSongsPlaylist.getInstance().addSongsToPlaylist(adapter.songList);
+				}
+			});
+			
 			//set share button
 			Button share = (Button)header.findViewById(R.id.releaseinfo_share);
 			share.setOnClickListener(new View.OnClickListener() {

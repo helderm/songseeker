@@ -27,12 +27,17 @@ import android.content.Intent;
 import android.os.Bundle;
 //import android.os.Debug;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -62,6 +67,8 @@ public class RecSongsActivity extends ListActivity {
         // Set up our adapter
         adapter = new RecSongsAdapter();
         setListAdapter(adapter);
+        
+         registerForContextMenu(getListView());
         
 	    //get the playlist
 	    PlaylistParams plp = buildPlaylistParams();	    
@@ -365,6 +372,25 @@ public class RecSongsActivity extends ListActivity {
             return super.onOptionsItemSelected(item);
         }
     }
+    
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.recsong_contextmenu, menu);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		switch (item.getItemId()) {
+		case R.id.remove_song:	
+			RecSongsPlaylist.getInstance().removeSongFromPlaylist(info.position);
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
+	}
 }
 
 
