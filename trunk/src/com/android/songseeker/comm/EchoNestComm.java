@@ -108,6 +108,24 @@ public class EchoNestComm {
 		return ls.get(0);
 	}
 
+	public Song searchSongs(SongParams sp) throws ServiceCommException{
+		List<Song> ls = null;
+		
+		try{			
+			ls = en.searchSongs(sp);
+		}catch (EchoNestException e) {
+			treatEchoNestException(e);
+		} catch (Exception e){
+			Log.w(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
+		}
+
+		if(ls.size() <= 0)
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.ID_NOT_FOUND);
+		
+		return ls.get(0);
+	}
+	
 	public Biography getArtistBioFromBucket(String id) throws ServiceCommException {
 		Biography bio = null;
 		

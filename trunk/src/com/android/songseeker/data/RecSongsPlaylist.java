@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.android.songseeker.activity.RecSongsActivity.RecSongsAdapter;
 import com.android.songseeker.comm.EchoNestComm;
 import com.android.songseeker.comm.ServiceCommException;
+import com.android.songseeker.comm.ServiceCommException.ServiceErr;
 import com.android.songseeker.util.Util;
 import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
@@ -91,39 +92,81 @@ public class RecSongsPlaylist {
 	
 	/** Add songs to the playlist methods*/
 	@SuppressWarnings("unchecked")
-	public void addSongsToPlaylist(ArrayList<SongInfo> songsInfo){
-		
-		new GetSongInfoTask().execute(songsInfo);
+	public void addSongsToPlaylist(ArrayList<SongInfo> songsInfo, Activity a){		
+		new GetSongInfoTask(a).execute(songsInfo);
 	}
 	
 	private class GetSongInfoTask extends AsyncTask<ArrayList<SongInfo>, Void, Void>{
 
+		private String msg = null;
 		private String err = null;
+		private Activity activity = null;
+		
+		public GetSongInfoTask(Activity a) {
+			activity = a;
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			Toast.makeText(activity.getApplicationContext(), "Adding song(s) to playlist, please wait...", 
+								Toast.LENGTH_LONG).show();
+		}
 		
 		@Override
 		protected Void doInBackground(ArrayList<SongInfo>... params) {
 			
 			ArrayList<Song> songList = new ArrayList<Song>();
-			Song song;
-			
-			try{
-			
-				for(SongInfo songInfo : params[0]){
-					SongParams sp = new SongParams();
-					sp.add("track_id", "7digital:track:"+songInfo.id);
-					sp.addIDSpace(EchoNestComm.SEVEN_DIGITAL);
-				    sp.includeTracks();
-				    sp.setLimit(true);
+			Song song = null;
+
+			for(SongInfo songInfo : params[0]){
+				SongParams sp = new SongParams();
+				sp.add("track_id", "7digital:track:"+songInfo.id);
+				sp.addIDSpace(EchoNestComm.SEVEN_DIGITAL);
+				sp.includeTracks();
+				sp.setLimit(true);
+
+				try{
 					song = EchoNestComm.getComm().getSongs(sp);
-					
-					songList.add(song);
-				}				
-				
-			}catch (ServiceCommException e) {
-				err = e.getMessage();
+				}catch (ServiceCommException e) {
+					if(e.getErr() == ServiceErr.ID_NOT_FOUND){
+						Log.i(Util.APP, "7digital's id not found in EchoNest, trying to search for the song...");
+						
+						//try with echo nest 'search'
+						sp = new SongParams();
+						sp.setArtist(songInfo.artist.name);
+						sp.setTitle(songInfo.name);
+						sp.addIDSpace(EchoNestComm.SEVEN_DIGITAL);
+						sp.includeTracks();
+						sp.setLimit(true);
+
+						try {
+							song = EchoNestComm.getComm().searchSongs(sp);
+						} catch (ServiceCommException e1) {
+							
+							if(e1.getErr() == ServiceErr.ID_NOT_FOUND){
+								Log.w(Util.APP, "Song ["+ songInfo.name + " - "+ songInfo.artist.name +"] not found in EchoNest, skiping...");
+							}else{
+								Log.w(Util.APP, e1.getMessage(), e1);
+							}
+							continue;
+						}
+					}else{
+						Log.w(Util.APP, e.getMessage(), e);
+						continue;
+					}
+				}
+
+				songList.add(song);
+			}				
+
+			if(songList.size() == 0){
+				err = "Failed to add song(s) to the playlist!";
 				return null;
-			}
-				
+			}else if(songList.size() < params[0].size()){
+				msg = "Some songs were successfully added to the playlist!";
+			}else
+				msg = "Song(s) successfully added to the playlist!";				
+			
 			syncAddSongsToPlaylist(songList);
 			
 			return null;
@@ -132,12 +175,14 @@ public class RecSongsPlaylist {
 		@Override
 		protected void onPostExecute(Void result) {
 			if(err != null){
-				Log.w(Util.APP, "Error while fetching song info!"+ err);
+				Toast.makeText(activity.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
 				return;
 			}
 			
 			adapter.setPlaylist(songs);
-			adapter.notifyDataSetChanged();			
+			adapter.notifyDataSetChanged();		
+			
+			Toast.makeText(activity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
 		}		
 	}	
 	

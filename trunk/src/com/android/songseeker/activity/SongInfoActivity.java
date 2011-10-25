@@ -158,7 +158,7 @@ public class SongInfoActivity extends ListActivity {
 				public void onClick(View v) {
 					ArrayList<SongInfo> songs = new ArrayList<SongInfo>();
 					songs.add(song);
-					RecSongsPlaylist.getInstance().addSongsToPlaylist(songs);
+					RecSongsPlaylist.getInstance().addSongsToPlaylist(songs, SongInfoActivity.this);
 				}
 			});
 			

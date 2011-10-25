@@ -152,7 +152,7 @@ public class ReleaseInfoActivity extends ListActivity {
 			Button add = (Button)header.findViewById(R.id.releaseinfo_add);
 			add.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					RecSongsPlaylist.getInstance().addSongsToPlaylist(adapter.songList);
+					RecSongsPlaylist.getInstance().addSongsToPlaylist(adapter.songList, ReleaseInfoActivity.this);
 				}
 			});
 			
