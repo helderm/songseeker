@@ -61,12 +61,19 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
         setListAdapter(adapter);
         
 		SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
-		if(!YouTubeComm.getComm(this, settings).isAuthorized())
+		
+		try {
+			YouTubeComm.getComm().requestAuthorize("heldergaray@gmail.com", "c*7n=k2p");
+		} catch (ServiceCommException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*if(!YouTubeComm.getComm(this, settings).isAuthorized())
 			showDialog(ACCOUNTS_DIAG);
 		else{
 			//new CreatePlaylistTask().execute();	
 			new GetUserPlaylistsTask().execute();
-		}
+		}*/
 				
 		//accountManager = new GoogleAccountManager(this);
 		//gotAccount(false);

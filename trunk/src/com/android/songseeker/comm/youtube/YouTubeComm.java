@@ -2,12 +2,26 @@ package com.android.songseeker.comm.youtube;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 import android.accounts.Account;
 import android.accounts.AccountManagerCallback;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.ServiceCommException.ServiceErr;
@@ -35,8 +49,69 @@ import com.google.api.client.util.Key;
 public class YouTubeComm {
 	
 	protected static final String DEVKEY = "AI39si6yAoZ7f6EjzMCtIex34tdlMped4mK3ZL9vg-8pn8ZXTrvhKd6_5VfR-J-GwJyFQC4lPm6YAnH0V-zSvsgAcJ-xlT0ZUg"; 
-	
 	private static YouTubeComm comm = new YouTubeComm();
+	
+	private static final String LOGIN_ENDPOINT = "https://www.google.com/youtube/accounts/ClientLogin";
+	
+	private YouTubeComm(){}
+	
+	public static YouTubeComm getComm(){
+		return comm;
+	}
+	
+	public void requestAuthorize(String username, String password) throws ServiceCommException{
+		
+		HttpPost request = new HttpPost(LOGIN_ENDPOINT);
+		HttpResponse response;		
+		List<NameValuePair> request_args = new ArrayList<NameValuePair>();		
+		
+		request_args.add(new BasicNameValuePair("Email", username));
+		request_args.add(new BasicNameValuePair("Passwd", password));
+		request_args.add(new BasicNameValuePair("service", "youtube"));	
+		request_args.add(new BasicNameValuePair("source", Util.APP));				
+		
+		try{
+		
+			StringEntity body = new StringEntity(URLEncodedUtils.format(request_args, "UTF-8"));
+			body.setContentType("application/x-www-form-urlencoded");
+			request.setEntity(body);
+			
+			HttpClient httpClient = new DefaultHttpClient();
+			response = httpClient.execute(request);
+			
+	        if(response.getStatusLine().getStatusCode() != 200) {
+	        	
+	        	//unauthorized
+	        	if(response.getStatusLine().getStatusCode() == 401){
+	        		//cleanAuthTokens(settings);
+	        		throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.NOT_AUTH);
+	        	}
+	        	
+	        	Log.e(Util.APP, "HTTP client returned code different from 200! code: "+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
+	        	throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.REQ_FAILED);
+	        }   
+	        
+			String r_string = EntityUtils.toString(response.getEntity());
+			
+	        Log.d(Util.APP,"Response: " + response.getStatusLine().getStatusCode() + " - " + r_string);
+		}catch (IOException ex){
+			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.IO);
+		}catch (ServiceCommException e){
+			throw e;
+		}catch (Exception e){
+			Log.e(Util.APP, "Unknown error while trying to login into YouTube!", e);
+			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.UNKNOWN);
+		}
+		
+		
+	}
+	
+	
+	
+	/**************************************************************************************/
+	
+	
+	
 	private static YouTubeClient client = comm.new YouTubeClient();
 	private static GoogleAccountManager accountManager = null;
 	private static GoogleAccessProtectedResource accessProtectedResource = null;
@@ -47,9 +122,9 @@ public class YouTubeComm {
 	private static final String PREF_ACCESSTOKEN = "prefs.google.accesstoken";
 	private static final String PREF_ACCOUNTNAME = "prefs.google.accountname";
 	
-	private YouTubeComm(){}
+
 	
-	public static YouTubeComm getComm(Context c, SharedPreferences settings){
+	public static YouTubeComm getCom(Context c, SharedPreferences settings){
 		if(accountManager == null)
 			accountManager = new GoogleAccountManager(c);
 		
@@ -62,9 +137,7 @@ public class YouTubeComm {
 		return comm;
 	}
 	
-	public static YouTubeComm getComm(){
-		return comm;
-	}
+
 	
 	public boolean isAuthorized(){
 		if(accessProtectedResource.getAccessToken() != null && accountName != null)
@@ -226,11 +299,5 @@ public class YouTubeComm {
 			return request.execute().parseAs(feedClass);
 		}
 
-
-	}
-	
-
-
-	
-	
+	}	
 }
