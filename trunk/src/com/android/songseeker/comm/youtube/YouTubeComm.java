@@ -5,10 +5,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.Header;
+import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
@@ -52,6 +56,9 @@ public class YouTubeComm {
 	private static YouTubeComm comm = new YouTubeComm();
 	
 	private static final String LOGIN_ENDPOINT = "https://www.google.com/youtube/accounts/ClientLogin";
+	private static final String GET_PLAYLISTS_ENDPOINT = "https://gdata.youtube.com/feeds/api/users/default/playlists?v=2";
+	
+	private static String session = null;
 	
 	private YouTubeComm(){}
 	
@@ -59,8 +66,7 @@ public class YouTubeComm {
 		return comm;
 	}
 	
-	public void requestAuthorize(String username, String password) throws ServiceCommException{
-		
+	public void requestAuthorize(String username, String password) throws ServiceCommException{		
 		HttpPost request = new HttpPost(LOGIN_ENDPOINT);
 		HttpResponse response;		
 		List<NameValuePair> request_args = new ArrayList<NameValuePair>();		
@@ -70,8 +76,7 @@ public class YouTubeComm {
 		request_args.add(new BasicNameValuePair("service", "youtube"));	
 		request_args.add(new BasicNameValuePair("source", Util.APP));				
 		
-		try{
-		
+		try{		
 			StringEntity body = new StringEntity(URLEncodedUtils.format(request_args, "UTF-8"));
 			body.setContentType("application/x-www-form-urlencoded");
 			request.setEntity(body);
@@ -93,7 +98,24 @@ public class YouTubeComm {
 	        
 			String r_string = EntityUtils.toString(response.getEntity());
 			
-	        Log.d(Util.APP,"Response: " + response.getStatusLine().getStatusCode() + " - " + r_string);
+			//seach for the auth session key
+			String[] tokens = r_string.split("[=\n]");
+			if(tokens.length < 2)
+				throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.NOT_AUTH);
+			
+			for(int i=0; i<tokens.length-1; i++){
+				String token = tokens[i];
+				if(token.equalsIgnoreCase("auth") && tokens[i+1] != null){
+					session = tokens[i+1];
+					
+					//teste
+					getUserPlaylists();
+					
+					return;
+				}
+			}
+			
+			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.NOT_AUTH);
 		}catch (IOException ex){
 			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.IO);
 		}catch (ServiceCommException e){
@@ -101,8 +123,47 @@ public class YouTubeComm {
 		}catch (Exception e){
 			Log.e(Util.APP, "Unknown error while trying to login into YouTube!", e);
 			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.UNKNOWN);
-		}
+		}		
+	}
+	
+	public UserPlaylistsData getUserPlaylists() throws ServiceCommException{
+		HttpGet request = new HttpGet(GET_PLAYLISTS_ENDPOINT);
+		HttpResponse response;	
+		UserPlaylistsData pls = new UserPlaylistsData();		
 		
+		request.setHeader("Authorization", "GoogleLogin auth="+session);
+		request.setHeader("X-GData-Key", "key="+DEVKEY);
+
+		try{
+			HttpClient httpClient = new DefaultHttpClient();
+			response = httpClient.execute(request);
+			
+	        if(response.getStatusLine().getStatusCode() != 200) {
+	        	
+	        	//unauthorized
+	        	if(response.getStatusLine().getStatusCode() == 401){
+	        		//cleanAuthTokens(settings);
+	        		throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.NOT_AUTH);
+	        	}
+	        	
+	        	Log.e(Util.APP, "HTTP client returned code different from 200! code: "+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
+	        	throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.REQ_FAILED);
+	        }   
+	        
+	        String r_string = EntityUtils.toString(response.getEntity());
+	        Log.d(Util.APP, "response = "+r_string);
+			
+		}catch (IOException ex){
+			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.IO);
+		//}catch (ServiceCommException e){
+		//	throw e;
+		}catch (Exception e){
+			Log.e(Util.APP, "Unknown error while trying to login into YouTube!", e);
+			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.UNKNOWN);
+		}	
+		
+		
+		return pls;
 		
 	}
 	

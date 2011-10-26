@@ -568,6 +568,7 @@ public class GroovesharkComm {
 				throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.TRY_LATER);
 			case 100:
 			case 101:
+			case 300:	
 				throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.NOT_AUTH);			
 			default:
 				throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.REQ_FAILED);

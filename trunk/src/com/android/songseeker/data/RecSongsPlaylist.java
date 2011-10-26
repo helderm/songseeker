@@ -129,7 +129,8 @@ public class RecSongsPlaylist {
 					song = EchoNestComm.getComm().getSongs(sp);
 				}catch (ServiceCommException e) {
 					if(e.getErr() == ServiceErr.ID_NOT_FOUND){
-						Log.i(Util.APP, "7digital's id not found in EchoNest, trying to search for the song...");
+						Log.i(Util.APP, "7digital's id for song ["+ songInfo.name + " - "+ songInfo.artist.name +"] " +
+								"not found in EchoNest, trying to search for the song...");
 						
 						//try with echo nest 'search'
 						sp = new SongParams();
@@ -175,7 +176,7 @@ public class RecSongsPlaylist {
 		@Override
 		protected void onPostExecute(Void result) {
 			if(err != null){
-				Toast.makeText(activity.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+				Toast.makeText(activity.getApplicationContext(), err, Toast.LENGTH_SHORT).show();
 				return;
 			}
 			

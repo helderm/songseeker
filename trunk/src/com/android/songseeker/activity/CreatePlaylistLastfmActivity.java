@@ -139,6 +139,7 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
 			Dialog uad = new Dialog(this);
 			uad.setContentView(R.layout.user_auth_diag);
 			uad.setTitle("Login into Last.fm");
+			uad.setCancelable(false);
 			
 			Button auth_but = (Button)uad.findViewById(R.id.auth_but);			
 			

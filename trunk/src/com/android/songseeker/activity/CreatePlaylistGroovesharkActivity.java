@@ -62,24 +62,6 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
         	showDialog(USER_AUTH_DIAG);
         }else
         	new GetUserPlaylistsTask().execute();
-        
-	    /*try {
-	    	//SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
-			GroovesharkComm.getComm(settings).requestAuthorize("malakias23", "hema*poa5", settings);
-			//GroovesharkComm.getComm().getUserPlaylists();
-			//GroovesharkComm.getComm().getSongID("Down in the flood", "The Derek Trucks Band");
-			String song1 = GroovesharkComm.getComm().getSongID("strange brew", "cream");
-			String song2 = GroovesharkComm.getComm().getSongID("one", "u2");
-			
-			ArrayList<String> songs = new ArrayList<String>();
-			songs.add(song1);
-			songs.add(song2);
-			
-			GroovesharkComm.getComm().createPlaylist("teste1", songs);
-		} catch (ServiceCommException e) {
-			
-		} catch (Exception e){}*/
-	    
 	}
 	
 	private class PlaylistsAdapter extends BaseAdapter{
@@ -389,6 +371,7 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 			Dialog uad = new Dialog(this);
 			uad.setContentView(R.layout.user_auth_diag);
 			uad.setTitle("Login into Grooveshark");
+			uad.setCancelable(false);
 			
 			Button auth_but = (Button)uad.findViewById(R.id.auth_but);			
 			

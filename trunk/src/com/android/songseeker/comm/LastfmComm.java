@@ -69,6 +69,9 @@ public class LastfmComm {
 	}
 	
 	public Playlist createPlaylist(String title, SharedPreferences settings) throws ServiceCommException{
+		if(session == null)
+			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.NOT_AUTH);
+		
 		Playlist pl = Playlist.create(title, "", session);
 
 		Log.i(Util.APP, "Creating playlist on Last.fm...");
@@ -85,6 +88,9 @@ public class LastfmComm {
 	}
 	
 	public void addToPlaylist(int playlistId, String artist, String track, SharedPreferences settings) throws ServiceCommException{
+		if(session == null)
+			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.NOT_AUTH);
+		
 		Result res = Playlist.addTrack(playlistId, artist, track, session);
 		
 		Log.i(Util.APP, "Adding track ["+track+" - "+artist+"] to Last.fm playlist...");
@@ -116,7 +122,6 @@ public class LastfmComm {
 		if(session == null){
 			if(sessionKey == null)
 				return false;
-			//session = Session.createSession(KEY, SECRET, sessionKey);
 			session = Session.createSession(KEY, SECRET, sessionKey, username, false);
 		}
 		
