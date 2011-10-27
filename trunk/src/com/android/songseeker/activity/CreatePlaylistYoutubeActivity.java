@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import com.android.songseeker.R;
 import com.android.songseeker.comm.ServiceCommException;
+import com.android.songseeker.comm.ServiceCommException.ServiceErr;
+import com.android.songseeker.comm.ServiceCommException.ServiceID;
 import com.android.songseeker.comm.youtube.VideoFeed;
 import com.android.songseeker.comm.youtube.YouTubeComm;
 import com.android.songseeker.data.ArtistsParcel;
@@ -61,13 +63,21 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
         setListAdapter(adapter);
         
 		SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
-		
-		try {
+
+		if(!YouTubeComm.getComm(this, settings).isAuthorized())
+			showDialog(ACCOUNTS_DIAG);
+		else{
+			new GetUserPlaylistsTask().execute();
+		}
+		/*try {
+			//YouTubeComm.getComm().searchVideo("Down in the flood", "The derek trucks band");
 			YouTubeComm.getComm().requestAuthorize("heldergaray@gmail.com", "c*7n=k2p");
+			//String id = YouTubeComm.getComm().createPlaylist("Teste69");
+			//YouTubeComm.getComm().addVideosToPlaylist(id, "3gzw-Wh1JL8");
 		} catch (ServiceCommException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		/*if(!YouTubeComm.getComm(this, settings).isAuthorized())
 			showDialog(ACCOUNTS_DIAG);
 		else{
@@ -159,10 +169,6 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 				}, null);
 	}*/
 
-	void onAuthToken() {
-		Log.i(Util.APP, "onAuthToken()");
-	}
-
 	void handleException(Exception e){
 		if (e instanceof HttpResponseException) {
 			HttpResponse response = ((HttpResponseException) e).getResponse();
@@ -192,15 +198,16 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 	public void run(AccountManagerFuture<Bundle> future) {
 		try {
 			Bundle bundle = future.getResult();
-			if (bundle.containsKey(AccountManager.KEY_INTENT)) {
+			if(bundle.containsKey(AccountManager.KEY_INTENT)) {
+				//user didn't yet authorize our app within Google, sending an Intent to do so
 				Intent intent = bundle.getParcelable(AccountManager.KEY_INTENT);
 				intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivityForResult(intent, REQUEST_AUTHENTICATE);
 			} else if (bundle.containsKey(AccountManager.KEY_AUTHTOKEN)) {
+				//user already authorized us with Google
 				SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
-				YouTubeComm.getComm().setAccessToken(bundle.getString(AccountManager.KEY_AUTHTOKEN), settings);
-				
-				onAuthToken();
+				YouTubeComm.getComm().setAccessToken(bundle.getString(AccountManager.KEY_AUTHTOKEN), settings);				
+				new GetUserPlaylistsTask().execute();
 			}
 		} catch (Exception e) {
 			handleException(e);
@@ -217,9 +224,12 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		switch (requestCode) {
 		case REQUEST_AUTHENTICATE:
 			if (resultCode == RESULT_OK) {
-				//gotAccount(false);
+				//user authorized us within Google
+				new GetUserPlaylistsTask().execute();
 			} else {
-				//showDialog(ACCOUNTS_DIAG);				
+				//user denied our app
+				ServiceCommException e = new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.NOT_AUTH);
+				Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT);				
 				CreatePlaylistYoutubeActivity.this.finish();
 			}
 			break;
@@ -338,9 +348,8 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		protected UserPlaylistsData doInBackground(Void... arg0) {
 			UserPlaylistsData data;
 			try{
-				YouTubeComm.getComm().createPlaylist();
-				
-				data = YouTubeComm.getComm().getPlaylistFeed();
+				SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
+				data = YouTubeComm.getComm().getUserPlaylists(settings);
 			} catch(ServiceCommException e){
 				err = e.getMessage();
 				return null;
@@ -405,7 +414,7 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 				ArrayList<String> songArtists = ar.getArtistList();
 				
 				for(i=0; i<songNames.size() && i<songArtists.size(); i++){
-					VideoFeed video = YouTubeComm.getComm().getVideoFeed(songNames.get(i) + "-" + songArtists.get(i));
+					VideoFeed video = null;//YouTubeComm.getComm().getVideoFeed(songNames.get(i) + "-" + songArtists.get(i));
 					publishProgress(i+1);
 					
 					if(video.totalItems <= 0){
