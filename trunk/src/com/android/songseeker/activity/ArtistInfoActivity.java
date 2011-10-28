@@ -140,6 +140,16 @@ public class ArtistInfoActivity extends ListActivity {
 				}				
 			});
 			
+			//set watch button
+			Button watch = (Button)header.findViewById(R.id.artistinfo_watch);
+			watch.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					Intent intent = new Intent(ArtistInfoActivity.this, WatchSongVideoActivity.class);					
+					intent.putExtra("artistParcel", artist);					
+					startActivity(intent);
+				}
+			});
+			
 			TextView tvBio = (TextView)header.findViewById(R.id.artistinfo_biography);
 			tvBio.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {

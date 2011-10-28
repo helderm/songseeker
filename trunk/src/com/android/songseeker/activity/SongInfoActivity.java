@@ -174,6 +174,16 @@ public class SongInfoActivity extends ListActivity {
 					startActivity(Intent.createChooser(intent, "Share using..."));
 				}				
 			});
+			
+			//set watch button
+			Button watch = (Button)header.findViewById(R.id.songinfo_watch);
+			watch.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					Intent intent = new Intent(SongInfoActivity.this, WatchSongVideoActivity.class);					
+					intent.putExtra("songParcel", song);					
+					startActivity(intent);
+				}
+			});
 
 			//set image
 			ImageView coverart = (ImageView) header.findViewById(R.id.songinfo_coverArt);

@@ -1,14 +1,14 @@
 package com.android.songseeker.activity;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.android.songseeker.R;
 import com.android.songseeker.comm.ServiceCommException;
+import com.android.songseeker.comm.YouTubeComm;
 import com.android.songseeker.comm.ServiceCommException.ServiceErr;
 import com.android.songseeker.comm.ServiceCommException.ServiceID;
-import com.android.songseeker.comm.youtube.VideoFeed;
-import com.android.songseeker.comm.youtube.YouTubeComm;
+import com.android.songseeker.comm.YouTubeComm.VideoFeed;
 import com.android.songseeker.data.ArtistsParcel;
 import com.android.songseeker.data.SongNamesParcel;
 import com.android.songseeker.data.UserPlaylistsData;
@@ -33,8 +33,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,12 +47,16 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 	private static final int ACCOUNTS_DIAG = 0;
 	private static final int REQUEST_AUTH_DIAG = 1;
 	private static final int CREATE_PLAYLIST_DIAG = 2;
-	private static final int FETCH_SONG_IDS_DIAG = 3;
-	private ProgressDialog fetchSongIdsDiag;
+	private static final int FETCH_VIDEO_IDS_DIAG = 3;
+	private static final int NEW_PLAYLIST_DIAG = 4;
+	private static final int ADD_VIDEOS_PLAYLIST_DIAG = 5;
+	
+	private ProgressDialog progressDiag;
 	
 	private YouTubePlaylistsAdapter adapter;
+	private SharedPreferences settings;
 	
-	public static final int REQUEST_AUTHENTICATE = 0;
+	public static final int REQUEST_AUTHENTICATE = 0;	
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -62,11 +70,20 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
         adapter = new YouTubePlaylistsAdapter();
         setListAdapter(adapter);
         
-		SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
-
-		if(!YouTubeComm.getComm(this, settings).isAuthorized())
+		settings = getPreferences(Context.MODE_PRIVATE);
+		
+		if(!YouTubeComm.getComm(this, settings).isAuthorized()){
+		
+			//check if the user has a Google account configured
+			final String[] names = YouTubeComm.getComm().getAccountsNames();
+			if(names.length <= 0){
+				Toast.makeText(getApplicationContext(), "No Google account found in your device!", Toast.LENGTH_SHORT).show();
+				finish();
+				return;
+			}
+			
 			showDialog(ACCOUNTS_DIAG);
-		else{
+		}else{
 			new GetUserPlaylistsTask().execute();
 		}
 		/*try {
@@ -89,43 +106,6 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		//gotAccount(false);
 	}
 
-
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		switch (id) {
-		case REQUEST_AUTH_DIAG:
-			ProgressDialog rad = new ProgressDialog(this);
-			rad.setMessage("Requesting authorization from YouTube...");
-			rad.setIndeterminate(true);
-			rad.setCancelable(true);
-			return rad;
-		case ACCOUNTS_DIAG:
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("Select a Google account");
-
-			final String[] names = YouTubeComm.getComm().getAccountsNames();
-			builder.setItems(names, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					new RequestAuthorizeTask().execute(names[which]);
-				}
-			});
-			return builder.create();			
-		case CREATE_PLAYLIST_DIAG:
-			ProgressDialog cpd = new ProgressDialog(this);
-			cpd.setMessage("Creating playlist on YouTube...");
-			cpd.setIndeterminate(true);
-			cpd.setCancelable(false);
-			return cpd;	
-		case FETCH_SONG_IDS_DIAG:
-			fetchSongIdsDiag = new ProgressDialog(this);
-			fetchSongIdsDiag.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			fetchSongIdsDiag.setMessage("Fetching video data...");
-			fetchSongIdsDiag.setCancelable(false);			
-			return fetchSongIdsDiag;
-		}
-		
-		return null;
-	}
 
 	/*void gotAccount(boolean tokenExpired) {
 		SharedPreferences settings = getSharedPreferences(PREF, 0);
@@ -168,73 +148,6 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 					}
 				}, null);
 	}*/
-
-	void handleException(Exception e){
-		if (e instanceof HttpResponseException) {
-			HttpResponse response = ((HttpResponseException) e).getResponse();
-			int statusCode = response.getStatusCode();
-			try {
-				response.ignore();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-
-			if (statusCode == 401 || statusCode == 403) {	          
-				SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
-				YouTubeComm.getComm().unauthorizeUser(settings);
-				return;
-			}
-			try {
-				Log.e(Util.APP, response.parseAsString());
-			} catch (IOException parseException) {
-				parseException.printStackTrace();
-			}
-		}
-		Log.e(Util.APP, e.getMessage(), e);
-
-	}
-
-	@Override
-	public void run(AccountManagerFuture<Bundle> future) {
-		try {
-			Bundle bundle = future.getResult();
-			if(bundle.containsKey(AccountManager.KEY_INTENT)) {
-				//user didn't yet authorize our app within Google, sending an Intent to do so
-				Intent intent = bundle.getParcelable(AccountManager.KEY_INTENT);
-				intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivityForResult(intent, REQUEST_AUTHENTICATE);
-			} else if (bundle.containsKey(AccountManager.KEY_AUTHTOKEN)) {
-				//user already authorized us with Google
-				SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
-				YouTubeComm.getComm().setAccessToken(bundle.getString(AccountManager.KEY_AUTHTOKEN), settings);				
-				new GetUserPlaylistsTask().execute();
-			}
-		} catch (Exception e) {
-			handleException(e);
-		}
-		
-	}
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		Log.i(Util.APP, "onActivityResult()");
-
-		//TODO Check!
-		switch (requestCode) {
-		case REQUEST_AUTHENTICATE:
-			if (resultCode == RESULT_OK) {
-				//user authorized us within Google
-				new GetUserPlaylistsTask().execute();
-			} else {
-				//user denied our app
-				ServiceCommException e = new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.NOT_AUTH);
-				Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT);				
-				CreatePlaylistYoutubeActivity.this.finish();
-			}
-			break;
-		}
-	}
 
 	private class YouTubePlaylistsAdapter extends BaseAdapter {
 		UserPlaylistsData data;
@@ -310,10 +223,8 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		@Override
 		protected Void doInBackground(String... name) {
 			
-			SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
-			
 			//try{			
-			YouTubeComm.getComm().requestAuthorize(name[0], CreatePlaylistYoutubeActivity.this, settings);
+				YouTubeComm.getComm().requestAuthorize(name[0], CreatePlaylistYoutubeActivity.this, settings);
 			//}catch(ServiceCommException e){
 			//	err = e.getMessage();
 			//}
@@ -335,7 +246,68 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 			//new GetUserPlaylistsTask().execute(null, null, null);
 		}		
 	}
+	
 
+	@Override
+	public void run(AccountManagerFuture<Bundle> future) {
+		try {
+			Bundle bundle = future.getResult();
+			if(bundle.containsKey(AccountManager.KEY_INTENT)) {
+				//user didn't yet authorize our app within Google, sending an Intent to do so
+				Intent intent = bundle.getParcelable(AccountManager.KEY_INTENT);
+				intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivityForResult(intent, REQUEST_AUTHENTICATE);
+			} else if (bundle.containsKey(AccountManager.KEY_AUTHTOKEN)) {
+				//user already authorized us with Google
+				YouTubeComm.getComm().setAccessToken(bundle.getString(AccountManager.KEY_AUTHTOKEN), settings);				
+				new GetUserPlaylistsTask().execute();
+			}
+		} catch (Exception e) {
+			handleException(e);
+		}		
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		//TODO Check!
+		switch (requestCode) {
+		case REQUEST_AUTHENTICATE:
+			if (resultCode == RESULT_OK) {
+				//user authorized us within Google
+				new GetUserPlaylistsTask().execute();
+			} else {
+				//user denied our app
+				ServiceCommException e = new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.NOT_AUTH);
+				Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();				
+				CreatePlaylistYoutubeActivity.this.finish();
+			}
+			break;
+		}
+	}
+
+	void handleException(Exception e){
+		if (e instanceof HttpResponseException) {
+			HttpResponse response = ((HttpResponseException) e).getResponse();
+			int statusCode = response.getStatusCode();
+
+			if (statusCode == 401 || statusCode == 403) {	          
+				YouTubeComm.getComm().unauthorizeUser(settings);
+				
+				ServiceCommException ex = new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.NOT_AUTH);
+				Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+				return;
+			}
+			
+			ServiceCommException ex = new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.UNKNOWN);
+			Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();			
+		}
+		
+		Log.e(Util.APP, e.getMessage(), e);
+	}
+		
+	
 	private class GetUserPlaylistsTask extends AsyncTask<Void, Void, UserPlaylistsData>{
 		private String err = null;
 		
@@ -348,7 +320,6 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		protected UserPlaylistsData doInBackground(Void... arg0) {
 			UserPlaylistsData data;
 			try{
-				SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
 				data = YouTubeComm.getComm().getUserPlaylists(settings);
 			} catch(ServiceCommException e){
 				err = e.getMessage();
@@ -361,7 +332,7 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		@Override
 		protected void onPostExecute(UserPlaylistsData data) {
 			if(err != null){
-				Toast.makeText(CreatePlaylistYoutubeActivity.this, "Unable to fetch the user playlists...", Toast.LENGTH_SHORT).show();
+				Toast.makeText(CreatePlaylistYoutubeActivity.this, "Unable to fetch your playlists...", Toast.LENGTH_SHORT).show();
 				return;
 			}
 			
@@ -370,61 +341,83 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		
 	}
 	
-	private class CreatePlaylistTask extends AsyncTask<Void, Integer, Void>{
+	private class CreatePlaylistTask extends AsyncTask<HashMap<String, String>, Integer, Void>{
 		private SongNamesParcel sn = getIntent().getExtras().getParcelable("songNames");
 		private ArtistsParcel ar = getIntent().getExtras().getParcelable("songArtists");
+		private ArrayList<VideoFeed> videos = new ArrayList<VideoFeed>();
+		
 		private String err;
 		
 		@Override
 		protected void onPreExecute() {
-			showDialog(FETCH_SONG_IDS_DIAG);
-			fetchSongIdsDiag.setMax(sn.getSongNames().size());		
+			showDialog(FETCH_VIDEO_IDS_DIAG);
+			progressDiag.setMax(sn.getSongNames().size());		
 		}
 		
 		@Override
 		protected void onProgressUpdate(Integer... progress) {
 			if(progress[0] >= 0)
-				fetchSongIdsDiag.setProgress(progress[0]);
+				progressDiag.setProgress(progress[0]);
 			else{
-				removeDialog(FETCH_SONG_IDS_DIAG);
-				//showDialog(CREATE_PLAYLIST_DIAG);
+				switch(progress[0]){
+				case -1:
+					removeDialog(FETCH_VIDEO_IDS_DIAG);					
+					break;
+				case -2:
+					showDialog(CREATE_PLAYLIST_DIAG);
+					break;
+				case -3:
+					removeDialog(CREATE_PLAYLIST_DIAG);
+					break;
+				case -4:
+					showDialog(ADD_VIDEOS_PLAYLIST_DIAG);
+					progressDiag.setMax(videos.size());
+				}	
 			}
 		}
 		
 		@Override
-		protected Void doInBackground(Void... params) {
-			//String plName = params[0].get("name");
-			//int plId = 0;			
-			
-			//SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
+		protected Void doInBackground(HashMap<String, String>... params) {
+
 			try{				
-				//if(plName != null){
-				//	Playlist pl = LastfmComm.getComm().createPlaylist(plName, settings);
-				//	plId = pl.getId();
-				//}else{
-				//	plId = Integer.parseInt(params[0].get("id"));
-				//}
-				
-				//publishProgress(-1);
-				
-				YouTubeComm.getComm().getPlaylistFeed();
-				
-				int i;
 				ArrayList<String> songNames = sn.getSongNames();
 				ArrayList<String> songArtists = ar.getArtistList();
 				
-				for(i=0; i<songNames.size() && i<songArtists.size(); i++){
-					VideoFeed video = null;//YouTubeComm.getComm().getVideoFeed(songNames.get(i) + "-" + songArtists.get(i));
+				//fetch video ids		
+				for(int i=0; i<songNames.size() && i<songArtists.size(); i++){
+					ArrayList<VideoFeed> vids = YouTubeComm.getComm().searchVideo(songNames.get(i), songArtists.get(i), 1);
 					publishProgress(i+1);
 					
-					if(video.totalItems <= 0){
+					if(vids.size() == 0){
 						Log.w(Util.APP, "Song ["+songNames.get(i) + "-" + songArtists.get(i)+"] not found on YouTube!");
 						continue;
 					}
-					
-					Log.i(Util.APP, "Song ["+video.items.get(0).title+" ("+ video.items.get(0).player.defaultUrl +")]");
+				
+					videos.add(vids.get(0));
 				}
+				
 				publishProgress(-1);
+
+				String plName = params[0].get("name");
+				String plID = params[0].get("id");
+				
+				//create a playlist
+				if(plName != null){					
+					publishProgress(-2);
+					plID = YouTubeComm.getComm().createPlaylist(plName, settings);
+					publishProgress(-3);
+				}
+				
+				//add videos to the playlist
+				int i=0;
+				
+				publishProgress(-4);
+				for(VideoFeed video : videos){					
+					publishProgress(++i);
+					YouTubeComm.getComm().addVideosToPlaylist(plID, video.id, settings);
+				}
+				
+				
 			}catch (ServiceCommException e){
 				err = e.getMessage();
 				return null;
@@ -435,7 +428,6 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		
 		@Override
 		protected void onPostExecute(Void result) {
-			//removeDialog(ADD_TRACKS_DIAG);
 			if(err != null){
 				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
 			}else{
@@ -444,9 +436,100 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 			}
 			
 			CreatePlaylistYoutubeActivity.this.finish();
-		}
-		
+		}		
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		if(position == 0){
+			showDialog(NEW_PLAYLIST_DIAG);
+		}else{		
+			HashMap<String, String> plId = new HashMap<String, String>();
+			plId.put("id", adapter.data.getPlaylistId(position-1));
+			new CreatePlaylistTask().execute(plId);
+		}
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+		case REQUEST_AUTH_DIAG:
+			ProgressDialog rad = new ProgressDialog(this);
+			rad.setMessage("Requesting authorization from YouTube...");
+			rad.setIndeterminate(true);
+			rad.setCancelable(true);
+			return rad;
+		case ACCOUNTS_DIAG:
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Select a Google account");
+
+			final String[] names = YouTubeComm.getComm().getAccountsNames();
+			builder.setItems(names, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {					
+					new RequestAuthorizeTask().execute(names[which]);
+				}
+			});
+			return builder.create();			
+		case CREATE_PLAYLIST_DIAG:
+			ProgressDialog cpd = new ProgressDialog(this);
+			cpd.setMessage("Creating playlist on YouTube...");
+			cpd.setIndeterminate(true);
+			cpd.setCancelable(false);
+			return cpd;	
+		case FETCH_VIDEO_IDS_DIAG:
+			progressDiag = new ProgressDialog(this);
+			progressDiag.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+			progressDiag.setMessage("Fetching videos...");
+			progressDiag.setCancelable(false);			
+			return progressDiag;
+		case ADD_VIDEOS_PLAYLIST_DIAG:
+			progressDiag = new ProgressDialog(this);
+			progressDiag.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+			progressDiag.setMessage("Adding videos to playlist...");
+			progressDiag.setCancelable(false);			
+			return progressDiag;			
+		case NEW_PLAYLIST_DIAG:
+			Dialog dialog = new Dialog(this);
+			dialog.setContentView(R.layout.new_playlist_diag);
+			dialog.setTitle("Name the playlist!");
+			
+			Button create_but = (Button)dialog.findViewById(R.id.create_pl_but);		
+			
+			create_but.setOnClickListener(new View.OnClickListener() {
+				@SuppressWarnings("unchecked")
+				public void onClick(View v) {
+	               	View p = (View)v.getParent();	            	
+	            	View parent = (View)p.getParent();	            	
+	            	EditText textInput = (EditText) parent.findViewById(R.id.pl_name_input); 
+	            	
+	                //check if the edit text is empty
+	            	if(textInput.getText().toString().compareTo("") == 0){
+	            		    		
+	            		Toast.makeText(CreatePlaylistYoutubeActivity.this, 
+	            						getResources().getText(R.string.invalid_args_str), Toast.LENGTH_SHORT).show();
+	            		
+	            		removeDialog(NEW_PLAYLIST_DIAG);
+	            		return;
+	            	}
+	            	
+	            	//remove the soft input window from view
+	            	InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
+	            	imm.hideSoftInputFromWindow(textInput.getWindowToken(), 0); 
+	            		            	
+	            	removeDialog(NEW_PLAYLIST_DIAG);
+	            	HashMap<String, String> plName = new HashMap<String, String>();
+	            	plName.put("name", textInput.getText().toString());
+	            	
+	            	new CreatePlaylistTask().execute(plName);	            	
+	            }
+	        }); 
+			
+			return dialog;			
+			
+		}	
+		
+		return null;
+	}
 
 }
