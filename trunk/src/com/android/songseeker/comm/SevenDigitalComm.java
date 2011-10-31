@@ -141,6 +141,59 @@ public class SevenDigitalComm {
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
 		}
 	}
+	
+	public ArtistInfo queryArtistSearch(String artistName) throws ServiceCommException{
+		Element fstNmElmnt;
+		NodeList fstNmElmntLst;
+
+		ArrayList<ArtistInfo> artists;
+
+		String urlStr = ENDPOINT + "artist/search?";
+		String reqParam = "q="+artistName.replace(' ', '+')+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=15&page=1&imageSize=200";
+
+		try {
+			URL url = new URL(urlStr+reqParam);			
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.parse(new InputSource(url.openStream()));
+			doc.getDocumentElement().normalize();
+
+			//check response
+			fstNmElmntLst = doc.getElementsByTagName("response");
+			fstNmElmnt = (Element) fstNmElmntLst.item(0);
+			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
+				parseError(fstNmElmnt);
+			}	
+
+			artists = parseArtistDetails(doc.getDocumentElement());
+			if(artists == null)
+				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.ID_NOT_FOUND);
+			
+			//search for the track with the same artist
+			for(ArtistInfo artist : artists){				
+ 				
+ 				if(artistName.equalsIgnoreCase(artist.name) || artist.name.toLowerCase().contains(artistName.toLowerCase()) 
+ 						|| artistName.toLowerCase().contains(artist.name.toLowerCase())){
+ 					
+ 					return artist;
+ 				} 	
+			}
+			
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.ID_NOT_FOUND);				
+
+		}catch(IOException e) {
+			Log.e(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	
+		}catch(NullPointerException e){
+			Log.e(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+		}catch(ServiceCommException e){
+			throw e;
+		}catch(Exception e){
+			Log.e(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
+		}
+	}	
 
 	public ArrayList<SongInfo> queryArtistTopTracks(String artistId) throws ServiceCommException{
 		ArrayList<SongInfo> songs;
@@ -368,7 +421,7 @@ public class SevenDigitalComm {
 				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 			}	
 
-			artist = parseArtistDetails(doc.getDocumentElement());			
+			artist = parseArtistDetails(doc.getDocumentElement()).get(0);			
 
 		}catch(IOException e) {
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	
@@ -443,7 +496,7 @@ public class SevenDigitalComm {
 				song.version = ((Node) fstNm.item(0)).getNodeValue();
 
 			//get artist
-			song.artist = parseArtistDetails(fstElmnt);
+			song.artist = parseArtistDetails(fstElmnt).get(0);
 
 			//get release details
 			song.release = parseReleaseDetails(fstElmnt).get(0);
@@ -503,7 +556,7 @@ public class SevenDigitalComm {
 
 			//get artist details
 			//release.artist = parseReleaseArtistDetails(doc);
-			release.artist = parseArtistDetails(fstElmnt);
+			release.artist = parseArtistDetails(fstElmnt).get(0);
 
 			//mount buy url
 			release.buyUrl = MOBILE_URL + "releases/" + release.id + "?partner=" + PARTNER_ID;		
@@ -514,40 +567,53 @@ public class SevenDigitalComm {
 		return releases;
 	}	
 	
-	private ArtistInfo parseArtistDetails(Element element) throws Exception{
-		ArtistInfo artist = new ArtistInfo();				
+	private ArrayList<ArtistInfo> parseArtistDetails(Element element) throws Exception{
+		ArrayList<ArtistInfo> artists = new ArrayList<ArtistInfo>();				
+		ArtistInfo artist;
+		
 		Element fstNmElmnt, fstElmnt;
 		NodeList fstNm, fstNmElmntLst;
 
 		NodeList nodeLst = element.getElementsByTagName("artist");					
 
-		if(nodeLst.getLength() < 1)
-			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+		//if(nodeLst.getLength() < 1)
+		//	throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 
-		Node fstNode = nodeLst.item(0);
-		fstElmnt = (Element) fstNode;
+		for (int s=0; s<nodeLst.getLength(); s++) {
+			artist = new ArtistInfo();
+			
+			Node fstNode = nodeLst.item(s);
 
-		//get id
-		artist.id = fstElmnt.getAttribute("id");
+			if (fstNode.getNodeType() != Node.ELEMENT_NODE) 
+				continue;
 
-		//get artist name
-		fstNmElmntLst = fstElmnt.getElementsByTagName("name");
-		fstNmElmnt = (Element) fstNmElmntLst.item(0);
-		fstNm = fstNmElmnt.getChildNodes();
-		artist.name = ((Node) fstNm.item(0)).getNodeValue();
-		
-		//get image
-		fstNmElmntLst = fstElmnt.getElementsByTagName("image");
-		fstNmElmnt = (Element) fstNmElmntLst.item(0);
-		if(fstNmElmnt != null){	
-			fstNm = fstNmElmnt.getChildNodes();			
-			if(fstNm.item(0) != null)
-				artist.image = ((Node) fstNm.item(0)).getNodeValue();
+			fstElmnt = (Element) fstNode;
+			
+			//get id
+			artist.id = fstElmnt.getAttribute("id");
+
+			//get artist name
+			fstNmElmntLst = fstElmnt.getElementsByTagName("name");
+			fstNmElmnt = (Element) fstNmElmntLst.item(0);
+			fstNm = fstNmElmnt.getChildNodes();
+			artist.name = ((Node) fstNm.item(0)).getNodeValue();
+			
+			//get image
+			fstNmElmntLst = fstElmnt.getElementsByTagName("image");
+			fstNmElmnt = (Element) fstNmElmntLst.item(0);
+			if(fstNmElmnt != null){	
+				fstNm = fstNmElmnt.getChildNodes();			
+				if(fstNm.item(0) != null)
+					artist.image = ((Node) fstNm.item(0)).getNodeValue();
+			}
+
+			//mount buy url
+			artist.buyUrl = MOBILE_URL + "artists/" + artist.id + "?partner=" + PARTNER_ID;
+			
+			artists.add(artist);
 		}
 
-		//mount buy url
-		artist.buyUrl = MOBILE_URL + "artists/" + artist.id + "?partner=" + PARTNER_ID;
-		return artist;
+		return artists;
 	}
 	
 	private void parseError(Element element) throws ServiceCommException, Exception{

@@ -8,6 +8,7 @@ import com.android.songseeker.comm.SevenDigitalComm;
 import com.android.songseeker.data.ArtistInfo;
 import com.android.songseeker.data.ReleaseInfo;
 import com.android.songseeker.data.SongInfo;
+import com.android.songseeker.data.UserProfile;
 import com.android.songseeker.util.ImageLoader;
 
 import android.app.Dialog;
@@ -147,6 +148,17 @@ public class ArtistInfoActivity extends ListActivity {
 					Intent intent = new Intent(ArtistInfoActivity.this, WatchSongVideoActivity.class);					
 					intent.putExtra("artistParcel", artist);					
 					startActivity(intent);
+				}
+			});
+			
+			//set add profile button
+			Button add = (Button)header.findViewById(R.id.artistinfo_add);
+			add.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					ArrayList<String> ids = new ArrayList<String>();
+					ids.add(artist.id);
+					
+					UserProfile.getInstance(getCacheDir()).addIdToProfile(ids, ArtistInfoActivity.this, adapter);
 				}
 			});
 			

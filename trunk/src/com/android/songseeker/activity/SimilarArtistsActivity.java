@@ -151,13 +151,11 @@ public class SimilarArtistsActivity extends ListActivity {
 			ViewHolder holder;
 
 			if(convertView == null) {
-				convertView = inflater.inflate(R.layout.list_row, null);
+				convertView = inflater.inflate(R.layout.artist_row, null);
 
 				holder = new ViewHolder();
-				holder.topText = (TextView) convertView.findViewById(R.id.firstLine);
-				holder.botText = (TextView) convertView.findViewById(R.id.secondLine);
+				holder.line = (TextView) convertView.findViewById(R.id.line);
 				holder.coverArt = (ImageView) convertView.findViewById(R.id.coverart);
-				holder.playPause = (ImageView) convertView.findViewById(R.id.playpause);	
 
 				convertView.setTag(holder);
 			}else{
@@ -167,10 +165,7 @@ public class SimilarArtistsActivity extends ListActivity {
 			final ArtistInfo artist = getItem(position);
 			if(artist != null) {
 
-				holder.botText.setVisibility(View.GONE);
-				holder.playPause.setVisibility(View.GONE);
-
-				holder.topText.setText(artist.name);			
+				holder.line.setText(artist.name);			
 
 				try{
 					ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, holder.coverArt, R.drawable.artist);
@@ -188,10 +183,8 @@ public class SimilarArtistsActivity extends ListActivity {
 		}
 
 		private class ViewHolder{
-			public TextView topText;
-			public TextView botText;
+			public TextView line;
 			public ImageView coverArt;
-			public ImageView playPause;
 		}
 	}
 

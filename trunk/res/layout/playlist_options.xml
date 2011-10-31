@@ -68,7 +68,7 @@
 
 		<Button android:layout_height="wrap_content" android:id="@+id/shuffle_pl_options"
 			android:text="@string/shuffle_str" android:layout_weight="0.04"
-			android:layout_width="117dp" android:layout_gravity="center"></Button>
+			android:layout_width="117dp" android:layout_gravity="center" style="@style/Button"></Button>
 
 	</LinearLayout>
 </ScrollView>

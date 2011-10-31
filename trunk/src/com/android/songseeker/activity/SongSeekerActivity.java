@@ -44,25 +44,26 @@ public class SongSeekerActivity extends Activity {
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
+    	Intent i;
+    	
+    	// Handle item selection
         switch (item.getItemId()) {
         case R.id.settings:
         	//create settings activity
         	return true;
         case R.id.pl_options:
-        	createPlaylistOptionsActivity();
+        	i = new Intent(SongSeekerActivity.this, PlaylistOptionsActivity.class);
+            startActivity(i);	
             return true;
         case R.id.about:
             //showAbout();
-            return true;            
+            return true;  
+        case R.id.profile:
+        	i = new Intent(SongSeekerActivity.this, ProfileActivity.class);
+            startActivity(i);	
         default:
             return super.onOptionsItemSelected(item);
         }
-    }
-    
-    private void createPlaylistOptionsActivity(){
-    	Intent i = new Intent(SongSeekerActivity.this, PlaylistOptionsActivity.class);
-        startActivity(i);	
     }
     
     private void createRecSongsActivity(){    	

@@ -27,7 +27,8 @@
 		  	android:gravity="center"
 	  	    android:id="@+id/create_pl_but" 
 	  	    android:text="Create" 
-	  	    android:layout_width="92dp" android:layout_weight="0.14"></Button>
+	  	    android:layout_width="92dp" android:layout_weight="0.14"
+	  	    style="@style/Button"></Button>
 	</LinearLayout>
 
 </LinearLayout>

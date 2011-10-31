@@ -10,6 +10,7 @@ import com.android.songseeker.comm.ServiceCommException.ServiceErr;
 import com.android.songseeker.comm.ServiceCommException.ServiceID;
 import com.android.songseeker.util.Util;
 
+import de.umass.lastfm.Artist;
 import de.umass.lastfm.Authenticator;
 import de.umass.lastfm.Caller;
 import de.umass.lastfm.Playlist;
@@ -118,15 +119,30 @@ public class LastfmComm {
 		Log.i(Util.APP, "Track added to Last.fm playlist!!");
 	}
 	
+	public Collection<Artist> getTopArtists(String user){
+		if(session != null)
+			return User.getTopArtists(session.getUsername(), KEY);	
+		else if(username != null)
+			return User.getTopArtists(username, KEY);
+		else
+			return User.getTopArtists(user, KEY);
+	}
+	
 	public boolean isAuthorized(){
 		if(session == null){
-			if(sessionKey == null)
+			if(sessionKey == null || username == null)
 				return false;
 			session = Session.createSession(KEY, SECRET, sessionKey, username, false);
 		}
 		
-		return true;
+		return true;	
+	}
 	
+	public boolean hasUsername(){
+		if(session == null && username == null)
+			return false;
+		
+		return true;
 	}
 	
 	private void cleanAuth(SharedPreferences settings){

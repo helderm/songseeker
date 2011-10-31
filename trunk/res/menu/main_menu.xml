@@ -4,6 +4,8 @@
           android:title="@string/settings_str" />
     <item android:id="@+id/pl_options"
           android:title="@string/pl_options_str" />
+    <item android:id="@+id/profile"
+          android:title="@string/profile_str" />          
     <item android:id="@+id/about"
           android:title="@string/about_str" />
 </menu>

@@ -126,6 +126,21 @@ public class EchoNestComm {
 		return ls.get(0);
 	}
 	
+	public Artist getArtist(String name) throws ServiceCommException{
+		Artist artist = null;
+		
+		try{			
+			artist = en.newArtistByName(name);
+		}catch (EchoNestException e) {
+			treatEchoNestException(e);
+		} catch (Exception e){
+			Log.w(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
+		}
+		
+		return artist;
+	}
+	
 	public Biography getArtistBioFromBucket(String id) throws ServiceCommException {
 		Biography bio = null;
 		

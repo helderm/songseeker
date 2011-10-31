@@ -16,6 +16,7 @@ import java.util.WeakHashMap;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.widget.ImageView;
 
 public class ImageLoader {
@@ -97,7 +98,7 @@ public class ImageLoader {
             bitmap = decodeFile(f);
             return bitmap;
         } catch (Exception ex){
-           ex.printStackTrace();
+           Log.w(Util.APP, "Failed to download image from ["+url+"]", ex);
            return null;
         }
     }
