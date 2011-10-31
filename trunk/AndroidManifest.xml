@@ -20,7 +20,7 @@
 
 		<activity android:name=".activity.PlaylistOptionsActivity"
 			android:screenOrientation="portrait"></activity>
-			
+
 		<activity android:name=".activity.RecSongsActivity"
 			android:screenOrientation="portrait"></activity>
 
@@ -36,35 +36,40 @@
 
 		<activity android:name=".activity.CreatePlaylistLastfmActivity"
 			android:screenOrientation="portrait"></activity>
-			
+
 		<activity android:name=".activity.CreatePlaylistYoutubeActivity"
 			android:screenOrientation="portrait"></activity>
-			
+
 		<activity android:name=".activity.SongInfoActivity"
 			android:screenOrientation="portrait"></activity>
-			
+
 		<activity android:name=".activity.ReleaseInfoActivity"
 			android:screenOrientation="portrait"></activity>
-			
+
 		<activity android:name=".activity.ArtistInfoActivity"
 			android:screenOrientation="portrait"></activity>
-			
+
 		<activity android:name=".activity.ArtistBioActivity"
 			android:screenOrientation="portrait"></activity>
-			
+
 		<activity android:name=".activity.ArtistNewsActivity"
 			android:screenOrientation="portrait"></activity>
-			
+
 		<activity android:name=".activity.SimilarArtistsActivity"
 			android:screenOrientation="portrait"></activity>
-			
+
 		<activity android:name=".activity.MusicInfoTab"
 			android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar"
 			android:screenOrientation="portrait"></activity>
-			
+
 		<activity android:name=".activity.CreatePlaylistGroovesharkActivity"
 			android:screenOrientation="portrait"></activity>
-		<activity android:name=".activity.WatchSongVideoActivity"></activity>
+			
+		<activity android:name=".activity.WatchSongVideoActivity"
+			android:screenOrientation="portrait"></activity>
+
+		<activity android:name=".activity.ProfileActivity"
+			android:screenOrientation="portrait"></activity>
 
 	</application>
 </manifest>

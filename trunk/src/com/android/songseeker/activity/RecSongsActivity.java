@@ -66,12 +66,11 @@ public class RecSongsActivity extends ListActivity {
         adapter = new RecSongsAdapter();
         setListAdapter(adapter);
         
-         registerForContextMenu(getListView());
+        registerForContextMenu(getListView());
         
 	    //get the playlist
 	    PlaylistParams plp = buildPlaylistParams();	    
 	    RecSongsPlaylist.getInstance(adapter).getPlaylist(plp, this, PROGRESS_DIAG);
-	    //new GetPlaylistTask().execute(plp, null, null);
 
 	    //Debug.startMethodTracing("myapp");
 	}
@@ -130,7 +129,7 @@ public class RecSongsActivity extends ListActivity {
 		    pd.setCancelable(true);
 		    return pd;
 		case EXPORT_DIAG:		  	
-			final CharSequence[] items = {"Rdio Playlist", "Last.fm Playlist", "You Tube Playlist",
+			final CharSequence[] items = {"Rdio Playlist", "Last.fm Playlist", "YouTube Playlist",
 											"Grooveshark Playlist"};
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -361,7 +360,6 @@ public class RecSongsActivity extends ListActivity {
     	    //get the playlist
     	    PlaylistParams plp = buildPlaylistParams();	    
     	    RecSongsPlaylist.getInstance(adapter).getPlaylist(plp, this, PROGRESS_DIAG);
-    	    //new GetPlaylistTask().execute(plp, null, null);
             return true;
         case R.id.export:
         	showDialog(EXPORT_DIAG);

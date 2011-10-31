@@ -31,7 +31,7 @@ public class MediaPlayerController implements OnCompletionListener {
 		return controller; 
 	}
 
-	public synchronized void release(){
+	public void release(){
 		commander.cancel(true);
 		
 		if(media != null){
@@ -65,8 +65,14 @@ public class MediaPlayerController implements OnCompletionListener {
 
 			start(source, position, adapter);
 		}
-		else
+		else{
+			media.status = MediaStatus.STOPPED;
+			
+			if(media.adapter != null)
+				media.adapter.notifyDataSetChanged();
+			
 			stop();
+		}
 	}
 	
 	public void startStopMedia(String source, ImageView icon){
@@ -87,8 +93,14 @@ public class MediaPlayerController implements OnCompletionListener {
 			
 			start(source, icon);
 		}
-		else
+		else{
+			media.status = MediaStatus.STOPPED;
+			
+			if(media.icon != null)
+				media.icon.setImageResource(R.drawable.play);
+			
 			stop();
+		}
 	}
 
 	public MediaStatus getStatus(int position){
@@ -129,6 +141,7 @@ public class MediaPlayerController implements OnCompletionListener {
 		newMedia.adapter = null;
 		newMedia.position = -1;
 		newMedia.status = MediaStatus.LOADING;		
+		setNewMedia(newMedia);
 		newMedia.icon.setImageResource(R.drawable.icon);		
 		
 		TaskParams tp = new TaskParams();
@@ -140,7 +153,10 @@ public class MediaPlayerController implements OnCompletionListener {
 	
 	private void setNewMedia(MediaInfo m){
 		media = m;
-		media.adapter.notifyDataSetChanged();
+		
+		if(media.adapter != null)
+			media.adapter.notifyDataSetChanged();
+		
 	}
 
 	public void stop(){

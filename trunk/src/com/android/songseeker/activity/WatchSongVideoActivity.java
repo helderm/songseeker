@@ -161,11 +161,7 @@ public class WatchSongVideoActivity extends ListActivity {
 				holder.topText.setText(video.title);
 				holder.botText.setText(video.description);
 
-				try{
-					ImageLoader.getLoader(getCacheDir()).DisplayImage(video.image, holder.coverArt, R.drawable.ic_menu_disc);
-				}catch(IndexOutOfBoundsException e){
-					Log.w(Util.APP, "Unable to fetch the release image from Echo Nest!");
-				}
+				ImageLoader.getLoader(getCacheDir()).DisplayImage(video.image, holder.coverArt, R.drawable.ic_menu_disc);
 			}
 
 			return convertView;
