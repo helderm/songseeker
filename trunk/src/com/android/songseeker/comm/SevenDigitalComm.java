@@ -62,7 +62,7 @@ public class SevenDigitalComm {
 				try{
 					parseError(fstNmElmnt);
 				}catch(ServiceCommException e){
-					if(e.getErr() == ServiceErr.ID_NOT_FOUND){
+					if(e.getErr() == ServiceErr.SONG_NOT_FOUND){
 						//call ws using song and artist name
 						song = querySongSearch(trackName, artistName);
 						return song;
@@ -114,7 +114,7 @@ public class SevenDigitalComm {
 
 			songs = parseSongDetails(doc.getDocumentElement());
 			if(songs == null)
-				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.ID_NOT_FOUND);
+				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.SONG_NOT_FOUND);
 			
 			//search for the track with the same artist
 			for(SongInfo song : songs){				
@@ -126,7 +126,7 @@ public class SevenDigitalComm {
  				} 	
 			}
 			
-			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.ID_NOT_FOUND);				
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.SONG_NOT_FOUND);				
 
 		}catch(IOException e) {
 			Log.e(Util.APP, e.getMessage(), e);
@@ -167,7 +167,7 @@ public class SevenDigitalComm {
 
 			artists = parseArtistDetails(doc.getDocumentElement());
 			if(artists == null)
-				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.ID_NOT_FOUND);
+				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.ARTIST_NOT_FOUND);
 			
 			//search for the track with the same artist
 			for(ArtistInfo artist : artists){				
@@ -179,7 +179,7 @@ public class SevenDigitalComm {
  				} 	
 			}
 			
-			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.ID_NOT_FOUND);				
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.ARTIST_NOT_FOUND);				
 
 		}catch(IOException e) {
 			Log.e(Util.APP, e.getMessage(), e);
@@ -630,7 +630,7 @@ public class SevenDigitalComm {
 		
 		switch(code){
 		case 2001:
-			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.ID_NOT_FOUND);
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.SONG_NOT_FOUND);
 		default:
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);			
 		}

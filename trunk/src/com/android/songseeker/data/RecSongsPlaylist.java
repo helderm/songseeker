@@ -152,7 +152,7 @@ public class RecSongsPlaylist {
 				try{
 					song = EchoNestComm.getComm().getSongs(sp);
 				}catch (ServiceCommException e) {
-					if(e.getErr() == ServiceErr.ID_NOT_FOUND){
+					if(e.getErr() == ServiceErr.SONG_NOT_FOUND){
 						Log.i(Util.APP, "7digital's id for song ["+ songInfo.name + " - "+ songInfo.artist.name +"] " +
 								"not found in EchoNest, trying to search for the song...");
 						
@@ -168,7 +168,7 @@ public class RecSongsPlaylist {
 							song = EchoNestComm.getComm().searchSongs(sp);
 						} catch (ServiceCommException e1) {
 							
-							if(e1.getErr() == ServiceErr.ID_NOT_FOUND){
+							if(e1.getErr() == ServiceErr.SONG_NOT_FOUND){
 								Log.w(Util.APP, "Song ["+ songInfo.name + " - "+ songInfo.artist.name +"] not found in EchoNest, skiping...");
 							}else{
 								Log.w(Util.APP, e1.getMessage(), e1);

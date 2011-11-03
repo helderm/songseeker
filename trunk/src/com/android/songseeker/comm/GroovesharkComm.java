@@ -319,7 +319,7 @@ public class GroovesharkComm {
  				} 							
  			} 
  			
- 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.ID_NOT_FOUND);
+ 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.SONG_NOT_FOUND);
  
  		} catch(ServiceCommException e){ 			
  			if(e.getErr() == ServiceErr.NOT_AUTH)

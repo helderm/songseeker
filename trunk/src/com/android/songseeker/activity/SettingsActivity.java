@@ -7,6 +7,7 @@ import com.android.songseeker.R;
 import com.android.songseeker.comm.GroovesharkComm;
 import com.android.songseeker.comm.LastfmComm;
 import com.android.songseeker.comm.RdioComm;
+import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.YouTubeComm;
 import com.android.songseeker.data.UserProfile;
 import com.android.songseeker.util.Util;
@@ -63,15 +64,13 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 		
-		/* TODO
 		Preference importProfile = (Preference) findPreference("import_prof");		 
 		importProfile.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
             	showDialog(NEW_PLAYLIST_DIAG);
             	return true;
             }
-        });*/		
-
+        });	
 	}
 
 	@Override
@@ -117,16 +116,34 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 	}	
 	
-	private class ImportProfileTask extends AsyncTask<String, Void, Void>{
-
+	private class ImportProfileTask extends AsyncTask<String, Void, Collection<Artist>>{
+		private String err = null;
+		
 		@Override
 		protected void onPreExecute() {
 			Toast.makeText(SettingsActivity.this, "Importing profile, please wait...", Toast.LENGTH_LONG).show();
 		}
 		
 		@Override
-		protected Void doInBackground(String... params) {
-			Collection<Artist> topArtists = LastfmComm.getComm().getTopArtists(params[0]);
+		protected Collection<Artist> doInBackground(String... params) {
+			Collection<Artist> topArtists;
+			try {
+				topArtists = LastfmComm.getComm().getTopArtists(params[0]);
+			} catch (ServiceCommException e) {
+				err = e.getMessage();
+				return null;
+			}
+			
+			return topArtists;
+		}
+		
+		@Override
+		protected void onPostExecute(Collection<Artist> topArtists) {
+			if(err != null){
+				Toast.makeText(SettingsActivity.this, err, Toast.LENGTH_SHORT).show();
+				return;
+			}
+			
 			ArrayList<String> artists = new ArrayList<String>();
 			
 			for(Artist topArtist : topArtists){
@@ -134,8 +151,6 @@ public class SettingsActivity extends PreferenceActivity {
 			}
 			
 			UserProfile.getInstance(getCacheDir()).addToProfile(artists, SettingsActivity.this, null);
-			
-			return null;
-		}		
+		}
 	}
 }

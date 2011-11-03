@@ -252,7 +252,7 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 					String gsID = GroovesharkComm.getComm().getSongID(sn.getSongNames().get(i), ar.getArtistList().get(i), settings);
 					songIDs.add(gsID);					
 				}catch (ServiceCommException e) {
-					if(e.getErr() == ServiceErr.ID_NOT_FOUND){
+					if(e.getErr() == ServiceErr.SONG_NOT_FOUND){
 						publishProgress(++count);
 						Log.w(Util.APP, "Song ["+sn.getSongNames().get(i)+" - "+ar.getArtistList().get(i)+"] not found in Grooveshark, ignoring...");
 						continue;

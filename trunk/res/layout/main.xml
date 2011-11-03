@@ -10,7 +10,7 @@
 		style="@style/Button"></Button>
 
 	<EditText android:id="@+id/find_input" android:layout_width="180dip"
-		android:layout_height="50dp" android:text="@string/artist_name_str"
+		android:layout_height="50dp" android:hint="@string/artist_name_str"
 		android:layout_below="@+id/seek_songs_but"
 		android:layout_marginTop="60dip" android:layout_marginLeft="30dip">
 		<requestFocus></requestFocus>

@@ -40,15 +40,6 @@ public class SongSeekerActivity extends Activity {
             	getSongsFromProfile();
             }
         }); 
-        
-    	EditText textInput = (EditText) findViewById(R.id.find_input);
-    	textInput.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	EditText e = (EditText)v;
-            	if(e.getText().toString().equalsIgnoreCase(getString(R.string.artist_name_str)))           	
-            		e.setText("");
-            }
-        }); 
     }
 
 	@Override

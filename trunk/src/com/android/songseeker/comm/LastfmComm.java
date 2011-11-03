@@ -48,22 +48,36 @@ public class LastfmComm {
 	}
 	
 	public void requestAuthorize(String user, String pwd, SharedPreferences settings) throws ServiceCommException{
-		session = Authenticator.getMobileSession(user, pwd, KEY, SECRET);
+		
+		try{
+			session = Authenticator.getMobileSession(user, pwd, KEY, SECRET);			
+		}catch(RuntimeException e){
+			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.IO);			
+		}
+		
 		if(session == null)
-			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.NOT_AUTH);	
-		 
+			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.NOT_AUTH);
+		
 		Editor editor = settings.edit();
 		editor.putString(PREF_SESSIONKEY, session.getKey());
 		editor.putString(PREF_USERNAME, session.getUsername());
 		editor.commit();		
 	}
 	
-	public Collection<Playlist> getUserPlaylists(){
+	public Collection<Playlist> getUserPlaylists() throws ServiceCommException{
 		if(session == null)
 			return null;
 		
+		Collection<Playlist> pls;
+		
 		Log.i(Util.APP, "Retrieving the user playlists on Last.fm...");
-		Collection<Playlist> pls = User.getPlaylists(session.getUsername(), KEY);
+		
+		try{
+			pls = User.getPlaylists(session.getUsername(), KEY);
+		}catch(RuntimeException e){
+			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.IO);			
+		}
+		
 		Log.i(Util.APP, "Playlists fetched!");
 		
 		return pls;
@@ -73,14 +87,20 @@ public class LastfmComm {
 		if(session == null)
 			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.NOT_AUTH);
 		
-		Playlist pl = Playlist.create(title, "", session);
+		Playlist pl = null;
 
 		Log.i(Util.APP, "Creating playlist on Last.fm...");
+		
+		try{
+			pl = Playlist.create(title, "", session);
+		}catch(RuntimeException e){
+			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.IO);			
+		}	
 		
 		if(pl == null){
 			Log.e(Util.APP, "Error while trying to create playlist on Last.fm!");
 			cleanAuth(settings);
-			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.UNKNOWN);
+			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.REQ_FAILED);
 		}
 		
 		Log.i(Util.APP, "Playlist created on Last.fm!");
@@ -92,7 +112,12 @@ public class LastfmComm {
 		if(session == null)
 			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.NOT_AUTH);
 		
-		Result res = Playlist.addTrack(playlistId, artist, track, session);
+		Result res = null;
+		try{
+			res = Playlist.addTrack(playlistId, artist, track, session);
+		}catch(RuntimeException e){
+			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.IO);			
+		}			
 		
 		Log.i(Util.APP, "Adding track ["+track+" - "+artist+"] to Last.fm playlist...");
 		if(!res.isSuccessful()){
@@ -119,13 +144,17 @@ public class LastfmComm {
 		Log.i(Util.APP, "Track added to Last.fm playlist!!");
 	}
 	
-	public Collection<Artist> getTopArtists(String user){
-		if(session != null)
-			return User.getTopArtists(session.getUsername(), KEY);	
-		else if(username != null)
-			return User.getTopArtists(username, KEY);
-		else
-			return User.getTopArtists(user, KEY);
+	public Collection<Artist> getTopArtists(String user) throws ServiceCommException{
+		try{
+			Collection<Artist> topArtists = User.getTopArtists(user, KEY);
+			
+			if(topArtists.isEmpty())
+				throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.USER_NOT_FOUND);
+			
+			return topArtists;
+		}catch(RuntimeException e){
+			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.IO);			
+		}	
 	}
 	
 	public boolean isAuthorized(){

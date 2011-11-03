@@ -286,7 +286,8 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
 	}
 	
 	private class GetUserPlaylistsTask extends AsyncTask<Void, Void, List<Playlist>>{
-			
+		private String err = null;
+		
 		@Override
 		protected void onPreExecute() {
 			Toast.makeText(CreatePlaylistLastfmActivity.this, "Fetching your Last.fm playlists...", Toast.LENGTH_LONG).show();
@@ -294,11 +295,21 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
 		
 		@Override
 		protected List<Playlist> doInBackground(Void... arg0) {			
-			return  (List<Playlist>) LastfmComm.getComm().getUserPlaylists();
+			try {
+				return (List<Playlist>) LastfmComm.getComm().getUserPlaylists();
+			} catch (ServiceCommException e) {
+				err = e.getMessage();
+				return null;
+			}
 		}
 		
 		@Override
 		protected void onPostExecute(List<Playlist> data) {
+			if(err != null){
+				Toast.makeText(CreatePlaylistLastfmActivity.this, err, Toast.LENGTH_SHORT).show();
+				return;
+			}
+			
 			adapter.setPlaylists(data);
 		}
 		
@@ -373,8 +384,7 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
 			}
 			
 			CreatePlaylistLastfmActivity.this.finish();
-		}
-		
+		}		
 	}
 
 }

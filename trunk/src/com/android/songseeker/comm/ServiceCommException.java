@@ -39,7 +39,9 @@ public class ServiceCommException extends Exception {
 	
 	public enum ServiceErr{
 		IO ("Unable to reach the service provider. Check your internet connection!"),
-		ID_NOT_FOUND ("Artist not found!"),
+		ARTIST_NOT_FOUND ("Artist not found!"),
+		SONG_NOT_FOUND ("Song not found!"),
+		USER_NOT_FOUND ("User not found!"),
 		TRY_LATER ("Service unavailable. Try later!"),
 		NOT_AUTH ("Not authorized!"),
 		REQ_FAILED ("The service informed that the requested operation failed. Try later!"),

@@ -11,9 +11,9 @@
 		android:summary="@string/clear_prof_summ_str">
 	</Preference>	
 
-	<!-- <Preference android:key="import_prof"
+	<Preference android:key="import_prof"
 		android:title="@string/import_prof_title_str"
 		android:summary="@string/import_prof_summ_str">
-	</Preference>-->	
+	</Preference>	
 
 </PreferenceScreen>

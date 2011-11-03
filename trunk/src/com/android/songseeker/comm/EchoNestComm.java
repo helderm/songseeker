@@ -77,7 +77,7 @@ public class EchoNestComm {
 
 					break;
 				case 5:
-					throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.ID_NOT_FOUND);				
+					throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.ARTIST_NOT_FOUND);				
 				default:	
 					Log.e(Util.APP, "createStaticPlaylist failed!", e);
 					throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.IO);				
@@ -103,7 +103,7 @@ public class EchoNestComm {
 		}
 
 		if(ls.size() <= 0)
-			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.ID_NOT_FOUND);
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.SONG_NOT_FOUND);
 		
 		return ls.get(0);
 	}
@@ -121,7 +121,7 @@ public class EchoNestComm {
 		}
 
 		if(ls.size() <= 0)
-			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.ID_NOT_FOUND);
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.SONG_NOT_FOUND);
 		
 		return ls.get(0);
 	}
@@ -204,7 +204,7 @@ public class EchoNestComm {
 		case 4:
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.TRY_LATER);			
 		case 5:
-			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.ID_NOT_FOUND);				
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.ARTIST_NOT_FOUND);				
 		default:	
 			Log.e(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);				
