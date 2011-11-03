@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,7 +71,7 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
         adapter = new YouTubePlaylistsAdapter();
         setListAdapter(adapter);
         
-		settings = getPreferences(Context.MODE_PRIVATE);
+		settings = getApplicationContext().getSharedPreferences(Util.APP, Context.MODE_PRIVATE);
 		
 		if(!YouTubeComm.getComm(this, settings).isAuthorized()){
 		
@@ -78,6 +79,9 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 			final String[] names = YouTubeComm.getComm().getAccountsNames();
 			if(names.length <= 0){
 				Toast.makeText(getApplicationContext(), "No Google account found in your device!", Toast.LENGTH_SHORT).show();
+				
+				startActivity(new Intent(Settings.ACTION_SYNC_SETTINGS));
+				
 				finish();
 				return;
 			}
@@ -86,24 +90,6 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		}else{
 			new GetUserPlaylistsTask().execute();
 		}
-		/*try {
-			//YouTubeComm.getComm().searchVideo("Down in the flood", "The derek trucks band");
-			YouTubeComm.getComm().requestAuthorize("heldergaray@gmail.com", "c*7n=k2p");
-			//String id = YouTubeComm.getComm().createPlaylist("Teste69");
-			//YouTubeComm.getComm().addVideosToPlaylist(id, "3gzw-Wh1JL8");
-		} catch (ServiceCommException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		/*if(!YouTubeComm.getComm(this, settings).isAuthorized())
-			showDialog(ACCOUNTS_DIAG);
-		else{
-			//new CreatePlaylistTask().execute();	
-			new GetUserPlaylistsTask().execute();
-		}*/
-				
-		//accountManager = new GoogleAccountManager(this);
-		//gotAccount(false);
 	}
 
 
@@ -379,6 +365,12 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		@Override
 		protected Void doInBackground(HashMap<String, String>... params) {
 
+			if(!YouTubeComm.getComm().isAuthorized()){
+				ServiceCommException e = new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.NOT_AUTH);
+				err = e.getMessage();
+				return null;
+			}
+			
 			try{				
 				ArrayList<String> songNames = sn.getSongNames();
 				ArrayList<String> songArtists = ar.getArtistList();
@@ -492,7 +484,7 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		case NEW_PLAYLIST_DIAG:
 			Dialog dialog = new Dialog(this);
 			dialog.setContentView(R.layout.new_playlist_diag);
-			dialog.setTitle("Name the playlist!");
+			dialog.setTitle("Playlist Name:");
 			
 			Button create_but = (Button)dialog.findViewById(R.id.create_pl_but);		
 			

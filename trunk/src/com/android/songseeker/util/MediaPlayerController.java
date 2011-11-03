@@ -142,7 +142,7 @@ public class MediaPlayerController implements OnCompletionListener {
 		newMedia.position = -1;
 		newMedia.status = MediaStatus.LOADING;		
 		setNewMedia(newMedia);
-		newMedia.icon.setImageResource(R.drawable.icon);		
+		newMedia.icon.setImageResource(R.drawable.loading);		
 		
 		TaskParams tp = new TaskParams();
 		tp.media = newMedia;

@@ -1,7 +1,10 @@
 package com.android.songseeker.activity;
 
+import java.util.ArrayList;
+
 import com.android.songseeker.R;
 import com.android.songseeker.data.ArtistsParcel;
+import com.android.songseeker.data.UserProfile;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,24 +21,37 @@ import android.widget.Toast;
 
 public class SongSeekerActivity extends Activity {
    	
-	Button search;
-	
-	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        search = (Button)findViewById(R.id.search_but);
+        Button search = (Button)findViewById(R.id.search_but);
         search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	createRecSongsActivity();
+            	searchNewSongs();
+            }
+        }); 
+        
+        Button seek = (Button)findViewById(R.id.seek_songs_but);
+        seek.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	getSongsFromProfile();
+            }
+        }); 
+        
+    	EditText textInput = (EditText) findViewById(R.id.find_input);
+    	textInput.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	EditText e = (EditText)v;
+            	if(e.getText().toString().equalsIgnoreCase(getString(R.string.artist_name_str)))           	
+            		e.setText("");
             }
         }); 
     }
-    
-    @Override
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
@@ -49,7 +65,8 @@ public class SongSeekerActivity extends Activity {
     	// Handle item selection
         switch (item.getItemId()) {
         case R.id.settings:
-        	//create settings activity
+        	i = new Intent(SongSeekerActivity.this, SettingsActivity.class);
+            startActivity(i);	
         	return true;
         case R.id.pl_options:
         	i = new Intent(SongSeekerActivity.this, PlaylistOptionsActivity.class);
@@ -66,33 +83,42 @@ public class SongSeekerActivity extends Activity {
         }
     }
     
-    private void createRecSongsActivity(){    	
+    private void searchNewSongs(){    	
     	EditText textInput = (EditText) findViewById(R.id.find_input);    	
-    	
-        //check if the edit text is empty
-    	if(textInput.getText().toString().compareTo("") == 0){
-    		    		
-    		Toast toast = Toast.makeText(SongSeekerActivity.this, 
-    						getResources().getText(R.string.invalid_args_str), Toast.LENGTH_SHORT);
-    		toast.show();
-    		return;
-    	}
     	
     	//remove the soft input window from view
     	InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
     	imm.hideSoftInputFromWindow(textInput.getWindowToken(), 0); 
     	
     	ArtistsParcel ss = new ArtistsParcel();
-    	ss.addArtist(textInput.getText().toString());
+    	if(!textInput.getText().toString().equalsIgnoreCase(""))
+    		ss.addArtist(textInput.getText().toString());
     	
     	Intent i = new Intent(SongSeekerActivity.this, RecSongsActivity.class);
     	i.putExtra("searchSeed", ss);
-    	
-    	//i.putExtra("num_artist", 1);
-        //i.putExtra("artist0", textInput.getText().toString());
-    	
+
     	startActivity(i);    	
     }
+    
+    protected void getSongsFromProfile() {
+		if(UserProfile.getInstance(getCacheDir()).isEmpty()){
+			Toast.makeText(getApplicationContext(), "Please add at least one artist to your profile.", Toast.LENGTH_LONG).show();
+			
+			Intent i = new Intent(SongSeekerActivity.this, ProfileActivity.class);
+			startActivity(i);	
+			return;
+		}
+		
+		ArrayList<String> artists = UserProfile.getInstance(getCacheDir()).getRandomArtists(5);
+		
+		ArtistsParcel ss = new ArtistsParcel();
+		for(String name : artists){
+			ss.addArtist(name);
+		}
+		
+    	Intent i = new Intent(SongSeekerActivity.this, RecSongsActivity.class);
+    	i.putExtra("searchSeed", ss);
 
-        
+    	startActivity(i);    			
+	}
 }

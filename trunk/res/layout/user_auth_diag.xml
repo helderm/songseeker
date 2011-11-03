@@ -30,8 +30,8 @@
 			android:layout_height="wrap_content"
 		  	android:gravity="center"
 	  	    android:id="@+id/auth_but" 
-	  	    android:text="Authorize" 
-	  	    android:layout_width="92dp" android:layout_weight="0.14"
+	  	    android:text="Ok" 
+	  	    android:layout_width="40dip" android:layout_weight="0.14"
 	  	    style="@style/Button"></Button>
 	</LinearLayout>    
     

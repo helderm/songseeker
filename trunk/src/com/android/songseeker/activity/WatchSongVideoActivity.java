@@ -9,7 +9,6 @@ import com.android.songseeker.comm.YouTubeComm.VideoFeed;
 import com.android.songseeker.data.ArtistInfo;
 import com.android.songseeker.data.SongInfo;
 import com.android.songseeker.util.ImageLoader;
-import com.android.songseeker.util.Util;
 
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -19,7 +18,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -182,9 +180,9 @@ public class WatchSongVideoActivity extends ListActivity {
 	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		String videoId = adapter.videos.get(position).id;
+		String videoId = adapter.videos.get(position).id;		
 		
-		Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:"+videoId));
+		Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v="+videoId));
 		startActivity(i);
 	}
 }

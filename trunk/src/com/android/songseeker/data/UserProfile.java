@@ -3,6 +3,7 @@ package com.android.songseeker.data;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -148,7 +149,8 @@ public class UserProfile implements Serializable{
 				return;
 			}
 
-			adapter.notifyDataSetChanged();		
+			if(adapter != null)
+				adapter.notifyDataSetChanged();		
 			
 			Toast.makeText(activity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
 		}		
@@ -173,6 +175,45 @@ public class UserProfile implements Serializable{
 		return false;
 	}
 	
+	public boolean isEmpty(){
+		if(profile == null || profile.artists.size() == 0)
+			return true;
+		
+		return false;
+	}
+	
+	public ArrayList<String> getRandomArtists(int numArtists){
+		ArrayList<String> chosenArtists = new ArrayList<String>();
+		ArrayList<ArtistProfile> profileArtists = new ArrayList<ArtistProfile>(profile.artists);
+		Random rand = new Random();
+		
+		//add all artists if the profile isnt large enough
+		if(numArtists >= profileArtists.size()){
+			for(ArtistProfile a : profileArtists){
+				chosenArtists.add(a.name);				
+			}
+			return chosenArtists;
+		}
+		
+		while(numArtists > 0){        	
+        	
+			//choose a new artist from profile
+        	int i = rand.nextInt(profileArtists.size());
+			chosenArtists.add(profileArtists.get(i).name);
+			
+			profileArtists.remove(i);		
+			numArtists--;
+		}
+		
+		return chosenArtists;
+		
+	}
+	
+	public void clearProfile(){
+		fileCache.clearProfile();
+		profile = obj.new Profile();		
+	}
+	
 	public class Profile implements Serializable{
 		public ArrayList<ArtistProfile> artists = new ArrayList<ArtistProfile>();
 		
@@ -187,6 +228,5 @@ public class UserProfile implements Serializable{
 		public String buyUrl;
 		
 		private static final long serialVersionUID = 1L;		
-	}
-	
+	}	
 }

@@ -250,7 +250,7 @@ public class SongInfoActivity extends ListActivity {
 					break;
 				case LOADING:
 				case PREPARED:
-					playpause.setImageResource(R.drawable.icon);
+					playpause.setImageResource(R.drawable.loading);
 					break;				
 				case STOPPED:
 				default:

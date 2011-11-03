@@ -131,7 +131,7 @@ public class RdioComm {
 		editor.commit();
 	}
 	
-	private void cleanAuthTokens(SharedPreferences settings){
+	public void cleanAuthTokens(SharedPreferences settings){
 		Editor editor = settings.edit();
 		editor.putString(PREF_ACCESSTOKEN, null);
 		editor.putString(PREF_ACCESSTOKENSECRET, null);

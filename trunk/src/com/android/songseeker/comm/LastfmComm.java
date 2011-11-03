@@ -145,10 +145,14 @@ public class LastfmComm {
 		return true;
 	}
 	
-	private void cleanAuth(SharedPreferences settings){
+	public void cleanAuth(SharedPreferences settings){
 		Editor editor = settings.edit();
 		editor.putString(PREF_SESSIONKEY, null);
 		editor.putString(PREF_USERNAME, null);
 		editor.commit();
+		
+		session = null;
+		sessionKey = null;
+		username = null;
 	}
 }

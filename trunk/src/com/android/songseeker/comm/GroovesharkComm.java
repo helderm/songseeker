@@ -584,9 +584,10 @@ public class GroovesharkComm {
 		}		
 	}
 	
-	private void cleanAuth(SharedPreferences settings){
+	public void cleanAuth(SharedPreferences settings){
 		Editor editor = settings.edit();
 		editor.putString(PREF_SESSIONID, null);
 		editor.commit();
+		sessionID = null;
 	}
 }

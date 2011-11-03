@@ -67,7 +67,7 @@
 			android:label="Similar Artists"></activity>
 
 		<activity android:name=".activity.MusicInfoTab"
-			android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar"
+			android:theme="@android:style/Theme.NoTitleBar"
 			android:screenOrientation="portrait"></activity>
 
 		<activity android:name=".activity.CreatePlaylistGroovesharkActivity"
@@ -81,6 +81,10 @@
 		<activity android:name=".activity.ProfileActivity"
 			android:screenOrientation="portrait"
 			android:label="Profile"></activity>
+			
+		<activity android:name=".activity.SettingsActivity"
+			android:screenOrientation="portrait"
+			android:label="Settings"></activity>
 
 	</application>
 </manifest>

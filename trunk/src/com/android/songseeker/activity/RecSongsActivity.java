@@ -68,8 +68,21 @@ public class RecSongsActivity extends ListActivity {
         
         registerForContextMenu(getListView());
         
-	    //get the playlist
-	    PlaylistParams plp = buildPlaylistParams();	    
+        //check if we have an empty playlist
+        ArtistsParcel ss = getIntent().getExtras().getParcelable("searchSeed");
+        if(ss == null || ss.getArtistList().size() == 0){
+        	
+        	if(RecSongsPlaylist.getInstance().isEmpty()){
+        		Toast.makeText(getApplicationContext(), "There is no songs in your playlist!", Toast.LENGTH_SHORT).show();
+        		finish();
+        	}else{
+        		RecSongsPlaylist.getInstance(adapter).setPlaylist();
+        	}
+        	return;
+        }
+       
+        //get the playlist
+        PlaylistParams plp = buildPlaylistParams();	    
 	    RecSongsPlaylist.getInstance(adapter).getPlaylist(plp, this, PROGRESS_DIAG);
 
 	    //Debug.startMethodTracing("myapp");
@@ -84,9 +97,9 @@ public class RecSongsActivity extends ListActivity {
 	@Override
 	protected void onDestroy() {
 		//TODO decomment, leave it there to save bandwidht
-		//ImageLoader.getLoader(getCacheDir()).stopThread();
-		//ImageLoader.getLoader(getCacheDir()).clearCache();
-		
+		ImageLoader.getLoader(getCacheDir()).stopThread();
+		ImageLoader.getLoader(getCacheDir()).clearCache();
+		RecSongsPlaylist.getInstance().clearPlaylist();
 		
 		//Debug.stopMethodTracing();
 		super.onDestroy();
@@ -190,8 +203,12 @@ public class RecSongsActivity extends ListActivity {
 	    
 		plp = new PlaylistParams();
 	    
-	    plp.setType(PlaylistType.ARTIST_RADIO);
-	    plp.setResults(Settings.getMaxResults());	    
+		if(Settings.getInstance(getCacheDir()).getSettings().isSimilar)
+			plp.setType(PlaylistType.ARTIST_RADIO);
+		else
+			plp.setType(PlaylistType.ARTIST);
+		
+	    plp.setResults(Settings.getInstance().getMaxResults());	    
 	    plp.addIDSpace(EchoNestComm.SEVEN_DIGITAL);
 	    //plp.addIDSpace(EchoNestComm.RDIO);
 	    //plp.addIDSpace("playme");
@@ -199,36 +216,39 @@ public class RecSongsActivity extends ListActivity {
 	    plp.includeTracks();
 	    plp.setLimit(true);
 	    
-	    if(Settings.getVariety() != -1.0f)
-	    	plp.setVariety(Settings.getVariety());
+	    if(Settings.getInstance().getVariety() != -1.0f)
+	    	plp.setVariety(Settings.getInstance().getVariety());
 	    
-	    if(Settings.getMinEnergy() != -1.0f){
-		    plp.setMinEnergy(Settings.getMinEnergy());
-		    plp.setMaxEnergy(Settings.getMaxEnergy());	    	
+	    if(Settings.getInstance().getMinEnergy() != -1.0f){
+		    plp.setMinEnergy(Settings.getInstance().getMinEnergy());
+		    plp.setMaxEnergy(Settings.getInstance().getMaxEnergy());	    	
 	    }
 	    
-	    if(Settings.getMinDanceability() != -1.0f){
-		    plp.setMinDanceability(Settings.getMinDanceability());
-		    plp.setMaxDanceability(Settings.getMaxDanceability());
+	    if(Settings.getInstance().getMinDanceability() != -1.0f){
+		    plp.setMinDanceability(Settings.getInstance().getMinDanceability());
+		    plp.setMaxDanceability(Settings.getInstance().getMaxDanceability());
 	    }
 	    
-	    if(Settings.getMinTempo() != -1.0f){
-		    plp.setMinTempo(Settings.getMinTempo());
-		    plp.setMaxTempo(Settings.getMaxTempo());	
+	    if(Settings.getInstance().getMinTempo() != -1.0f){
+		    plp.setMinTempo(Settings.getInstance().getMinTempo());
+		    plp.setMaxTempo(Settings.getInstance().getMaxTempo());	
 	    }
 
-	    if(Settings.getMinHotness() != -1.0f){
-		    plp.setSongMinHotttnesss(Settings.getMinHotness());
-		    plp.setSongtMaxHotttnesss(Settings.getMaxHotness());
+	    if(Settings.getInstance().getMinHotness() != -1.0f){
+		    plp.setSongMinHotttnesss(Settings.getInstance().getMinHotness());
+		    plp.setSongtMaxHotttnesss(Settings.getInstance().getMaxHotness());
 	    }
 	    
-	    List<String> moods = Settings.getMood();
-	    if(moods != null){
-		    for(String mood : moods){
-		    	plp.add("mood", mood);
+	    if(Settings.getInstance().getSettings().isSimilar){
+	    	List<String> moods = Settings.getInstance().getMood();
+		    if(moods != null){
+			    for(String mood : moods){
+			    	plp.add("mood", mood);
+			    }
+			    moods = null;
 		    }
-		    moods = null;
 	    }
+
 	    
 	    ArtistsParcel ss = getIntent().getExtras().getParcelable("searchSeed");	    
 	    for(String artist : ss.getArtistList()){
@@ -294,7 +314,7 @@ public class RecSongsActivity extends ListActivity {
 					break;
 				case LOADING:
 				case PREPARED:
-					holder.playPause.setImageResource(R.drawable.icon);
+					holder.playPause.setImageResource(R.drawable.loading);
 					break;				
 				case STOPPED:
 				default:
@@ -350,7 +370,8 @@ public class RecSongsActivity extends ListActivity {
         // Handle item selection
         switch (item.getItemId()) {
         case R.id.settings:
-        	//create settings activity
+        	Intent in = new Intent(RecSongsActivity.this, SettingsActivity.class);
+            startActivity(in);	
         	return true;
         case R.id.pl_options:
         	Intent i = new Intent(RecSongsActivity.this, PlaylistOptionsActivity.class);
@@ -358,7 +379,8 @@ public class RecSongsActivity extends ListActivity {
             return true;
         case R.id.refresh:
     	    //get the playlist
-    	    PlaylistParams plp = buildPlaylistParams();	    
+        	RecSongsPlaylist.getInstance(adapter).clearPlaylist();
+        	PlaylistParams plp = buildPlaylistParams();	    
     	    RecSongsPlaylist.getInstance(adapter).getPlaylist(plp, this, PROGRESS_DIAG);
             return true;
         case R.id.export:
@@ -383,7 +405,7 @@ public class RecSongsActivity extends ListActivity {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		switch (item.getItemId()) {
 		case R.id.remove_song:	
-			RecSongsPlaylist.getInstance().removeSongFromPlaylist(info.position);
+			RecSongsPlaylist.getInstance().removeSongFromPlaylist(info.position, this);
 			return true;
 		default:
 			return super.onContextItemSelected(item);

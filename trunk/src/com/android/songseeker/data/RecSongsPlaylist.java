@@ -34,9 +34,25 @@ public class RecSongsPlaylist {
 		return obj;
 	}
 	
+	public void setPlaylist(){
+		adapter.setPlaylist(songs);
+	}
+	
+	public void clearPlaylist(){
+		if(songs != null)
+			songs.clear();
+		adapter = null;			
+	}
+	
+	public boolean isEmpty(){
+		if(songs == null || songs.size() == 0)
+			return true;
+		
+		return false;
+	}
+	
 	/** Get a new playlist methods*/
 	public void getPlaylist(PlaylistParams plp, Activity a, int progressDiag){
-		songs = new ArrayList<Song>();
 		new GetPlaylistTask(plp, a, progressDiag).execute();		
 	}
 	
@@ -80,13 +96,21 @@ public class RecSongsPlaylist {
 			
 			if(err != null){
 				Toast.makeText(activity.getApplicationContext(), err, Toast.LENGTH_LONG).show();
-	    			    		
-	    		activity.finish();
+				activity.finish();
 	    		return;
     		}
 			
-			adapter.setPlaylist(songs);
-			adapter.notifyDataSetChanged();				
+			if(songs.size() == 0){
+				Toast.makeText(activity.getApplicationContext(), "Your playlist is empty! Try changing your playlist options.", 
+						Toast.LENGTH_LONG).show();
+				activity.finish();
+				return;	    		
+			}
+			
+			if(adapter != null){
+				adapter.setPlaylist(songs);
+				adapter.notifyDataSetChanged();
+			}
 		}		
 	}	
 	
@@ -180,8 +204,10 @@ public class RecSongsPlaylist {
 				return;
 			}
 			
-			adapter.setPlaylist(songs);
-			adapter.notifyDataSetChanged();		
+			if(adapter != null){
+				adapter.setPlaylist(songs);
+				adapter.notifyDataSetChanged();
+			}
 			
 			Toast.makeText(activity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
 		}		
@@ -194,8 +220,14 @@ public class RecSongsPlaylist {
 		songs.addAll(songList);
 	}
 	
-	public void removeSongFromPlaylist(int position){
+	public void removeSongFromPlaylist(int position, Activity a){
 		songs.remove(position);
+		if(songs.isEmpty()){
+			a.finish();
+			return;
+		}
+			
+		
 		adapter.notifyDataSetChanged();
 	}
 }

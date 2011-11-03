@@ -70,5 +70,23 @@
 			android:text="@string/shuffle_str" android:layout_weight="0.04"
 			android:layout_width="117dp" android:layout_gravity="center" style="@style/Button"></Button>
 
+		<TextView android:id="@+id/textView1" android:layout_height="wrap_content"
+			android:text="Playlist Type" android:gravity="left" android:layout_width="fill_parent"
+			android:layout_marginTop="20dip" android:layout_marginLeft="20dip"
+			android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
+
+		<RadioGroup android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:orientation="vertical">
+			
+			<RadioButton android:id="@+id/exact_artists"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="Only songs from the specified artists" />
+				
+			<RadioButton android:id="@+id/similar_artists"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="Songs similar to specified artists" />
+		</RadioGroup>
+
+
 	</LinearLayout>
 </ScrollView>

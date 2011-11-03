@@ -31,8 +31,8 @@ public class EchoNestComm {
 
 	private EchoNestComm(){
 		en = new EchoNestAPI(KEY);
-		en.setTraceRecvs(true);
-		en.setTraceSends(true);
+		//en.setTraceRecvs(true);
+		//en.setTraceSends(true);
 	}
 
 	public static EchoNestComm getComm(){
@@ -43,7 +43,7 @@ public class EchoNestComm {
 		Playlist pl;
 		int tries = 1;
 
-		Log.i(Util.APP, "Creating static playlist on EchoNest...");
+		//Log.i(Util.APP, "Creating static playlist on EchoNest...");
 
 		while(true){		
 			try{				
@@ -85,7 +85,7 @@ public class EchoNestComm {
 			}
 		}
 
-		Log.i(Util.APP, "Creating static playlist finished!");
+		//Log.i(Util.APP, "Creating static playlist finished!");
 
 		return pl;
 	}

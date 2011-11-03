@@ -23,4 +23,12 @@
     <string name="pl_created_str">Playlist created!</string>
     <string name="remove_song_str">Remove Song</string>
     <string name="remove_artist_str">Remove Artist</string>
+    <string name="seek_songs_but_str">Get more SONGS!</string>
+    <string name="clear_auth_title_str">Clear Authentications</string>
+    <string name="clear_auth_summ_str">Resets authentication from all logged in services.</string>
+    <string name="clear_prof_title_str">Clear Profile</string>
+    <string name="clear_prof_summ_str">Removes all artists from your profile</string>
+    <string name="import_prof_title_str">Import Profile</string>
+    <string name="import_prof_summ_str">Import artists from your Last.fm profile</string>
+    <string name="artist_name_str">artist name...</string>
 </resources>

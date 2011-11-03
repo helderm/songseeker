@@ -7,8 +7,11 @@ import java.util.List;
 import com.android.songseeker.R;
 import com.android.songseeker.comm.LastfmComm;
 import com.android.songseeker.comm.ServiceCommException;
+import com.android.songseeker.comm.ServiceCommException.ServiceErr;
+import com.android.songseeker.comm.ServiceCommException.ServiceID;
 import com.android.songseeker.data.ArtistsParcel;
 import com.android.songseeker.data.SongNamesParcel;
+import com.android.songseeker.util.Util;
 
 import de.umass.lastfm.Playlist;
 
@@ -34,6 +37,7 @@ import android.widget.Toast;
 public class CreatePlaylistLastfmActivity extends ListActivity {
 
 	private LastfmPlaylistAdapter adapter;
+	SharedPreferences settings;
 
 	private ProgressDialog addTracksDiag;
 	
@@ -55,7 +59,7 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
         adapter = new LastfmPlaylistAdapter();
         setListAdapter(adapter);
 				
-        SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
+        settings = getApplicationContext().getSharedPreferences(Util.APP, Context.MODE_PRIVATE);
 		if(!LastfmComm.getComm(settings).isAuthorized())
 			showDialog(USER_AUTH_DIAG);			
 		else
@@ -100,7 +104,7 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
 		case NEW_PLAYLIST_DIAG:
 			Dialog npd = new Dialog(this);
 			npd.setContentView(R.layout.new_playlist_diag);
-			npd.setTitle("Name the playlist!");
+			npd.setTitle("Playlist Name:");
 			
 			Button create_but = (Button)npd.findViewById(R.id.create_pl_but);			
 			
@@ -139,7 +143,7 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
 			Dialog uad = new Dialog(this);
 			uad.setContentView(R.layout.user_auth_diag);
 			uad.setTitle("Login into Last.fm");
-			uad.setCancelable(false);
+			uad.setCancelable(true);
 			
 			Button auth_but = (Button)uad.findViewById(R.id.auth_but);			
 			
@@ -255,7 +259,6 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
 		protected Void doInBackground(HashMap<String, String>... args) {
 			String user = args[0].get("user");
 			String pwd = args[0].get("pwd");
-			SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
 			
 			try{			
 				LastfmComm.getComm().requestAuthorize(user, pwd, settings);
@@ -327,7 +330,12 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
 			String plName = params[0].get("name");
 			int plId = 0;			
 			
-			SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
+			if(!LastfmComm.getComm().isAuthorized()){
+				ServiceCommException e = new ServiceCommException(ServiceID.LASTFM, ServiceErr.NOT_AUTH);
+				err = e.getMessage();
+				return null;
+			}
+			
 			try{				
 				if(plName != null){
 					Playlist pl = LastfmComm.getComm().createPlaylist(plName, settings);

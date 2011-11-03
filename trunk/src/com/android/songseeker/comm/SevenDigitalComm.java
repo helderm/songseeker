@@ -96,7 +96,7 @@ public class SevenDigitalComm {
 		ArrayList<SongInfo> songs;
 
 		String urlStr = ENDPOINT + "track/search?";
-		String reqParam = "q="+trackName.replace(' ', '+')+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=10&page=1&imageSize=200";
+		String reqParam = "q="+trackName.replace(' ', '+')+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=30&page=1&imageSize=200";
 
 		try {
 			URL url = new URL(urlStr+reqParam);			

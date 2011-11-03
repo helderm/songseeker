@@ -7,6 +7,7 @@ import com.android.songseeker.R;
 import com.android.songseeker.comm.GroovesharkComm;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.ServiceCommException.ServiceErr;
+import com.android.songseeker.comm.ServiceCommException.ServiceID;
 import com.android.songseeker.data.ArtistsParcel;
 import com.android.songseeker.data.SongNamesParcel;
 import com.android.songseeker.data.UserPlaylistsData;
@@ -56,7 +57,7 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
         adapter = new PlaylistsAdapter();
         setListAdapter(adapter);
 				
-        settings = getPreferences(Context.MODE_PRIVATE);
+        settings = getApplicationContext().getSharedPreferences(Util.APP, Context.MODE_PRIVATE);
         
         if(!GroovesharkComm.getComm(settings).isAuthorized()){
         	showDialog(USER_AUTH_DIAG);
@@ -238,6 +239,12 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 		
 			ArrayList<String> songIDs = new ArrayList<String>();
 			
+			if(!GroovesharkComm.getComm().isAuthorized()){
+				ServiceCommException e = new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.NOT_AUTH);
+				err = e.getMessage();
+				return null;
+			}
+			
 			int count = 0;
 			for(int i=0; i<sn.getSongNames().size(); i++){
 				
@@ -330,9 +337,50 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 			cpd.setCancelable(false);
 			return cpd;	
 		case NEW_PLAYLIST_DIAG:
+            /*LayoutInflater factory = LayoutInflater.from(this);
+            final View textEntryView = factory.inflate(R.layout.new_playlist_diag, null);
+            
+            AlertDialog dialog = new AlertDialog.Builder(CreatePlaylistGroovesharkActivity.this)
+                .setTitle("New Playlist")
+                .setView(textEntryView)
+                .create(); 
+            
+            Button create_but = (Button)dialog.findViewById(R.id.create_pl_but);		
+			
+			create_but.setOnClickListener(new View.OnClickListener() {
+				@SuppressWarnings("unchecked")
+				public void onClick(View v) {
+	               	View p = (View)v.getParent();	            	
+	            	View parent = (View)p.getParent();	            	
+	            	EditText textInput = (EditText) parent.findViewById(R.id.pl_name_input); 
+	            	
+	                //check if the edit text is empty
+	            	if(textInput.getText().toString().compareTo("") == 0){
+	            		    		
+	            		Toast.makeText(CreatePlaylistGroovesharkActivity.this, 
+	            						getResources().getText(R.string.invalid_args_str), Toast.LENGTH_SHORT).show();
+	            		
+	            		removeDialog(NEW_PLAYLIST_DIAG);
+	            		return;
+	            	}
+	            	
+	            	//remove the soft input window from view
+	            	InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
+	            	imm.hideSoftInputFromWindow(textInput.getWindowToken(), 0); 
+	            		            	
+	            	removeDialog(NEW_PLAYLIST_DIAG);
+	            	HashMap<String, String> plName = new HashMap<String, String>();
+	            	plName.put("name", textInput.getText().toString());
+	            	
+	            	new CreatePlaylistTask().execute(plName);	            	
+	            }
+	        });  
+                        
+            return dialog;*/
+			
 			Dialog dialog = new Dialog(this);
 			dialog.setContentView(R.layout.new_playlist_diag);
-			dialog.setTitle("Name the playlist!");
+			dialog.setTitle("Playlist Name:");
 			
 			Button create_but = (Button)dialog.findViewById(R.id.create_pl_but);		
 			
@@ -371,7 +419,7 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 			Dialog uad = new Dialog(this);
 			uad.setContentView(R.layout.user_auth_diag);
 			uad.setTitle("Login into Grooveshark");
-			uad.setCancelable(false);
+			uad.setCancelable(true);
 			
 			Button auth_but = (Button)uad.findViewById(R.id.auth_but);			
 			

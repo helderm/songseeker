@@ -30,6 +30,8 @@ import com.android.songseeker.R;
 import com.android.songseeker.comm.EchoNestComm;
 import com.android.songseeker.comm.RdioComm;
 import com.android.songseeker.comm.ServiceCommException;
+import com.android.songseeker.comm.ServiceCommException.ServiceErr;
+import com.android.songseeker.comm.ServiceCommException.ServiceID;
 import com.android.songseeker.data.UserPlaylistsData;
 import com.android.songseeker.data.IdsParcel;
 import com.android.songseeker.util.ImageLoader;
@@ -41,6 +43,7 @@ import com.echonest.api.v4.SongParams;
 public class CreatePlaylistRdioActivity extends ListActivity{
 
 	private RdioPlaylistsAdapter adapter;
+	SharedPreferences settings;
 	
 	private static final int REQUEST_AUTH_DIAG = 1;
 	private static final int FETCH_SONG_IDS_DIAG = 2;
@@ -60,7 +63,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
         adapter = new RdioPlaylistsAdapter();
         setListAdapter(adapter);
         
-		SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
+		settings = getApplicationContext().getSharedPreferences(Util.APP, Context.MODE_PRIVATE);
 		if(!RdioComm.getComm(settings).isAuthorized()) {
 			new RequestAuthorizeTask().execute(null, null, null);			
 		} else {
@@ -175,11 +178,10 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 			cpd.setCancelable(false);
 			return cpd;	
 		case NEW_PLAYLIST_DIAG:
-			//Context mContext = getApplicationContext();
 			Dialog dialog = new Dialog(this);
 
 			dialog.setContentView(R.layout.new_playlist_diag);
-			dialog.setTitle("Name the playlist!");
+			dialog.setTitle("Playlist Name:");
 			
 			Button create_but = (Button)dialog.findViewById(R.id.create_pl_but);
 			
@@ -282,6 +284,12 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		
 			List<String> songIDs = new ArrayList<String>();
 					
+			if(!RdioComm.getComm().isAuthorized()){
+				ServiceCommException e = new ServiceCommException(ServiceID.RDIO, ServiceErr.NOT_AUTH);
+				err = e.getMessage();
+				return null;
+			}
+			
 			int count = 0;
 			for(String id : sl.getIds()){
 				Song song = null;
@@ -329,8 +337,6 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 			publishProgress(-1);
 			
 			try{
-				SharedPreferences settings = getPreferences(MODE_PRIVATE);
-				
 				String plName = params[0].get("name");
 				String plId = params[0].get("id");
 				
@@ -407,9 +413,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		}
 
 		Log.d(Util.APP, "OAuth callback started!");
-		
-		SharedPreferences settings = getPreferences(MODE_PRIVATE);
-		
+
 		try{
 			RdioComm.getComm().retrieveAccessTokens(uri, settings);
 		}catch (ServiceCommException e){

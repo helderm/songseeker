@@ -41,7 +41,7 @@ public class YouTubeComm {
 	private static final String GET_PLAYLISTS_ENDPOINT = "https://gdata.youtube.com/feeds/api/users/default/playlists?v=2&alt=jsonc";
 	private static final String CREATE_PLAYLIST_ENDPOINT = "https://gdata.youtube.com/feeds/api/users/default/playlists?alt=jsonc";
 	private static final String ADD_VIDEO_ENDPOINT = "https://gdata.youtube.com/feeds/api/playlists/";
-	private static final String GET_VIDEOS_ENDPOINT = "https://gdata.youtube.com/feeds/api/videos?alt=jsonc&v=2";
+	private static final String GET_VIDEOS_ENDPOINT = "http://gdata.youtube.com/feeds/api/videos?alt=jsonc&v=2";
 
 	//login
 	private static GoogleAccountManager accountManager = null;
@@ -65,6 +65,9 @@ public class YouTubeComm {
 	}
 
 	public boolean isAuthorized(){
+		if(accessProtectedResource == null)
+			return false;
+		
 		if(accessProtectedResource.getAccessToken() != null)
 			return true;
 
@@ -163,7 +166,7 @@ public class YouTubeComm {
 		}catch (ServiceCommException e){
 			throw e;
 		}catch (Exception e){
-			Log.e(Util.APP, "Unknown error while trying to login into YouTube!", e);
+			Log.e(Util.APP, "Unknown error while trying to get the user's playlist on YouTube!", e);
 			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.UNKNOWN);
 		}	
 	}
@@ -208,7 +211,7 @@ public class YouTubeComm {
 		}catch (ServiceCommException e){
 			throw e;
 		}catch (Exception e){
-			Log.e(Util.APP, "Unknown error while trying to login into YouTube!", e);
+			Log.e(Util.APP, "Unknown error while trying to create a YouTube playlist!", e);
 			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.UNKNOWN);
 		}	
 	}
@@ -259,7 +262,7 @@ public class YouTubeComm {
 		}catch (ServiceCommException e){
 			throw e;
 		}catch (Exception e){
-			Log.e(Util.APP, "Unknown error while trying to login into YouTube!", e);
+			Log.e(Util.APP, "Unknown error while trying to search for videos on YouTube!", e);
 			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.UNKNOWN);
 		}	
 	}		
@@ -295,7 +298,7 @@ public class YouTubeComm {
 		}catch (ServiceCommException e){
 			throw e;
 		}catch (Exception e){
-			Log.e(Util.APP, "Unknown error while trying to login into YouTube!", e);
+			Log.e(Util.APP, "Unknown error while trying to add videos to YouTube playlist!", e);
 			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.UNKNOWN);
 		}	
 		
