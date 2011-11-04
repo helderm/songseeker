@@ -90,7 +90,7 @@
 			android:layout_alignTop="@+id/songinfo_buy" android:layout_toRightOf="@+id/songinfo_buy" style="@style/Button"></Button>
 
 		<Button android:layout_height="wrap_content" android:layout_width="110dip"
-			android:id="@+id/songinfo_add" android:text="+ Playlist"
+			android:id="@+id/songinfo_add" android:text="+Playlist"
 			android:layout_alignLeft="@+id/songinfo_buy" android:layout_below="@+id/songinfo_buy"
 			android:layout_toLeftOf="@+id/songinfo_albumName" style="@style/Button"></Button>
 

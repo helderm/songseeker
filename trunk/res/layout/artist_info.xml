@@ -78,7 +78,7 @@
 			android:layout_toRightOf="@+id/artistinfo_buy" style="@style/Button"></Button>
 
 		<Button android:layout_height="wrap_content" android:layout_width="110dip"
-			android:id="@+id/artistinfo_add" android:text="+ Profile"
+			android:id="@+id/artistinfo_add" android:text="+Profile"
 			android:layout_alignLeft="@+id/artistinfo_buy" android:layout_below="@+id/artistinfo_buy"
 			style="@style/Button"></Button>
 

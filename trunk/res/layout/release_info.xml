@@ -52,7 +52,7 @@
 
 		<Button android:layout_height="wrap_content"
 			android:layout_width="110dip" android:id="@+id/releaseinfo_add"
-			android:text="+ Playlist" android:layout_toRightOf="@+id/releaseinfo_buy"
+			android:text="+Playlist" android:layout_toRightOf="@+id/releaseinfo_buy"
 			android:layout_alignTop="@+id/releaseinfo_buy" style="@style/Button"></Button>
 
 		<Button android:layout_height="wrap_content"
