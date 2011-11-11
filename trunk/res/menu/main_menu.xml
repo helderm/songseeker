@@ -10,6 +10,7 @@
           android:icon="@drawable/ic_menu_love"
           android:title="@string/profile_str" />          
     <item android:id="@+id/about"
+    	  android:icon="@drawable/ic_menu_info_details"
           android:title="@string/about_str" />
 </menu>
 

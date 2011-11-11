@@ -195,6 +195,7 @@ public class ArtistInfoActivity extends ListActivity {
 			//set image
 			ImageView coverart = (ImageView) header.findViewById(R.id.artistinfo_image);
 			ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, coverart, R.drawable.ic_menu_disc);
+			ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, getListView(), R.drawable.ic_menu_disc);
 			
 			getListView().addHeaderView(header);
 

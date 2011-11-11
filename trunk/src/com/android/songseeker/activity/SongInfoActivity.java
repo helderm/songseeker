@@ -188,7 +188,8 @@ public class SongInfoActivity extends ListActivity {
 			//set image
 			ImageView coverart = (ImageView) header.findViewById(R.id.songinfo_coverArt);
 			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.ic_menu_disc);
-
+			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, getListView(), R.drawable.ic_menu_disc);
+			
 			getListView().addHeaderView(header);
 
 			//set adapter for top tracks

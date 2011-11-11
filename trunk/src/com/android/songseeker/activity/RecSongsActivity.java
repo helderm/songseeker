@@ -96,7 +96,6 @@ public class RecSongsActivity extends ListActivity {
 	
 	@Override
 	protected void onDestroy() {
-		//TODO decomment, leave it there to save bandwidht
 		ImageLoader.getLoader(getCacheDir()).stopThread();
 		ImageLoader.getLoader(getCacheDir()).clearCache();
 		RecSongsPlaylist.getInstance().clearPlaylist();

@@ -16,8 +16,11 @@ import java.util.WeakHashMap;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 public class ImageLoader {
 	
@@ -27,9 +30,11 @@ public class ImageLoader {
 	private static PhotosQueue photosQueue = loader.new PhotosQueue();
 	private static FileCache fileCache = null;
     
-    private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
+    private Map<View, String> views = Collections.synchronizedMap(new WeakHashMap<View, String>());
     private static PhotosLoader photoLoaderThread = null;
-    int stub_id;    
+    private int stub_id;    
+    
+    private static final int BMP_ALPHA = 80; 
     
 	private ImageLoader(){}
 	
@@ -43,26 +48,36 @@ public class ImageLoader {
 		return loader;
 	}
 	
-    public void DisplayImage(String url, ImageView imageView, int stubid){
+    public void DisplayImage(String url, View view, int stubid){
         stub_id = stubid;
-    	imageViews.put(imageView, url);
+    	views.put(view, url);
         Bitmap bitmap=memoryCache.get(url);
-        if(bitmap!=null)
-            imageView.setImageBitmap(bitmap);
-        else
-        {
+        
+        if(bitmap != null){
+        	if(view instanceof ImageView){
+        		((ImageView)view).setImageBitmap(bitmap);
+        	}else{
+        		BitmapDrawable drawable = new BitmapDrawable(bitmap);
+        		//drawable.setGravity(Gravity.CENTER);
+        		drawable.setAlpha(BMP_ALPHA);        		
+        		((ListView)view).setBackgroundDrawable(drawable);
+        		((ListView)view).setCacheColorHint(0);
+        	}
+        }
+        else{
             if(url != null)
-            	queuePhoto(url, imageView);
+            	queuePhoto(url, view);
             
-            imageView.setImageResource(stub_id);
+            if(view instanceof ImageView)
+            	((ImageView)view).setImageResource(stub_id);
         }    
     }
         
-    private void queuePhoto(String url, ImageView imageView)
+    private void queuePhoto(String url, View view)
     {
         //This ImageView may be used for other images before. So there may be some old tasks in the queue. We need to discard them. 
-        photosQueue.Clean(imageView);
-        PhotoToLoad p=new PhotoToLoad(url, imageView);
+        photosQueue.Clean(view);
+        PhotoToLoad p = new PhotoToLoad(url, view);
         synchronized(photosQueue.photosToLoad){
             photosQueue.photosToLoad.push(p);
             photosQueue.photosToLoad.notifyAll();
@@ -132,18 +147,16 @@ public class ImageLoader {
     }
     
     //Task for the queue
-    private class PhotoToLoad
-    {
+    private class PhotoToLoad {
         public String url;
-        public ImageView imageView;
-        public PhotoToLoad(String u, ImageView i){
+        public View view;
+        public PhotoToLoad(String u, View i){
             url=u; 
-            imageView=i;
+            view=i;
         }
     }
     
-    public void stopThread()
-    {
+    public void stopThread(){
         photoLoaderThread.interrupt();
         photoLoaderThread = null;
     }
@@ -154,10 +167,9 @@ public class ImageLoader {
         private Stack<PhotoToLoad> photosToLoad=new Stack<PhotoToLoad>();
         
         //removes all instances of this ImageView
-        public void Clean(ImageView image)
-        {
-            for(int j=0 ;j<photosToLoad.size();){
-                if(photosToLoad.get(j).imageView==image)
+        public void Clean(View image){
+            for(int j=0; j<photosToLoad.size();){
+                if(photosToLoad.get(j).view==image)
                     photosToLoad.remove(j);
                 else
                     ++j;
@@ -183,10 +195,10 @@ public class ImageLoader {
                         }
                         Bitmap bmp=getBitmap(photoToLoad.url);
                         memoryCache.put(photoToLoad.url, bmp);
-                        String tag=imageViews.get(photoToLoad.imageView);
+                        String tag=views.get(photoToLoad.view);
                         if(tag!=null && tag.equals(photoToLoad.url)){
-                            BitmapDisplayer bd=new BitmapDisplayer(bmp, photoToLoad.imageView);
-                            Activity a=(Activity)photoToLoad.imageView.getContext();
+                            BitmapDisplayer bd=new BitmapDisplayer(bmp, photoToLoad.view);
+                            Activity a=(Activity)photoToLoad.view.getContext();
                             a.runOnUiThread(bd);
                         }
                     }
@@ -200,23 +212,31 @@ public class ImageLoader {
     }
     
     //Used to display bitmap in the UI thread
-    class BitmapDisplayer implements Runnable
-    {
-        Bitmap bitmap;
-        ImageView imageView;
-        public BitmapDisplayer(Bitmap b, ImageView i){bitmap=b;imageView=i;}
-        public void run()
-        {
-            if(bitmap!=null)
-                imageView.setImageBitmap(bitmap);
-            else
-                imageView.setImageResource(stub_id);
-        }
+    class BitmapDisplayer implements Runnable{
+    	Bitmap bitmap;
+    	View view;
+    	public BitmapDisplayer(Bitmap b, View i){bitmap=b; view=i;}
+    	public void run(){
+
+    		if(bitmap!=null){
+    			if(view instanceof ImageView){
+    				((ImageView)view).setImageBitmap(bitmap);
+    			}else{
+    				BitmapDrawable drawable = new BitmapDrawable(bitmap);
+    				drawable.setAlpha(BMP_ALPHA);    
+    				//drawable.setGravity(Gravity.CENTER);
+    				((ListView)view).setBackgroundDrawable(drawable);
+    				((ListView)view).setCacheColorHint(0);
+    			}
+    		}else
+    			if(view instanceof ImageView){
+    				((ImageView)view).setImageBitmap(bitmap);
+    			}
+    	}
     }
 
-    public void clearCache() {
-        memoryCache.clear();
-        fileCache.clear();
-    }
-
+	public void clearCache() {
+		memoryCache.clear();
+		fileCache.clear();
+	}    
 }

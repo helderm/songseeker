@@ -31,6 +31,7 @@ public class SevenDigitalComm {
 	private static final String MOBILE_URL = "http://m.7digital.com/";
 	private static final String CONSUMER_KEY = "7d9b53mkgqh6";
 	private static final String PARTNER_ID = "2539";
+	private static final String IMAGE_SIZE = "350";
 
 	private SevenDigitalComm() {}
 
@@ -45,7 +46,7 @@ public class SevenDigitalComm {
 		SongInfo song;
 
 		String urlStr = ENDPOINT + "track/details?";
-		String reqParam = "trackid="+trackId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize=200";
+		String reqParam = "trackid="+trackId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -96,7 +97,7 @@ public class SevenDigitalComm {
 		ArrayList<SongInfo> songs;
 
 		String urlStr = ENDPOINT + "track/search?";
-		String reqParam = "q="+trackName.replace(' ', '+')+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=30&page=1&imageSize=200";
+		String reqParam = "q="+trackName.replace(' ', '+')+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=30&page=1&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -149,7 +150,7 @@ public class SevenDigitalComm {
 		ArrayList<ArtistInfo> artists;
 
 		String urlStr = ENDPOINT + "artist/search?";
-		String reqParam = "q="+artistName.replace(' ', '+')+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=15&page=1&imageSize=200";
+		String reqParam = "q="+artistName.replace(' ', '+')+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=15&page=1&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -202,7 +203,7 @@ public class SevenDigitalComm {
 		NodeList fstNmElmntLst;
 
 		String urlStr = ENDPOINT + "artist/toptracks?";
-		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=10&page=1&imageSize=200";
+		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=10&page=1&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -284,7 +285,7 @@ public class SevenDigitalComm {
 		NodeList fstNmElmntLst;
 
 		String urlStr = ENDPOINT + "release/details?";
-		String reqParam = "releaseid="+releaseId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize=200";
+		String reqParam = "releaseid="+releaseId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -324,7 +325,7 @@ public class SevenDigitalComm {
 		NodeList fstNmElmntLst;
 
 		String urlStr = ENDPOINT + "release/tracks?";
-		String reqParam = "releaseid="+releaseId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=50&page=1&imageSize=200";
+		String reqParam = "releaseid="+releaseId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=50&page=1&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -365,7 +366,7 @@ public class SevenDigitalComm {
 		NodeList fstNmElmntLst;
 
 		String urlStr = ENDPOINT + "artist/releases?";
-		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize=200";
+		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -404,7 +405,7 @@ public class SevenDigitalComm {
 		NodeList fstNmElmntLst;
 
 		String urlStr = ENDPOINT + "artist/details?";
-		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize=200";
+		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
