@@ -28,7 +28,7 @@ public class UserProfile implements Serializable{
 	
 	public static UserProfile getInstance(File unmountedCacheDir){
 		if(fileCache == null)
-			fileCache = new FileCache(unmountedCacheDir);
+			fileCache = new FileCache(unmountedCacheDir, true);
 		
 		//check if we have a profile written in the disk		
 		if(profile == null){

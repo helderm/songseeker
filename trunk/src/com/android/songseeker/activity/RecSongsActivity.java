@@ -97,7 +97,7 @@ public class RecSongsActivity extends ListActivity {
 	@Override
 	protected void onDestroy() {
 		ImageLoader.getLoader(getCacheDir()).stopThread();
-		ImageLoader.getLoader(getCacheDir()).clearCache();
+		//ImageLoader.getLoader(getCacheDir()).clearCache();
 		RecSongsPlaylist.getInstance().clearPlaylist();
 		
 		//Debug.stopMethodTracing();

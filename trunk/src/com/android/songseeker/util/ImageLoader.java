@@ -40,7 +40,7 @@ public class ImageLoader {
 	
 	public static ImageLoader getLoader(File unmountedCacheDir){
 		if(fileCache == null)
-			fileCache = new FileCache(unmountedCacheDir);
+			fileCache = new FileCache(unmountedCacheDir, false);
 		
 		if(photoLoaderThread == null)
 			photoLoaderThread = loader.new PhotosLoader();
@@ -253,8 +253,8 @@ public class ImageLoader {
     		}
     }
 
-	public void clearCache() {
+	public void clearCache(File unmountedCacheDir) {
 		memoryCache.clear();
-		fileCache.clear();
+		fileCache.clear(unmountedCacheDir);
 	}    
 }

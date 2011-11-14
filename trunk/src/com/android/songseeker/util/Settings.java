@@ -15,7 +15,7 @@ public class Settings implements Serializable{
 	
 	public static Settings getInstance(File unmountedCacheDir){
 		if(fileCache == null)
-			fileCache = new FileCache(unmountedCacheDir);
+			fileCache = new FileCache(unmountedCacheDir, true);
 		
 		//check if we have settings written in the disk		
 		if(settings == null){

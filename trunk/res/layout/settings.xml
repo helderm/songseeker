@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+	<Preference android:key="import_prof"
+		android:title="@string/import_prof_title_str"
+		android:summary="@string/import_prof_summ_str">
+	</Preference>	
+
 	<Preference android:key="clear_auth" 
 		android:title="@string/clear_auth_title_str"
 		android:summary="@string/clear_auth_summ_str">
@@ -10,10 +15,12 @@
 		android:title="@string/clear_prof_title_str"
 		android:summary="@string/clear_prof_summ_str">
 	</Preference>	
-
-	<Preference android:key="import_prof"
-		android:title="@string/import_prof_title_str"
-		android:summary="@string/import_prof_summ_str">
+	
+	<Preference android:key="clear_cache"
+		android:title="@string/clear_cache_title_str"
+		android:summary="@string/clear_cache_summ_str">
 	</Preference>	
+	
+
 
 </PreferenceScreen>

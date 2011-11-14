@@ -21,9 +21,9 @@ public class FileCache {
     private static final String PROFILE_FILE = "profile";
     private static final String SETTINGS_FILE = "settings";
     
-    public FileCache(File unmountedCacheDir){
+    public FileCache(File unmountedCacheDir, boolean isImportant){
         //Find the dir to save cached images
-        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
+        if(!isImportant && android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
             cacheDir=new File(android.os.Environment.getExternalStorageDirectory(),"data/SongSeeker");
         else
             cacheDir=unmountedCacheDir;
@@ -121,7 +121,7 @@ public class FileCache {
         }
     }
     
-    public void clear(){
+    public void clear(File unmountedCacheDir){
     	File[] files=cacheDir.listFiles();
         for(File f:files){
         	if(f.getName().equalsIgnoreCase(PROFILE_FILE) ||
@@ -130,6 +130,18 @@ public class FileCache {
         	
         	f.delete();
         }
+        
+        //we need to garantee that the internal storage is cleaned also
+        if(!unmountedCacheDir.getAbsolutePath().equalsIgnoreCase(cacheDir.getAbsolutePath())){
+        	files = unmountedCacheDir.listFiles();
+            for(File f:files){
+            	if(f.getName().equalsIgnoreCase(PROFILE_FILE) ||
+            			f.getName().equalsIgnoreCase(SETTINGS_FILE))
+            		continue;
+            	
+            	f.delete();
+            }
+        }        	
     }
     
     public void clearProfile(){

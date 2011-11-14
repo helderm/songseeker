@@ -1,5 +1,6 @@
 package com.android.songseeker.activity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -10,6 +11,7 @@ import com.android.songseeker.comm.RdioComm;
 import com.android.songseeker.comm.ServiceCommException;
 import com.android.songseeker.comm.YouTubeComm;
 import com.android.songseeker.data.UserProfile;
+import com.android.songseeker.util.ImageLoader;
 import com.android.songseeker.util.Util;
 
 import de.umass.lastfm.Artist;
@@ -75,6 +77,17 @@ public class SettingsActivity extends PreferenceActivity {
             	return true;
             }
         });	
+		
+		//clear_cache
+		Preference clearCache = (Preference) findPreference("clear_cache");		 
+		clearCache.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+            	File cacheDir = getCacheDir();
+            	ImageLoader.getLoader(cacheDir).clearCache(cacheDir);
+            	Toast.makeText(getApplicationContext(), "Cache cleared!", Toast.LENGTH_SHORT).show();
+            	return true;
+            }
+        });
 	}
 
 	@Override

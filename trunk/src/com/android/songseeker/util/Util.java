@@ -14,9 +14,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.MediaStore;
 
 public class Util {
