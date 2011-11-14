@@ -66,18 +66,33 @@ public class ImageLoader {
         }
         else{
             if(url != null)
-            	queuePhoto(url, view);
+            	queuePhoto(url, view, false);
             
             if(view instanceof ImageView)
             	((ImageView)view).setImageResource(stub_id);
         }    
     }
+    
+    public void DisplayImage(String url, ListView list, ImageView image){
+    	views.put(image, url);
+        Bitmap bitmap=memoryCache.get(url);
         
-    private void queuePhoto(String url, View view)
+        list.setCacheColorHint(0);     
+		
+        if(bitmap != null){
+            BitmapDrawable drawable = new BitmapDrawable(bitmap);
+    		image.setImageDrawable(drawable);
+    		drawable.setAlpha(BMP_ALPHA);
+        } else if(url != null){
+        	queuePhoto(url, image, true);
+        }       	
+    }
+        
+    private void queuePhoto(String url, View view, boolean isBkg)
     {
         //This ImageView may be used for other images before. So there may be some old tasks in the queue. We need to discard them. 
         photosQueue.Clean(view);
-        PhotoToLoad p = new PhotoToLoad(url, view);
+        PhotoToLoad p = new PhotoToLoad(url, view, isBkg);
         synchronized(photosQueue.photosToLoad){
             photosQueue.photosToLoad.push(p);
             photosQueue.photosToLoad.notifyAll();
@@ -150,9 +165,11 @@ public class ImageLoader {
     private class PhotoToLoad {
         public String url;
         public View view;
-        public PhotoToLoad(String u, View i){
+        public boolean isBkg;
+        public PhotoToLoad(String u, View i, boolean b){
             url=u; 
             view=i;
+            isBkg = b;
         }
     }
     
@@ -197,7 +214,7 @@ public class ImageLoader {
                         memoryCache.put(photoToLoad.url, bmp);
                         String tag=views.get(photoToLoad.view);
                         if(tag!=null && tag.equals(photoToLoad.url)){
-                            BitmapDisplayer bd=new BitmapDisplayer(bmp, photoToLoad.view);
+                            BitmapDisplayer bd=new BitmapDisplayer(bmp, photoToLoad.view, photoToLoad.isBkg);
                             Activity a=(Activity)photoToLoad.view.getContext();
                             a.runOnUiThread(bd);
                         }
@@ -215,24 +232,25 @@ public class ImageLoader {
     class BitmapDisplayer implements Runnable{
     	Bitmap bitmap;
     	View view;
-    	public BitmapDisplayer(Bitmap b, View i){bitmap=b; view=i;}
+    	boolean isBkg;
+    	
+    	public BitmapDisplayer(Bitmap b, View i, boolean o){bitmap=b; view=i; isBkg = o;}
     	public void run(){
 
     		if(bitmap!=null){
-    			if(view instanceof ImageView){
-    				((ImageView)view).setImageBitmap(bitmap);
-    			}else{
-    				BitmapDrawable drawable = new BitmapDrawable(bitmap);
-    				drawable.setAlpha(BMP_ALPHA);    
-    				//drawable.setGravity(Gravity.CENTER);
-    				((ListView)view).setBackgroundDrawable(drawable);
-    				((ListView)view).setCacheColorHint(0);
-    			}
+   				if(!isBkg)
+   					((ImageView)view).setImageBitmap(bitmap);
+   				else{
+   		            BitmapDrawable drawable = new BitmapDrawable(bitmap);   		    		       		
+   		    		((ImageView)view).setImageDrawable(drawable);
+   		    		drawable.setAlpha(BMP_ALPHA); 
+   				}
+   					
     		}else
-    			if(view instanceof ImageView){
-    				((ImageView)view).setImageBitmap(bitmap);
+    			if(!isBkg){
+    				((ImageView)view).setImageResource(stub_id);
     			}
-    	}
+    		}
     }
 
 	public void clearCache() {

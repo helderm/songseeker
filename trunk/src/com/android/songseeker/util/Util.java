@@ -11,6 +11,13 @@ import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 
 public class Util {
 
@@ -136,4 +143,32 @@ public class Util {
 		writer.flush();
 	}
 
+	public static ArrayList<String> getArtistsFromDevice(Activity a) throws Exception{
+		ArrayList<String> artists = new ArrayList<String>();
+
+		String[] projection = new String[] {
+				MediaStore.Audio.ArtistColumns.ARTIST,
+				MediaStore.Audio.ArtistColumns.NUMBER_OF_TRACKS
+		};
+
+		Cursor cursor = a.getContentResolver().query(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, 
+				projection, null, null, MediaStore.Audio.ArtistColumns.NUMBER_OF_TRACKS + " DESC");
+
+		int music_column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.ArtistColumns.ARTIST);
+
+		for(int i=0; i<cursor.getCount(); i++){
+			cursor.moveToPosition(i);
+			String artist = cursor.getString(music_column_index);	
+			if(artist != null)
+				artists.add(artist);
+			
+			if(i == 30)
+				break;
+		}
+
+		cursor.close();
+
+		return artists;
+	}
+	
 }

@@ -40,7 +40,8 @@ public class ArtistInfo implements Parcelable{
 		image = in.readString();
 	}
  
-    public static final Parcelable.Creator CREATOR =
+    @SuppressWarnings("rawtypes")
+	public static final Parcelable.Creator CREATOR =
     	new Parcelable.Creator() {
             public ArtistInfo createFromParcel(Parcel in) {
                 return new ArtistInfo(in);

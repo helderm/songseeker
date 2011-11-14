@@ -14,14 +14,17 @@ import com.android.songseeker.util.Util;
 
 import de.umass.lastfm.Artist;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -30,7 +33,8 @@ import android.widget.Toast;
 
 public class SettingsActivity extends PreferenceActivity {
 
-	private static final int NEW_PLAYLIST_DIAG = 0;
+	private static final int LASTFM_USERNAME_DIAG = 0;
+	private static final int IMPORT_DIAG = 1;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -67,7 +71,7 @@ public class SettingsActivity extends PreferenceActivity {
 		Preference importProfile = (Preference) findPreference("import_prof");		 
 		importProfile.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-            	showDialog(NEW_PLAYLIST_DIAG);
+            	showDialog(IMPORT_DIAG);
             	return true;
             }
         });	
@@ -77,7 +81,33 @@ public class SettingsActivity extends PreferenceActivity {
 	protected Dialog onCreateDialog(int id) {
 
 		switch(id){
-		case NEW_PLAYLIST_DIAG:
+		case IMPORT_DIAG:		  	
+			final CharSequence[] items = {"Device top artists", "Last.fm top artists"};
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Import from...");
+			builder.setItems(items, new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog, int item) {			        
+					
+			    	removeDialog(IMPORT_DIAG);
+					
+					switch(item){
+					case 0:
+						new ImportProfileDeviceTask().execute();
+						break;
+					case 1:
+						showDialog(LASTFM_USERNAME_DIAG);
+						break;
+					default:
+						return;							
+					}		    	
+  	
+			    }
+			});
+			AlertDialog alert = builder.create();
+			return alert;	
+		
+		case LASTFM_USERNAME_DIAG:
 			Dialog dialog = new Dialog(this);
 
 			dialog.setContentView(R.layout.new_playlist_diag);
@@ -97,7 +127,7 @@ public class SettingsActivity extends PreferenceActivity {
 	            		Toast toast = Toast.makeText(SettingsActivity.this, 
 	            						getResources().getText(R.string.invalid_args_str), Toast.LENGTH_SHORT);
 	            		toast.show();
-	            		removeDialog(NEW_PLAYLIST_DIAG);
+	            		removeDialog(LASTFM_USERNAME_DIAG);
 	            		return;
 	            	}
 	            	
@@ -105,8 +135,8 @@ public class SettingsActivity extends PreferenceActivity {
 	            	InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
 	            	imm.hideSoftInputFromWindow(textInput.getWindowToken(), 0); 
 	            		            	
-	            	removeDialog(NEW_PLAYLIST_DIAG);	            	
-	            	new ImportProfileTask().execute(textInput.getText().toString());	            	
+	            	removeDialog(LASTFM_USERNAME_DIAG);	            	
+	            	new ImportProfileLastfmTask().execute(textInput.getText().toString());	            	
 	            }
 	        }); 
 			
@@ -116,7 +146,7 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 	}	
 	
-	private class ImportProfileTask extends AsyncTask<String, Void, Collection<Artist>>{
+	private class ImportProfileLastfmTask extends AsyncTask<String, Void, Collection<Artist>>{
 		private String err = null;
 		
 		@Override
@@ -153,4 +183,37 @@ public class SettingsActivity extends PreferenceActivity {
 			UserProfile.getInstance(getCacheDir()).addToProfile(artists, SettingsActivity.this, null);
 		}
 	}
+	
+	private class ImportProfileDeviceTask extends AsyncTask<Void, Void, ArrayList<String>>{
+		private String err = null;
+		
+		@Override
+		protected void onPreExecute() {
+			Toast.makeText(SettingsActivity.this, "Importing profile, please wait...", Toast.LENGTH_LONG).show();
+		}
+		
+		@Override
+		protected ArrayList<String> doInBackground(Void... params) {
+			ArrayList<String> topArtists;
+			try {
+				topArtists = Util.getArtistsFromDevice(SettingsActivity.this);
+			} catch (Exception e) {
+				err = "Failed to get artists from device!";
+				Log.e(Util.APP, e.getMessage(), e);
+				return null;
+			}
+			
+			return topArtists;
+		}
+		
+		@Override
+		protected void onPostExecute(ArrayList<String> topArtists) {
+			if(err != null){
+				Toast.makeText(SettingsActivity.this, err, Toast.LENGTH_SHORT).show();
+				return;
+			}
+			
+			UserProfile.getInstance(getCacheDir()).addToProfile(topArtists, SettingsActivity.this, null);
+		}
+	}	
 }

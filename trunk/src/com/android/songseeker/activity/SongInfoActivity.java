@@ -37,6 +37,7 @@ public class SongInfoActivity extends ListActivity {
 
 	private static final int SONG_DETAILS_DIAG = 0;
 	private TopTracksAdapter adapter = new TopTracksAdapter();
+	private GetSongDetails task;
 
 	private StartMediaPlayerTask mp_task = new StartMediaPlayerTask();
 
@@ -45,7 +46,8 @@ public class SongInfoActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		new GetSongDetails().execute();
+		task = new GetSongDetails();
+		task.execute();
 	}
 
 	@Override
@@ -73,13 +75,22 @@ public class SongInfoActivity extends ListActivity {
 
 		@Override
 		protected void onPreExecute() {
-			showDialog(SONG_DETAILS_DIAG);
+			
+			try{
+				showDialog(SONG_DETAILS_DIAG);
+			}catch(RuntimeException e){
+				//this is thrown when the user press back quickly
+				task.cancel(true);				
+			}
 		}
 
 		@Override
 		protected Void doInBackground(Void... arg0) {
 			ArrayList<SongInfo> topTracks;						
 
+			if(isCancelled())
+				return null;
+			
 			try{
 				//if we already have the info, dont query it again
 				song = getIntent().getExtras().getParcelable("songParcel");	
@@ -88,12 +99,18 @@ public class SongInfoActivity extends ListActivity {
 					song = SevenDigitalComm.getComm().querySongDetails(song.id, song.name, song.artist.name);		
 				}	
 
+				if(isCancelled())
+					return null;
+				
 				topTracks = SevenDigitalComm.getComm().queryArtistTopTracks(song.artist.id);
 			}catch(ServiceCommException e){
 				err = e.getMessage();		
 				return null;
 			}
 
+			if(isCancelled())
+				return null;
+			
 			adapter.setTopTracks(topTracks);
 
 			return null;
@@ -188,7 +205,9 @@ public class SongInfoActivity extends ListActivity {
 			//set image
 			ImageView coverart = (ImageView) header.findViewById(R.id.songinfo_coverArt);
 			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.ic_menu_disc);
-			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, getListView(), R.drawable.ic_menu_disc);
+			
+			ImageView bkg = (ImageView) findViewById(R.id.listview_bkg);
+			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, getListView(), bkg);
 			
 			getListView().addHeaderView(header);
 
@@ -329,4 +348,10 @@ public class SongInfoActivity extends ListActivity {
 			}
 		}
 	}	
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		task.cancel(true);
+	}
 }

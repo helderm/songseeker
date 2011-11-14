@@ -46,19 +46,20 @@
 		android:layout_height="wrap_content">
 
 		<Button android:layout_height="wrap_content"
-			android:layout_width="110dip" android:id="@+id/releaseinfo_buy"
+			android:layout_width="130dip" android:id="@+id/releaseinfo_buy"
 			android:text="Buy" android:layout_marginTop="30dip"
-			android:layout_marginLeft="60dip" style="@style/Button"></Button>
+			android:layout_marginLeft="35dip" style="@style/Button"></Button>
 
 		<Button android:layout_height="wrap_content"
-			android:layout_width="110dip" android:id="@+id/releaseinfo_add"
-			android:text="+Playlist" android:layout_toRightOf="@+id/releaseinfo_buy"
+			android:layout_width="130dip" android:id="@+id/releaseinfo_add"
+			android:text="+ Playlist" android:layout_toRightOf="@+id/releaseinfo_buy"
 			android:layout_alignTop="@+id/releaseinfo_buy" style="@style/Button"></Button>
 
 		<Button android:layout_height="wrap_content"
-			android:layout_width="120dip" android:id="@+id/releaseinfo_share"
+			android:layout_width="130dip" android:id="@+id/releaseinfo_share"
 			android:text="Share" android:layout_below="@+id/releaseinfo_buy"
-			android:layout_centerInParent="true" style="@style/Button"></Button>
+			android:layout_alignLeft="@+id/releaseinfo_buy" android:layout_marginLeft="60dip"
+			style="@style/Button"></Button>
 
 		<TextView android:layout_height="wrap_content"
 			android:layout_width="fill_parent" android:text="Song List"

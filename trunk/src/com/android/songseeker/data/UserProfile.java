@@ -127,15 +127,15 @@ public class UserProfile implements Serializable{
 			}				
 
 			if(params[0].size() == alreadyProfileCount){
-				msg = "Artist(s) already in profile!";
+				msg = "Artist(s) already in your profile!";
 				return null;
 			}else if(artists.size() == 0){
-				err = "Failed to add artist(s) to profile!";
+				err = "Failed to add artist(s) to your profile!";
 				return null;
 			}else if(artists.size() < params[0].size()){
-				msg = "Some artists were successfully added to profile!";
+				msg = "Some artists were successfully added to your profile!";
 			}else
-				msg = "Artist(s) successfully added to profile!";				
+				msg = "Artist(s) successfully added to your profile!";				
 			
 			syncAddArtistsToProfile(artists);
 			
@@ -163,6 +163,7 @@ public class UserProfile implements Serializable{
 	
 	public void removeArtistFromProfile(int position, BaseAdapter adapter){
 		profile.artists.remove(position);
+		fileCache.saveProfile(profile);
 		adapter.notifyDataSetChanged();
 	}
 	

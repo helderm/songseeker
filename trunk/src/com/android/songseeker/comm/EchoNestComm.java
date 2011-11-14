@@ -96,7 +96,7 @@ public class EchoNestComm {
 		try{			
 			ls = en.getSongs(sp);
 		}catch (EchoNestException e) {
-			treatEchoNestException(e);
+			treatEchoNestException(e, false);
 		} catch (Exception e){
 			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
@@ -114,7 +114,7 @@ public class EchoNestComm {
 		try{			
 			ls = en.searchSongs(sp);
 		}catch (EchoNestException e) {
-			treatEchoNestException(e);
+			treatEchoNestException(e, false);
 		} catch (Exception e){
 			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
@@ -132,7 +132,7 @@ public class EchoNestComm {
 		try{			
 			artist = en.newArtistByName(name);
 		}catch (EchoNestException e) {
-			treatEchoNestException(e);
+			treatEchoNestException(e, true);
 		} catch (Exception e){
 			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
@@ -148,7 +148,7 @@ public class EchoNestComm {
 			Artist artist = en.newArtistByID("7digital-US:artist:"+id);
 			bio = artist.getBiographies(0, 1, "cc-by-sa").get(0);
 		} catch (EchoNestException e) {
-			treatEchoNestException(e);
+			treatEchoNestException(e, true);
 		} catch (Exception e){
 			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
@@ -164,7 +164,7 @@ public class EchoNestComm {
 			Artist artist = en.newArtistByID("7digital-US:artist:"+id);
 			news = artist.getNews(0, 10, isHighRelevance);
 		} catch (EchoNestException e) {
-			treatEchoNestException(e);
+			treatEchoNestException(e, true);
 		} catch (Exception e){
 			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
@@ -184,7 +184,7 @@ public class EchoNestComm {
 			similar = (ArrayList<Artist>) en.getSimilarArtists(ap);
 			
 		} catch (EchoNestException e) {
-			treatEchoNestException(e);
+			treatEchoNestException(e, true);
 		} catch (Exception e){
 			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
@@ -193,7 +193,7 @@ public class EchoNestComm {
 		return similar;
 	}	
 
-	private void treatEchoNestException(EchoNestException e) throws ServiceCommException{
+	private void treatEchoNestException(EchoNestException e, boolean isArtist) throws ServiceCommException{
 
 		switch(e.getCode()){
 		case -1:
@@ -204,7 +204,10 @@ public class EchoNestComm {
 		case 4:
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.TRY_LATER);			
 		case 5:
-			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.ARTIST_NOT_FOUND);				
+			if(isArtist)
+				throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.ARTIST_NOT_FOUND);
+			else
+				throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.SONG_NOT_FOUND);
 		default:	
 			Log.e(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);				

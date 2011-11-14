@@ -172,7 +172,9 @@ public class ReleaseInfoActivity extends ListActivity {
 			//set image
 			ImageView coverart = (ImageView) header.findViewById(R.id.releaseinfo_coverArt);
 			ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, coverart, R.drawable.ic_menu_disc);
-			ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, getListView(), R.drawable.ic_menu_disc);
+			
+			ImageView bkg = (ImageView) findViewById(R.id.listview_bkg);
+			ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, getListView(), bkg);
 			
 			getListView().addHeaderView(header);
 

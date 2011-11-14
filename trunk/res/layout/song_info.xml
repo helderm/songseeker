@@ -70,7 +70,7 @@
 			android:layout_marginTop="5dip" android:layout_alignRight="@+id/songinfo_songName"></TextView>
 
 		<ImageView android:src="@drawable/play"
-			android:layout_height="35dip" android:layout_width="35dip"
+			android:layout_height="40dip" android:layout_width="40dip"
 			android:id="@+id/songinfo_playpause" android:layout_below="@+id/songinfo_coverArt"
 			android:layout_alignLeft="@+id/songinfo_coverArt"
 			android:layout_marginLeft="42dp"></ImageView>
@@ -80,21 +80,21 @@
 	<RelativeLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
 
-		<Button android:layout_height="wrap_content" android:layout_width="110dip"
+		<Button android:layout_height="wrap_content" android:layout_width="130dip"
 			android:id="@+id/songinfo_buy" android:text="Buy"
-			android:layout_marginTop="30dip" android:layout_marginLeft="60dip"
+			android:layout_marginTop="15dip" android:layout_marginLeft="35dip"
 			android:layout_toLeftOf="@+id/songinfo_albumName" style="@style/Button"></Button>
 
-		<Button android:layout_height="wrap_content" android:layout_width="110dip"
+		<Button android:layout_height="wrap_content" android:layout_width="130dip"
 			android:id="@+id/songinfo_watch" android:text="Watch"
 			android:layout_alignTop="@+id/songinfo_buy" android:layout_toRightOf="@+id/songinfo_buy" style="@style/Button"></Button>
 
-		<Button android:layout_height="wrap_content" android:layout_width="110dip"
-			android:id="@+id/songinfo_add" android:text="+Playlist"
+		<Button android:layout_height="wrap_content" android:layout_width="130dip"
+			android:id="@+id/songinfo_add" android:text="+ Playlist"
 			android:layout_alignLeft="@+id/songinfo_buy" android:layout_below="@+id/songinfo_buy"
 			android:layout_toLeftOf="@+id/songinfo_albumName" style="@style/Button"></Button>
 
-		<Button android:layout_height="wrap_content" android:layout_width="110dip"
+		<Button android:layout_height="wrap_content" android:layout_width="130dip"
 			android:id="@+id/songinfo_share" android:text="Share"
 			android:layout_below="@+id/songinfo_buy" android:layout_toRightOf="@+id/songinfo_add" style="@style/Button"></Button>
 

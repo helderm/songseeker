@@ -79,7 +79,8 @@ public class SongInfo implements Parcelable{
      * It makes sense for the way my brain thinks ;-)
      *
      */
-    public static final Parcelable.Creator CREATOR =
+    @SuppressWarnings("rawtypes")
+	public static final Parcelable.Creator CREATOR =
     	new Parcelable.Creator() {
             public SongInfo createFromParcel(Parcel in) {
                 return new SongInfo(in);

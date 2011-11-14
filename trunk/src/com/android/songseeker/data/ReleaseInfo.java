@@ -66,7 +66,8 @@ public class ReleaseInfo implements Parcelable {
      * It makes sense for the way my brain thinks ;-)
      *
      */
-    public static final Parcelable.Creator CREATOR =
+    @SuppressWarnings("rawtypes")
+	public static final Parcelable.Creator CREATOR =
     	new Parcelable.Creator() {
             public ReleaseInfo createFromParcel(Parcel in) {
                 return new ReleaseInfo(in);
