@@ -82,6 +82,18 @@ public class EchoNestComm {
 					Log.e(Util.APP, "createStaticPlaylist failed!", e);
 					throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.IO);				
 				}
+			} catch(NoSuchMethodError e){
+				tries++;
+				if(tries > MAX_WS_RETRIES){
+					if(e.getMessage().contains("java.io.IOException"))
+						throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.IO);
+					else
+						throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.REQ_FAILED);
+				}
+
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e1) {	}	
 			}
 		}
 

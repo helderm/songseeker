@@ -36,7 +36,7 @@ public class MediaPlayerController implements OnCompletionListener {
 		
 		if(media != null){
 			if(media.icon != null){
-				media.icon.setImageResource(R.drawable.play);	
+				media.icon.setImageResource(R.drawable.ic_image_play);	
 				media = null;
 			}else if(media.adapter != null){
 				BaseAdapter adapter = media.adapter;
@@ -57,7 +57,7 @@ public class MediaPlayerController implements OnCompletionListener {
 				media.status = MediaStatus.LOADING;
 				
 				if(media.icon != null)
-					media.icon.setImageResource(R.drawable.play);
+					media.icon.setImageResource(R.drawable.ic_image_play);
 				
 				if(media.adapter != null)
 					media.adapter.notifyDataSetChanged();
@@ -83,7 +83,7 @@ public class MediaPlayerController implements OnCompletionListener {
 				media.status = MediaStatus.LOADING;
 				
 				if(media.icon != null)
-					media.icon.setImageResource(R.drawable.play);
+					media.icon.setImageResource(R.drawable.ic_image_play);
 				
 				if(media.adapter != null)
 					media.adapter.notifyDataSetChanged();
@@ -97,7 +97,7 @@ public class MediaPlayerController implements OnCompletionListener {
 			media.status = MediaStatus.STOPPED;
 			
 			if(media.icon != null)
-				media.icon.setImageResource(R.drawable.play);
+				media.icon.setImageResource(R.drawable.ic_image_play);
 			
 			stop();
 		}
@@ -142,7 +142,7 @@ public class MediaPlayerController implements OnCompletionListener {
 		newMedia.position = -1;
 		newMedia.status = MediaStatus.LOADING;		
 		setNewMedia(newMedia);
-		newMedia.icon.setImageResource(R.drawable.loading);		
+		newMedia.icon.setImageResource(R.drawable.ic_image_loading);		
 		
 		TaskParams tp = new TaskParams();
 		tp.media = newMedia;
@@ -192,11 +192,11 @@ public class MediaPlayerController implements OnCompletionListener {
 					m[0].icon.setImageResource(R.drawable.icon);
 					break;
 				case PLAYING:
-					m[0].icon.setImageResource(R.drawable.pause);
+					m[0].icon.setImageResource(R.drawable.ic_image_pause);
 					break;
 				case STOPPED:
 				default:				
-					m[0].icon.setImageResource(R.drawable.play);
+					m[0].icon.setImageResource(R.drawable.ic_image_play);
 					break;
 				}	
 			}
@@ -298,7 +298,7 @@ public class MediaPlayerController implements OnCompletionListener {
 			if(media.adapter != null)
 				media.adapter.notifyDataSetChanged();
 			if(media.icon != null)
-				media.icon.setImageResource(R.drawable.play);
+				media.icon.setImageResource(R.drawable.ic_image_play);
 		}
 	}
 

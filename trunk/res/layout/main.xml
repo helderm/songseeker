@@ -4,18 +4,15 @@
     android:id="@+id/main_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/main_background"
-    android:orientation="vertical" >
+    android:background="@drawable/main_background" >
 
     <Button
         android:id="@+id/seek_songs_but"
         style="@style/Button"
         android:layout_width="180dip"
         android:layout_height="100dip"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="72dp"
-        android:layout_marginTop="88dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
         android:text="@string/seek_songs_but_str" >
     </Button>
 
@@ -23,34 +20,35 @@
         android:id="@+id/find_input"
         android:layout_width="180dip"
         android:layout_height="50dp"
+        android:layout_alignRight="@+id/seek_songs_but"
         android:layout_below="@+id/seek_songs_but"
-        android:layout_marginLeft="30dip"
-        android:layout_marginTop="60dip"
+        android:layout_marginRight="37dp"
+        android:layout_marginTop="56dp"
         android:hint="@string/artist_name_str" >
 
-        <requestFocus >
-        </requestFocus>
-    </EditText>
-
+        <requestFocus />
+    </EditText>        
+        
     <Button
         android:id="@+id/search_but"
         style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/find_input"
-        android:layout_toRightOf="@+id/find_input"
+        android:layout_alignBottom="@+id/find_input"
+        android:layout_alignLeft="@+id/seek_songs_but"
+        android:layout_marginLeft="153dp"
         android:gravity="center"
-        android:text="@string/search_but" >
-    </Button>
-
+        android:text="@string/search_but" />        
+        
     <com.google.ads.AdView
         android:id="@+id/adView"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
         ads:adUnitId="a14ec129f3acea3"
         ads:loadAdOnCreate="true"
         ads:testDevices="TEST_EMULATOR,860A75C0162980ABCF4CFA5CFC2710B9" />
+
 
 </RelativeLayout>

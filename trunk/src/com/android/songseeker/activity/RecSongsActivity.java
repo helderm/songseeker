@@ -309,15 +309,15 @@ public class RecSongsActivity extends ListActivity {
 
 				switch(MediaPlayerController.getCon().getStatus(pos)){				
 				case PLAYING:
-					holder.playPause.setImageResource(R.drawable.pause);
+					holder.playPause.setImageResource(R.drawable.ic_image_pause);
 					break;
 				case LOADING:
 				case PREPARED:
-					holder.playPause.setImageResource(R.drawable.loading);
+					holder.playPause.setImageResource(R.drawable.ic_image_loading);
 					break;				
 				case STOPPED:
 				default:
-					holder.playPause.setImageResource(R.drawable.play);
+					holder.playPause.setImageResource(R.drawable.ic_image_play);
 					break;
 					
 				}

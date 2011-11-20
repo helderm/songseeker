@@ -216,6 +216,12 @@ public class SettingsActivity extends PreferenceActivity {
 				return null;
 			}
 			
+			if(topArtists.isEmpty()){
+				err = "No artist found in your device!";
+				return null;
+			}
+				
+			
 			return topArtists;
 		}
 		

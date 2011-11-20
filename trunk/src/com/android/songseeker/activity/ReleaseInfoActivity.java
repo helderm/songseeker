@@ -227,15 +227,15 @@ public class ReleaseInfoActivity extends ListActivity {
 
 				switch(MediaPlayerController.getCon().getStatus(pos)){				
 				case PLAYING:
-					playpause.setImageResource(R.drawable.pause);
+					playpause.setImageResource(R.drawable.ic_image_pause);
 					break;
 				case LOADING:
 				case PREPARED:
-					playpause.setImageResource(R.drawable.loading);
+					playpause.setImageResource(R.drawable.ic_image_loading);
 					break;				
 				case STOPPED:
 				default:
-					playpause.setImageResource(R.drawable.play);
+					playpause.setImageResource(R.drawable.ic_image_play);
 					break;					
 				}
 				playpause.setOnClickListener(new View.OnClickListener() {

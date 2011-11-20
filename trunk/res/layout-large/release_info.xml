@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/releaseinfo_info"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/releaseinfo_coverArt"
+            android:layout_width="120dip"
+            android:layout_height="120dip"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/blankdisc" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/releaseinfo_releaseName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/releaseinfo_coverArt"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_toRightOf="@+id/releaseinfo_coverArt"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceMedium" >
+        </TextView>
+
+        <View
+            android:id="@+id/horizontal_bar1"
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:layout_alignLeft="@+id/releaseinfo_releaseName"
+            android:layout_alignRight="@+id/releaseinfo_releaseName"
+            android:layout_below="@+id/releaseinfo_releaseName"
+            android:layout_marginTop="5dip"
+            android:background="#FFFFFFFF" >
+        </View>
+
+        <TextView
+            android:id="@+id/by"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/releaseinfo_releaseName"
+            android:layout_below="@+id/horizontal_bar1"
+            android:layout_marginTop="5dip"
+            android:text="by"
+            android:textAppearance="?android:attr/textAppearanceSmall" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/releaseinfo_artistName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/releaseinfo_releaseName"
+            android:layout_below="@+id/horizontal_bar1"
+            android:layout_marginLeft="5dip"
+            android:layout_marginTop="5dip"
+            android:layout_toRightOf="@+id/by"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold" >
+        </TextView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/releaseinfo_buy"
+            style="@style/Button"
+            android:layout_width="180dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dip"
+            android:layout_marginTop="30dip"
+            android:text="Buy" >
+        </Button>
+
+        <Button
+            android:id="@+id/releaseinfo_add"
+            style="@style/Button"
+            android:layout_width="180dip"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/releaseinfo_buy"
+            android:layout_toRightOf="@+id/releaseinfo_buy"
+            android:text="+ Playlist" >
+        </Button>
+
+        <Button
+            android:id="@+id/releaseinfo_share"
+            style="@style/Button"
+            android:layout_width="180dip"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/releaseinfo_buy"
+            android:layout_below="@+id/releaseinfo_buy"
+            android:layout_marginLeft="90dip"
+            android:text="Share" >
+        </Button>
+
+        <TextView
+            android:id="@+id/releaseinfo_topTrackTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/releaseinfo_share"
+            android:layout_marginBottom="15dip"
+            android:layout_marginTop="20dip"
+            android:gravity="center|top"
+            android:text="Song List"
+            android:textAppearance="?android:attr/textAppearanceMedium" >
+        </TextView>
+    </RelativeLayout>
+
+</LinearLayout>
