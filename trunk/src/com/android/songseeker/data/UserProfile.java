@@ -11,6 +11,8 @@ import android.util.Log;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
 
+import com.android.songseeker.comm.ServiceCommException;
+import com.android.songseeker.comm.ServiceCommException.ServiceErr;
 import com.android.songseeker.comm.SevenDigitalComm;
 import com.android.songseeker.util.FileCache;
 import com.android.songseeker.util.Util;
@@ -95,8 +97,12 @@ public class UserProfile implements Serializable{
 					else
 						artist = SevenDigitalComm.getComm().queryArtistDetails(artistNameID);
 						
-				}catch(Exception e) {
-					Log.w(Util.APP, e.getMessage(), e);
+				}catch(ServiceCommException e) {
+					if(e.getErr() == ServiceErr.IO || e.getErr() == ServiceErr.TRY_LATER){
+						break;
+					}
+					
+					Log.i(Util.APP, "Unable to add artist ["+artistNameID+"] to profile, skipping...");
 					continue;
 				} 
 				

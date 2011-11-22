@@ -265,6 +265,11 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity {
 				publishProgress(++count);
 			}
 			
+			if(songIDs.isEmpty()){
+				err = "No song found!";
+				return null;
+			}
+			
 			//show createPlaylist diag
 			publishProgress(-1);
 			

@@ -91,6 +91,7 @@ public class ReleaseInfoActivity extends ListActivity {
 			try{
 				release = getIntent().getExtras().getParcelable("releaseParcel");
 				if(release == null){
+					//this will happen only on Eclair, see MusicInfoTab
 					SongInfo song = getIntent().getExtras().getParcelable("songId");	
 					song = SevenDigitalComm.getComm().querySongDetails(song.id, song.name, song.artist.name);	
 					release = song.release;

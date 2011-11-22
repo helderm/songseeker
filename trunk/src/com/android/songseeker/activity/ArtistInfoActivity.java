@@ -76,6 +76,7 @@ public class ArtistInfoActivity extends ListActivity {
 				artist = getIntent().getExtras().getParcelable("artistParcel");
 				
 				if(artist == null){
+					//this happens only on Eclair, see MusicInfoTab
 					SongInfo song = getIntent().getExtras().getParcelable("songId");	
 					song = SevenDigitalComm.getComm().querySongDetails(song.id, song.name, song.artist.name);	
 					artist = song.artist;

@@ -21,6 +21,7 @@ import android.widget.TabHost;
 
 import android.widget.Toast;
 
+@SuppressWarnings("deprecation")
 public class MusicInfoTab extends TabActivity {
 	
 	public void onCreate(Bundle savedInstanceState) {

@@ -627,12 +627,11 @@ public class SevenDigitalComm {
 
 		int code = Integer.parseInt(fstNmElmnt.getAttribute("code"));
 		
-		Log.w(Util.APP, "7digital ws call failed with code ["+code+"]");
-		
 		switch(code){
 		case 2001:
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.SONG_NOT_FOUND);
 		default:
+			Log.d(Util.APP, "7digital ws call failed with code ["+code+"]");
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);			
 		}
 	}

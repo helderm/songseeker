@@ -95,6 +95,7 @@ public class SongInfoActivity extends ListActivity {
 				//if we already have the info, dont query it again
 				song = getIntent().getExtras().getParcelable("songParcel");	
 				if(song == null){
+					//this will happen only on Eclair, see MusicInfoTab
 					song = getIntent().getExtras().getParcelable("songId");	
 					song = SevenDigitalComm.getComm().querySongDetails(song.id, song.name, song.artist.name);		
 				}	
