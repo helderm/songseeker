@@ -80,11 +80,11 @@
 			
 			<RadioButton android:id="@+id/exact_artists"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:text="Only songs from the specified artists" />
+				android:text="Only known artists" />
 				
 			<RadioButton android:id="@+id/similar_artists"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:text="Songs similar to specified artists" />
+				android:text="Known and similar artists" />
 		</RadioGroup>
 
 

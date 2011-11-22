@@ -1,0 +1,10 @@
+google-api-client-1.5.0-beta.jar
+google-api-client-extensions-1.5.0-beta.jar
+google-api-client-extensions-android2-1.5.0-beta.jar
+google-http-client-1.5.0-beta.jar
+google-http-client-extensions-1.5.0-beta.jar
+google-http-client-extensions-android2-1.5.0-beta.jar
+google-http-client-extensions-android3-1.5.0-beta.jar
+google-oauth-client-1.5.0-beta.jar
+google-oauth-client-extensions-1.5.0-beta.jar
+dependecies/guava-r09.jar

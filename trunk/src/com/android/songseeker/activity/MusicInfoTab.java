@@ -57,7 +57,7 @@ public class MusicInfoTab extends TabActivity {
 				}			
 
 				spec = tabHost.newTabSpec("songs").setIndicator("Song",
-						res.getDrawable(R.drawable.tab_artists))
+						res.getDrawable(R.drawable.ic_tab_songs))
 						.setContent(intent);
 				tabHost.addTab(spec);
 			}
@@ -77,7 +77,7 @@ public class MusicInfoTab extends TabActivity {
 					intent.putExtra("songId", song);
 
 				spec = tabHost.newTabSpec("albums").setIndicator("Album",
-						res.getDrawable(R.drawable.tab_artists))
+						res.getDrawable(R.drawable.ic_tab_albums))
 						.setContent(intent);
 				tabHost.addTab(spec);
 			}
@@ -100,7 +100,7 @@ public class MusicInfoTab extends TabActivity {
 					intent.putExtra("songId", song);
 				
 				spec = tabHost.newTabSpec("artists").setIndicator("Artist",
-						res.getDrawable(R.drawable.tab_artists))
+						res.getDrawable(R.drawable.ic_tab_artists))
 						.setContent(intent);
 				tabHost.addTab(spec);
 			}
@@ -117,7 +117,7 @@ public class MusicInfoTab extends TabActivity {
 				intent.putExtra("songParcel", song);
 
 				spec = tabHost.newTabSpec("songs").setIndicator("Song",
-						res.getDrawable(R.drawable.tab_artists))
+						res.getDrawable(R.drawable.ic_tab_songs))
 						.setContent(intent);
 				tabHost.addTab(spec);
 			}
@@ -133,7 +133,7 @@ public class MusicInfoTab extends TabActivity {
 				intent.putExtra("releaseParcel", release);
 
 				spec = tabHost.newTabSpec("albums").setIndicator("Album",
-						res.getDrawable(R.drawable.tab_artists))
+						res.getDrawable(R.drawable.ic_tab_albums))
 						.setContent(intent);
 				tabHost.addTab(spec);
 			}
@@ -152,7 +152,7 @@ public class MusicInfoTab extends TabActivity {
 				intent.putExtra("artistParcel", artist);
 
 				spec = tabHost.newTabSpec("artists").setIndicator("Artist",
-						res.getDrawable(R.drawable.tab_artists))
+						res.getDrawable(R.drawable.ic_tab_songs))
 						.setContent(intent);
 				tabHost.addTab(spec);
 			}
@@ -202,7 +202,7 @@ public class MusicInfoTab extends TabActivity {
 			intent.putExtra("songParcel", song);
 
 			spec = tabHost.newTabSpec("songs").setIndicator("Song",
-					res.getDrawable(R.drawable.tab_artists))
+					res.getDrawable(R.drawable.ic_tab_songs))
 					.setContent(intent);
 			tabHost.addTab(spec);
 
@@ -211,7 +211,7 @@ public class MusicInfoTab extends TabActivity {
 			intent.putExtra("releaseParcel", song.release);
 
 			spec = tabHost.newTabSpec("albums").setIndicator("Album",
-					res.getDrawable(R.drawable.tab_artists))
+					res.getDrawable(R.drawable.ic_tab_albums))
 					.setContent(intent);
 			tabHost.addTab(spec);
 
@@ -220,7 +220,7 @@ public class MusicInfoTab extends TabActivity {
 			intent.putExtra("artistParcel", song.artist);
 
 			spec = tabHost.newTabSpec("artists").setIndicator("Artist",
-					res.getDrawable(R.drawable.tab_artists))
+					res.getDrawable(R.drawable.ic_tab_artists))
 					.setContent(intent);
 			tabHost.addTab(spec);
 			

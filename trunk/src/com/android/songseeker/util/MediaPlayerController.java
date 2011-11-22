@@ -189,7 +189,7 @@ public class MediaPlayerController implements OnCompletionListener {
 			if(m[0]!= null && m[0].icon != null){
 				switch(m[0].status){
 				case LOADING:
-					m[0].icon.setImageResource(R.drawable.icon);
+					m[0].icon.setImageResource(R.drawable.ic_image_loading);
 					break;
 				case PLAYING:
 					m[0].icon.setImageResource(R.drawable.ic_image_pause);
