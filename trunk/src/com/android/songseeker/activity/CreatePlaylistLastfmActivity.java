@@ -19,6 +19,8 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,12 +36,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CreatePlaylistLastfmActivity extends ListActivity {
+public class CreatePlaylistLastfmActivity extends ListActivity implements OnCancelListener {
 
 	private LastfmPlaylistAdapter adapter;
 	SharedPreferences settings;
 
 	private ProgressDialog addTracksDiag;
+	private CreatePlaylistTask createPlaylistTask = null;
 	
 	private static final int REQUEST_AUTH_DIAG = 1;
 	private static final int CREATE_PLAYLIST_DIAG = 2;
@@ -75,7 +78,7 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
 		}else{		
 			HashMap<String, String> plId = new HashMap<String, String>();
 			plId.put("id", adapter.getPlaylistId(position));
-			new CreatePlaylistTask().execute(plId, null, null);
+			createPlaylistTask = (CreatePlaylistTask) new CreatePlaylistTask().execute(plId, null, null);
 		}
 	}
 	
@@ -93,13 +96,15 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
 			ProgressDialog cpd = new ProgressDialog(this);
 			cpd.setMessage("Creating playlist on Last.fm...");
 			cpd.setIndeterminate(true);
-			cpd.setCancelable(false);
+			cpd.setCancelable(true);
+			cpd.setOnCancelListener(this);
 			return cpd;	
 		case ADD_TRACKS_DIAG:	
 			addTracksDiag = new ProgressDialog(this);
 			addTracksDiag.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			addTracksDiag.setMessage("Adding songs to the playlist...");
-			addTracksDiag.setCancelable(false);			
+			addTracksDiag.setCancelable(true);
+			addTracksDiag.setOnCancelListener(this);	
 			return addTracksDiag;
 		case NEW_PLAYLIST_DIAG:
 			Dialog npd = new Dialog(this);
@@ -134,7 +139,7 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
 	            	
 	            	HashMap<String, String> plName = new HashMap<String, String>();
 	            	plName.put("name", textInput.getText().toString());	            	
-	            	new CreatePlaylistTask().execute(plName, null, null);	            	
+	            	createPlaylistTask = (CreatePlaylistTask) new CreatePlaylistTask().execute(plName, null, null);	            	
 	            }
 	        }); 
 			
@@ -347,7 +352,12 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
 				return null;
 			}
 			
-			try{				
+			try{		
+				//check if the task was cancelled by the user
+				if(Thread.interrupted()){
+					return null;
+				}
+				
 				if(plName != null){
 					Playlist pl = LastfmComm.getComm().createPlaylist(plName, settings);
 					plId = pl.getId();
@@ -362,6 +372,10 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
 				ArrayList<String> songArtists = ar.getArtistList();
 				
 				for(i=0; i<songNames.size() && i<songArtists.size(); i++){
+					if(Thread.interrupted()){
+						return null;
+					}
+					
 					LastfmComm.getComm().addToPlaylist(plId, songArtists.get(i), songNames.get(i), settings);
 					publishProgress(i+1);
 				}				
@@ -387,4 +401,12 @@ public class CreatePlaylistLastfmActivity extends ListActivity {
 		}		
 	}
 
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		if(createPlaylistTask != null)
+			createPlaylistTask.cancel(true);	
+		
+		Toast.makeText(getApplicationContext(), getString(R.string.op_cancel_str), Toast.LENGTH_SHORT).show();
+		finish();		
+	}
 }

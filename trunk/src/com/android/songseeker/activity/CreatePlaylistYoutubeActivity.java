@@ -25,6 +25,7 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -43,7 +44,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CreatePlaylistYoutubeActivity extends ListActivity implements AccountManagerCallback<Bundle> {
+public class CreatePlaylistYoutubeActivity extends ListActivity implements AccountManagerCallback<Bundle>, OnCancelListener {
 	
 	private static final int ACCOUNTS_DIAG = 0;
 	private static final int REQUEST_AUTH_DIAG = 1;
@@ -53,6 +54,7 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 	private static final int ADD_VIDEOS_PLAYLIST_DIAG = 5;
 	
 	private ProgressDialog progressDiag;
+	private CreatePlaylistTask createPlaylistTask = null;
 	
 	private YouTubePlaylistsAdapter adapter;
 	private SharedPreferences settings;
@@ -91,49 +93,6 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 			new GetUserPlaylistsTask().execute();
 		}
 	}
-
-
-	/*void gotAccount(boolean tokenExpired) {
-		SharedPreferences settings = getSharedPreferences(PREF, 0);
-		String accountName = settings.getString("accountName", null);
-		Account account = accountManager.getAccountByName(accountName);
-		if (account != null) {
-			if (tokenExpired) {
-				accountManager.invalidateAuthToken(accessProtectedResource.getAccessToken());
-				accessProtectedResource.setAccessToken(null);
-			}
-			gotAccount(account);
-			return;
-		}
-		showDialog(ACCOUNTS_DIAG);
-	}
-
-	void gotAccount(final Account account) {
-		SharedPreferences settings = getSharedPreferences(PREF, 0);
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putString("accountName", account.name);
-		editor.commit();
-		accountManager.manager.getAuthToken(
-				account, AUTH_TOKEN_TYPE, true, new AccountManagerCallback<Bundle>() {
-
-					public void run(AccountManagerFuture<Bundle> future) {
-						try {
-							Bundle bundle = future.getResult();
-							if (bundle.containsKey(AccountManager.KEY_INTENT)) {
-								Intent intent = bundle.getParcelable(AccountManager.KEY_INTENT);
-								intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
-								startActivityForResult(intent, REQUEST_AUTHENTICATE);
-							} else if (bundle.containsKey(AccountManager.KEY_AUTHTOKEN)) {
-								accessProtectedResource.setAccessToken(
-										bundle.getString(AccountManager.KEY_AUTHTOKEN));
-								onAuthToken();
-							}
-						} catch (Exception e) {
-							handleException(e);
-						}
-					}
-				}, null);
-	}*/
 
 	private class YouTubePlaylistsAdapter extends BaseAdapter {
 		UserPlaylistsData data;
@@ -233,7 +192,7 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		}		
 	}
 	
-
+	//requestAuthorize callback function
 	@Override
 	public void run(AccountManagerFuture<Bundle> future) {
 		try {
@@ -253,6 +212,7 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		}		
 	}
 	
+	//startActivityForResult(intent, REQUEST_AUTHENTICATE) callback
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -377,6 +337,11 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 				
 				//fetch video ids		
 				for(int i=0; i<songNames.size() && i<songArtists.size(); i++){
+					//check if the task was cancelled by the user
+					if(Thread.interrupted()){
+						return null;
+					}
+					
 					ArrayList<VideoFeed> vids = YouTubeComm.getComm().searchVideo(songNames.get(i), songArtists.get(i), 1);
 					publishProgress(i+1);
 					
@@ -386,6 +351,10 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 					}
 				
 					videos.add(vids.get(0));
+				}
+				
+				if(Thread.interrupted()){
+					return null;
 				}
 				
 				publishProgress(-1);
@@ -405,11 +374,14 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 				
 				publishProgress(-4);
 				for(VideoFeed video : videos){					
+					
+					if(Thread.interrupted()){
+						return null;
+					}
+					
 					publishProgress(++i);
 					YouTubeComm.getComm().addVideosToPlaylist(plID, video.id, settings);
-				}
-				
-				
+				}		
 			}catch (ServiceCommException e){
 				err = e.getMessage();
 				return null;
@@ -439,7 +411,7 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		}else{		
 			HashMap<String, String> plId = new HashMap<String, String>();
 			plId.put("id", adapter.data.getPlaylistId(position-1));
-			new CreatePlaylistTask().execute(plId);
+			createPlaylistTask = (CreatePlaylistTask) new CreatePlaylistTask().execute(plId);
 		}
 	}
 
@@ -467,19 +439,22 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 			ProgressDialog cpd = new ProgressDialog(this);
 			cpd.setMessage("Creating playlist on YouTube...");
 			cpd.setIndeterminate(true);
-			cpd.setCancelable(false);
+			cpd.setCancelable(true);
+			cpd.setOnCancelListener(this);		
 			return cpd;	
 		case FETCH_VIDEO_IDS_DIAG:
 			progressDiag = new ProgressDialog(this);
 			progressDiag.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			progressDiag.setMessage("Fetching videos...");
-			progressDiag.setCancelable(false);			
+			progressDiag.setCancelable(true);
+			progressDiag.setOnCancelListener(this);				
 			return progressDiag;
 		case ADD_VIDEOS_PLAYLIST_DIAG:
 			progressDiag = new ProgressDialog(this);
 			progressDiag.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			progressDiag.setMessage("Adding videos to playlist...");
-			progressDiag.setCancelable(false);			
+			progressDiag.setCancelable(true);
+			progressDiag.setOnCancelListener(this);				
 			return progressDiag;			
 		case NEW_PLAYLIST_DIAG:
 			Dialog dialog = new Dialog(this);
@@ -513,7 +488,7 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 	            	HashMap<String, String> plName = new HashMap<String, String>();
 	            	plName.put("name", textInput.getText().toString());
 	            	
-	            	new CreatePlaylistTask().execute(plName);	            	
+	            	createPlaylistTask = (CreatePlaylistTask) new CreatePlaylistTask().execute(plName);	            	
 	            }
 	        }); 
 			
@@ -523,5 +498,14 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		
 		return null;
 	}
+	
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		if(createPlaylistTask  != null)
+			createPlaylistTask.cancel(true);
+		
+		Toast.makeText(getApplicationContext(), getString(R.string.op_cancel_str), Toast.LENGTH_SHORT).show();
+		finish();		
+	}		
 
 }

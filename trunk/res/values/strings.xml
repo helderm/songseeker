@@ -35,4 +35,5 @@
     <string name="artist_name_str">artist name</string>
     <string name="username_str">username</string>
     <string name="password_str">password</string>
+    <string name="op_cancel_str">Operation cancelled!</string>
 </resources>

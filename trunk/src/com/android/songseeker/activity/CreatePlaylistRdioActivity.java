@@ -8,6 +8,8 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -40,7 +42,7 @@ import com.android.songseeker.util.Util;
 import com.echonest.api.v4.Song;
 import com.echonest.api.v4.SongParams;
 
-public class CreatePlaylistRdioActivity extends ListActivity{
+public class CreatePlaylistRdioActivity extends ListActivity implements OnCancelListener{
 
 	private RdioPlaylistsAdapter adapter;
 	SharedPreferences settings;
@@ -51,6 +53,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 	private static final int NEW_PLAYLIST_DIAG = 4;
 	
 	private ProgressDialog fetchSongIdsDiag;
+	private CreatePlaylistTask createPlaylistTask = null;
 		
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +82,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		}else{		
 			HashMap<String, String> plId = new HashMap<String, String>();
 			plId.put("id", adapter.getPlaylistId(position));
-			new CreatePlaylistTask().execute(plId, null, null);
+			createPlaylistTask = (CreatePlaylistTask) new CreatePlaylistTask().execute(plId, null, null);
 		}
 	}
 	
@@ -169,13 +172,15 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 			fetchSongIdsDiag = new ProgressDialog(this);
 			fetchSongIdsDiag.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			fetchSongIdsDiag.setMessage("Fetching song data...");
-			fetchSongIdsDiag.setCancelable(false);			
+			fetchSongIdsDiag.setCancelable(true);
+			fetchSongIdsDiag.setOnCancelListener(this);			
 			return fetchSongIdsDiag;
 		case CREATE_PLAYLIST_DIAG:
 			ProgressDialog cpd = new ProgressDialog(this);
 			cpd.setMessage("Creating playlist on Rdio...");
 			cpd.setIndeterminate(true);
-			cpd.setCancelable(false);
+			cpd.setCancelable(true);
+			cpd.setOnCancelListener(this);
 			return cpd;	
 		case NEW_PLAYLIST_DIAG:
 			Dialog dialog = new Dialog(this);
@@ -211,7 +216,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 	            	HashMap<String, String> plName = new HashMap<String, String>();
 	            	plName.put("name", textInput.getText().toString());
 	            	
-	            	new CreatePlaylistTask().execute(plName, null, null);
+	            	createPlaylistTask = (CreatePlaylistTask) new CreatePlaylistTask().execute(plName, null, null);
 	            	
 	            }
 	        }); 
@@ -252,8 +257,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 				CreatePlaylistRdioActivity.this.finish();
 			}
 			
-		}
-		
+		}		
 	}
 
 	private class CreatePlaylistTask extends AsyncTask<HashMap<String, String>, Integer, Void>{
@@ -276,8 +280,7 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 				removeDialog(FETCH_SONG_IDS_DIAG);
 				showDialog(CREATE_PLAYLIST_DIAG);
 			}
-		}
-		
+		}		
 		
 		@Override
 		protected Void doInBackground(HashMap<String, String>... params) {
@@ -292,6 +295,10 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 			
 			int count = 0;
 			for(String id : sl.getIds()){
+				if(Thread.interrupted()){
+					return null;
+				}
+				
 				Song song = null;
 				SongParams sp = new SongParams();
 				sp.setID(id);
@@ -331,10 +338,18 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 				publishProgress(++count);
 			}
 			
-			Log.i(Util.APP, "SongIDs fetched! Creating playlist...");
+			if(Thread.interrupted()){
+				return null;
+			}
+			
+			Log.d(Util.APP, "Rdio IDs fetched! Creating playlist...");
 			
 			//show createPlaylist diag
 			publishProgress(-1);
+
+			if(Thread.interrupted()){
+				return null;
+			}
 			
 			try{
 				String plName = params[0].get("name");
@@ -422,6 +437,14 @@ public class CreatePlaylistRdioActivity extends ListActivity{
 		}		
 		
 		new GetUserPlaylistsTask().execute(null, null, null);
-		//new CreatePlaylistTask().execute(null, null, null);		
+	}
+
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		if(createPlaylistTask  != null)
+			createPlaylistTask.cancel(true);
+		
+		Toast.makeText(getApplicationContext(), getString(R.string.op_cancel_str), Toast.LENGTH_SHORT).show();
+		finish();		
 	}	
 }
