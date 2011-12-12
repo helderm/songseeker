@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.BaseAdapter;
@@ -17,12 +20,13 @@ import com.android.songseeker.comm.SevenDigitalComm;
 import com.android.songseeker.util.FileCache;
 import com.android.songseeker.util.Util;
 
-public class UserProfile implements Serializable{
+public class UserProfile implements Serializable, OnCancelListener{
 
 	private static UserProfile obj = new UserProfile();
-	private static Profile profile = null;
-	
+	private static Profile profile = null;	
 	private static FileCache fileCache = null;
+	
+	private static AddToProfileTask addTask = null;
 
 	private static final long serialVersionUID = 1L;
 	
@@ -47,47 +51,72 @@ public class UserProfile implements Serializable{
 		return profile;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void addToProfile(ArrayList<String> names, Activity a, BaseAdapter ad){
-		new GetArtistInfoTask(a, ad, true).execute(names);
-	}	
+		addTask = (AddToProfileTask) new AddToProfileTask(names, a, ad, true, null).execute();
+	}
 	
-	@SuppressWarnings("unchecked")
+	public void addToProfile(ArrayList<String> names, Activity a, ProgressDialog d){
+		addTask = (AddToProfileTask) new AddToProfileTask(names, a, null, true, d).execute();
+	}
+	
 	public void addIdToProfile(ArrayList<String> ids, Activity a, BaseAdapter ad){
-		new GetArtistInfoTask(a, ad, false).execute(ids);
+		addTask = (AddToProfileTask) new AddToProfileTask(ids, a, ad, false, null).execute();
 	}	
 	
-	private class GetArtistInfoTask extends AsyncTask<ArrayList<String>, Void, Void>{
+	private class AddToProfileTask extends AsyncTask<Void, Integer, Void>{
 
 		private String msg = null;
 		private String err = null;
 		private Activity activity = null;
 		private BaseAdapter adapter = null;
-		private boolean isSearch;
+		private ProgressDialog dialog = null;
+		private ArrayList<String> artistsList = null;
+		private boolean isSearch; //true if we have a list of names, false if we have a list of ID's
 		
-		public GetArtistInfoTask(Activity a, BaseAdapter ad, boolean is) {
+		public AddToProfileTask(ArrayList<String> al, Activity a, BaseAdapter ad, boolean is, ProgressDialog d) {
+			artistsList = al;
 			activity = a;
 			adapter = ad;
 			isSearch = is;
+			dialog = d;
+			
+			dialog.setOnCancelListener(UserProfile.this);
 		}
 		
 		@Override
 		protected void onPreExecute() {
-			Toast.makeText(activity.getApplicationContext(), "Adding artist(s) to profile, please wait...", 
+			if(dialog != null){
+				dialog.show();
+				dialog.setMax(artistsList.size());
+			}else	
+				Toast.makeText(activity.getApplicationContext(), "Adding artist to profile, please wait...", 
 								Toast.LENGTH_LONG).show();
 		}
 		
 		@Override
-		protected Void doInBackground(ArrayList<String>... params) {
+		protected void onProgressUpdate(Integer... value) {
+			if(dialog == null)
+				return;
+			
+			dialog.setProgress(value[0]);
+		}
+		
+		@Override
+		protected Void doInBackground(Void... params) {
 			
 			ArrayList<ArtistProfile> artists = new ArrayList<ArtistProfile>();
 			ArtistInfo artist = null;
 			int alreadyProfileCount = 0;
+			int artistsImported = 0;
 			
-			for(String artistNameID : params[0]){
+			for(String artistNameID : artistsList){
 
+				if(Thread.interrupted())
+					break;
+				
 				if(isSearch && isAlreadyInProfile(artistNameID)){
 					alreadyProfileCount++;
+					publishProgress(++artistsImported);
 					continue;
 				}
 				
@@ -103,12 +132,14 @@ public class UserProfile implements Serializable{
 					}
 					
 					Log.i(Util.APP, "Unable to add artist ["+artistNameID+"] to profile, skipping...");
+					publishProgress(++artistsImported);
 					continue;
 				} 
 				
 				//the string passed by the user may be diff from what is stored at the profile
 				if(isAlreadyInProfile(artist.name)){
 					alreadyProfileCount++;
+					publishProgress(++artistsImported);
 					continue;
 				}
 				
@@ -126,19 +157,23 @@ public class UserProfile implements Serializable{
 						break;
 					}
 				}
-				if(isAlreadyAdd)
+				if(isAlreadyAdd){
+					publishProgress(++artistsImported);
 					continue;
+				}
 		
 				artists.add(ap);
+				
+				publishProgress(++artistsImported);
 			}				
 
-			if(params[0].size() == alreadyProfileCount){
+			if(artistsList.size() == alreadyProfileCount || (artists.size() == 0 && alreadyProfileCount > 0)){
 				msg = "Artist(s) already in your profile!";
 				return null;
 			}else if(artists.size() == 0){
 				err = "Failed to add artist(s) to your profile!";
 				return null;
-			}else if(artists.size() < params[0].size()){
+			}else if(artists.size() < artistsList.size()){
 				msg = "Some artists were successfully added to your profile!";
 			}else
 				msg = "Artist(s) successfully added to your profile!";				
@@ -150,6 +185,9 @@ public class UserProfile implements Serializable{
 		
 		@Override
 		protected void onPostExecute(Void result) {
+			if(dialog != null)
+				dialog.dismiss();
+			
 			if(err != null){
 				Toast.makeText(activity.getApplicationContext(), err, Toast.LENGTH_SHORT).show();
 				return;
@@ -235,5 +273,11 @@ public class UserProfile implements Serializable{
 		public String buyUrl;
 		
 		private static final long serialVersionUID = 1L;		
+	}
+
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		if(addTask != null)
+			addTask.cancel(true);
 	}	
 }

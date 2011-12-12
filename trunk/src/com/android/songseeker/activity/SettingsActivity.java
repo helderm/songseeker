@@ -18,8 +18,10 @@ import de.umass.lastfm.Artist;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,11 +35,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends PreferenceActivity implements OnCancelListener{
 
 	private static final int LASTFM_USERNAME_DIAG = 0;
-	private static final int IMPORT_DIAG = 1;
+	private static final int IMPORT_FROM_DIAG = 1;
+	private static final int IMPORTING_DIAG = 2;
 
+	private ImportProfileLastfmTask importLastfmTask = null;
+	private ImportProfileDeviceTask importDeviceTask = null;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +79,7 @@ public class SettingsActivity extends PreferenceActivity {
 		Preference importProfile = (Preference) findPreference("import_prof");		 
 		importProfile.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-            	showDialog(IMPORT_DIAG);
+            	showDialog(IMPORT_FROM_DIAG);
             	return true;
             }
         });	
@@ -82,9 +88,7 @@ public class SettingsActivity extends PreferenceActivity {
 		Preference clearCache = (Preference) findPreference("clear_cache");		 
 		clearCache.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-            	File cacheDir = getCacheDir();
-            	ImageLoader.getLoader(cacheDir).clearCache(cacheDir);
-            	Toast.makeText(getApplicationContext(), "Cache cleared!", Toast.LENGTH_SHORT).show();
+            	new ClearCacheTask().execute();
             	return true;
             }
         });
@@ -94,7 +98,7 @@ public class SettingsActivity extends PreferenceActivity {
 	protected Dialog onCreateDialog(int id) {
 
 		switch(id){
-		case IMPORT_DIAG:		  	
+		case IMPORT_FROM_DIAG:		  	
 			final CharSequence[] items = {"Device top artists", "Last.fm top artists"};
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -102,11 +106,11 @@ public class SettingsActivity extends PreferenceActivity {
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {			        
 					
-			    	removeDialog(IMPORT_DIAG);
+			    	removeDialog(IMPORT_FROM_DIAG);
 					
 					switch(item){
 					case 0:
-						new ImportProfileDeviceTask().execute();
+						importDeviceTask = (ImportProfileDeviceTask) new ImportProfileDeviceTask().execute();
 						break;
 					case 1:
 						showDialog(LASTFM_USERNAME_DIAG);
@@ -149,11 +153,20 @@ public class SettingsActivity extends PreferenceActivity {
 	            	imm.hideSoftInputFromWindow(textInput.getWindowToken(), 0); 
 	            		            	
 	            	removeDialog(LASTFM_USERNAME_DIAG);	            	
-	            	new ImportProfileLastfmTask().execute(textInput.getText().toString());	            	
+	            	importLastfmTask = (ImportProfileLastfmTask) new ImportProfileLastfmTask().execute(textInput.getText().toString());	            	
 	            }
 	        }); 
 			
 			return dialog;		
+		
+		case IMPORTING_DIAG:			
+			ProgressDialog imd = new ProgressDialog(this);
+			imd.setMessage("Importing profile...");
+			imd.setIndeterminate(true);
+			imd.setCancelable(true);	
+			imd.setOnCancelListener(this);
+			return imd;
+			
 		default:
 			return null;
 		}
@@ -164,7 +177,7 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		@Override
 		protected void onPreExecute() {
-			Toast.makeText(SettingsActivity.this, "Importing profile, please wait...", Toast.LENGTH_LONG).show();
+			showDialog(IMPORTING_DIAG);
 		}
 		
 		@Override
@@ -182,6 +195,8 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		@Override
 		protected void onPostExecute(Collection<Artist> topArtists) {
+			removeDialog(IMPORTING_DIAG);
+			
 			if(err != null){
 				Toast.makeText(SettingsActivity.this, err, Toast.LENGTH_SHORT).show();
 				return;
@@ -193,7 +208,12 @@ public class SettingsActivity extends PreferenceActivity {
 				artists.add(topArtist.getName());				
 			}
 			
-			UserProfile.getInstance(getCacheDir()).addToProfile(artists, SettingsActivity.this, null);
+			ProgressDialog pd = new ProgressDialog(SettingsActivity.this);
+			pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+			pd.setMessage("Adding artists to profile...");
+			pd.setCancelable(true);
+			
+			UserProfile.getInstance(getCacheDir()).addToProfile(artists, SettingsActivity.this, pd);
 		}
 	}
 	
@@ -202,7 +222,7 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		@Override
 		protected void onPreExecute() {
-			Toast.makeText(SettingsActivity.this, "Importing profile, please wait...", Toast.LENGTH_LONG).show();
+			showDialog(IMPORTING_DIAG);
 		}
 		
 		@Override
@@ -219,20 +239,63 @@ public class SettingsActivity extends PreferenceActivity {
 			if(topArtists.isEmpty()){
 				err = "No artist found in your device!";
 				return null;
-			}
-				
+			}				
 			
 			return topArtists;
 		}
 		
 		@Override
 		protected void onPostExecute(ArrayList<String> topArtists) {
+			removeDialog(IMPORTING_DIAG);
+			
 			if(err != null){
 				Toast.makeText(SettingsActivity.this, err, Toast.LENGTH_SHORT).show();
 				return;
 			}
 			
-			UserProfile.getInstance(getCacheDir()).addToProfile(topArtists, SettingsActivity.this, null);
+			ProgressDialog pd = new ProgressDialog(SettingsActivity.this);
+			pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+			pd.setMessage("Adding artists to profile...");
+			pd.setCancelable(true);
+			
+			UserProfile.getInstance(getCacheDir()).addToProfile(topArtists, SettingsActivity.this, pd);
 		}
 	}	
+	
+	private class ClearCacheTask extends AsyncTask<Void, Void, Void>{
+
+		@Override
+		protected void onPreExecute() {
+			Toast.makeText(SettingsActivity.this, "Clearing cache, please wait...", Toast.LENGTH_SHORT).show();
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+        	File cacheDir = getCacheDir();
+        	ImageLoader.getLoader(cacheDir).clearCache(cacheDir);        	
+        	return null;
+		}		
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			Toast.makeText(getApplicationContext(), "Cache cleared!", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		if(importDeviceTask != null){
+			importDeviceTask.cancel(true);
+			importDeviceTask = null;
+		}
+		
+		if(importLastfmTask != null){
+			importLastfmTask.cancel(true);
+			importLastfmTask = null;
+		}	
+		
+		removeDialog(IMPORTING_DIAG);
+		
+		Toast.makeText(getApplicationContext(), getString(R.string.op_cancel_str), Toast.LENGTH_SHORT).show();
+	}
 }
