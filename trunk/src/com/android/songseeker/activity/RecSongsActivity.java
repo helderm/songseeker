@@ -10,6 +10,7 @@ import com.android.songseeker.data.RecSongsPlaylist;
 import com.android.songseeker.data.SongInfo;
 import com.android.songseeker.data.SongNamesParcel;
 import com.android.songseeker.util.MediaPlayerController;
+import com.android.songseeker.util.MediaPlayerController.MediaStatus;
 import com.android.songseeker.util.Settings;
 import com.android.songseeker.util.Util;
 import com.echonest.api.v4.PlaylistParams;
@@ -39,6 +40,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -293,7 +295,8 @@ public class RecSongsActivity extends ListActivity {
 				holder.topText = (TextView) convertView.findViewById(R.id.firstLine);
 			    holder.botText = (TextView) convertView.findViewById(R.id.secondLine);
 			    holder.coverArt = (ImageView) convertView.findViewById(R.id.coverart);
-			    holder.playPause = (ImageView) convertView.findViewById(R.id.playpause);	
+			    holder.playPause = (ImageView) convertView.findViewById(R.id.playpause);
+			    holder.loading = (ProgressBar) convertView.findViewById(R.id.loading);
 			    
 			    convertView.setTag(holder);
 			}else{
@@ -307,33 +310,64 @@ public class RecSongsActivity extends ListActivity {
 				holder.botText.setText(song.getArtistName());
 				holder.topText.setText(song.getReleaseName());
 
-				switch(MediaPlayerController.getCon().getStatus(pos)){				
+				MediaStatus mediaStatus = MediaPlayerController.getCon().getStatus(pos);
+				
+				//control visibility of the media icon
+				switch(mediaStatus){				
 				case PLAYING:
+					holder.loading.setVisibility(View.GONE);
+					holder.playPause.setVisibility(View.VISIBLE);
 					holder.playPause.setImageResource(R.drawable.ic_image_pause);
 					break;
 				case LOADING:
 				case PREPARED:
-					holder.playPause.setImageResource(R.drawable.ic_image_loading);
+					holder.playPause.setVisibility(View.GONE);
+					holder.loading.setVisibility(View.VISIBLE);					
 					break;				
 				case STOPPED:
 				default:
+					holder.loading.setVisibility(View.GONE);
+					holder.playPause.setVisibility(View.VISIBLE);
 					holder.playPause.setImageResource(R.drawable.ic_image_play);
-					break;
-					
+					break;					
 				}
 				
-				holder.playPause.setOnClickListener(new View.OnClickListener() {
-		            public void onClick(View v) {		            	
-		            	try{
-		            		String previewUrl = song.getString("tracks[0].preview_url");
-		            		MediaPlayerController.getCon().startStopMedia(previewUrl, pos, adapter);
-		            		adapter.notifyDataSetChanged();
-		            	}catch(IndexOutOfBoundsException e){
-		            		Log.w(Util.APP, "Preview Url for song ["+song.getReleaseName()+" - "+song.getArtistName()+"] not found!", e);
-		            	}		            	
-		            }
-		        }); 			    
+				//control onClickListeners
+				switch(mediaStatus){
+				case LOADING:
+				case PREPARED:
+					holder.loading.setOnClickListener(new View.OnClickListener() {
+			            public void onClick(View v) {		            	
+			            	try{
+			            		String previewUrl = song.getString("tracks[0].preview_url");
+			            		MediaPlayerController.getCon().startStopMedia(previewUrl, pos, adapter);
+			            		adapter.notifyDataSetChanged();
+			            	}catch(IndexOutOfBoundsException e){
+			            		Log.w(Util.APP, "Preview Url for song ["+song.getReleaseName()+" - "+song.getArtistName()+"] not found!", e);
+			            	}		            	
+			            }
+			        }); 	
+					
+					break;
+				case PLAYING:
+				case STOPPED:
+				default:
+					holder.playPause.setOnClickListener(new View.OnClickListener() {
+			            public void onClick(View v) {		            	
+			            	try{
+			            		String previewUrl = song.getString("tracks[0].preview_url");
+			            		MediaPlayerController.getCon().startStopMedia(previewUrl, pos, adapter);
+			            		adapter.notifyDataSetChanged();
+			            	}catch(IndexOutOfBoundsException e){
+			            		Log.w(Util.APP, "Preview Url for song ["+song.getReleaseName()+" - "+song.getArtistName()+"] not found!", e);
+			            	}		            	
+			            }
+			        });
+					
+					break;
+				}
 			    
+				//load coverart image
 			    try{
 			    	ImageLoader.getLoader(getCacheDir()).DisplayImage(song.getString("tracks[0].release_image"), holder.coverArt, R.drawable.ic_menu_disc);
 			    }catch(IndexOutOfBoundsException e){
@@ -354,6 +388,7 @@ public class RecSongsActivity extends ListActivity {
 	    	public TextView botText;
 	    	public ImageView coverArt;
 	    	public ImageView playPause;
+	    	public ProgressBar loading;
 	    }
 	}
 

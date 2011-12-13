@@ -79,13 +79,12 @@ public class UserProfile implements Serializable, OnCancelListener{
 			adapter = ad;
 			isSearch = is;
 			dialog = d;
-			
-			dialog.setOnCancelListener(UserProfile.this);
 		}
 		
 		@Override
 		protected void onPreExecute() {
-			if(dialog != null){
+			if(dialog != null){				
+				dialog.setOnCancelListener(UserProfile.this);
 				dialog.show();
 				dialog.setMax(artistsList.size());
 			}else	
