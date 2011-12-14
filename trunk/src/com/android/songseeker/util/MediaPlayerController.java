@@ -22,6 +22,8 @@ public class MediaPlayerController implements OnCompletionListener {
 	private static final int MP_PLAY = 0;
 	private static final int MP_STOP = 1;
 
+	private static boolean isPreparing = false;
+	
 	public static MediaPlayerController getCon(){
 		if(mp == null){
 			mp = new MediaPlayer();
@@ -45,6 +47,10 @@ public class MediaPlayerController implements OnCompletionListener {
 			}
 		}		
 
+		//to avoid hanging inside a prepare()
+		if(isPreparing)
+			return;
+		
 		mp.release();
 		mp = null;
 	}
@@ -267,7 +273,11 @@ public class MediaPlayerController implements OnCompletionListener {
 
 			mp.reset();
 			mp.setDataSource(m.source);
+			
+			isPreparing = true;
 			mp.prepare();
+			isPreparing = false;
+			
 			mp.setOnCompletionListener(this);
 		}	
 
