@@ -9,8 +9,10 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 public class MediaPlayerController implements OnCompletionListener {
 	private static MediaPlayerController controller = new MediaPlayerController();
@@ -62,8 +64,11 @@ public class MediaPlayerController implements OnCompletionListener {
 				media.position = position;
 				media.status = MediaStatus.LOADING;
 				
-				if(media.icon != null)
+				if(media.icon != null){
+					media.icon.setVisibility(View.VISIBLE);
+					media.loading.setVisibility(View.GONE);
 					media.icon.setImageResource(R.drawable.ic_image_play);
+				}
 				
 				if(media.adapter != null)
 					media.adapter.notifyDataSetChanged();
@@ -81,29 +86,36 @@ public class MediaPlayerController implements OnCompletionListener {
 		}
 	}
 	
-	public void startStopMedia(String source, ImageView icon){
+	public void startStopMedia(String source, ImageView icon, ProgressBar loading){
 		if(media == null || !media.source.equalsIgnoreCase(source) || media.status == MediaStatus.STOPPED){
 			
 			if(media != null){
 				media.position = -1;
 				media.status = MediaStatus.LOADING;
 				
-				if(media.icon != null)
+				if(media.icon != null){
+					media.icon.setVisibility(View.VISIBLE);
+					media.loading.setVisibility(View.GONE);
 					media.icon.setImageResource(R.drawable.ic_image_play);
+				}
 				
 				if(media.adapter != null)
 					media.adapter.notifyDataSetChanged();
 			
 				media.icon = icon;
+				media.loading = loading;
 			}
 			
-			start(source, icon);
+			start(source, icon, loading);
 		}
 		else{
 			media.status = MediaStatus.STOPPED;
 			
-			if(media.icon != null)
+			if(media.icon != null){
+				media.icon.setVisibility(View.VISIBLE);
+				media.loading.setVisibility(View.GONE);
 				media.icon.setImageResource(R.drawable.ic_image_play);
+			}
 			
 			stop();
 		}
@@ -117,7 +129,6 @@ public class MediaPlayerController implements OnCompletionListener {
 		return media.status;
 	}
 
-
 	public void start(String source, int position, BaseAdapter adapter){
 		commander.cancel(true);
 		commander = new MediaPlayerCommander();
@@ -127,6 +138,7 @@ public class MediaPlayerController implements OnCompletionListener {
 		newMedia.position = position;
 		newMedia.adapter = adapter;
 		newMedia.icon = null;
+		newMedia.loading = null;
 		newMedia.status = MediaStatus.LOADING;		
 		setNewMedia(newMedia);
 
@@ -137,18 +149,21 @@ public class MediaPlayerController implements OnCompletionListener {
 		commander.execute(tp);
 	}
 
-	public void start(String source, ImageView icon){
+	public void start(String source, ImageView icon, ProgressBar loading){
 		commander.cancel(true);
 		commander = new MediaPlayerCommander();
 				
 		MediaInfo newMedia = new MediaInfo();
 		newMedia.source = source;
 		newMedia.icon = icon;
+		newMedia.loading = loading;
 		newMedia.adapter = null;
 		newMedia.position = -1;
 		newMedia.status = MediaStatus.LOADING;		
 		setNewMedia(newMedia);
-		newMedia.icon.setImageResource(R.drawable.ic_image_loading);		
+		
+		newMedia.loading.setVisibility(View.VISIBLE);
+		newMedia.icon.setVisibility(View.GONE);		
 		
 		TaskParams tp = new TaskParams();
 		tp.media = newMedia;
@@ -179,13 +194,6 @@ public class MediaPlayerController implements OnCompletionListener {
 		private String err = null;
 
 		@Override
-		protected void onPreExecute() {			
-			//set imageview to not playing icon
-			//if(media != null)
-			//	setIcon(MediaStatus.STOPPED);
-		}
-
-		@Override
 		protected void onProgressUpdate(MediaInfo... m) {
 			
 			if(m[0] != null && m[0].adapter != null){
@@ -195,13 +203,18 @@ public class MediaPlayerController implements OnCompletionListener {
 			if(m[0]!= null && m[0].icon != null){
 				switch(m[0].status){
 				case LOADING:
-					m[0].icon.setImageResource(R.drawable.ic_image_loading);
+					m[0].loading.setVisibility(View.VISIBLE);
+					m[0].icon.setVisibility(View.GONE);
 					break;
 				case PLAYING:
+					m[0].icon.setVisibility(View.VISIBLE);
+					m[0].loading.setVisibility(View.GONE);
 					m[0].icon.setImageResource(R.drawable.ic_image_pause);
 					break;
 				case STOPPED:
-				default:				
+				default:	
+					m[0].icon.setVisibility(View.VISIBLE);
+					m[0].loading.setVisibility(View.GONE);
 					m[0].icon.setImageResource(R.drawable.ic_image_play);
 					break;
 				}	
@@ -244,10 +257,10 @@ public class MediaPlayerController implements OnCompletionListener {
 				}
 
 			}catch(IOException e){
-				Log.e(Util.APP, e.getMessage(), e);
+				Log.w(Util.APP, e.getMessage(), e);
 				err = "Unable to " + (params.action==MP_PLAY? "start":"stop") + " the Media Player. Please try again.";
 			}catch(IllegalStateException e){
-				Log.e(Util.APP, e.getMessage(), e);
+				Log.w(Util.APP, e.getMessage(), e);
 				err = "Unable to " + (params.action==MP_PLAY? "start":"stop") + " the Media Player. Please try again.";
 			}
 			return null;
@@ -275,7 +288,7 @@ public class MediaPlayerController implements OnCompletionListener {
 			mp.setDataSource(m.source);
 			
 			isPreparing = true;
-			mp.prepare();
+			mp.prepare();  //TODO catch IOException
 			isPreparing = false;
 			
 			mp.setOnCompletionListener(this);
@@ -321,7 +334,10 @@ public class MediaPlayerController implements OnCompletionListener {
 		public String source;
 		public BaseAdapter adapter;
 		public int position;	
+		
 		public ImageView icon;	//this is used only for the play button outside the adapter
+		public ProgressBar loading; //this is used only for the play button outside the adapter
+		
 		public MediaStatus status;
 	}
 

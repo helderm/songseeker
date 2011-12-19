@@ -11,6 +11,7 @@ import com.android.songseeker.data.SongInfo;
 import com.android.songseeker.util.ImageLoader;
 import com.android.songseeker.util.MediaPlayerController;
 import com.android.songseeker.util.Util;
+import com.android.songseeker.util.MediaPlayerController.MediaStatus;
 
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -29,6 +30,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +39,7 @@ public class ReleaseInfoActivity extends ListActivity {
 	private ReleaseInfo release;
 	
 	private static final int RELEASE_DETAILS_DIAG = 0;
-	private SongListAdapter adapter = new SongListAdapter();;
+	private SongListAdapter adapter;
 
 	private StartMediaPlayerTask mp_task = new StartMediaPlayerTask();
 	private GetReleaseDetails rl_task = new GetReleaseDetails();
@@ -47,6 +49,8 @@ public class ReleaseInfoActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		adapter =  new SongListAdapter();
+		
 		rl_task.execute();
 	}
 
@@ -186,10 +190,12 @@ public class ReleaseInfoActivity extends ListActivity {
 	
 	private class SongListAdapter extends BaseAdapter {
 
-		private ArrayList<SongInfo> songList;    
+		private ArrayList<SongInfo> songList;
+		private LayoutInflater inflater;    
 
 		public SongListAdapter() {    
 			songList = null;
+			inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
 		public int getCount() {
@@ -208,52 +214,96 @@ public class ReleaseInfoActivity extends ListActivity {
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent) {
-			View v = convertView;
-
-			if (v == null) {
-				LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = vi.inflate(R.layout.list_row, null);
+			ViewHolder holder;
+			
+			if (convertView == null) {
+			   	convertView = inflater.inflate(R.layout.list_row, null);
+				
+				holder = new ViewHolder();
+				holder.topText = (TextView) convertView.findViewById(R.id.firstLine);
+			    holder.botText = (TextView) convertView.findViewById(R.id.secondLine);
+			    holder.coverArt = (ImageView) convertView.findViewById(R.id.coverart);
+			    holder.playPause = (ImageView) convertView.findViewById(R.id.playpause);
+			    holder.loading = (ProgressBar) convertView.findViewById(R.id.loading);
+			    
+			    convertView.setTag(holder);
+			}else{
+				holder = (ViewHolder) convertView.getTag();
 			}
 
 			final SongInfo song = getItem(position);
 			final int pos = position;
-			if (song != null) {
-				TextView tt = (TextView) v.findViewById(R.id.firstLine);
-				TextView bt = (TextView) v.findViewById(R.id.secondLine);
-				ImageView coverart = (ImageView) v.findViewById(R.id.coverart);
-				ImageView playpause = (ImageView) v.findViewById(R.id.playpause);
-
-				bt.setText(song.artist.name);
-				tt.setText(song.name);
-
-				switch(MediaPlayerController.getCon().getStatus(pos)){				
-				case PLAYING:
-					playpause.setImageResource(R.drawable.ic_image_pause);
-					break;
-				case LOADING:
-				case PREPARED:
-					playpause.setImageResource(R.drawable.ic_image_loading);
-					break;				
-				case STOPPED:
-				default:
-					playpause.setImageResource(R.drawable.ic_image_play);
-					break;					
-				}
-				playpause.setOnClickListener(new View.OnClickListener() {
+			
+			if(song == null){
+				Log.w(Util.APP, "Unable to fetch song ["+position+"] from adapter!");
+				return convertView;
+			}			
+			
+			holder.topText.setText(song.name);
+			holder.botText.setText(song.artist.name);
+			
+			MediaStatus mediaStatus = MediaPlayerController.getCon().getStatus(pos);
+			
+			//control visibility of the media icon
+			switch(mediaStatus){				
+			case PLAYING:
+				holder.loading.setVisibility(View.GONE);
+				holder.playPause.setVisibility(View.VISIBLE);
+				holder.playPause.setImageResource(R.drawable.ic_image_pause);
+				break;
+			case LOADING:
+			case PREPARED:
+				holder.playPause.setVisibility(View.GONE);
+				holder.loading.setVisibility(View.VISIBLE);					
+				break;				
+			case STOPPED:
+			default:
+				holder.loading.setVisibility(View.GONE);
+				holder.playPause.setVisibility(View.VISIBLE);
+				holder.playPause.setImageResource(R.drawable.ic_image_play);
+				break;					
+			}
+			
+			//control onClickListeners
+			switch(mediaStatus){
+			case LOADING:
+			case PREPARED:
+				holder.loading.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						mp_task.cancel(true);
 						mp_task = new StartMediaPlayerTask();
 						mp_task.position = pos;
 						mp_task.execute(song);
 					}
-				}); 			    
+				}); 
+				break;
+			case PLAYING:
+			case STOPPED:
+			default:
+				holder.playPause.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						mp_task.cancel(true);
+						mp_task = new StartMediaPlayerTask();
+						mp_task.position = pos;
+						mp_task.execute(song);
+					}
+				}); 
+				break;
+			}	
+			
+			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, holder.coverArt, R.drawable.ic_menu_disc);
 
-				ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.ic_menu_disc);
-			}
-
-			return v;
+			return convertView;
 		}
 
+	    private class ViewHolder{
+	    	public TextView topText;
+	    	public TextView botText;
+	    	public ImageView coverArt;
+	    	public ImageView playPause;
+	    	public ProgressBar loading;
+	    }
+		
 		public void setSongList(ArrayList<SongInfo> tp){
 			this.songList = tp;
 		}

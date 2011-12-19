@@ -10,6 +10,7 @@ import com.android.songseeker.data.SongInfo;
 import com.android.songseeker.util.ImageLoader;
 import com.android.songseeker.util.MediaPlayerController;
 import com.android.songseeker.util.Util;
+import com.android.songseeker.util.MediaPlayerController.MediaStatus;
 
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -25,9 +26,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +39,7 @@ public class SongInfoActivity extends ListActivity {
 	private SongInfo song;
 
 	private static final int SONG_DETAILS_DIAG = 0;
-	private TopTracksAdapter adapter = new TopTracksAdapter();
+	private TopTracksAdapter adapter;
 	private GetSongDetails task;
 
 	private StartMediaPlayerTask mp_task = new StartMediaPlayerTask();
@@ -46,6 +49,7 @@ public class SongInfoActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		adapter = new TopTracksAdapter();
 		task = new GetSongDetails();
 		task.execute();
 	}
@@ -150,16 +154,35 @@ public class SongInfoActivity extends ListActivity {
 			TextView tvAlbumName = (TextView) header.findViewById(R.id.songinfo_albumName);
 			tvAlbumName.setText(song.release.name);
 
+			//set media buttons onclicks
 			ImageView playpause = (ImageView) header.findViewById(R.id.songinfo_playpause);
+			playpause.setImageResource(R.drawable.ic_image_play);
+			
 			playpause.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					mp_task.cancel(true);
 					mp_task = new StartMediaPlayerTask();
+					
+					FrameLayout header = (FrameLayout) v.getParent();					
 					mp_task.icon = (ImageView) v;
+					mp_task.loading = (ProgressBar) header.findViewById(R.id.songinfo_loading);
 					mp_task.execute(song);
 				}
 			}); 
 
+			ProgressBar loading = (ProgressBar) header.findViewById(R.id.songinfo_loading);
+			loading.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					mp_task.cancel(true);
+					mp_task = new StartMediaPlayerTask();
+					
+					FrameLayout header = (FrameLayout) v.getParent();					
+					mp_task.icon = (ImageView) header.findViewById(R.id.songinfo_playpause);
+					mp_task.loading = (ProgressBar) v;
+					mp_task.execute(song);
+				}
+			});
+			
 			//set buy button
 			Button buy = (Button)header.findViewById(R.id.songinfo_buy);
 			buy.setOnClickListener(new View.OnClickListener() {
@@ -219,10 +242,12 @@ public class SongInfoActivity extends ListActivity {
 
 	private class TopTracksAdapter extends BaseAdapter {
 
-		private ArrayList<SongInfo> topTracks;    
+		private ArrayList<SongInfo> topTracks;   
+		private LayoutInflater inflater;
 
 		public TopTracksAdapter() {    
 			topTracks = null;
+			inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
 		public int getCount() {
@@ -240,64 +265,100 @@ public class SongInfoActivity extends ListActivity {
 			return position;
 		}
 
-		/*public class ViewHolder{
-	    	public TextView username;
-	    	public TextView message;
-	    	public ImageView image;
-	    }*/
-
 		public View getView(int position, View convertView, ViewGroup parent) {
-			View v = convertView;
-
-			if (v == null) {
-				LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = vi.inflate(R.layout.list_row, null);
+			ViewHolder holder;
+			
+			if (convertView == null) {
+			   	convertView = inflater.inflate(R.layout.list_row, null);
+				
+				holder = new ViewHolder();
+				holder.topText = (TextView) convertView.findViewById(R.id.firstLine);
+			    holder.botText = (TextView) convertView.findViewById(R.id.secondLine);
+			    holder.coverArt = (ImageView) convertView.findViewById(R.id.coverart);
+			    holder.playPause = (ImageView) convertView.findViewById(R.id.playpause);
+			    holder.loading = (ProgressBar) convertView.findViewById(R.id.loading);
+			    
+			    convertView.setTag(holder);
+			}else{
+				holder = (ViewHolder) convertView.getTag();
 			}
 
 			final SongInfo song = getItem(position);
 			final int pos = position;
-			if (song != null) {
-				TextView tt = (TextView) v.findViewById(R.id.firstLine);
-				TextView bt = (TextView) v.findViewById(R.id.secondLine);
-				ImageView coverart = (ImageView) v.findViewById(R.id.coverart);
-				ImageView playpause = (ImageView) v.findViewById(R.id.playpause);
+			
+			if(song == null){
+				Log.w(Util.APP, "Unable to fetch song ["+position+"] from adapter!");
+				return convertView;
+			}
 
-				bt.setText(song.release.name);
-				tt.setText(song.name);
-
-				switch(MediaPlayerController.getCon().getStatus(pos)){				
-				case PLAYING:
-					playpause.setImageResource(R.drawable.ic_image_pause);
-					break;
-				case LOADING:
-				case PREPARED:
-					playpause.setImageResource(R.drawable.ic_image_loading);
-					break;				
-				case STOPPED:
-				default:
-					playpause.setImageResource(R.drawable.ic_image_play);
-					break;					
-				}
-
-				playpause.setOnClickListener(new View.OnClickListener() {
+			holder.botText.setText(song.release.name);
+			holder.topText.setText(song.name);
+			
+			MediaStatus mediaStatus = MediaPlayerController.getCon().getStatus(pos);
+			
+			//control visibility of the media icon
+			switch(mediaStatus){				
+			case PLAYING:
+				holder.loading.setVisibility(View.GONE);
+				holder.playPause.setVisibility(View.VISIBLE);
+				holder.playPause.setImageResource(R.drawable.ic_image_pause);
+				break;
+			case LOADING:
+			case PREPARED:
+				holder.playPause.setVisibility(View.GONE);
+				holder.loading.setVisibility(View.VISIBLE);					
+				break;				
+			case STOPPED:
+			default:
+				holder.loading.setVisibility(View.GONE);
+				holder.playPause.setVisibility(View.VISIBLE);
+				holder.playPause.setImageResource(R.drawable.ic_image_play);
+				break;					
+			}
+			
+			//control onClickListeners
+			switch(mediaStatus){
+			case LOADING:
+			case PREPARED:
+				holder.loading.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						mp_task.cancel(true);
 						mp_task = new StartMediaPlayerTask();
 						mp_task.position = pos;
 						mp_task.execute(song);
 					}
-				}); 			    
+				}); 
+				break;
+			case PLAYING:
+			case STOPPED:
+			default:
+				holder.playPause.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						mp_task.cancel(true);
+						mp_task = new StartMediaPlayerTask();
+						mp_task.position = pos;
+						mp_task.execute(song);
+					}
+				}); 
+				break;
+			}			    
 
-				ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.ic_menu_disc);
+			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, holder.coverArt, R.drawable.ic_menu_disc);			
 
-			}
-
-			return v;
+			return convertView;
 		}
 
 		public void setTopTracks(ArrayList<SongInfo> tp){
 			this.topTracks = tp;
 		}
+		
+	    private class ViewHolder{
+	    	public TextView topText;
+	    	public TextView botText;
+	    	public ImageView coverArt;
+	    	public ImageView playPause;
+	    	public ProgressBar loading;
+	    }
 	}
 
 	@Override
@@ -311,7 +372,9 @@ public class SongInfoActivity extends ListActivity {
 	private class StartMediaPlayerTask extends AsyncTask<SongInfo, Void, SongInfo>{
 		private String err = null;
 		public int position = 0;
+		
 		public ImageView icon = null;
+		public ProgressBar loading = null;
 		
 		@Override
 		protected SongInfo doInBackground(SongInfo... song) {
@@ -325,7 +388,7 @@ public class SongInfoActivity extends ListActivity {
 					song[0].previewUrl = SevenDigitalComm.getComm().getPreviewUrl(song[0].id);
 				} catch(Exception e){
 					err = getString(R.string.err_mediaplayer);
-					Log.e(Util.APP, "7digital getPreviewUrl() exception!", e);
+					//Log.e(Util.APP, "7digital getPreviewUrl() exception!", e);
 					return null;
 				} 
 			}
@@ -343,7 +406,7 @@ public class SongInfoActivity extends ListActivity {
 
 			if(!isCancelled()){
 				if(icon != null)
-					MediaPlayerController.getCon().startStopMedia(song.previewUrl, icon);
+					MediaPlayerController.getCon().startStopMedia(song.previewUrl, icon, loading);
 				else
 					MediaPlayerController.getCon().startStopMedia(song.previewUrl, position, adapter);
 			}
