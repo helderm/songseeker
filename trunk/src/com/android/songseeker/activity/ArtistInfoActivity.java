@@ -10,6 +10,7 @@ import com.android.songseeker.data.ReleaseInfo;
 import com.android.songseeker.data.SongInfo;
 import com.android.songseeker.data.UserProfile;
 import com.android.songseeker.util.ImageLoader;
+import com.android.songseeker.util.Util;
 
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -19,11 +20,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -111,6 +114,9 @@ public class ArtistInfoActivity extends ListActivity {
 
 			//set content for main screen
 			setContentView(R.layout.listview);	
+			
+			//set transparent background to show album image
+			getListView().setBackgroundColor(0);
 			
 			//set album info header
 			LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -232,12 +238,6 @@ public class ArtistInfoActivity extends ListActivity {
 			return position;
 		}
 
-		/*public class ViewHolder{
-	    	public TextView username;
-	    	public TextView message;
-	    	public ImageView image;
-	    }*/
-
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder;
 	    	
@@ -248,21 +248,25 @@ public class ArtistInfoActivity extends ListActivity {
 				holder.topText = (TextView) convertView.findViewById(R.id.firstLine);
 			    holder.botText = (TextView) convertView.findViewById(R.id.secondLine);
 			    holder.coverArt = (ImageView) convertView.findViewById(R.id.coverart);
-			    holder.playPause = (ImageView) convertView.findViewById(R.id.playpause);	
-			    
+			    holder.mediaBtns = (FrameLayout) convertView.findViewById(R.id.media_btns);
+			    			    
 			    convertView.setTag(holder);
 			}else{
 				holder = (ViewHolder) convertView.getTag();
 			}
 
 			ReleaseInfo release = getItem(position);
-			if (release != null) {				
-				holder.botText.setText(release.artist.name);
-				holder.topText.setText(release.name);
-				holder.playPause.setVisibility(View.GONE);
-				
-				ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, holder.coverArt, R.drawable.ic_menu_disc);
+			if (release == null) {
+				Log.w(Util.APP, "Unable to fetch release ["+position+"] from adapter!");
+				return convertView;
 			}
+			
+			holder.botText.setText(release.artist.name);
+			holder.topText.setText(release.name);
+			holder.mediaBtns.setVisibility(View.GONE);
+							
+			ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, holder.coverArt, R.drawable.ic_menu_disc);
+			
 
 			return convertView;
 		}
@@ -275,7 +279,7 @@ public class ArtistInfoActivity extends ListActivity {
 	    	public TextView topText;
 	    	public TextView botText;
 	    	public ImageView coverArt;
-	    	public ImageView playPause;
+	    	public FrameLayout mediaBtns;
 	    }
 	}
 

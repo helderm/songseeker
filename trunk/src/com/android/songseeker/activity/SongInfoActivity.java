@@ -134,6 +134,9 @@ public class SongInfoActivity extends ListActivity {
 
 			//set content for main screen
 			setContentView(R.layout.listview);		
+			
+			//set transparent background to show album image
+			getListView().setBackgroundColor(0);
 
 			//set song info header
 			LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);

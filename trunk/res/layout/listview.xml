@@ -22,6 +22,7 @@
 
         <ImageView
             android:id="@+id/listview_bkg"
+            android:background="@color/dark_grey01"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:scaleType="fitCenter" >
@@ -30,7 +31,8 @@
         <ListView
             android:id="@+id/android:list"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"
+            style="@style/list_view" />
 
         <TextView
             android:id="@+id/empty"

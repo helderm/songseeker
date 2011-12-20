@@ -6,15 +6,17 @@
     android:layout_height="fill_parent"
     android:background="@drawable/main_background" >
 
-    <Button
+    <ImageButton
         android:id="@+id/seek_songs_but"
-        style="@style/Button"
+        android:src="@drawable/ic_btn_main"
         android:layout_width="180dip"
-        android:layout_height="100dip"
+        android:layout_height="180dip"
+        android:scaleType="fitXY"
+        android:background="@drawable/btn_main"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="80dp"
         android:text="@string/seek_songs_but_str" >
-    </Button>
+    </ImageButton>
 
     <EditText
         android:id="@+id/find_input"

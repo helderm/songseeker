@@ -20,10 +20,7 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_toLeftOf="@+id/media_btns"
         android:layout_toRightOf="@id/coverart"
-        android:ellipsize="marquee"
-        android:gravity="center_vertical"
-        android:singleLine="true"
-        android:textStyle="bold" />
+        style="@style/list_view_first_line" />
 
     <TextView
         android:id="@+id/secondLine"
@@ -34,8 +31,7 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_below="@id/firstLine"
         android:layout_toRightOf="@id/coverart"
-        android:ellipsize="marquee"
-        android:singleLine="true" />
+		style="@style/list_view_second_line"/>
 
     <FrameLayout
         android:id="@+id/media_btns"

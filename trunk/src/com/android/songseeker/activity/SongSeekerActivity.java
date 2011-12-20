@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class SongSeekerActivity extends Activity {
@@ -34,7 +35,7 @@ public class SongSeekerActivity extends Activity {
             }
         }); 
         
-        Button seek = (Button)findViewById(R.id.seek_songs_but);
+        ImageButton seek = (ImageButton)findViewById(R.id.seek_songs_but);
         seek.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             	getSongsFromProfile();
