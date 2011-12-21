@@ -16,15 +16,16 @@
 			android:layout_height="wrap_content" android:layout_alignTop="@+id/releaseinfo_coverArt"
 			android:layout_toRightOf="@+id/releaseinfo_coverArt"
 			android:layout_marginLeft="10dip" android:layout_marginRight="10dip"
-			android:layout_width="fill_parent" android:gravity="center"
-			android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
+			android:layout_width="fill_parent"
+			style="@style/music_info_title"></TextView>
 
 		<View android:id="@+id/horizontal_bar1" android:layout_width="fill_parent"
-			android:layout_height="2dip" android:background="#FFFFFFFF"
+			android:layout_height="2dip"
 			android:layout_below="@+id/releaseinfo_releaseName"
 			android:layout_alignRight="@+id/releaseinfo_releaseName"
 			android:layout_alignLeft="@+id/releaseinfo_releaseName"
-			android:layout_marginTop="5dip"></View>
+			android:layout_marginTop="5dip"
+			style="@style/horizontal_bars"></View>
 
 		<TextView android:id="@+id/by" android:layout_height="wrap_content"
 			android:layout_width="wrap_content" android:text="by"
@@ -34,11 +35,11 @@
 
 		<TextView android:id="@+id/releaseinfo_artistName"
 			android:layout_height="wrap_content" android:layout_width="fill_parent"
-			android:textAppearance="?android:attr/textAppearanceSmall"
 			android:layout_marginLeft="5dip" android:layout_marginTop="5dip"
 			android:layout_alignRight="@+id/releaseinfo_releaseName"
-			android:textStyle="bold" android:layout_below="@+id/horizontal_bar1"
-			android:layout_toRightOf="@+id/by" android:gravity="center"></TextView>
+			android:layout_below="@+id/horizontal_bar1"
+			android:layout_toRightOf="@+id/by"
+			style="@style/music_info_subtitle"></TextView>
 
 	</RelativeLayout>
 

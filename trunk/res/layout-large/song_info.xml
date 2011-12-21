@@ -16,24 +16,23 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="18dp"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/blankdisc" >
+            android:layout_marginTop="40dp" >
         </ImageView>
 
         <TextView
             android:id="@+id/songinfo_songName"
+            style="@style/music_info_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/songinfo_coverArt"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
-            android:layout_toRightOf="@+id/songinfo_coverArt"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceMedium" >
+            android:layout_toRightOf="@+id/songinfo_coverArt" >
         </TextView>
 
         <TextView
             android:id="@+id/songinfo_songVersion"
+            style="@style/music_info_details"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/songinfo_songName"
@@ -41,10 +40,7 @@
             android:layout_below="@+id/songinfo_songName"
             android:layout_marginLeft="20dip"
             android:layout_marginRight="10dip"
-            android:layout_marginTop="5dip"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textStyle="italic" >
+            android:layout_marginTop="5dip" >
         </TextView>
 
         <View
@@ -56,7 +52,7 @@
             android:layout_alignWithParentIfMissing="true"
             android:layout_below="@+id/songinfo_songVersion"
             android:layout_marginTop="5dip"
-            android:background="#FFFFFFFF" >
+            style="@style/horizontal_bars" >
         </View>
 
         <TextView
@@ -72,16 +68,14 @@
 
         <TextView
             android:id="@+id/songinfo_artistName"
+            style="@style/music_info_subtitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/songinfo_songName"
             android:layout_below="@+id/horizontal_bar1"
             android:layout_marginLeft="5dip"
             android:layout_marginTop="5dip"
-            android:layout_toRightOf="@+id/by"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textStyle="bold" >
+            android:layout_toRightOf="@+id/by" >
         </TextView>
 
         <View
@@ -92,7 +86,7 @@
             android:layout_alignRight="@+id/songinfo_songName"
             android:layout_below="@+id/songinfo_artistName"
             android:layout_marginTop="5dip"
-            android:background="#FFFFFFFF" >
+            style="@style/horizontal_bars" >
         </View>
 
         <TextView
@@ -108,16 +102,14 @@
 
         <TextView
             android:id="@+id/songinfo_albumName"
+            style="@style/music_info_subtitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/songinfo_songName"
             android:layout_below="@+id/horizontal_bar2"
             android:layout_marginLeft="5dip"
             android:layout_marginTop="5dip"
-            android:layout_toRightOf="@+id/on"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textStyle="bold" >
+            android:layout_toRightOf="@+id/on" >
         </TextView>
 
         <ImageView
@@ -127,7 +119,7 @@
             android:layout_alignLeft="@+id/songinfo_coverArt"
             android:layout_below="@+id/songinfo_coverArt"
             android:layout_marginLeft="42dp"
-            android:src="@drawable/ic_image_play">
+            android:src="@drawable/ic_image_play" >
         </ImageView>
     </RelativeLayout>
 

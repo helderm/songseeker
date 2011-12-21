@@ -1,4 +1,5 @@
 <resources>
+
     <style name="Button" parent="@android:style/Widget.Button">
         <item name="android:gravity">center_vertical|center_horizontal</item>
         <item name="android:textColor">#FFFFFFFF</item>
@@ -12,10 +13,12 @@
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
     </style>
+
     <style name="list_view">
         <item name="android:background">@color/dark_grey01</item>
         <item name="android:cacheColorHint">@color/transparent</item>
-    </style> 
+    </style>
+
     <style name="list_view_first_line">
         <item name="android:ellipsize">marquee</item>
         <item name="android:gravity">center_vertical</item>
@@ -23,12 +26,14 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/light_green</item>
     </style>
-        <style name="list_view_second_line">
+
+    <style name="list_view_second_line">
         <item name="android:ellipsize">marquee</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:singleLine">true</item>
         <item name="android:textColor">@color/light_grey</item>
     </style>
+
     <style name="list_view_third_line">
         <item name="android:ellipsize">marquee</item>
         <item name="android:gravity">center_vertical</item>
@@ -36,4 +41,29 @@
         <item name="android:textColor">@color/light_grey</item>
         <item name="android:textStyle">italic</item>
     </style>
+
+    <style name="music_info_title">
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">@color/light_green</item>
+    </style>
+
+    <style name="music_info_subtitle">
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light_grey</item>
+    </style>
+
+    <style name="music_info_details">
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor">@color/light_grey</item>
+    </style>
+    
+    <style name="horizontal_bars">
+        <item name="android:background">@color/light_grey</item>        
+    </style> 
+
 </resources>
