@@ -16,29 +16,29 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="18dp"
-            android:layout_marginTop="40dp">
+            android:layout_marginTop="40dp" >
         </ImageView>
 
         <TextView
-            style="@style/music_info_title"
             android:id="@+id/releaseinfo_releaseName"
+            style="@style/music_info_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/releaseinfo_coverArt"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
-            android:layout_toRightOf="@+id/releaseinfo_coverArt">
+            android:layout_toRightOf="@+id/releaseinfo_coverArt" >
         </TextView>
 
         <View
             android:id="@+id/horizontal_bar1"
+            style="@style/horizontal_bars"
             android:layout_width="fill_parent"
             android:layout_height="2dip"
             android:layout_alignLeft="@+id/releaseinfo_releaseName"
             android:layout_alignRight="@+id/releaseinfo_releaseName"
             android:layout_below="@+id/releaseinfo_releaseName"
-            android:layout_marginTop="5dip"
-            style="@style/horizontal_bars" >
+            android:layout_marginTop="5dip" >
         </View>
 
         <TextView
@@ -54,14 +54,14 @@
 
         <TextView
             android:id="@+id/releaseinfo_artistName"
+            style="@style/music_info_subtitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/releaseinfo_releaseName"
             android:layout_below="@+id/horizontal_bar1"
             android:layout_marginLeft="5dip"
             android:layout_marginTop="5dip"
-            android:layout_toRightOf="@+id/by"
-            style="@style/music_info_subtitle" >
+            android:layout_toRightOf="@+id/by" >
         </TextView>
     </RelativeLayout>
 

@@ -45,14 +45,14 @@
 
         <View
             android:id="@+id/horizontal_bar1"
+            style="@style/horizontal_bars"
             android:layout_width="fill_parent"
             android:layout_height="2dip"
             android:layout_alignLeft="@+id/songinfo_songName"
             android:layout_alignRight="@+id/songinfo_songName"
             android:layout_alignWithParentIfMissing="true"
             android:layout_below="@+id/songinfo_songVersion"
-            android:layout_marginTop="5dip"
-            style="@style/horizontal_bars" >
+            android:layout_marginTop="5dip" >
         </View>
 
         <TextView
@@ -80,13 +80,13 @@
 
         <View
             android:id="@+id/horizontal_bar2"
+            style="@style/horizontal_bars"
             android:layout_width="fill_parent"
             android:layout_height="2dip"
             android:layout_alignLeft="@+id/songinfo_songName"
             android:layout_alignRight="@+id/songinfo_songName"
             android:layout_below="@+id/songinfo_artistName"
-            android:layout_marginTop="5dip"
-            style="@style/horizontal_bars" >
+            android:layout_marginTop="5dip" >
         </View>
 
         <TextView

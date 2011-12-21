@@ -1,72 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/releaseinfo_info" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:orientation="vertical">
+    android:id="@+id/releaseinfo_info"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-	<RelativeLayout android:layout_width="wrap_content"
-		android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
 
-		<ImageView android:id="@+id/releaseinfo_coverArt"
-			android:layout_width="120dip" android:layout_height="120dip"
-			android:src="@drawable/blankdisc" android:layout_alignParentTop="true"
-			android:layout_alignParentLeft="true" android:layout_marginLeft="18dp"
-			android:layout_marginTop="40dp"></ImageView>
+        <ImageView
+            android:id="@+id/releaseinfo_coverArt"
+            android:layout_width="120dip"
+            android:layout_height="120dip"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/blankdisc" >
+        </ImageView>
 
-		<TextView android:id="@+id/releaseinfo_releaseName"
-			android:layout_height="wrap_content" android:layout_alignTop="@+id/releaseinfo_coverArt"
-			android:layout_toRightOf="@+id/releaseinfo_coverArt"
-			android:layout_marginLeft="10dip" android:layout_marginRight="10dip"
-			android:layout_width="fill_parent"
-			style="@style/music_info_title"></TextView>
+        <TextView
+            android:id="@+id/releaseinfo_releaseName"
+            style="@style/music_info_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/releaseinfo_coverArt"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_toRightOf="@+id/releaseinfo_coverArt" >
+        </TextView>
 
-		<View android:id="@+id/horizontal_bar1" android:layout_width="fill_parent"
-			android:layout_height="2dip"
-			android:layout_below="@+id/releaseinfo_releaseName"
-			android:layout_alignRight="@+id/releaseinfo_releaseName"
-			android:layout_alignLeft="@+id/releaseinfo_releaseName"
-			android:layout_marginTop="5dip"
-			style="@style/horizontal_bars"></View>
+        <View
+            android:id="@+id/horizontal_bar1"
+            style="@style/horizontal_bars"
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:layout_alignLeft="@+id/releaseinfo_releaseName"
+            android:layout_alignRight="@+id/releaseinfo_releaseName"
+            android:layout_below="@+id/releaseinfo_releaseName"
+            android:layout_marginTop="5dip" >
+        </View>
 
-		<TextView android:id="@+id/by" android:layout_height="wrap_content"
-			android:layout_width="wrap_content" android:text="by"
-			android:textAppearance="?android:attr/textAppearanceSmall"
-			android:layout_below="@+id/horizontal_bar1" android:layout_alignLeft="@+id/releaseinfo_releaseName"
-			android:layout_marginTop="5dip"></TextView>
+        <TextView
+            android:id="@+id/by"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/releaseinfo_releaseName"
+            android:layout_below="@+id/horizontal_bar1"
+            android:layout_marginTop="5dip"
+            android:text="by"
+            android:textAppearance="?android:attr/textAppearanceSmall" >
+        </TextView>
 
-		<TextView android:id="@+id/releaseinfo_artistName"
-			android:layout_height="wrap_content" android:layout_width="fill_parent"
-			android:layout_marginLeft="5dip" android:layout_marginTop="5dip"
-			android:layout_alignRight="@+id/releaseinfo_releaseName"
-			android:layout_below="@+id/horizontal_bar1"
-			android:layout_toRightOf="@+id/by"
-			style="@style/music_info_subtitle"></TextView>
+        <TextView
+            android:id="@+id/releaseinfo_artistName"
+            style="@style/music_info_subtitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/releaseinfo_releaseName"
+            android:layout_below="@+id/horizontal_bar1"
+            android:layout_marginLeft="5dip"
+            android:layout_marginTop="5dip"
+            android:layout_toRightOf="@+id/by" >
+        </TextView>
+    </RelativeLayout>
 
-	</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
 
-	<RelativeLayout android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/releaseinfo_buy"
+            style="@style/Button"
+            android:layout_width="130dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dip"
+            android:layout_marginTop="30dip"
+            android:text="Buy" >
+        </Button>
 
-		<Button android:layout_height="wrap_content"
-			android:layout_width="130dip" android:id="@+id/releaseinfo_buy"
-			android:text="Buy" android:layout_marginTop="30dip"
-			android:layout_marginLeft="35dip" style="@style/Button"></Button>
+        <Button
+            android:id="@+id/releaseinfo_add"
+            style="@style/Button"
+            android:layout_width="130dip"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/releaseinfo_buy"
+            android:layout_toRightOf="@+id/releaseinfo_buy"
+            android:text="+ Playlist" >
+        </Button>
 
-		<Button android:layout_height="wrap_content"
-			android:layout_width="130dip" android:id="@+id/releaseinfo_add"
-			android:text="+ Playlist" android:layout_toRightOf="@+id/releaseinfo_buy"
-			android:layout_alignTop="@+id/releaseinfo_buy" style="@style/Button"></Button>
+        <Button
+            android:id="@+id/releaseinfo_share"
+            style="@style/Button"
+            android:layout_width="130dip"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/releaseinfo_buy"
+            android:layout_below="@+id/releaseinfo_buy"
+            android:layout_marginLeft="60dip"
+            android:text="Share" >
+        </Button>
 
-		<Button android:layout_height="wrap_content"
-			android:layout_width="130dip" android:id="@+id/releaseinfo_share"
-			android:text="Share" android:layout_below="@+id/releaseinfo_buy"
-			android:layout_alignLeft="@+id/releaseinfo_buy" android:layout_marginLeft="60dip"
-			style="@style/Button"></Button>
+        <TextView
+            android:id="@+id/releaseinfo_topTrackTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/releaseinfo_share"
+            android:layout_marginBottom="15dip"
+            android:layout_marginTop="20dip"
+            android:gravity="center|top"
+            android:text="Song List"
+            android:textAppearance="?android:attr/textAppearanceMedium" >
+        </TextView>
+    </RelativeLayout>
 
-		<TextView android:layout_height="wrap_content"
-			android:layout_width="fill_parent" android:text="Song List"
-			android:id="@+id/releaseinfo_topTrackTitle" android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_marginTop="20dip" android:layout_marginBottom="15dip"
-			android:gravity="center|top" android:layout_below="@+id/releaseinfo_share"></TextView>
-
-	</RelativeLayout>
 </LinearLayout>

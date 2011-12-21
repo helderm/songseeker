@@ -61,9 +61,9 @@
         <item name="android:textStyle">italic</item>
         <item name="android:textColor">@color/light_grey</item>
     </style>
-    
+
     <style name="horizontal_bars">
-        <item name="android:background">@color/light_grey</item>        
-    </style> 
+        <item name="android:background">@color/light_grey</item>
+    </style>
 
 </resources>

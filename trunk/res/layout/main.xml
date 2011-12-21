@@ -8,13 +8,13 @@
 
     <ImageButton
         android:id="@+id/seek_songs_but"
-        android:src="@drawable/ic_btn_main"
         android:layout_width="180dip"
         android:layout_height="180dip"
-        android:scaleType="fitXY"
-        android:background="@drawable/btn_main"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
+        android:background="@drawable/btn_main"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_btn_main"
         android:text="@string/seek_songs_but_str" >
     </ImageButton>
 
@@ -29,8 +29,8 @@
         android:hint="@string/artist_name_str" >
 
         <requestFocus />
-    </EditText>        
-        
+    </EditText>
+
     <Button
         android:id="@+id/search_but"
         style="@style/Button"
@@ -40,8 +40,8 @@
         android:layout_alignLeft="@+id/seek_songs_but"
         android:layout_marginLeft="153dp"
         android:gravity="center"
-        android:text="@string/search_but" />        
-        
+        android:text="@string/search_but" />
+
     <com.google.ads.AdView
         android:id="@+id/adView"
         android:layout_width="fill_parent"
@@ -51,6 +51,5 @@
         ads:adUnitId="a14ec129f3acea3"
         ads:loadAdOnCreate="true"
         ads:testDevices="TEST_EMULATOR,860A75C0162980ABCF4CFA5CFC2710B9" />
-
 
 </RelativeLayout>

@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-	<Button android:layout_height="wrap_content"
-		android:layout_width="110dip" android:id="@+id/profile_add"
-		android:text="Add" android:layout_marginTop="15dip"
-		android:layout_gravity="center" style="@style/Button"></Button>
+    <Button
+        android:id="@+id/profile_add"
+        style="@style/Button"
+        android:layout_width="110dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dip"
+        android:text="Add" >
+    </Button>
 
-	<ListView android:id="@+id/android:list" android:layout_width="fill_parent"
-		android:layout_height="fill_parent" />
-		
-	<TextView android:id="@+id/empty" android:layout_width="fill_parent"
-		android:layout_height="fill_parent" />
+    <ListView
+        android:id="@+id/android:list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
 </LinearLayout>

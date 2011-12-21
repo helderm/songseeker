@@ -1,34 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/layout_root"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:padding="10dp"
-              >
-    <EditText android:layout_height="wrap_content" 
-    		  android:id="@+id/pl_name_input" 
-    		  android:layout_width="fill_parent" 
-    		  android:layout_weight="0.01">
-        <requestFocus></requestFocus>
-    </EditText>
-    
-   	<LinearLayout
-		android:orientation="horizontal"
-		android:layout_width="fill_parent"
-		android:layout_height="0dip"
-		android:layout_weight="1">  
+    android:id="@+id/layout_root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="10dp" >
 
-	    <View
-	    	android:gravity="center_horizontal"
-	        android:layout_height="fill_parent" android:layout_width="38dp" android:layout_weight="0.20"/>
-	   	<Button 
-			android:layout_height="wrap_content"
-		  	android:gravity="center"
-	  	    android:id="@+id/create_pl_but" 
-	  	    android:text="Ok" 
-	  	    android:layout_width="80dip" android:layout_weight="0.14"
-	  	    style="@style/Button"></Button>
-	</LinearLayout>
+    <EditText
+        android:id="@+id/pl_name_input"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.01" >
+
+        <requestFocus >
+        </requestFocus>
+    </EditText>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <View
+            android:layout_width="38dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.20"
+            android:gravity="center_horizontal" />
+
+        <Button
+            android:id="@+id/create_pl_but"
+            style="@style/Button"
+            android:layout_width="80dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.14"
+            android:gravity="center"
+            android:text="Ok" >
+        </Button>
+    </LinearLayout>
 
 </LinearLayout>

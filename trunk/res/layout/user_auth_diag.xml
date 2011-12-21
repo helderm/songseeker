@@ -1,29 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/layout_root" android:orientation="vertical"
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:padding="10dp">
-	
-	<EditText android:layout_height="wrap_content" android:id="@+id/user_name_input"
-		android:layout_width="fill_parent" android:layout_weight="0.01"
-		android:hint="@string/username_str" >       
-		<requestFocus></requestFocus>
-	</EditText>
-	
-	<EditText android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:id="@+id/user_pwd_input"
-		android:layout_weight="0.01" android:inputType="textPassword"
-		android:hint="@string/password_str"></EditText>
-		
-	<LinearLayout android:orientation="horizontal"
-		android:layout_width="fill_parent" android:layout_height="0dip"
-		android:layout_weight="1">
+    android:id="@+id/layout_root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="10dp" >
 
-		<View android:gravity="center_horizontal" android:layout_height="fill_parent"
-			android:layout_width="38dp" android:layout_weight="0.20" />
-		<Button android:layout_height="wrap_content" android:gravity="center"
-			android:id="@+id/auth_but" android:text="Ok" android:layout_width="40dip"
-			android:layout_weight="0.14" style="@style/Button"></Button>
-	</LinearLayout>
+    <EditText
+        android:id="@+id/user_name_input"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.01"
+        android:hint="@string/username_str" >
+
+        <requestFocus >
+        </requestFocus>
+    </EditText>
+
+    <EditText
+        android:id="@+id/user_pwd_input"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.01"
+        android:hint="@string/password_str"
+        android:inputType="textPassword" >
+    </EditText>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <View
+            android:layout_width="38dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.20"
+            android:gravity="center_horizontal" />
+
+        <Button
+            android:id="@+id/auth_but"
+            style="@style/Button"
+            android:layout_width="40dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.14"
+            android:gravity="center"
+            android:text="Ok" >
+        </Button>
+    </LinearLayout>
 
 </LinearLayout>

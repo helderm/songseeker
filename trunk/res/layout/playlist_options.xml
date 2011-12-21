@@ -1,92 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="fill_parent" android:layout_width="fill_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-	<LinearLayout android:orientation="vertical"
-		android:layout_width="fill_parent" android:layout_height="fill_parent"
-		android:weightSum="1" android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        android:weightSum="1" >
 
-		<TextView android:layout_height="wrap_content" android:id="@+id/label_mood"
-			android:text="@string/mood_str" android:layout_width="fill_parent"
-			android:layout_weight="0.11" android:layout_gravity="center"
-			android:gravity="center"></TextView>
+        <TextView
+            android:id="@+id/label_mood"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.11"
+            android:gravity="center"
+            android:text="@string/mood_str" >
+        </TextView>
 
-		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar_mood"
-			android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
+        <SeekBar
+            android:id="@+id/seekBar_mood"
+            android:layout_width="236dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" >
+        </SeekBar>
 
-		<TextView android:layout_weight="0.11" android:layout_height="wrap_content"
-			android:id="@+id/label_tempo" android:text="@string/tempo_str"
-			android:layout_width="fill_parent" android:layout_gravity="center"
-			android:gravity="center"></TextView>
+        <TextView
+            android:id="@+id/label_tempo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.11"
+            android:gravity="center"
+            android:text="@string/tempo_str" >
+        </TextView>
 
-		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar_tempo"
-			android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
+        <SeekBar
+            android:id="@+id/seekBar_tempo"
+            android:layout_width="236dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" >
+        </SeekBar>
 
-		<TextView android:layout_weight="0.11" android:layout_height="wrap_content"
-			android:id="@+id/label_danceability" android:text="@string/danceability_str"
-			android:layout_width="fill_parent" android:layout_gravity="center"
-			android:gravity="center"></TextView>
+        <TextView
+            android:id="@+id/label_danceability"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.11"
+            android:gravity="center"
+            android:text="@string/danceability_str" >
+        </TextView>
 
-		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar_danceability"
-			android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
+        <SeekBar
+            android:id="@+id/seekBar_danceability"
+            android:layout_width="236dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" >
+        </SeekBar>
 
-		<TextView android:layout_weight="0.11" android:layout_height="wrap_content"
-			android:id="@+id/label_energy" android:text="@string/energy_str"
-			android:layout_width="fill_parent" android:layout_gravity="center"
-			android:gravity="center"></TextView>
+        <TextView
+            android:id="@+id/label_energy"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.11"
+            android:gravity="center"
+            android:text="@string/energy_str" >
+        </TextView>
 
-		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar_energy"
-			android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
+        <SeekBar
+            android:id="@+id/seekBar_energy"
+            android:layout_width="236dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" >
+        </SeekBar>
 
-		<TextView android:layout_weight="0.11" android:layout_height="wrap_content"
-			android:id="@+id/label_hotness" android:text="@string/hotness_str"
-			android:layout_width="fill_parent" android:layout_gravity="center"
-			android:gravity="center"></TextView>
+        <TextView
+            android:id="@+id/label_hotness"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.11"
+            android:gravity="center"
+            android:text="@string/hotness_str" >
+        </TextView>
 
-		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar_hotness"
-			android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
+        <SeekBar
+            android:id="@+id/seekBar_hotness"
+            android:layout_width="236dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" >
+        </SeekBar>
 
-		<TextView android:layout_weight="0.11" android:layout_height="wrap_content"
-			android:id="@+id/label_variety" android:text="@string/variety_str"
-			android:layout_width="fill_parent" android:layout_gravity="center"
-			android:gravity="center"></TextView>
+        <TextView
+            android:id="@+id/label_variety"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.11"
+            android:gravity="center"
+            android:text="@string/variety_str" >
+        </TextView>
 
-		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar_variety"
-			android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
+        <SeekBar
+            android:id="@+id/seekBar_variety"
+            android:layout_width="236dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" >
+        </SeekBar>
 
-		<TextView android:layout_weight="0.11" android:layout_height="wrap_content"
-			android:id="@+id/label_max_results" android:text="@string/max_results_str"
-			android:layout_width="fill_parent" android:layout_gravity="center"
-			android:gravity="center"></TextView>
+        <TextView
+            android:id="@+id/label_max_results"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.11"
+            android:gravity="center"
+            android:text="@string/max_results_str" >
+        </TextView>
 
-		<SeekBar android:layout_height="wrap_content" android:id="@+id/seekBar_max_results"
-			android:layout_width="236dp" android:layout_gravity="center"></SeekBar>
+        <SeekBar
+            android:id="@+id/seekBar_max_results"
+            android:layout_width="236dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" >
+        </SeekBar>
 
-		<TextView android:layout_height="wrap_content" android:text=""
-			android:layout_width="fill_parent" android:layout_weight="0.1"></TextView>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:text="" >
+        </TextView>
 
-		<Button android:layout_height="wrap_content" android:id="@+id/shuffle_pl_options"
-			android:text="@string/shuffle_str" android:layout_weight="0.04"
-			android:layout_width="117dp" android:layout_gravity="center" style="@style/Button"></Button>
+        <Button
+            android:id="@+id/shuffle_pl_options"
+            style="@style/Button"
+            android:layout_width="117dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.04"
+            android:text="@string/shuffle_str" >
+        </Button>
 
-		<TextView android:id="@+id/textView1" android:layout_height="wrap_content"
-			android:text="Playlist Type" android:gravity="left" android:layout_width="fill_parent"
-			android:layout_marginTop="20dip" android:layout_marginLeft="20dip"
-			android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:layout_marginTop="20dip"
+            android:gravity="left"
+            android:text="Playlist Type"
+            android:textAppearance="?android:attr/textAppearanceMedium" >
+        </TextView>
 
-		<RadioGroup android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:orientation="vertical">
-			
-			<RadioButton android:id="@+id/exact_artists"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:text="Only known artists" />
-				
-			<RadioButton android:id="@+id/similar_artists"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:text="Known and similar artists" />
-		</RadioGroup>
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
+            <RadioButton
+                android:id="@+id/exact_artists"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Only known artists" />
 
-	</LinearLayout>
+            <RadioButton
+                android:id="@+id/similar_artists"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Known and similar artists" />
+        </RadioGroup>
+    </LinearLayout>
+
 </ScrollView>
