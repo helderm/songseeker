@@ -23,8 +23,7 @@
         <ImageView
             android:id="@+id/listview_bkg"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@color/dark_grey01"
+            android:layout_height="fill_parent"            
             android:scaleType="fitCenter" >
         </ImageView>
 

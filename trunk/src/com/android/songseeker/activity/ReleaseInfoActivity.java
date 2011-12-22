@@ -26,7 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -147,7 +147,7 @@ public class ReleaseInfoActivity extends ListActivity {
 			});
 
 			//set buy button
-			Button buy = (Button)header.findViewById(R.id.releaseinfo_buy);
+			ImageButton buy = (ImageButton)header.findViewById(R.id.releaseinfo_buy);
 			buy.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(release.buyUrl));
@@ -157,7 +157,7 @@ public class ReleaseInfoActivity extends ListActivity {
 			});
 
 			//set add button
-			Button add = (Button)header.findViewById(R.id.releaseinfo_add);
+			ImageButton add = (ImageButton)header.findViewById(R.id.releaseinfo_add);
 			add.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					RecSongsPlaylist.getInstance().addSongsToPlaylist(adapter.songList, ReleaseInfoActivity.this);
@@ -165,7 +165,7 @@ public class ReleaseInfoActivity extends ListActivity {
 			});
 			
 			//set share button
-			Button share = (Button)header.findViewById(R.id.releaseinfo_share);
+			ImageButton share = (ImageButton)header.findViewById(R.id.releaseinfo_share);
 			share.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					final Intent intent = new Intent(Intent.ACTION_SEND);					 

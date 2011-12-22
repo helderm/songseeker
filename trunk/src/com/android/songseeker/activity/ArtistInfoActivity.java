@@ -25,8 +25,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -126,7 +126,7 @@ public class ArtistInfoActivity extends ListActivity {
 			artistName.setText(artist.name);
 
 			//set buy button
-			Button buy = (Button)header.findViewById(R.id.artistinfo_buy);
+			ImageButton buy = (ImageButton)header.findViewById(R.id.artistinfo_buy);
 			buy.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(artist.buyUrl));
@@ -136,7 +136,7 @@ public class ArtistInfoActivity extends ListActivity {
 			});
 			
 			//set share button
-			Button share = (Button)header.findViewById(R.id.artistinfo_share);
+			ImageButton share = (ImageButton)header.findViewById(R.id.artistinfo_share);
 			share.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					final Intent intent = new Intent(Intent.ACTION_SEND);					 
@@ -149,7 +149,7 @@ public class ArtistInfoActivity extends ListActivity {
 			});
 			
 			//set watch button
-			Button watch = (Button)header.findViewById(R.id.artistinfo_watch);
+			ImageButton watch = (ImageButton)header.findViewById(R.id.artistinfo_watch);
 			watch.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					Intent intent = new Intent(ArtistInfoActivity.this, WatchSongVideoActivity.class);					
@@ -159,7 +159,7 @@ public class ArtistInfoActivity extends ListActivity {
 			});
 			
 			//set add profile button
-			Button add = (Button)header.findViewById(R.id.artistinfo_add);
+			ImageButton add = (ImageButton)header.findViewById(R.id.artistinfo_add);
 			add.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					ArrayList<String> ids = new ArrayList<String>();

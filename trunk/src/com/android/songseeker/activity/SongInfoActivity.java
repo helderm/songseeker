@@ -25,7 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -187,7 +187,7 @@ public class SongInfoActivity extends ListActivity {
 			});
 			
 			//set buy button
-			Button buy = (Button)header.findViewById(R.id.songinfo_buy);
+			ImageButton buy = (ImageButton)header.findViewById(R.id.songinfo_buy);
 			buy.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(song.buyUrl));
@@ -197,7 +197,7 @@ public class SongInfoActivity extends ListActivity {
 			});
 			
 			//set add button
-			Button add = (Button)header.findViewById(R.id.songinfo_add);
+			ImageButton add = (ImageButton)header.findViewById(R.id.songinfo_add);
 			add.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					ArrayList<SongInfo> songs = new ArrayList<SongInfo>();
@@ -207,7 +207,7 @@ public class SongInfoActivity extends ListActivity {
 			});
 			
 			//set share button
-			Button share = (Button)header.findViewById(R.id.songinfo_share);
+			ImageButton share = (ImageButton)header.findViewById(R.id.songinfo_share);
 			share.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					final Intent intent = new Intent(Intent.ACTION_SEND);					 
@@ -220,7 +220,7 @@ public class SongInfoActivity extends ListActivity {
 			});
 			
 			//set watch button
-			Button watch = (Button)header.findViewById(R.id.songinfo_watch);
+			ImageButton watch = (ImageButton)header.findViewById(R.id.songinfo_watch);
 			watch.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					Intent intent = new Intent(SongInfoActivity.this, WatchSongVideoActivity.class);					
