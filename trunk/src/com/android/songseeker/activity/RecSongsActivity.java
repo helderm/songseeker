@@ -38,6 +38,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -295,8 +296,9 @@ public class RecSongsActivity extends ListActivity {
 				holder.topText = (TextView) convertView.findViewById(R.id.firstLine);
 			    holder.botText = (TextView) convertView.findViewById(R.id.secondLine);
 			    holder.coverArt = (ImageView) convertView.findViewById(R.id.coverart);
+			    holder.mediaBtns = (FrameLayout) convertView.findViewById(R.id.media_btns);
 			    holder.playPause = (ImageView) convertView.findViewById(R.id.playpause);
-			    holder.loading = (ProgressBar) convertView.findViewById(R.id.loading);
+			    holder.loading = (ProgressBar) convertView.findViewById(R.id.loading);			    
 			    
 			    convertView.setTag(holder);
 			}else{
@@ -309,6 +311,7 @@ public class RecSongsActivity extends ListActivity {
 			    
 				holder.botText.setText(song.getArtistName());
 				holder.topText.setText(song.getReleaseName());
+				holder.mediaBtns.setVisibility(View.VISIBLE);
 
 				MediaStatus mediaStatus = MediaPlayerController.getCon().getStatus(pos);
 				
@@ -389,6 +392,7 @@ public class RecSongsActivity extends ListActivity {
 	    	public ImageView coverArt;
 	    	public ImageView playPause;
 	    	public ProgressBar loading;
+	    	public FrameLayout mediaBtns;
 	    }
 	}
 

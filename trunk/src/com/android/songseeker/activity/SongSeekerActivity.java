@@ -7,6 +7,7 @@ import com.android.songseeker.data.ArtistsParcel;
 import com.android.songseeker.data.UserProfile;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,16 +23,18 @@ import android.widget.Toast;
 
 public class SongSeekerActivity extends Activity {
    	
+	private static final int SEARCH_DIAG = 0; 
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        Button search = (Button)findViewById(R.id.search_but);
+        ImageButton search = (ImageButton)findViewById(R.id.search_but);
         search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	searchNewSongs();
+            	showDialog(SEARCH_DIAG);
             }
         }); 
         
@@ -75,16 +78,11 @@ public class SongSeekerActivity extends Activity {
         }
     }
     
-    private void searchNewSongs(){    	
-    	EditText textInput = (EditText) findViewById(R.id.find_input);    	
-    	
-    	//remove the soft input window from view
-    	InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
-    	imm.hideSoftInputFromWindow(textInput.getWindowToken(), 0); 
-    	
+    private void searchNewSongs(String artistName){    	
+
     	ArtistsParcel ss = new ArtistsParcel();
-    	if(!textInput.getText().toString().equalsIgnoreCase(""))
-    		ss.addArtist(textInput.getText().toString());
+
+    	ss.addArtist(artistName);
     	
     	Intent i = new Intent(SongSeekerActivity.this, RecSongsActivity.class);
     	i.putExtra("searchSeed", ss);
@@ -113,4 +111,51 @@ public class SongSeekerActivity extends Activity {
 
     	startActivity(i);    			
 	}
+    
+    @Override
+    protected Dialog onCreateDialog(int id) {
+    	switch (id) {
+		case SEARCH_DIAG:
+			Dialog dialog = new Dialog(this);
+
+			dialog.setContentView(R.layout.new_playlist_diag);
+			dialog.setTitle("Search:");
+			
+			EditText input = (EditText)dialog.findViewById(R.id.pl_name_input);
+			input.setHint(R.string.artist_name_str);
+						
+			Button create_but = (Button)dialog.findViewById(R.id.create_pl_but);
+			
+			create_but.setOnClickListener(new View.OnClickListener() {
+				
+				public void onClick(View v) {
+	               	View p = (View)v.getParent();	            	
+	            	View parent = (View)p.getParent();	            	
+	            	EditText textInput = (EditText) parent.findViewById(R.id.pl_name_input); 
+	            	
+	                //check if the edit text is empty
+	            	if(textInput.getText().toString().compareTo("") == 0){
+	            		    		
+	            		Toast toast = Toast.makeText(SongSeekerActivity.this, 
+	            						getResources().getText(R.string.invalid_args_str), Toast.LENGTH_SHORT);
+	            		toast.show();
+	            		removeDialog(SEARCH_DIAG);
+	            		return;
+	            	}
+	            	
+	            	//remove the soft input window from view
+	            	InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
+	            	imm.hideSoftInputFromWindow(textInput.getWindowToken(), 0); 
+	            		            	
+	            	removeDialog(SEARCH_DIAG);	            	
+	            		            	
+	            	searchNewSongs(textInput.getText().toString());
+	            }
+	        }); 
+			
+			return dialog;	
+		default:
+			return null;
+		}
+    }
 }

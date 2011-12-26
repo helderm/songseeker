@@ -278,6 +278,7 @@ public class SongInfoActivity extends ListActivity {
 				holder.topText = (TextView) convertView.findViewById(R.id.firstLine);
 			    holder.botText = (TextView) convertView.findViewById(R.id.secondLine);
 			    holder.coverArt = (ImageView) convertView.findViewById(R.id.coverart);
+			    holder.mediaBtns = (FrameLayout) convertView.findViewById(R.id.media_btns);
 			    holder.playPause = (ImageView) convertView.findViewById(R.id.playpause);
 			    holder.loading = (ProgressBar) convertView.findViewById(R.id.loading);
 			    
@@ -296,6 +297,7 @@ public class SongInfoActivity extends ListActivity {
 
 			holder.botText.setText(song.release.name);
 			holder.topText.setText(song.name);
+			holder.mediaBtns.setVisibility(View.VISIBLE);
 			
 			MediaStatus mediaStatus = MediaPlayerController.getCon().getStatus(pos);
 			
@@ -361,6 +363,7 @@ public class SongInfoActivity extends ListActivity {
 	    	public ImageView coverArt;
 	    	public ImageView playPause;
 	    	public ProgressBar loading;
+	    	public FrameLayout mediaBtns;
 	    }
 	}
 

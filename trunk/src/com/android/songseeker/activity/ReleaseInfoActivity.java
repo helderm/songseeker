@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -226,6 +227,7 @@ public class ReleaseInfoActivity extends ListActivity {
 				holder.topText = (TextView) convertView.findViewById(R.id.firstLine);
 			    holder.botText = (TextView) convertView.findViewById(R.id.secondLine);
 			    holder.coverArt = (ImageView) convertView.findViewById(R.id.coverart);
+			    holder.mediaBtns = (FrameLayout) convertView.findViewById(R.id.media_btns);
 			    holder.playPause = (ImageView) convertView.findViewById(R.id.playpause);
 			    holder.loading = (ProgressBar) convertView.findViewById(R.id.loading);
 			    
@@ -244,6 +246,7 @@ public class ReleaseInfoActivity extends ListActivity {
 			
 			holder.topText.setText(song.name);
 			holder.botText.setText(song.artist.name);
+			holder.mediaBtns.setVisibility(View.VISIBLE);
 			
 			MediaStatus mediaStatus = MediaPlayerController.getCon().getStatus(pos);
 			
@@ -305,6 +308,7 @@ public class ReleaseInfoActivity extends ListActivity {
 	    	public ImageView coverArt;
 	    	public ImageView playPause;
 	    	public ProgressBar loading;
+	    	public FrameLayout mediaBtns;
 	    }
 		
 		public void setSongList(ArrayList<SongInfo> tp){

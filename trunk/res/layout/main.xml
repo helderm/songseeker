@@ -14,35 +14,35 @@
         android:layout_marginTop="80dp"
         android:background="@drawable/btn_main"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_btn_main"
-        android:text="@string/seek_songs_but_str" >
+        android:src="@drawable/ic_btn_main" >
     </ImageButton>
 
-    <EditText
-        android:id="@+id/find_input"
-        android:layout_width="180dip"
-        android:layout_height="50dp"
-        android:layout_alignRight="@+id/seek_songs_but"
-        android:layout_below="@+id/seek_songs_but"
-        android:layout_marginRight="37dp"
-        android:layout_marginTop="56dp"
-        android:hint="@string/artist_name_str" >
-
-        <requestFocus />
-    </EditText>
-
-    <Button
+    <ImageButton
         android:id="@+id/search_but"
-        style="@style/Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/find_input"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/seek_songs_but"
-        android:layout_marginLeft="153dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/btn_main"
         android:gravity="center"
-        android:text="@string/search_but" />
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_btn_search" />
+    
+    <ImageButton
+        android:id="@+id/share_but"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/search_but"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/btn_main"
+        android:gravity="center"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_btn_share" />
 
-    <com.google.ads.AdView
+    <!--
+         <com.google.ads.AdView
         android:id="@+id/adView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -51,5 +51,6 @@
         ads:adUnitId="a14ec129f3acea3"
         ads:loadAdOnCreate="true"
         ads:testDevices="TEST_EMULATOR,860A75C0162980ABCF4CFA5CFC2710B9" />
+    -->
 
 </RelativeLayout>

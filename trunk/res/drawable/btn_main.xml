@@ -36,10 +36,8 @@
 
     <item>        
         <shape>
-            <gradient
-                android:endColor="@color/transparent"
-                android:startColor="@color/transparent"
-                android:angle="270" />
+            <solid android:color="@color/transparent" />
+
             <corners
                 android:radius="3dp" />
             <padding

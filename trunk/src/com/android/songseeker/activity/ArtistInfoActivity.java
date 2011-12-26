@@ -25,7 +25,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -248,8 +247,7 @@ public class ArtistInfoActivity extends ListActivity {
 				holder.topText = (TextView) convertView.findViewById(R.id.firstLine);
 			    holder.botText = (TextView) convertView.findViewById(R.id.secondLine);
 			    holder.coverArt = (ImageView) convertView.findViewById(R.id.coverart);
-			    holder.mediaBtns = (FrameLayout) convertView.findViewById(R.id.media_btns);
-			    			    
+			    			    			    
 			    convertView.setTag(holder);
 			}else{
 				holder = (ViewHolder) convertView.getTag();
@@ -263,8 +261,7 @@ public class ArtistInfoActivity extends ListActivity {
 			
 			holder.botText.setText(release.artist.name);
 			holder.topText.setText(release.name);
-			holder.mediaBtns.setVisibility(View.GONE);
-							
+										
 			ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, holder.coverArt, R.drawable.ic_menu_disc);
 			
 
@@ -279,7 +276,6 @@ public class ArtistInfoActivity extends ListActivity {
 	    	public TextView topText;
 	    	public TextView botText;
 	    	public ImageView coverArt;
-	    	public FrameLayout mediaBtns;
 	    }
 	}
 
