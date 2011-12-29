@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.seekermob.songseekerfull"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="8" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="false" />
+
+    <uses-feature
+        android:name="android.hardware.screen.portrait"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.faketouch"
+        android:required="true" />
+
+    <application
+        android:debuggable="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" >
+        <activity
+            android:label="@string/app_name"
+            android:name="com.seekermob.songseeker.activity.SongSeekerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="Playlist Options"
+            android:name="com.seekermob.songseeker.activity.PlaylistOptionsActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:label="Playlist"
+            android:name="com.seekermob.songseeker.activity.RecSongsActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:label="Export to Rdio"
+            android:launchMode="singleInstance"
+            android:name="com.seekermob.songseeker.activity.CreatePlaylistRdioActivity"
+            android:screenOrientation="portrait" >
+            <intent-filter >
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="checkin4me"
+                    android:scheme="oauth" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="Export to Last.fm"
+            android:name="com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:label="Export to YouTube"
+            android:name="com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.seekermob.songseeker.activity.SongInfoActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.seekermob.songseeker.activity.ReleaseInfoActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.seekermob.songseeker.activity.ArtistInfoActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:label="Artist Biography"
+            android:name="com.seekermob.songseeker.activity.ArtistBioActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:label="Artist News"
+            android:name="com.seekermob.songseeker.activity.ArtistNewsActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:label="Similar Artists"
+            android:name="com.seekermob.songseeker.activity.SimilarArtistsActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.seekermob.songseeker.activity.MusicInfoTab"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:label="Export to Grooveshark"
+            android:name="com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:label="Watch on YouTube"
+            android:name="com.seekermob.songseeker.activity.WatchSongVideoActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:label="Profile"
+            android:name="com.seekermob.songseeker.activity.ProfileActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:label="Settings"
+            android:name="com.seekermob.songseeker.activity.SettingsActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+    </application>
+
+</manifest>
