@@ -21,36 +21,25 @@
         android:id="@+id/search_but"
         android:layout_width="50dip"
         android:layout_height="50dip"
-        android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/seek_songs_but"
-        android:layout_marginLeft="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="60dp"
         android:background="@drawable/btn_main"
         android:gravity="center"
         android:scaleType="fitXY"
         android:src="@drawable/ic_btn_search" />
-    
+
     <ImageButton
         android:id="@+id/share_but"
         android:layout_width="50dip"
         android:layout_height="50dip"
         android:layout_alignParentBottom="true"
+        android:layout_marginLeft="50dp"
         android:layout_toRightOf="@+id/search_but"
-        android:layout_marginLeft="30dp"
         android:background="@drawable/btn_main"
         android:gravity="center"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_btn_share" />
-
-    <!--
-         <com.google.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="a14ec129f3acea3"
-        ads:loadAdOnCreate="true"
-        ads:testDevices="TEST_EMULATOR,860A75C0162980ABCF4CFA5CFC2710B9" />
-    -->
+        android:src="@drawable/ic_btn_share"
+        android:onClick="shareApp" />
 
 </RelativeLayout>

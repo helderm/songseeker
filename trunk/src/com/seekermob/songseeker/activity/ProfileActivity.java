@@ -193,12 +193,12 @@ public class ProfileActivity extends ListActivity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-		switch (item.getItemId()) {
-		case R.id.remove_artist:	
+		
+		if(item.getItemId() == R.id.remove_artist){
 			UserProfile.getInstance(getCacheDir()).removeArtistFromProfile(info.position, (BaseAdapter)getListAdapter());
 			return true;
-		default:
-			return super.onContextItemSelected(item);
 		}
+		
+		return super.onContextItemSelected(item);
 	}
 }

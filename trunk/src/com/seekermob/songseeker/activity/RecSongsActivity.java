@@ -406,27 +406,34 @@ public class RecSongsActivity extends ListActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        switch (item.getItemId()) {
-        case R.id.settings:
+        int itemId = item.getItemId();
+        
+        if(itemId == R.id.settings){
         	Intent in = new Intent(RecSongsActivity.this, SettingsActivity.class);
             startActivity(in);	
         	return true;
-        case R.id.pl_options:
+        }
+        
+        if(itemId == R.id.pl_options){
         	Intent i = new Intent(RecSongsActivity.this, PlaylistOptionsActivity.class);
             startActivity(i);	
             return true;
-        case R.id.refresh:
+        }
+        
+        if(itemId == R.id.refresh){
     	    //get the playlist
         	RecSongsPlaylist.getInstance(adapter).clearPlaylist();
         	PlaylistParams plp = buildPlaylistParams();	    
     	    RecSongsPlaylist.getInstance(adapter).getPlaylist(plp, this, PROGRESS_DIAG);
-            return true;
-        case R.id.export:
+            return true;	
+        }
+        
+        if(itemId == R.id.export){
         	showDialog(EXPORT_DIAG);
         	return true;
-        default:
-            return super.onOptionsItemSelected(item);
         }
+    	
+        return super.onOptionsItemSelected(item);
     }
     
 	@Override
@@ -441,13 +448,13 @@ public class RecSongsActivity extends ListActivity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-		switch (item.getItemId()) {
-		case R.id.remove_song:	
+		
+		if(item.getItemId() == R.id.remove_song) {
 			RecSongsPlaylist.getInstance().removeSongFromPlaylist(info.position, this);
 			return true;
-		default:
-			return super.onContextItemSelected(item);
 		}
+		
+		return super.onContextItemSelected(item);		
 	}
 }
 

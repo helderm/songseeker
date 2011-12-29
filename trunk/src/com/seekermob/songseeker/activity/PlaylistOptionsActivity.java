@@ -118,23 +118,27 @@ public class PlaylistOptionsActivity extends Activity implements SeekBar.OnSeekB
 
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
         
-    	switch(seekBar.getId()){
-    	case R.id.seekBar_energy:
+    	int seekBarId = seekBar.getId();
+    	
+    	if(seekBarId == R.id.seekBar_energy){
     		Settings.getInstance().getSettings().pl_energy = progress;
     		
     		if(Settings.getInstance(getCacheDir()).getMinEnergy() == -1.0f){
     			energy_label.setText(getResources().getText(R.string.energy_str) + " (Off)");
     		}else{
     			energy_label.setText(getResources().getText(R.string.energy_str) + " (" + progress + "%)");
-    		}    		
-    		break;
-    	case R.id.seekBar_mood:
+    		}   
+    		
+    		return;
+    	}
+    	
+    	if(seekBarId == R.id.seekBar_mood){
     		Settings.getInstance().getSettings().pl_mood = progress;
     		
     		List<String> moods = Settings.getInstance().getMood();
     		if(moods == null){
     			mood_label.setText(getResources().getText(R.string.mood_str)+" (Off)");
-    			break;
+    			return;
     		}
     		
     		if(moods.size() == 1){    		
@@ -144,9 +148,11 @@ public class PlaylistOptionsActivity extends Activity implements SeekBar.OnSeekB
     			mood_label.setText(getResources().getText(R.string.mood_str) + 
 						" (" + moods.get(0) + " - " + moods.get(1) + ")");
     		}
-    		moods = null;
-    		break;
-    	case R.id.seekBar_tempo:
+    		moods = null;    		
+    		return;
+    	}
+    	
+    	if(seekBarId == R.id.seekBar_tempo){
     		Settings.getInstance().getSettings().pl_tempo = progress;
     		
     		if(Settings.getInstance().getMinTempo() == -1.0f){
@@ -155,8 +161,10 @@ public class PlaylistOptionsActivity extends Activity implements SeekBar.OnSeekB
     			tempo_label.setText(getResources().getText(R.string.tempo_str) + 
     					" (" + ((progress/100.0f)*Settings.PL_MAX_TEMPO) + " BPM)");
     		}
-    		break;
-    	case R.id.seekBar_danceability:
+    		return;
+    	}
+    	
+    	if(seekBarId == R.id.seekBar_danceability){
     		Settings.getInstance().getSettings().pl_danceability = progress;
     		
     		if(Settings.getInstance().getMinDanceability() == -1.0f){
@@ -164,8 +172,10 @@ public class PlaylistOptionsActivity extends Activity implements SeekBar.OnSeekB
     		}else{
     			danceability_label.setText(getResources().getText(R.string.danceability_str) + " (" + progress + "%)");    			
     		}
-    		break;
-    	case R.id.seekBar_hotness:
+    		return;
+    	}
+    	
+    	if(seekBarId == R.id.seekBar_hotness){
     		Settings.getInstance().getSettings().pl_hotness = progress;
     		
     		if(Settings.getInstance().getMinHotness() == -1.0f){
@@ -173,8 +183,10 @@ public class PlaylistOptionsActivity extends Activity implements SeekBar.OnSeekB
     		}else{
     			hotness_label.setText(getResources().getText(R.string.hotness_str) + " (" + progress + "%)");
     		}
-    		break;   
-    	case R.id.seekBar_variety:
+    		return;    		
+    	}
+    	
+    	if(seekBarId == R.id.seekBar_variety){
     		Settings.getInstance().getSettings().pl_variety = progress;
     		
     		if(Settings.getInstance().getVariety() == -1.0f){
@@ -182,8 +194,10 @@ public class PlaylistOptionsActivity extends Activity implements SeekBar.OnSeekB
     		}else{
     			variety_label.setText(getResources().getText(R.string.variety_str) + " (" + progress + "%)");
     		}    		
-    		break;
-    	case R.id.seekBar_max_results:
+    		return;
+    	}
+    	
+    	if(seekBarId == R.id.seekBar_max_results){
     		if(progress < 1)
     			progress = 1;
     		if(progress > 100)	
@@ -191,7 +205,9 @@ public class PlaylistOptionsActivity extends Activity implements SeekBar.OnSeekB
     		
     		Settings.getInstance().getSettings().pl_max_results = progress;
     		max_results_label.setText(getResources().getText(R.string.max_results_str) + " (" + progress + ")");
-    	}   	
+    		
+    		return;
+    	}
     }
 
     //TODO: maybe Settings can be updated only onStopTracking, check!

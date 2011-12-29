@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.Menu;
@@ -58,24 +59,33 @@ public class SongSeekerActivity extends Activity {
     	Intent i;
     	
     	// Handle item selection
-        switch (item.getItemId()) {
-        case R.id.settings:
+        int itemId = item.getItemId();
+    	
+        if(itemId == R.id.settings){
         	i = new Intent(SongSeekerActivity.this, SettingsActivity.class);
-            startActivity(i);	
-        	return true;
-        case R.id.pl_options:
-        	i = new Intent(SongSeekerActivity.this, PlaylistOptionsActivity.class);
-            startActivity(i);	
+        	startActivity(i);
             return true;
-        case R.id.about:
-            //showAbout();
-            return true;  
-        case R.id.profile:
-        	i = new Intent(SongSeekerActivity.this, ProfileActivity.class);
-            startActivity(i);	
-        default:
-            return super.onOptionsItemSelected(item);
         }
+        
+        if(itemId == R.id.pl_options){
+        	i = new Intent(SongSeekerActivity.this, PlaylistOptionsActivity.class);
+        	startActivity(i);
+            return true;
+        }
+        	
+        if(itemId == R.id.about){
+        	//i = new Intent(SongSeekerActivity.this, AboutActivity.class);
+        	//startActivity(i);
+            return true;
+        }
+        
+        if(itemId == R.id.profile){
+        	i = new Intent(SongSeekerActivity.this, ProfileActivity.class);
+        	startActivity(i);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
     
     private void searchNewSongs(String artistName){    	
@@ -157,5 +167,21 @@ public class SongSeekerActivity extends Activity {
 		default:
 			return null;
 		}
+    }
+    
+    public void shareApp(View v){
+		final Intent intent = new Intent(Intent.ACTION_SEND);					 
+		intent.setType("text/plain");
+		intent.putExtra(Intent.EXTRA_SUBJECT, "Song Seeker app for Android");
+		intent.putExtra(Intent.EXTRA_TEXT, "Song Seeker is a new way of discovering music for Android! Based in your taste, it automatically " +
+				"fetches songs that may suit you. If you are a music lover, give it a try! https://market.android.com/details?id=com.seekermob.songseekerfree");
+		startActivity(Intent.createChooser(intent, "Share using..."));
+    }
+    
+    //used by the free package in the main.xml layout after clicking the 'donate' button
+    public void donate(View v) {
+    	Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://market.android.com/details?id=com.seekermob.songseekerfull"));
+		intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
     }
 }
