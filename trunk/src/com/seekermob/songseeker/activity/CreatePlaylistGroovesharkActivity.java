@@ -101,14 +101,12 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity implements O
 				holder.topText = (TextView) convertView.findViewById(R.id.firstLine);
 			    holder.botText = (TextView) convertView.findViewById(R.id.secondLine);
 			    holder.image = (ImageView) convertView.findViewById(R.id.coverart);
-			    holder.playPause = (ImageView) convertView.findViewById(R.id.playpause);
 				convertView.setTag(holder);
 			}else{
 				holder = (ViewHolder) convertView.getTag();
 			}				
 			
-			holder.image.setImageResource(R.drawable.ic_menu_database);
-			holder.playPause.setVisibility(View.GONE);
+			holder.image.setImageResource(R.drawable.ic_playlist_stub);
 		    
 		    if(position == 0){
 		    	holder.topText.setText("New Playlist...");		    	
@@ -137,7 +135,6 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity implements O
 	    	public TextView topText;
 	    	public TextView botText;
 	    	public ImageView image;
-	    	public ImageView playPause;
 	    }
 	}
 	

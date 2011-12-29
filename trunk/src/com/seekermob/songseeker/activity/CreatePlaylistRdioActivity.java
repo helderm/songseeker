@@ -127,18 +127,15 @@ public class CreatePlaylistRdioActivity extends ListActivity implements OnCancel
 			TextView tt = (TextView) v.findViewById(R.id.firstLine);
 		    TextView bt = (TextView) v.findViewById(R.id.secondLine);
 		    ImageView img = (ImageView) v.findViewById(R.id.coverart);
-		    
-		    ImageView playPause = (ImageView) v.findViewById(R.id.playpause);
-		    playPause.setVisibility(View.GONE);
 		    		    
 		    if(position == 0){
 		    	tt.setText("New Playlist...");
-		    	img.setImageResource(R.drawable.ic_menu_database);
+		    	img.setImageResource(R.drawable.ic_playlist_stub);
 		    	bt.setText("");
 		    }else{			    
 			    bt.setText(data.getPlaylistNumSongs(position-1)+" songs");
 			    tt.setText(data.getPlaylistName(position-1));
-			    ImageLoader.getLoader(getCacheDir()).DisplayImage(data.getPlaylistImage(position-1), img, R.drawable.ic_menu_database);
+			    ImageLoader.getLoader(getCacheDir()).DisplayImage(data.getPlaylistImage(position-1), img, R.drawable.ic_playlist_stub);
 		    }		
 						
 			return v;

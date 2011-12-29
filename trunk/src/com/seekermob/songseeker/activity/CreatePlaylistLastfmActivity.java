@@ -222,10 +222,7 @@ public class CreatePlaylistLastfmActivity extends ListActivity implements OnCanc
 		    TextView bt = (TextView) v.findViewById(R.id.secondLine);
 		    
 		    ImageView img = (ImageView) v.findViewById(R.id.coverart);
-		    img.setImageResource(R.drawable.ic_menu_database);
-		    
-		    ImageView playPause = (ImageView) v.findViewById(R.id.playpause);
-		    playPause.setVisibility(View.GONE);
+		    img.setImageResource(R.drawable.ic_playlist_stub);
 		    
 		    if(position == 0){
 		    	tt.setText("New Playlist...");		    	

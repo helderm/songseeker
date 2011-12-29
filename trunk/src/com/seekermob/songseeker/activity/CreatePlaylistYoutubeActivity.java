@@ -95,10 +95,12 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 	}
 
 	private class YouTubePlaylistsAdapter extends BaseAdapter {
-		UserPlaylistsData data;
+		private UserPlaylistsData data;
+		private LayoutInflater inflater;
 		
 		public YouTubePlaylistsAdapter() {
 			data = null;
+			inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 		
 		@Override
@@ -125,18 +127,14 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 			View v = convertView;
 			
 			if (v == null) {
-			    LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			    v = vi.inflate(R.layout.list_row, null);
+			    v = inflater.inflate(R.layout.list_row, null);
 			}			 
 
 			TextView tt = (TextView) v.findViewById(R.id.firstLine);
 		    TextView bt = (TextView) v.findViewById(R.id.secondLine);
 		    
 		    ImageView img = (ImageView) v.findViewById(R.id.coverart);
-		    img.setImageResource(R.drawable.ic_menu_database);	
-		    
-		    ImageView playPause = (ImageView) v.findViewById(R.id.playpause);
-		    playPause.setVisibility(View.GONE);
+		    img.setImageResource(R.drawable.ic_playlist_stub);	
 		    
 		    if(position == 0){
 		    	tt.setText("New Playlist...");		    	
