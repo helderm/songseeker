@@ -159,7 +159,7 @@ public class WatchSongVideoActivity extends ListActivity {
 				holder.topText.setText(video.title);
 				holder.botText.setText(video.description);
 
-				ImageLoader.getLoader(getCacheDir()).DisplayImage(video.image, holder.coverArt, R.drawable.ic_menu_disc);
+				ImageLoader.getLoader(getCacheDir()).DisplayImage(video.image, holder.coverArt, R.drawable.ic_disc_stub);
 			}
 
 			return convertView;

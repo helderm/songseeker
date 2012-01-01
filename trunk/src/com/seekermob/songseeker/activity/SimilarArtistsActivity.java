@@ -168,7 +168,7 @@ public class SimilarArtistsActivity extends ListActivity {
 				holder.line.setText(artist.name);			
 
 				try{
-					ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, holder.coverArt, R.drawable.ic_menu_disc);
+					ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, holder.coverArt, R.drawable.ic_disc_stub);
 				}catch(IndexOutOfBoundsException e){
 					Log.w(Util.APP, "Unable to fetch the release image from Echo Nest!");
 				}

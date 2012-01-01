@@ -108,7 +108,7 @@ public class ProfileActivity extends ListActivity {
 
 				holder.line.setText(artist.name);
 
-				ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, holder.coverArt, R.drawable.ic_menu_disc);	
+				ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, holder.coverArt, R.drawable.ic_disc_stub);	
 			}
 
 			return convertView;

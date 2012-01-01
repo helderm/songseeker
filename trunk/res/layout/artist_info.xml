@@ -17,7 +17,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="18dp"
             android:layout_marginTop="40dp"
-            android:src="@drawable/blankdisc" >
+            android:src="@drawable/ic_disc_stub_large" >
         </ImageView>
 
         <TextView

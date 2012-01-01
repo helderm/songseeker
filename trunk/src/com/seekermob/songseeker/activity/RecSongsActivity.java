@@ -372,7 +372,7 @@ public class RecSongsActivity extends ListActivity {
 			    
 				//load coverart image
 			    try{
-			    	ImageLoader.getLoader(getCacheDir()).DisplayImage(song.getString("tracks[0].release_image"), holder.coverArt, R.drawable.ic_menu_disc);
+			    	ImageLoader.getLoader(getCacheDir()).DisplayImage(song.getString("tracks[0].release_image"), holder.coverArt, R.drawable.ic_disc_stub);
 			    }catch(IndexOutOfBoundsException e){
 			    	Log.w(Util.APP, "Unable to fetch the release image from Echo Nest!");
 			    }

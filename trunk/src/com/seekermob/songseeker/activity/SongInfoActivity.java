@@ -231,7 +231,7 @@ public class SongInfoActivity extends ListActivity {
 
 			//set image
 			ImageView coverart = (ImageView) header.findViewById(R.id.songinfo_coverArt);
-			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.ic_menu_disc);
+			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.ic_disc_stub_large);
 			
 			ImageView bkg = (ImageView) findViewById(R.id.listview_bkg);
 			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, getListView(), bkg);
@@ -348,7 +348,7 @@ public class SongInfoActivity extends ListActivity {
 				break;
 			}			    
 
-			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, holder.coverArt, R.drawable.ic_menu_disc);			
+			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, holder.coverArt, R.drawable.ic_disc_stub);			
 
 			return convertView;
 		}
