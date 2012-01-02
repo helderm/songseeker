@@ -74,8 +74,8 @@ public class SongSeekerActivity extends Activity {
         }
         	
         if(itemId == R.id.about){
-        	//i = new Intent(SongSeekerActivity.this, AboutActivity.class);
-        	//startActivity(i);
+        	i = new Intent(SongSeekerActivity.this, AboutActivity.class);
+        	startActivity(i);
             return true;
         }
         

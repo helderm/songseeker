@@ -62,6 +62,18 @@
         <item name="android:textColor">@color/light_grey</item>
     </style>
 
+    <style name="about_description">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light_green</item>
+    </style>
+
+    <style name="about_features">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light_grey</item>
+    </style>
+
     <style name="horizontal_bars">
         <item name="android:background">@color/light_grey</item>
     </style>
