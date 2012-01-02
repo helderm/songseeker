@@ -129,6 +129,11 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:label="About"
+            android:name="com.seekermob.songseeker.activity.AboutActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:name="com.google.ads.AdActivity" />
     </application>
