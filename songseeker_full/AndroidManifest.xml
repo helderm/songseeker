@@ -128,6 +128,11 @@
             android:name="com.seekermob.songseeker.activity.SettingsActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:label="About"
+            android:name="com.seekermob.songseeker.activity.AboutActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
