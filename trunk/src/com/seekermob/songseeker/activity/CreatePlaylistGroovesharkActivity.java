@@ -2,6 +2,7 @@ package com.seekermob.songseeker.activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.GroovesharkComm;
@@ -213,14 +214,30 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity implements O
 	
 	private class CreatePlaylistTask extends AsyncTask<HashMap<String, String>, Integer, Void>{
 		
-		private SongNamesParcel sn = getIntent().getExtras().getParcelable("songNames");
-		private ArtistsParcel ar = getIntent().getExtras().getParcelable("songArtists");
 		private String err = null;		
+		
+		private List<String> songNames = new ArrayList<String>();
+		private List<String> artistNames = new ArrayList<String>(); 
 		
 		@Override
 		protected void onPreExecute() {
+			SongNamesParcel sn = getIntent().getExtras().getParcelable("songNames");
+			ArtistsParcel ar = getIntent().getExtras().getParcelable("songArtists");
+			
 			showDialog(FETCH_SONG_IDS_DIAG);
-			fetchSongIdsDiag.setMax(sn.getSongNames().size());
+			
+			//access is limited today to 32 ws calls/ip/minute, so i'll need to truncate the playlist 
+			if(sn.getSongNames().size() > 30){
+				
+				songNames =  sn.getSongNames().subList(0, 30);
+				artistNames = ar.getArtistList().subList(0, 30);
+				Toast.makeText(getApplicationContext(), "Truncating playlist to 30 songs, due to technical reasons...", Toast.LENGTH_LONG).show();
+			}else{
+				songNames = sn.getSongNames();
+				artistNames = ar.getArtistList();
+			}
+			
+			fetchSongIdsDiag.setMax(songNames.size());
 		}
 		
 		@Override
@@ -246,7 +263,7 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity implements O
 			}
 			
 			int count = 0;
-			for(int i=0; i<sn.getSongNames().size(); i++){
+			for(int i=0; i<songNames.size(); i++){
 				
 				//check if the task was cancelled by the user
 				if(Thread.interrupted()){
@@ -254,12 +271,12 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity implements O
 				}
 				
 				try {					
-					String gsID = GroovesharkComm.getComm().getSongID(sn.getSongNames().get(i), ar.getArtistList().get(i), settings);
+					String gsID = GroovesharkComm.getComm().getSongID(songNames.get(i), artistNames.get(i), settings);
 					songIDs.add(gsID);					
 				}catch (ServiceCommException e) {
 					if(e.getErr() == ServiceErr.SONG_NOT_FOUND){
 						publishProgress(++count);
-						Log.w(Util.APP, "Song ["+sn.getSongNames().get(i)+" - "+ar.getArtistList().get(i)+"] not found in Grooveshark, ignoring...");
+						Log.w(Util.APP, "Song ["+songNames.get(i)+" - "+artistNames.get(i)+"] not found in Grooveshark, ignoring...");
 						continue;
 					}
 					
