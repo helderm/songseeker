@@ -16,7 +16,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="18dp"
-            android:layout_marginTop="40dp" >
+            android:layout_marginTop="40dp"
+            android:src="@drawable/ic_disc_stub_large" >
         </ImageView>
 
         <TextView
@@ -107,46 +108,50 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
-        <Button
+        <ImageButton
             android:id="@+id/artistinfo_buy"
-            style="@style/Button"
-            android:layout_width="180dip"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="60dip"
-            android:layout_marginTop="30dip"
+            android:layout_width="75dip"
+            android:layout_height="75dip"
+            android:layout_marginLeft="100dip"
+            android:layout_marginTop="20dip"
             android:layout_toLeftOf="@+id/artistinfo_news"
-            android:text="Buy" >
-        </Button>
+            android:background="@drawable/btn_info_icons"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_btn_buy" >
+        </ImageButton>
 
-        <Button
+        <ImageButton
             android:id="@+id/artistinfo_watch"
-            style="@style/Button"
-            android:layout_width="180dip"
-            android:layout_height="wrap_content"
+            android:layout_width="75dip"
+            android:layout_height="75dip"
             android:layout_alignTop="@+id/artistinfo_buy"
             android:layout_toRightOf="@+id/artistinfo_buy"
-            android:text="Watch" >
-        </Button>
+            android:background="@drawable/btn_info_icons"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_btn_watch" >
+        </ImageButton>
 
-        <Button
+        <ImageButton
             android:id="@+id/artistinfo_add"
-            style="@style/Button"
-            android:layout_width="180dip"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/artistinfo_buy"
-            android:layout_below="@+id/artistinfo_buy"
-            android:text="+ Profile" >
-        </Button>
+            android:layout_width="75dip"
+            android:layout_height="75dip"
+            android:layout_alignTop="@+id/artistinfo_buy"
+            android:layout_toRightOf="@+id/artistinfo_watch"
+            android:background="@drawable/btn_info_icons"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_btn_add_profile" >
+        </ImageButton>
 
-        <Button
+        <ImageButton
             android:id="@+id/artistinfo_share"
-            style="@style/Button"
-            android:layout_width="180dip"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/artistinfo_buy"
+            android:layout_width="75dip"
+            android:layout_height="75dip"
+            android:layout_alignTop="@+id/artistinfo_buy"
             android:layout_toRightOf="@+id/artistinfo_add"
-            android:text="Share" >
-        </Button>
+            android:background="@drawable/btn_info_icons"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_btn_share" >
+        </ImageButton>
 
         <TextView
             android:id="@+id/artistinfo_topTrackTitle"

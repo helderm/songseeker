@@ -80,6 +80,12 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
+    <style name="artist_bio">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textColor">@color/light_grey</item>
+        <item name="android:gravity">center</item>
+    </style>
+
     <style name="horizontal_bars">
         <item name="android:background">@color/light_grey</item>
     </style>
