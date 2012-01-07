@@ -10,7 +10,6 @@ import com.seekermob.songseeker.data.ReleaseInfo;
 import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.data.UserProfile;
 import com.seekermob.songseeker.util.ImageLoader;
-import com.seekermob.songseeker.util.Util;
 
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -20,7 +19,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -255,7 +253,6 @@ public class ArtistInfoActivity extends ListActivity {
 
 			ReleaseInfo release = getItem(position);
 			if (release == null) {
-				Log.w(Util.APP, "Unable to fetch release ["+position+"] from adapter!");
 				return convertView;
 			}
 			

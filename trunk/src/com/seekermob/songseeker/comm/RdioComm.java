@@ -77,21 +77,15 @@ public class RdioComm {
 	
 	public void requestAuthorize(Activity a) throws ServiceCommException{
 		String authUrl = null;
-		
-		Log.d(Util.APP,"Fetching request token from Rdio...");
 
 		try {
 			authUrl = provider.retrieveRequestToken(consumer, "oauth://checkin4me");
 		} catch (OAuthCommunicationException e) {
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.IO);
 		} catch (Exception e){
-			Log.e(Util.APP, "Error while fetching request token to Rdio!", e);
+			Log.w(Util.APP, "Error while fetching request token to Rdio!", e);
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.UNKNOWN);
 		}
-
-		Log.d(Util.APP, "Request token: " + consumer.getToken());
-		Log.d(Util.APP, "Token secret: " + consumer.getTokenSecret());
-		Log.d(Util.APP, "AuthURL: " + authUrl);
 
 		//TODO: Check how can we start this activity without adding it to the call stack
 		Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(authUrl));
@@ -99,7 +93,6 @@ public class RdioComm {
 		//i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		//i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-		Log.d(Util.APP, "Requesting permission to Rdio... ");
 		a.startActivity(i);		
 	}
 	
@@ -117,7 +110,7 @@ public class RdioComm {
 			cleanAuthTokens(settings);			
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.IO);
 		} catch (Exception e){
-			Log.e(Util.APP, "Error while trying to retrieve access tokens from Rdio!", e);
+			Log.w(Util.APP, "Error while trying to retrieve access tokens from Rdio!", e);
 			cleanAuthTokens(settings);			
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.UNKNOWN);
 		}
@@ -166,13 +159,7 @@ public class RdioComm {
 			request.setEntity(body);
 	
 			consumer.setTokenWithSecret(accessToken, accessTokenSecret);
-			
-			Log.d(Util.APP, "AcessToken: "+consumer.getToken());
-			Log.d(Util.APP, "AcessTokenSecret: "+consumer.getTokenSecret());			
-			
 			consumer.sign(request);
-	
-			Log.i(Util.APP,"sending createPlaylist request to Rdio");
 	
 			HttpClient httpClient = new DefaultHttpClient();
 			response = httpClient.execute(request);
@@ -182,14 +169,11 @@ public class RdioComm {
 		}catch (IOException ex){
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.IO);
 		}catch (Exception ex){
-			Log.e(Util.APP, "Unknown error while trying to create playlist on Rdio!", ex);
+			Log.w(Util.APP, "Unknown error while trying to create playlist on Rdio!", ex);
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.UNKNOWN);
 		}
-		
-        Log.d(Util.APP,"Response: " + response.getStatusLine().getStatusCode() + " "
-                + response.getStatusLine().getReasonPhrase());
 
-        if (response.getStatusLine().getStatusCode() != 200) {
+		if (response.getStatusLine().getStatusCode() != 200) {
         	
         	//unauthorized
         	if(response.getStatusLine().getStatusCode() == 401){
@@ -197,13 +181,11 @@ public class RdioComm {
         		throw new ServiceCommException(ServiceID.RDIO, ServiceErr.NOT_AUTH);
         	}
         	
-        	Log.e(Util.APP, "HTTP client returned code different from 200! code: "+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
+        	Log.w(Util.APP, "HTTP client returned code different from 200! code: "+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
         	throw new ServiceCommException(ServiceID.RDIO, ServiceErr.REQ_FAILED);
         }               
         
         //TODO check 'status'
-        
-        Log.i(Util.APP, "Playlist created with success!");
 	}
 	
 	public void addToPlaylist(String playlistID, List<String> songIDs, SharedPreferences settings) throws ServiceCommException{
@@ -233,8 +215,6 @@ public class RdioComm {
 
 			consumer.sign(request);
 	
-			Log.i(Util.APP,"sending addToPlaylist request to Rdio");
-	
 			HttpClient httpClient = new DefaultHttpClient();
 			response = httpClient.execute(request);
         
@@ -243,14 +223,11 @@ public class RdioComm {
 		}catch (IOException ex){
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.IO);
 		}catch (Exception ex){
-			Log.e(Util.APP, "Unknown error while trying to add to playlist on Rdio!", ex);
+			Log.w(Util.APP, "Unknown error while trying to add to playlist on Rdio!", ex);
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.UNKNOWN);
 		}
-		
-        Log.d(Util.APP,"Response: " + response.getStatusLine().getStatusCode() + " "
-                + response.getStatusLine().getReasonPhrase());
 
-        if (response.getStatusLine().getStatusCode() != 200) {
+		if (response.getStatusLine().getStatusCode() != 200) {
         	
         	//unauthorized
         	if(response.getStatusLine().getStatusCode() == 401){
@@ -258,13 +235,11 @@ public class RdioComm {
         		throw new ServiceCommException(ServiceID.RDIO, ServiceErr.NOT_AUTH);
         	}
         	
-        	Log.e(Util.APP, "HTTP client returned code different from 200! code: "+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
+        	Log.w(Util.APP, "HTTP client returned code different from 200! code: "+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
         	throw new ServiceCommException(ServiceID.RDIO, ServiceErr.REQ_FAILED);
         }               
         
         //TODO check 'status'
-        
-        Log.i(Util.APP, "Playlist created with success!");
 	}
 
 	
@@ -289,9 +264,6 @@ public class RdioComm {
 			consumer.setTokenWithSecret(accessToken, accessTokenSecret);	
 			consumer.sign(request);
 	
-			Log.i(Util.APP,"sending search request to Rdio...");
-			Log.d(Util.APP, "songName=["+songName+"], songArtist=["+songArtist+"]");
-	
 			HttpClient httpClient = new DefaultHttpClient();
 			response = httpClient.execute(request);	
 		}catch (OAuthCommunicationException ex){
@@ -299,11 +271,9 @@ public class RdioComm {
 		}catch (IOException ex){
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.IO);
 		}catch (Exception ex){
-			Log.e(Util.APP, "Unknown error while trying to create playlist on Rdio!", ex);
+			Log.w(Util.APP, "Unknown error while trying to create playlist on Rdio!", ex);
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.UNKNOWN);
 		}
-        Log.d(Util.APP,"Response: " + response.getStatusLine().getStatusCode() + " "
-                + response.getStatusLine().getReasonPhrase());
 
         if (response.getStatusLine().getStatusCode() != 200) {
         	
@@ -313,7 +283,7 @@ public class RdioComm {
         		throw new ServiceCommException(ServiceID.RDIO, ServiceErr.NOT_AUTH);
         	}
         	
-        	Log.e(Util.APP, "HTTP client returned code different from 200! code: "+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
+        	Log.w(Util.APP, "HTTP client returned code different from 200! code: "+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
         	throw new ServiceCommException(ServiceID.RDIO, ServiceErr.REQ_FAILED);
         }               
 		
@@ -336,7 +306,7 @@ public class RdioComm {
 	    	str.getChars(start_index, end_index, bufOk, 0);
 	    	String bufStrOK = new String(bufOk);    	    	
 	    	if(!bufStrOK.equalsIgnoreCase("ok")){
-	        	Log.e(Util.APP, "Rdio returned status different from OK! Status: "+bufStrOK);
+	        	Log.w(Util.APP, "Rdio returned status different from OK! Status: "+bufStrOK);
 	        	throw new ServiceCommException(ServiceID.RDIO, ServiceErr.REQ_FAILED);
 	    	}
 	    	bufOk = null;
@@ -350,7 +320,7 @@ public class RdioComm {
 	    	str.getChars(start_index, end_index, bufCount, 0);
 	    	String bufStrCount = new String(bufCount);
 	    	if(Integer.parseInt(bufStrCount) <= 0){
-	        	Log.e(Util.APP, "Rdio returned no tracks! Status: "+bufStrOK);
+	        	Log.w(Util.APP, "Rdio returned no tracks! Status: "+bufStrOK);
 	        	throw new ServiceCommException(ServiceID.RDIO, ServiceErr.REQ_FAILED);
 	    	}    	
 	    	bufStrCount = null;
@@ -365,14 +335,13 @@ public class RdioComm {
 	    	
 	    	String retString = new String(buf2);
 	    	buf2 = null;
-	    	Log.d(Util.APP, "RdioID: " + retString);
 	    	return retString;
     	} catch (ServiceCommException e){
     		throw e;
     	} catch (IOException e){
     		throw new ServiceCommException(ServiceID.RDIO, ServiceErr.IO);
     	} catch (Exception e){
-			Log.e(Util.APP, "Unknown error while trying to parse response from Rdio!", e);
+			Log.w(Util.APP, "Unknown error while trying to parse response from Rdio!", e);
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.UNKNOWN);
 		}
 	}
@@ -394,8 +363,6 @@ public class RdioComm {
 	
 			consumer.setTokenWithSecret(accessToken, accessTokenSecret);	
 			consumer.sign(request);
-	
-			Log.i(Util.APP,"sending getPlaylists request to Rdio...");
 				
 			HttpClient httpClient = new DefaultHttpClient();
 			response = httpClient.execute(request);	
@@ -404,13 +371,9 @@ public class RdioComm {
 		}catch (IOException ex){
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.IO);
 		}catch (Exception ex){
-			Log.e(Util.APP, "Unknown error while trying to create playlist on Rdio!", ex);
+			Log.w(Util.APP, "Unknown error while trying to create playlist on Rdio!", ex);
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.UNKNOWN);
 		}
-		
-		
-        Log.d(Util.APP,"Response: " + response.getStatusLine().getStatusCode() + " "
-                + response.getStatusLine().getReasonPhrase());
 		
         try{            
         	BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
@@ -423,7 +386,7 @@ public class RdioComm {
 		    	end_index = line.indexOf('\"', start_index);    	
 		    	String bufStrOK = line.substring(start_index, end_index);    	    	
 		    	if(!bufStrOK.equalsIgnoreCase("ok")){
-		        	Log.e(Util.APP, "Rdio returned status different from OK! Status: "+bufStrOK);
+		        	Log.w(Util.APP, "Rdio returned status different from OK! Status: "+bufStrOK);
 		        	throw new ServiceCommException(ServiceID.RDIO, ServiceErr.REQ_FAILED);
 		    	}
 		    	bufStrOK = null;		
@@ -433,12 +396,10 @@ public class RdioComm {
 		    	start_index += 10; 
 		    	end_index = line.indexOf(']', start_index);
 		    	if(end_index == start_index){
-		    		Log.i(Util.APP, "No playlist found.");
 		    		return data;
 		    	}
 	    	
 		    	String bufStrPls = line.substring(start_index, end_index);
-		    	Log.d(Util.APP, bufStrPls);
 		    	
 		    	line = null;		    	
 		    	int aux_ind = 0;
@@ -475,7 +436,6 @@ public class RdioComm {
 		    		aux_ind = bufStrPls.indexOf("{", start_index);
 		    		
 		    		if(aux_ind == -1){
-		    			Log.d(Util.APP, "Playlists parse ended!");
 		    			break;
 		    		}
 		    		
@@ -489,7 +449,7 @@ public class RdioComm {
         } catch (IOException e){
     		throw new ServiceCommException(ServiceID.RDIO, ServiceErr.IO);
     	} catch (Exception e){
-			Log.e(Util.APP, "Unknown error while trying to parse response from Rdio!", e);
+			Log.w(Util.APP, "Unknown error while trying to parse response from Rdio!", e);
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.UNKNOWN);
 		}
 				

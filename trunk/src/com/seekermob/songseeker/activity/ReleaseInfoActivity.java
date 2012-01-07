@@ -171,7 +171,7 @@ public class ReleaseInfoActivity extends ListActivity {
 				public void onClick(View v) {
 					final Intent intent = new Intent(Intent.ACTION_SEND);					 
 					intent.setType("text/plain");
-					intent.putExtra(Intent.EXTRA_SUBJECT, "New release!");
+					intent.putExtra(Intent.EXTRA_SUBJECT, "New album!");
 					intent.putExtra(Intent.EXTRA_TEXT, "I discovered the album '"+ release.name + " by "+ release.artist.name 
 							+ "' using the Song Seeker app for Android! Check it out! "+ release.buyUrl);
 					startActivity(Intent.createChooser(intent, "Share using..."));
@@ -240,7 +240,6 @@ public class ReleaseInfoActivity extends ListActivity {
 			final int pos = position;
 			
 			if(song == null){
-				Log.w(Util.APP, "Unable to fetch song ["+position+"] from adapter!");
 				return convertView;
 			}			
 			
@@ -341,7 +340,7 @@ public class ReleaseInfoActivity extends ListActivity {
 					song[0].previewUrl = SevenDigitalComm.getComm().getPreviewUrl(song[0].id);
 				} catch(Exception e){
 					err = getString(R.string.err_mediaplayer);
-					Log.e(Util.APP, "7digital getPreviewUrl() exception!", e);
+					Log.i(Util.APP, "Unable to fetch the preview url from 7digital!", e);
 					return null;
 				} 
 			}

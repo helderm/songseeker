@@ -78,12 +78,12 @@ public class SevenDigitalComm {
 		}catch(IOException e) {
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	
 		}catch(NullPointerException e){
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 		}catch(ServiceCommException e){
 			throw e;
 		}catch(Exception e){
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
 		}
 
@@ -130,15 +130,15 @@ public class SevenDigitalComm {
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.SONG_NOT_FOUND);				
 
 		}catch(IOException e) {
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	
 		}catch(NullPointerException e){
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 		}catch(ServiceCommException e){
 			throw e;
 		}catch(Exception e){
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
 		}
 	}
@@ -183,15 +183,15 @@ public class SevenDigitalComm {
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.ARTIST_NOT_FOUND);				
 
 		}catch(IOException e) {
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	
 		}catch(NullPointerException e){
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 		}catch(ServiceCommException e){
 			throw e;
 		}catch(Exception e){
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
 		}
 	}	
@@ -229,7 +229,7 @@ public class SevenDigitalComm {
 		}catch(ServiceCommException e){
 			throw e;
 		}catch(Exception e){
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
 		}		
 
@@ -272,7 +272,7 @@ public class SevenDigitalComm {
 		}catch(ServiceCommException e){
 			throw e;
 		}catch(Exception e){
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
 		}	
 
@@ -311,7 +311,7 @@ public class SevenDigitalComm {
 		}catch(ServiceCommException e){
 			throw e;
 		}catch(Exception e){
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
 		}		
 
@@ -352,7 +352,7 @@ public class SevenDigitalComm {
 		}catch(ServiceCommException e){
 			throw e;
 		}catch(Exception e){
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
 		}		
 
@@ -392,7 +392,7 @@ public class SevenDigitalComm {
 		}catch(ServiceCommException e){
 			throw e;
 		}catch(Exception e){
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
 		}		
 
@@ -431,7 +431,7 @@ public class SevenDigitalComm {
 		}catch(ServiceCommException e){
 			throw e;
 		}catch(Exception e){
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
 		}		
 

@@ -43,8 +43,6 @@ public class EchoNestComm {
 		Playlist pl;
 		int tries = 1;
 
-		//Log.i(Util.APP, "Creating static playlist on EchoNest...");
-
 		while(true){		
 			try{				
 				pl = en.createStaticPlaylist(plp);
@@ -79,7 +77,7 @@ public class EchoNestComm {
 				case 5:
 					throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.ARTIST_NOT_FOUND);				
 				default:	
-					Log.e(Util.APP, "createStaticPlaylist failed!", e);
+					Log.e(Util.APP, "EN createStaticPlaylist failed!", e);
 					throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.IO);				
 				}
 			} catch(NoSuchMethodError e){
@@ -97,8 +95,6 @@ public class EchoNestComm {
 			}
 		}
 
-		//Log.i(Util.APP, "Creating static playlist finished!");
-
 		return pl;
 	}
 
@@ -110,7 +106,7 @@ public class EchoNestComm {
 		}catch (EchoNestException e) {
 			treatEchoNestException(e, false);
 		} catch (Exception e){
-			Log.w(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, "Failed to fetch songs from EN", e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
 		}
 
@@ -128,7 +124,7 @@ public class EchoNestComm {
 		}catch (EchoNestException e) {
 			treatEchoNestException(e, false);
 		} catch (Exception e){
-			Log.w(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, "Failed to search for songs in EN", e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
 		}
 
@@ -146,7 +142,7 @@ public class EchoNestComm {
 		}catch (EchoNestException e) {
 			treatEchoNestException(e, true);
 		} catch (Exception e){
-			Log.w(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, "Failed to find artist on EN", e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
 		}
 		
@@ -162,7 +158,7 @@ public class EchoNestComm {
 		} catch (EchoNestException e) {
 			treatEchoNestException(e, true);
 		} catch (Exception e){
-			Log.w(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, "Failed to fetch artist bio in EN", e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
 		}
 		
@@ -178,7 +174,7 @@ public class EchoNestComm {
 		} catch (EchoNestException e) {
 			treatEchoNestException(e, true);
 		} catch (Exception e){
-			Log.w(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, "Failed to fecth artist news in EN", e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
 		}
 		
@@ -198,7 +194,7 @@ public class EchoNestComm {
 		} catch (EchoNestException e) {
 			treatEchoNestException(e, true);
 		} catch (Exception e){
-			Log.w(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, "Failed to fecth similar artists in EN", e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
 		}
 		
@@ -221,7 +217,7 @@ public class EchoNestComm {
 			else
 				throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.SONG_NOT_FOUND);
 		default:	
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);				
 		}
 	}

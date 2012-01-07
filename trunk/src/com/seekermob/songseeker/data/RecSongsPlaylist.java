@@ -169,14 +169,11 @@ public class RecSongsPlaylist {
 						} catch (ServiceCommException e1) {
 							
 							if(e1.getErr() == ServiceErr.SONG_NOT_FOUND){
-								Log.w(Util.APP, "Song ["+ songInfo.name + " - "+ songInfo.artist.name +"] not found in EchoNest, skiping...");
-							}else{
-								Log.w(Util.APP, e1.getMessage(), e1);
+								Log.i(Util.APP, "Song ["+ songInfo.name + " - "+ songInfo.artist.name +"] not found in EchoNest, skiping...");
 							}
 							continue;
 						}
 					}else{
-						Log.w(Util.APP, e.getMessage(), e);
 						continue;
 					}
 				}

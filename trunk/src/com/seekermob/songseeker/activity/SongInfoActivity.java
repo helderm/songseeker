@@ -9,7 +9,6 @@ import com.seekermob.songseeker.data.RecSongsPlaylist;
 import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.util.ImageLoader;
 import com.seekermob.songseeker.util.MediaPlayerController;
-import com.seekermob.songseeker.util.Util;
 import com.seekermob.songseeker.util.MediaPlayerController.MediaStatus;
 
 import android.app.Dialog;
@@ -20,7 +19,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -291,7 +289,6 @@ public class SongInfoActivity extends ListActivity {
 			final int pos = position;
 			
 			if(song == null){
-				Log.w(Util.APP, "Unable to fetch song ["+position+"] from adapter!");
 				return convertView;
 			}
 
@@ -394,7 +391,6 @@ public class SongInfoActivity extends ListActivity {
 					song[0].previewUrl = SevenDigitalComm.getComm().getPreviewUrl(song[0].id);
 				} catch(Exception e){
 					err = getString(R.string.err_mediaplayer);
-					//Log.e(Util.APP, "7digital getPreviewUrl() exception!", e);
 					return null;
 				} 
 			}

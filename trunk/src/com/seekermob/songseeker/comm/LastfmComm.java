@@ -132,15 +132,11 @@ public class LastfmComm {
 		
 		Collection<Playlist> pls;
 		
-		Log.i(Util.APP, "Retrieving the user playlists on Last.fm...");
-		
 		try{
 			pls = User.getPlaylists(session.getUsername(), KEY);
 		}catch(RuntimeException e){
 			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.IO);			
 		}
-		
-		Log.i(Util.APP, "Playlists fetched!");
 		
 		return pls;
 	}
@@ -150,22 +146,18 @@ public class LastfmComm {
 			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.NOT_AUTH);
 		
 		Playlist pl = null;
-
-		Log.i(Util.APP, "Creating playlist on Last.fm...");
 		
 		try{
-			pl = Playlist.create(title, "", session);
+			pl = Playlist.create(title, "Playlist created by the Song Seeker Android app.", session);
 		}catch(RuntimeException e){
 			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.IO);			
 		}	
 		
 		if(pl == null){
-			Log.e(Util.APP, "Error while trying to create playlist on Last.fm!");
+			Log.w(Util.APP, "Error while trying to create playlist on Last.fm!");
 			cleanAuth(settings);
 			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.REQ_FAILED);
 		}
-		
-		Log.i(Util.APP, "Playlist created on Last.fm!");
 		
 		return pl;	
 	}
@@ -180,8 +172,7 @@ public class LastfmComm {
 		}catch(RuntimeException e){
 			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.IO);			
 		}			
-		
-		Log.i(Util.APP, "Adding track ["+track+" - "+artist+"] to Last.fm playlist...");
+
 		if(!res.isSuccessful()){
 			switch (res.getErrorCode()) {
 			case 4:
@@ -198,12 +189,10 @@ public class LastfmComm {
 				throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.TRY_LATER);
 
 			default:
-				Log.e(Util.APP,"Unknown error on Last.fm Playlist.getTrack()! Err=[("+res.getErrorCode()+") - "+res.getErrorMessage() +"]");
+				Log.w(Util.APP,"Unknown error on Last.fm Playlist.getTrack()! Err=[("+res.getErrorCode()+") - "+res.getErrorMessage() +"]");
 				throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.UNKNOWN);
 			}
 		}
-		
-		Log.i(Util.APP, "Track added to Last.fm playlist!!");
 	}
 	
 	public Collection<Artist> getTopArtists(String user) throws ServiceCommException{

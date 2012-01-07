@@ -124,7 +124,7 @@ public class GroovesharkComm {
 		} catch (IOException e){
 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
 		} catch(Exception e){
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.UNKNOWN);
 		}
 		
@@ -158,7 +158,7 @@ public class GroovesharkComm {
 			response = httpClient.execute(request);
 
 			if (response.getStatusLine().getStatusCode() != 200){
-				Log.e(Util.APP, "HTTP client returned code different from 200! code: "
+				Log.w(Util.APP, "HTTP client returned code different from 200! code: "
 						+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
 				throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
 			} 			
@@ -192,7 +192,7 @@ public class GroovesharkComm {
 		} catch (IOException e){
 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
 		} catch(Exception e){
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.UNKNOWN);
 		}
 	}
@@ -221,7 +221,7 @@ public class GroovesharkComm {
  			response = httpClient.execute(request);
  			 			 
  	 		if (response.getStatusLine().getStatusCode() != 200){
- 	 			Log.e(Util.APP, "HTTP client returned code different from 200! code: "
+ 	 			Log.w(Util.APP, "HTTP client returned code different from 200! code: "
  	 					+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
  	 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
  	 		} 
@@ -254,7 +254,7 @@ public class GroovesharkComm {
  		} catch (IOException ex){
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
  		} catch(Exception e){
- 			Log.e(Util.APP, e.getMessage(), e);
+ 			Log.w(Util.APP, e.getMessage(), e);
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.UNKNOWN);
  		}
  		
@@ -287,7 +287,7 @@ public class GroovesharkComm {
  			HttpResponse response = httpClient.execute(request); 			
  			 
  	 		if (response.getStatusLine().getStatusCode() != 200){
- 	 			Log.e(Util.APP, "HTTP client returned code different from 200! code: "
+ 	 			Log.w(Util.APP, "HTTP client returned code different from 200! code: "
  	 						+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
  	 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
  	 		} 		
@@ -329,7 +329,7 @@ public class GroovesharkComm {
  		} catch (IOException ex){
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
  		} catch(Exception e){
- 			Log.e(Util.APP, e.getMessage(), e);
+ 			Log.w(Util.APP, e.getMessage(), e);
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.UNKNOWN);
  		}
  	}
@@ -360,7 +360,7 @@ public class GroovesharkComm {
  			HttpResponse response = httpClient.execute(request);
  			
 	 		if (response.getStatusLine().getStatusCode() != 200){
- 	 			Log.e(Util.APP, "HTTP client returned code different from 200! code: "
+ 	 			Log.w(Util.APP, "HTTP client returned code different from 200! code: "
  	 						+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
  	 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
  	 		} 		
@@ -389,7 +389,7 @@ public class GroovesharkComm {
  		} catch (IOException ex){
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
  		} catch(Exception e){
- 			Log.e(Util.APP, e.getMessage(), e);
+ 			Log.w(Util.APP, e.getMessage(), e);
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.UNKNOWN);
  		}
  	}
@@ -420,7 +420,7 @@ public class GroovesharkComm {
  			HttpResponse response = httpClient.execute(request); 			
  			 
  	 		if (response.getStatusLine().getStatusCode() != 200){
- 	 			Log.e(Util.APP, "HTTP client returned code different from 200! code: "
+ 	 			Log.w(Util.APP, "HTTP client returned code different from 200! code: "
  	 						+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
  	 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
  	 		} 		
@@ -454,7 +454,7 @@ public class GroovesharkComm {
  		} catch (IOException ex){
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
  		} catch(Exception e){
- 			Log.e(Util.APP, e.getMessage(), e);
+ 			Log.w(Util.APP, e.getMessage(), e);
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.UNKNOWN);
  		} 		
  	}
@@ -485,7 +485,7 @@ public class GroovesharkComm {
  			HttpResponse response = httpClient.execute(request);
  			
 	 		if (response.getStatusLine().getStatusCode() != 200){
- 	 			Log.e(Util.APP, "HTTP client returned code different from 200! code: "
+ 	 			Log.w(Util.APP, "HTTP client returned code different from 200! code: "
  	 						+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
  	 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
  	 		} 		
@@ -514,7 +514,7 @@ public class GroovesharkComm {
  		} catch (IOException ex){
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.IO);
  		} catch(Exception e){
- 			Log.e(Util.APP, e.getMessage(), e);
+ 			Log.w(Util.APP, e.getMessage(), e);
  			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.UNKNOWN);
  		}
  	} 	
@@ -579,7 +579,7 @@ public class GroovesharkComm {
 		} catch(NullPointerException e){
 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.REQ_FAILED);
 		} catch(Exception e){
-			Log.e(Util.APP, e.getMessage(), e);
+			Log.w(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.GROOVESHARK, ServiceErr.UNKNOWN);
 		}		
 	}

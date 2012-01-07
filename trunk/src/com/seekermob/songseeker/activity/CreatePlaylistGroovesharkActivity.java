@@ -276,7 +276,7 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity implements O
 				}catch (ServiceCommException e) {
 					if(e.getErr() == ServiceErr.SONG_NOT_FOUND){
 						publishProgress(++count);
-						Log.w(Util.APP, "Song ["+songNames.get(i)+" - "+artistNames.get(i)+"] not found in Grooveshark, ignoring...");
+						Log.i(Util.APP, "Song ["+songNames.get(i)+" - "+artistNames.get(i)+"] not found in Grooveshark, ignoring...");
 						continue;
 					}
 					

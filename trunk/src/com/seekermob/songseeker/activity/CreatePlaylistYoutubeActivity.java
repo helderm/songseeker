@@ -344,7 +344,7 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 					publishProgress(i+1);
 					
 					if(vids.size() == 0){
-						Log.w(Util.APP, "Song ["+songNames.get(i) + "-" + songArtists.get(i)+"] not found on YouTube!");
+						Log.i(Util.APP, "Song ["+songNames.get(i) + "-" + songArtists.get(i)+"] not found on YouTube, ignoring...");
 						continue;
 					}
 				

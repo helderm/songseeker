@@ -128,7 +128,7 @@ public class ImageLoader {
             bitmap = decodeFile(f);
             return bitmap;
         } catch (Exception ex){
-           Log.w(Util.APP, "Failed to download image from ["+url+"]", ex);
+           Log.i(Util.APP, "Failed to download image from ["+url+"]", ex);
            return null;
         }
     }

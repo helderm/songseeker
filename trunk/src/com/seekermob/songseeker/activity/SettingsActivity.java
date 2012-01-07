@@ -28,7 +28,6 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -232,7 +231,6 @@ public class SettingsActivity extends PreferenceActivity implements OnCancelList
 				topArtists = Util.getArtistsFromDevice(SettingsActivity.this);
 			} catch (Exception e) {
 				err = "Failed to get artists from device!";
-				Log.e(Util.APP, e.getMessage(), e);
 				return null;
 			}
 			

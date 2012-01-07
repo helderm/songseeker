@@ -90,7 +90,7 @@ public class SimilarArtistsActivity extends ListActivity {
 					try{
 						artist = SevenDigitalComm.getComm().queryArtistDetails(foreignId.split(":")[2]);
 					}catch (ServiceCommException e) {
-						Log.w(Util.APP, "Artist ["+a.getForeignID(EchoNestComm.SEVEN_DIGITAL)+"] not found in 7digital, skipping...");
+						Log.i(Util.APP, "Artist ["+a.getForeignID(EchoNestComm.SEVEN_DIGITAL)+"] not found in 7digital, skipping...");
 						continue;
 					}
 
@@ -170,7 +170,7 @@ public class SimilarArtistsActivity extends ListActivity {
 				try{
 					ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, holder.coverArt, R.drawable.ic_disc_stub);
 				}catch(IndexOutOfBoundsException e){
-					Log.w(Util.APP, "Unable to fetch the release image from Echo Nest!");
+					Log.i(Util.APP, "Unable to fetch the release image from Echo Nest!");
 				}
 			}
 

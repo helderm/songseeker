@@ -109,7 +109,7 @@ public class SongSeekerActivity extends Activity {
 			return;
 		}
 		
-		ArrayList<String> artists = UserProfile.getInstance(getCacheDir()).getRandomArtists(5);
+		ArrayList<String> artists = UserProfile.getInstance(getCacheDir()).getRandomArtists(5); //no more than 5 seeds is allowed in EN
 		
 		ArtistsParcel ss = new ArtistsParcel();
 		for(String name : artists){

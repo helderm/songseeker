@@ -346,7 +346,7 @@ public class RecSongsActivity extends ListActivity {
 			            		MediaPlayerController.getCon().startStopMedia(previewUrl, pos, adapter);
 			            		adapter.notifyDataSetChanged();
 			            	}catch(IndexOutOfBoundsException e){
-			            		Log.w(Util.APP, "Preview Url for song ["+song.getReleaseName()+" - "+song.getArtistName()+"] not found!", e);
+			            		Log.i(Util.APP, "Preview Url for song ["+song.getReleaseName()+" - "+song.getArtistName()+"] not found!", e);
 			            	}		            	
 			            }
 			        }); 	
@@ -362,7 +362,7 @@ public class RecSongsActivity extends ListActivity {
 			            		MediaPlayerController.getCon().startStopMedia(previewUrl, pos, adapter);
 			            		adapter.notifyDataSetChanged();
 			            	}catch(IndexOutOfBoundsException e){
-			            		Log.w(Util.APP, "Preview Url for song ["+song.getReleaseName()+" - "+song.getArtistName()+"] not found!", e);
+			            		Log.i(Util.APP, "Preview Url for song ["+song.getReleaseName()+" - "+song.getArtistName()+"] not found!", e);
 			            	}		            	
 			            }
 			        });
@@ -374,7 +374,7 @@ public class RecSongsActivity extends ListActivity {
 			    try{
 			    	ImageLoader.getLoader(getCacheDir()).DisplayImage(song.getString("tracks[0].release_image"), holder.coverArt, R.drawable.ic_disc_stub);
 			    }catch(IndexOutOfBoundsException e){
-			    	Log.w(Util.APP, "Unable to fetch the release image from Echo Nest!");
+			    	Log.i(Util.APP, "Unable to fetch the release image from Echo Nest!");
 			    }
 			}
 			

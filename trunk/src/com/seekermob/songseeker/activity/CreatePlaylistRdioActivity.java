@@ -238,7 +238,7 @@ public class CreatePlaylistRdioActivity extends ListActivity implements OnCancel
 			try {				
 				RdioComm.getComm().requestAuthorize(CreatePlaylistRdioActivity.this);
 			} catch (ServiceCommException e) {
-				Log.e(Util.APP, "Unable to request access to Rdio!", e);
+				Log.w(Util.APP, "Unable to request access to Rdio!", e);
 				err = e.getMessage();
 				return false;
 			} 
@@ -316,8 +316,7 @@ public class CreatePlaylistRdioActivity extends ListActivity implements OnCancel
 					return null;
 				} catch (IndexOutOfBoundsException e){					
 					if(song != null){
-						Log.d(Util.APP, "Song ["+ song.getReleaseName()+" - " +song.getArtistName()+"] not found on EchoNest! Trying Rdio...");
-						
+											
 						try{
 							songIDs.add(RdioComm.getComm().queryTrackID(song.getReleaseName(), song.getArtistName()));							
 						}catch(ServiceCommException ex){
@@ -326,8 +325,6 @@ public class CreatePlaylistRdioActivity extends ListActivity implements OnCancel
 								err = e.getMessage();	
 								return null;
 							}*/
-								
-							Log.w(Util.APP, "Err while fetching track data from Rdio! Ignoring track...", ex);
 						}
 					}					
 				}
@@ -338,8 +335,6 @@ public class CreatePlaylistRdioActivity extends ListActivity implements OnCancel
 			if(Thread.interrupted()){
 				return null;
 			}
-			
-			Log.d(Util.APP, "Rdio IDs fetched! Creating playlist...");
 			
 			//show createPlaylist diag
 			publishProgress(-1);
@@ -423,8 +418,6 @@ public class CreatePlaylistRdioActivity extends ListActivity implements OnCancel
 		if (uri == null || !uri.toString().contains("oauth")) {
 			return;
 		}
-
-		Log.d(Util.APP, "OAuth callback started!");
 
 		try{
 			RdioComm.getComm().retrieveAccessTokens(uri, settings);

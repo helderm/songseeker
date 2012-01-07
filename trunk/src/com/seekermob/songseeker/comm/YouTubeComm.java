@@ -166,7 +166,7 @@ public class YouTubeComm {
 		}catch (ServiceCommException e){
 			throw e;
 		}catch (Exception e){
-			Log.e(Util.APP, "Unknown error while trying to get the user's playlist on YouTube!", e);
+			Log.w(Util.APP, "Unknown error while trying to get the user's playlist on YouTube!", e);
 			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.UNKNOWN);
 		}	
 	}
@@ -211,7 +211,7 @@ public class YouTubeComm {
 		}catch (ServiceCommException e){
 			throw e;
 		}catch (Exception e){
-			Log.e(Util.APP, "Unknown error while trying to create a YouTube playlist!", e);
+			Log.w(Util.APP, "Unknown error while trying to create a YouTube playlist!", e);
 			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.UNKNOWN);
 		}	
 	}
@@ -228,7 +228,7 @@ public class YouTubeComm {
 
 			if(response.getStatusLine().getStatusCode() != 200) {
 
-				Log.e(Util.APP, "HTTP client returned code different from 200! code: "+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
+				Log.w(Util.APP, "HTTP client returned code different from 200! code: "+response.getStatusLine().getStatusCode()+" - "+response.getStatusLine().getReasonPhrase());
 				throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.REQ_FAILED);
 			}   
 
@@ -262,7 +262,7 @@ public class YouTubeComm {
 		}catch (ServiceCommException e){
 			throw e;
 		}catch (Exception e){
-			Log.e(Util.APP, "Unknown error while trying to search for videos on YouTube!", e);
+			Log.w(Util.APP, "Unknown error while trying to search for videos on YouTube!", e);
 			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.UNKNOWN);
 		}	
 	}		
@@ -298,7 +298,7 @@ public class YouTubeComm {
 		}catch (ServiceCommException e){
 			throw e;
 		}catch (Exception e){
-			Log.e(Util.APP, "Unknown error while trying to add videos to YouTube playlist!", e);
+			Log.w(Util.APP, "Unknown error while trying to add videos to YouTube playlist!", e);
 			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.UNKNOWN);
 		}	
 		
@@ -318,7 +318,7 @@ public class YouTubeComm {
 				throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.NOT_AUTH);
 				
 			default:
-				Log.e(Util.APP, "HTTP client returned code different from 200 or 201! code: "+ code+ " - "+ response.getStatusLine().getReasonPhrase());
+				Log.w(Util.APP, "HTTP client returned code different from 200 or 201! code: "+ code+ " - "+ response.getStatusLine().getReasonPhrase());
 				throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.REQ_FAILED);
 			}
 		} 
