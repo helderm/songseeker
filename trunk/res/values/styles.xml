@@ -90,4 +90,11 @@
         <item name="android:background">@color/light_grey</item>
     </style>
 
+    <style name="icon_label">
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light_grey</item>
+    </style>
+
 </resources>

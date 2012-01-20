@@ -19,27 +19,67 @@
 
     <ImageButton
         android:id="@+id/search_but"
-        android:layout_width="65dip"
-        android:layout_height="65dip"
+        android:layout_width="70dip"
+        android:layout_height="70dip"
         android:layout_alignLeft="@+id/seek_songs_but"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="90dp"
+        android:layout_marginLeft="35dp"
         android:background="@drawable/btn_main"
         android:gravity="center"
         android:scaleType="fitXY"
         android:src="@drawable/ic_btn_search" />
 
+    <TextView
+        style="@style/icon_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/search_but"
+        android:layout_alignLeft="@+id/search_but"
+        android:layout_alignRight="@+id/search_but"
+        android:text="Search" />
+
     <ImageButton
-        android:id="@+id/share_but"
-        android:layout_width="65dip"
-        android:layout_height="65dip"
+        android:id="@+id/profile_but"
+        android:layout_width="70dip"
+        android:layout_height="70dip"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="35dp"
         android:layout_toRightOf="@+id/search_but"
         android:background="@drawable/btn_main"
         android:gravity="center"
+        android:onClick="viewProfile"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_btn_share"
-        android:onClick="shareApp" />
+        android:src="@drawable/ic_btn_add_profile" />
+
+    <TextView
+        style="@style/icon_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/profile_but"
+        android:layout_alignLeft="@+id/profile_but"
+        android:layout_alignRight="@+id/profile_but"
+        android:text="Profile" />
+
+    <ImageButton
+        android:id="@+id/share_but"
+        android:layout_width="70dip"
+        android:layout_height="70dip"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="35dp"
+        android:layout_toRightOf="@+id/profile_but"
+        android:background="@drawable/btn_main"
+        android:gravity="center"
+        android:onClick="shareApp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_btn_share" />
+
+    <TextView
+        style="@style/icon_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/share_but"
+        android:layout_alignLeft="@+id/share_but"
+        android:layout_alignRight="@+id/share_but"
+        android:text="Share" />
 
 </RelativeLayout>
