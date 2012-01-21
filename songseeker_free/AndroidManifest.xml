@@ -26,38 +26,37 @@
         android:required="false" />
     <uses-feature
         android:name="android.hardware.touchscreen"
-        android:required="true" />    
-    
+        android:required="true" />
+
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:label="@string/app_name"
             android:name="com.seekermob.songseeker.activity.SongSeekerActivity"
-            android:screenOrientation="portrait"
+            android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan" >
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:label="Playlist Options"
             android:name="com.seekermob.songseeker.activity.PlaylistOptionsActivity"
-            android:screenOrientation="portrait" >
+            android:configChanges="orientation|keyboardHidden"
+            android:label="Playlist Options" >
         </activity>
         <activity
-            android:label="Playlist"
             android:name="com.seekermob.songseeker.activity.RecSongsActivity"
-            android:screenOrientation="portrait" >
+            android:configChanges="orientation|keyboardHidden"
+            android:label="Playlist" >
         </activity>
         <activity
-            android:label="Export to Rdio"
-            android:launchMode="singleInstance"
             android:name="com.seekermob.songseeker.activity.CreatePlaylistRdioActivity"
-            android:screenOrientation="portrait" >
-            <intent-filter >
+            android:configChanges="orientation|keyboardHidden"
+            android:label="Export to Rdio"
+            android:launchMode="singleInstance" >
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -69,75 +68,67 @@
             </intent-filter>
         </activity>
         <activity
-            android:label="Export to Last.fm"
             android:name="com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity"
-            android:screenOrientation="portrait" >
+            android:configChanges="orientation|keyboardHidden"
+            android:label="Export to Last.fm" >
         </activity>
         <activity
-            android:label="Export to YouTube"
             android:name="com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity"
-            android:screenOrientation="portrait" >
+            android:configChanges="orientation|keyboardHidden"
+            android:label="Export to YouTube" >
+        </activity>
+        <activity android:name="com.seekermob.songseeker.activity.SongInfoActivity" >
+        </activity>
+        <activity android:name="com.seekermob.songseeker.activity.ReleaseInfoActivity" >
+        </activity>
+        <activity android:name="com.seekermob.songseeker.activity.ArtistInfoActivity" >
         </activity>
         <activity
-            android:name="com.seekermob.songseeker.activity.SongInfoActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="com.seekermob.songseeker.activity.ReleaseInfoActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="com.seekermob.songseeker.activity.ArtistInfoActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:label="Artist Biography"
             android:name="com.seekermob.songseeker.activity.ArtistBioActivity"
-            android:screenOrientation="portrait" >
+            android:configChanges="orientation|keyboardHidden"
+            android:label="Artist Biography" >
         </activity>
         <activity
-            android:label="Artist News"
             android:name="com.seekermob.songseeker.activity.ArtistNewsActivity"
-            android:screenOrientation="portrait" >
+            android:configChanges="orientation|keyboardHidden"
+            android:label="Artist News" >
         </activity>
         <activity
-            android:label="Similar Artists"
             android:name="com.seekermob.songseeker.activity.SimilarArtistsActivity"
-            android:screenOrientation="portrait" >
+            android:configChanges="orientation|keyboardHidden"
+            android:label="Similar Artists" >
         </activity>
         <activity
             android:name="com.seekermob.songseeker.activity.MusicInfoTab"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:label="Export to Grooveshark"
             android:name="com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity"
-            android:screenOrientation="portrait" >
+            android:configChanges="orientation|keyboardHidden"
+            android:label="Export to Grooveshark" >
         </activity>
         <activity
-            android:label="Watch on YouTube"
             android:name="com.seekermob.songseeker.activity.WatchSongVideoActivity"
-            android:screenOrientation="portrait" >
+            android:configChanges="orientation|keyboardHidden"
+            android:label="Watch on YouTube" >
         </activity>
         <activity
-            android:label="Profile"
             android:name="com.seekermob.songseeker.activity.ProfileActivity"
-            android:screenOrientation="portrait" >
+            android:label="Profile" >
         </activity>
         <activity
-            android:label="Settings"
             android:name="com.seekermob.songseeker.activity.SettingsActivity"
-            android:screenOrientation="portrait" >
+            android:configChanges="orientation|keyboardHidden"
+            android:label="Settings" >
         </activity>
         <activity
-            android:label="About"
             android:name="com.seekermob.songseeker.activity.AboutActivity"
-            android:screenOrientation="portrait" >
+            android:configChanges="orientation|keyboardHidden"
+            android:label="About" >
         </activity>
         <activity
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:name="com.google.ads.AdActivity" />
+            android:name="com.google.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
     </application>
 
 </manifest>

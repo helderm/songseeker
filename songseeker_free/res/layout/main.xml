@@ -11,7 +11,7 @@
         android:layout_width="260dip"
         android:layout_height="260dip"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/btn_main"
         android:scaleType="fitXY"
         android:src="@drawable/ic_btn_main" >
