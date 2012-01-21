@@ -89,9 +89,16 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 			}
 			
 			showDialog(ACCOUNTS_DIAG);
-		}else{
-			new GetUserPlaylistsTask().execute();
+			
+			return;
 		}
+		
+		//check orientation change
+		UserPlaylistsData savedPls = (UserPlaylistsData) getLastNonConfigurationInstance();
+		if(savedPls == null)		
+			new GetUserPlaylistsTask().execute();
+		else
+			adapter.setUserData(savedPls);		
 	}
 
 	private class YouTubePlaylistsAdapter extends BaseAdapter {
@@ -506,4 +513,8 @@ public class CreatePlaylistYoutubeActivity extends ListActivity implements Accou
 		finish();		
 	}		
 
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return adapter.data;
+	}
 }

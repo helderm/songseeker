@@ -42,7 +42,14 @@ public class ArtistNewsActivity extends ListActivity {
 	    adapter = new ArtistNewsAdapter();
         setListAdapter(adapter);
 	    
-	    new GetArtistNews().execute();
+        //check for orientation change
+        @SuppressWarnings("unchecked")
+		ArrayList<News> savedNews = (ArrayList<News>) getLastNonConfigurationInstance();
+        
+        if(savedNews == null)
+        	new GetArtistNews().execute();
+        else
+        	adapter.setArtistNews(savedNews);
 	}
 	
 	@Override
@@ -102,7 +109,7 @@ public class ArtistNewsActivity extends ListActivity {
 	}
 	
 	private class ArtistNewsAdapter extends BaseAdapter{
-		private ArrayList<News> news;
+		public ArrayList<News> news;
 	    private LayoutInflater inflater;
 	    	
 		public ArtistNewsAdapter() {
@@ -176,5 +183,10 @@ public class ArtistNewsActivity extends ListActivity {
 		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(news.getURL()));
 		intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);
+	}
+	
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return adapter.news;
 	}
 }

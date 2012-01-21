@@ -18,13 +18,29 @@ import android.widget.Toast;
 public class ArtistBioActivity extends Activity {
 
 	private static final int ARTIST_BIO_DIAG = 0;
+	Biography bio;
 	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		new GetArtistBio().execute();
+		//check for orientation change
+		bio = (Biography) getLastNonConfigurationInstance();				
+		if(bio == null){
+			new GetArtistBio().execute();
+			return;
+		}		
+		
+		if(bio.getText() == null){
+			Toast.makeText(getApplicationContext(), "Biography not found!", Toast.LENGTH_SHORT);
+			finish();
+			return;
+		}
+		
+		setContentView(R.layout.link_text);
+		TextView tvText = (TextView)findViewById(R.id.text);
+		tvText.setText(bio.getText() + (bio.getURL()!=null? (" - Source: " + bio.getURL()): ""));
 	}
 	
 	@Override
@@ -51,7 +67,6 @@ public class ArtistBioActivity extends Activity {
 		
 		@Override
 		protected Biography doInBackground(Void... arg0) {
-			Biography bio;
 
 			ArtistInfo artist = getIntent().getExtras().getParcelable("artistParcel");
 			try {	
@@ -85,5 +100,10 @@ public class ArtistBioActivity extends Activity {
 			TextView tvText = (TextView)findViewById(R.id.text);
 			tvText.setText(bio.getText() + (bio.getURL()!=null? (" - Source: " + bio.getURL()): ""));
 		}
+	}
+	
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return bio;
 	}
 }

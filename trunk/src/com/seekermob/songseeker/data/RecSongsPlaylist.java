@@ -34,10 +34,19 @@ public class RecSongsPlaylist {
 		return obj;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public ArrayList<Song> getSongsNewInstance(){
+		return (ArrayList<Song>)songs.clone();
+	}
+	
+	public void setSongs(ArrayList<Song> s){
+		songs = s;
+	}
+	
 	public void setPlaylist(){
 		adapter.setPlaylist(songs);
 	}
-	
+		
 	public void clearPlaylist(){
 		if(songs != null)
 			songs.clear();

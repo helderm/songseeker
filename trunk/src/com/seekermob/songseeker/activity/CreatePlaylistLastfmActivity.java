@@ -63,11 +63,18 @@ public class CreatePlaylistLastfmActivity extends ListActivity implements OnCanc
         setListAdapter(adapter);
 				
         settings = getApplicationContext().getSharedPreferences(Util.APP, Context.MODE_PRIVATE);
-		if(!LastfmComm.getComm(settings).isAuthorized())
+		if(!LastfmComm.getComm(settings).isAuthorized()){
 			showDialog(USER_AUTH_DIAG);			
-		else
-			new GetUserPlaylistsTask().execute(null, null, null);
+			return;
+		}
 		
+		//check orientation change
+		@SuppressWarnings("unchecked")
+		List<Playlist> savedPls = (List<Playlist>) getLastNonConfigurationInstance();
+		if(savedPls == null)
+			new GetUserPlaylistsTask().execute(null, null, null);
+		else
+			adapter.setPlaylists(savedPls);		
 	}
 	
 	@Override
@@ -405,5 +412,10 @@ public class CreatePlaylistLastfmActivity extends ListActivity implements OnCanc
 		
 		Toast.makeText(getApplicationContext(), getString(R.string.op_cancel_str), Toast.LENGTH_SHORT).show();
 		finish();		
+	}
+	
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return adapter.pls;
 	}
 }

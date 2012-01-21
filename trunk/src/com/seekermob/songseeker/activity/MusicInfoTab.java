@@ -24,25 +24,44 @@ import android.widget.Toast;
 @SuppressWarnings("deprecation")
 public class MusicInfoTab extends TabActivity {
 	
+	private SongInfo song = null;
+	private ReleaseInfo release = null;
+	private ArtistInfo artist = null;
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		boolean isFromRecSongs = true;
-		SongInfo song = null;
-		ReleaseInfo release = null;
-		ArtistInfo artist = null;
 
 		Resources res = getResources(); // Resource object to get Drawables
 		TabHost tabHost = getTabHost();  // The activity TabHost
 		TabHost.TabSpec spec;  // Resusable TabSpec for each tab
 		Intent intent;  // Reusable Intent for each tab
         
-		//prepare the song info tab, if available
-		song = getIntent().getExtras().getParcelable("songId");
+		//check for orientation change
+		SongInfo savedSong = (SongInfo)getLastNonConfigurationInstance();
+		if(savedSong != null){
+						
+			if(savedSong.id != null){
+				song = savedSong;
+				isFromRecSongs = false;
+			}
+			
+			if(savedSong.release != null)
+				release = savedSong.release;
+			
+			if(savedSong.artist != null)
+				artist = savedSong.artist;
+		}
 		
 		if(song == null){
-			isFromRecSongs = false;
-			song = getIntent().getExtras().getParcelable("songParcel");
+			//prepare the song info tab, if available
+			song = getIntent().getExtras().getParcelable("songId");
+			
+			if(song == null){
+				isFromRecSongs = false;
+				song = getIntent().getExtras().getParcelable("songParcel");
+			}
 		}
 		
 		//if we dont have froyo, then we cant call the async task 
@@ -123,10 +142,12 @@ public class MusicInfoTab extends TabActivity {
 			}
 
 			//prepare the release info tab, if available
-			if(song != null && song.release != null)
-				release = song.release;
-			else
-				release = getIntent().getExtras().getParcelable("releaseParcel");
+			if(release == null){
+				if(song != null && song.release != null)
+					release = song.release;
+				else
+					release = getIntent().getExtras().getParcelable("releaseParcel");
+			}
 			
 			if(release != null){
 				intent = new Intent().setClass(this, ReleaseInfoActivity.class);
@@ -138,14 +159,15 @@ public class MusicInfoTab extends TabActivity {
 				tabHost.addTab(spec);
 			}
 
-
 			//prepare the artist info tab
-			if(song != null && song.artist != null)
-				artist = song.artist;
-			else if(release != null)
-				artist = release.artist;
-			else
-				artist = getIntent().getExtras().getParcelable("artistParcel");
+			if(artist == null){
+				if(song != null && song.artist != null)
+					artist = song.artist;
+				else if(release != null)
+					artist = release.artist;
+				else
+					artist = getIntent().getExtras().getParcelable("artistParcel");
+			}
 			
 			if(artist != null){
 				intent = new Intent().setClass(this, ArtistInfoActivity.class);
@@ -182,10 +204,14 @@ public class MusicInfoTab extends TabActivity {
 		}
 
 		@Override
-		protected void onPostExecute(SongInfo song) {
+		protected void onPostExecute(SongInfo s) {
 
 			removeDialog(SONG_DETAILS_DIAG);
 
+			song = s;
+			release = s.release;
+			artist = s.artist;
+			
 			if(err != null){
 				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
 				MusicInfoTab.this.finish();
@@ -242,6 +268,42 @@ public class MusicInfoTab extends TabActivity {
 		default:
 			return null;		    	
 		}
+	}
+	
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		SongInfo savedSong = new SongInfo();
+		
+		if(song != null){
+			savedSong.buyUrl = song.buyUrl;
+			savedSong.duration = song.duration;
+			savedSong.id = song.id;
+			savedSong.name = song.name;
+			savedSong.previewUrl = song.previewUrl;
+			savedSong.trackNum = song.trackNum;
+			savedSong.version = song.version;		
+		}else{
+			savedSong.id = null;
+		}
+		
+		if(release != null){
+			savedSong.release.artist = release.artist;
+			savedSong.release.buyUrl = release.buyUrl;
+			savedSong.release.id = release.id;
+			savedSong.release.image = release.image;
+			savedSong.release.name = release.name;					
+		}else
+			savedSong.release = null;
+		
+		if(artist != null){
+			savedSong.artist.buyUrl = artist.buyUrl;
+			savedSong.artist.id = artist.id;
+			savedSong.artist.image = artist.image;
+			savedSong.artist.name = artist.name;
+		}else
+			savedSong.artist = null;			
+		
+		return savedSong;
 	}
 
 }

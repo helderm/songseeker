@@ -58,37 +58,41 @@ public class RecSongsActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 			
 		super.onCreate(savedInstanceState);
-	    
-        // Use a custom layout file
-        setContentView(R.layout.listview);
-        
-        // Tell the list view which view to display when the list is empty
-        getListView().setEmptyView(findViewById(R.id.empty));
-        
-        // Set up our adapter
-        adapter = new RecSongsAdapter();
-        setListAdapter(adapter);
-        
-        registerForContextMenu(getListView());
-        
-        //check if we have an empty playlist
-        ArtistsParcel ss = getIntent().getExtras().getParcelable("searchSeed");
-        if(ss == null || ss.getArtistList().size() == 0){
-        	
-        	if(RecSongsPlaylist.getInstance().isEmpty()){
-        		Toast.makeText(getApplicationContext(), "There is no songs in your playlist!", Toast.LENGTH_SHORT).show();
-        		finish();
-        	}else{
-        		RecSongsPlaylist.getInstance(adapter).setPlaylist();
-        	}
-        	return;
-        }
-       
-        //get the playlist
-        PlaylistParams plp = buildPlaylistParams();	    
-	    RecSongsPlaylist.getInstance(adapter).getPlaylist(plp, this, PROGRESS_DIAG);
 
-	    //Debug.startMethodTracing("myapp");
+		// Use a custom layout file
+		setContentView(R.layout.listview);
+
+		// Tell the list view which view to display when the list is empty
+		getListView().setEmptyView(findViewById(R.id.empty));
+
+		// Set up our adapter
+		adapter = new RecSongsAdapter();
+		setListAdapter(adapter);
+
+		registerForContextMenu(getListView());    	
+
+		//check orientation change
+		@SuppressWarnings("unchecked")
+		ArrayList<Song> savedSongs = (ArrayList<Song>) getLastNonConfigurationInstance();
+		if(savedSongs != null)
+			RecSongsPlaylist.getInstance().setSongs(savedSongs);
+		
+		//check if we have an empty playlist
+		ArtistsParcel ss = getIntent().getExtras().getParcelable("searchSeed");
+		if(savedSongs != null || ss == null || ss.getArtistList().size() == 0){
+
+			if(RecSongsPlaylist.getInstance().isEmpty()){
+				Toast.makeText(getApplicationContext(), "There is no songs in your playlist!", Toast.LENGTH_SHORT).show();
+				finish();
+			}else{
+				RecSongsPlaylist.getInstance(adapter).setPlaylist();
+			}
+			return;
+		}
+
+		//get the playlist
+		PlaylistParams plp = buildPlaylistParams();	    
+		RecSongsPlaylist.getInstance(adapter).getPlaylist(plp, this, PROGRESS_DIAG);
 	}
 	
 	@Override
@@ -102,8 +106,6 @@ public class RecSongsActivity extends ListActivity {
 		ImageLoader.getLoader(getCacheDir()).stopThread();
 		//ImageLoader.getLoader(getCacheDir()).clearCache();
 		RecSongsPlaylist.getInstance().clearPlaylist();
-		
-		//Debug.stopMethodTracing();
 		super.onDestroy();
 	}
 	
@@ -455,6 +457,11 @@ public class RecSongsActivity extends ListActivity {
 		}
 		
 		return super.onContextItemSelected(item);		
+	}
+
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return RecSongsPlaylist.getInstance().getSongsNewInstance();
 	}
 }
 

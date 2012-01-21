@@ -49,7 +49,14 @@ public class SimilarArtistsActivity extends ListActivity {
 		adapter = new SimilarArtistsAdapter();
 		setListAdapter(adapter);
 
-		new GetSimilarArtists().execute();
+		//check orientation change
+		@SuppressWarnings("unchecked")
+		ArrayList<ArtistInfo> savedArtists = (ArrayList<ArtistInfo>) getLastNonConfigurationInstance();
+		
+		if(savedArtists == null)
+			new GetSimilarArtists().execute();
+		else
+			adapter.setSimilarArtists(savedArtists);
 	}
 
 	@Override
@@ -195,5 +202,10 @@ public class SimilarArtistsActivity extends ListActivity {
 		Intent i = new Intent(SimilarArtistsActivity.this, MusicInfoTab.class);
 		i.putExtra("artistParcel", artist);
 		startActivity(i);
+	}
+	
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return adapter.similarArtists;
 	}
 }

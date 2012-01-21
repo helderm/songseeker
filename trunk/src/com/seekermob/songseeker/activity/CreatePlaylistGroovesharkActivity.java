@@ -65,8 +65,15 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity implements O
         
         if(!GroovesharkComm.getComm(settings).isAuthorized()){
         	showDialog(USER_AUTH_DIAG);
-        }else
+        	return;
+        }
+        
+        //check orientation change
+        UserPlaylistsData savedPls = (UserPlaylistsData) getLastNonConfigurationInstance();
+        if(savedPls == null)
         	new GetUserPlaylistsTask().execute();
+        else
+        	adapter.setPlaylists(savedPls);
 	}
 	
 	private class PlaylistsAdapter extends BaseAdapter{
@@ -91,7 +98,7 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity implements O
 		public long getItemId(int position) {
 			return position;
 		}
-
+		
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder;
 	    	
@@ -475,4 +482,8 @@ public class CreatePlaylistGroovesharkActivity extends ListActivity implements O
 		finish();
 	}
 	
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return adapter.playlists;
+	}
 }

@@ -5,7 +5,7 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:fillViewport="true"
         android:orientation="vertical"
         android:weightSum="1" >
@@ -24,7 +24,8 @@
             android:id="@+id/seekBar_mood"
             android:layout_width="236dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" >
+            android:layout_gravity="center"
+            android:progressDrawable="@drawable/seekbar_progress" >
         </SeekBar>
 
         <TextView
@@ -41,7 +42,8 @@
             android:id="@+id/seekBar_tempo"
             android:layout_width="236dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" >
+            android:layout_gravity="center"
+            android:progressDrawable="@drawable/seekbar_progress" >
         </SeekBar>
 
         <TextView
@@ -58,7 +60,8 @@
             android:id="@+id/seekBar_danceability"
             android:layout_width="236dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" >
+            android:layout_gravity="center"
+            android:progressDrawable="@drawable/seekbar_progress" >
         </SeekBar>
 
         <TextView
@@ -75,7 +78,8 @@
             android:id="@+id/seekBar_energy"
             android:layout_width="236dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" >
+            android:layout_gravity="center"
+            android:progressDrawable="@drawable/seekbar_progress" >
         </SeekBar>
 
         <TextView
@@ -92,7 +96,8 @@
             android:id="@+id/seekBar_hotness"
             android:layout_width="236dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" >
+            android:layout_gravity="center"
+            android:progressDrawable="@drawable/seekbar_progress" >
         </SeekBar>
 
         <TextView
@@ -109,7 +114,8 @@
             android:id="@+id/seekBar_variety"
             android:layout_width="236dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" >
+            android:layout_gravity="center"
+            android:progressDrawable="@drawable/seekbar_progress" >
         </SeekBar>
 
         <TextView
@@ -126,7 +132,8 @@
             android:id="@+id/seekBar_max_results"
             android:layout_width="236dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" >
+            android:layout_gravity="center"
+            android:progressDrawable="@drawable/seekbar_progress" >
         </SeekBar>
 
         <TextView

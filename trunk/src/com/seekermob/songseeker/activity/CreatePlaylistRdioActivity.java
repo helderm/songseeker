@@ -68,10 +68,16 @@ public class CreatePlaylistRdioActivity extends ListActivity implements OnCancel
         
 		settings = getApplicationContext().getSharedPreferences(Util.APP, Context.MODE_PRIVATE);
 		if(!RdioComm.getComm(settings).isAuthorized()) {
-			new RequestAuthorizeTask().execute(null, null, null);			
-		} else {
+			new RequestAuthorizeTask().execute(null, null, null);	
+			return;
+		} 
+		
+		//check orientation change
+		UserPlaylistsData savedPls = (UserPlaylistsData) getLastNonConfigurationInstance();
+		if(savedPls == null)
 			new GetUserPlaylistsTask().execute(null, null, null);
-		}			
+		else
+			adapter.setUserData(savedPls);					
 	}
 	
 	@Override
@@ -437,4 +443,9 @@ public class CreatePlaylistRdioActivity extends ListActivity implements OnCancel
 		Toast.makeText(getApplicationContext(), getString(R.string.op_cancel_str), Toast.LENGTH_SHORT).show();
 		finish();		
 	}	
+	
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return adapter.data;
+	}
 }

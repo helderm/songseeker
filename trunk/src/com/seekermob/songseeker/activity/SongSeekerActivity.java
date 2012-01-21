@@ -78,12 +78,6 @@ public class SongSeekerActivity extends Activity {
         	startActivity(i);
             return true;
         }
-        
-        if(itemId == R.id.profile){
-        	i = new Intent(SongSeekerActivity.this, ProfileActivity.class);
-        	startActivity(i);
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -178,10 +172,18 @@ public class SongSeekerActivity extends Activity {
 		startActivity(Intent.createChooser(intent, "Share using..."));
     }
     
+    public void viewProfile(View v){
+    	Intent i = new Intent(SongSeekerActivity.this, ProfileActivity.class);
+    	startActivity(i);
+    }
+    
     //used by the free package in the main.xml layout after clicking the 'donate' button
     public void donate(View v) {
-    	Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://market.android.com/details?id=com.seekermob.songseekerfull"));
+    	Toast.makeText(getApplicationContext(), "The Donate version will soon be released, stay tuned!", Toast.LENGTH_LONG).show();
+    	
+    	/*Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://market.android.com/details?id=com.seekermob.songseekerfull"));
 		intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(intent);
-    }
+		startActivity(intent);*/
+    }   
+    
 }

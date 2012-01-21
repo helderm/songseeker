@@ -48,7 +48,14 @@ public class WatchSongVideoActivity extends ListActivity {
 		adapter = new ListAdapter();
 		setListAdapter(adapter);
 		
-		new GetVideosTask().execute();
+		//check orientation change
+		@SuppressWarnings("unchecked")
+		ArrayList<VideoFeed> savedVideos = (ArrayList<VideoFeed>) getLastNonConfigurationInstance();
+		
+		if(savedVideos == null)		
+			new GetVideosTask().execute();
+		else
+			adapter.setAdapter(savedVideos);	
 	}
 
 	@Override
@@ -184,5 +191,10 @@ public class WatchSongVideoActivity extends ListActivity {
 		
 		Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v="+videoId));
 		startActivity(i);
+	}
+	
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return adapter.videos;
 	}
 }

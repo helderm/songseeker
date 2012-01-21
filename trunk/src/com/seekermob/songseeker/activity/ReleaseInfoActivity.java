@@ -43,18 +43,40 @@ public class ReleaseInfoActivity extends ListActivity {
 	private SongListAdapter adapter;
 
 	private StartMediaPlayerTask mp_task = new StartMediaPlayerTask();
-	private GetReleaseDetails rl_task = new GetReleaseDetails();
+	private GetReleaseDetails task = new GetReleaseDetails();
 	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		adapter =  new SongListAdapter();
+		release = getIntent().getExtras().getParcelable("releaseParcel");
+		adapter = new SongListAdapter();
 		
-		rl_task.execute();
+		//check orientation change
+		@SuppressWarnings("unchecked")
+		ArrayList<SongInfo> savedSongList = (ArrayList<SongInfo>) getLastNonConfigurationInstance();
+		
+		if(savedSongList == null){		
+			task = new GetReleaseDetails();
+			task.execute();
+		}else{
+			setListHeader();
+			adapter.setSongList(savedSongList);
+		}
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	
+		if(task != null)
+			task.cancel(true);
+		
+		if(mp_task != null)
+			mp_task.cancel(true);		
+	}
+	
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		switch(id){
@@ -78,7 +100,7 @@ public class ReleaseInfoActivity extends ListActivity {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		rl_task.cancel(true);
+		task.cancel(true);
 	}
 	
 	private class GetReleaseDetails extends AsyncTask<Void, Void, Void>{
@@ -94,7 +116,6 @@ public class ReleaseInfoActivity extends ListActivity {
 			ArrayList<SongInfo> songList;
 
 			try{
-				release = getIntent().getExtras().getParcelable("releaseParcel");
 				if(release == null){
 					//this will happen only on Eclair, see MusicInfoTab
 					SongInfo song = getIntent().getExtras().getParcelable("songId");	
@@ -124,71 +145,7 @@ public class ReleaseInfoActivity extends ListActivity {
 				return;
 			}
 
-			//set content for main screen
-			setContentView(R.layout.listview);	
-			
-			//set transparent background to show album image
-			getListView().setBackgroundColor(0);
-			
-			//set album info header
-			LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			LinearLayout header = (LinearLayout)inflater.inflate(R.layout.release_info, null);
-			
-			TextView releaseName = (TextView) header.findViewById(R.id.releaseinfo_releaseName);
-			releaseName.setText(release.name);
-
-			TextView releaseArtist = (TextView) header.findViewById(R.id.releaseinfo_artistName);
-			releaseArtist.setText(release.artist.name);
-			releaseArtist.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					Intent i = new Intent(ReleaseInfoActivity.this, ArtistInfoActivity.class);
-					i.putExtra("artistParcel", release.artist);
-					startActivity(i);
-				}
-			});
-
-			//set buy button
-			ImageButton buy = (ImageButton)header.findViewById(R.id.releaseinfo_buy);
-			buy.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(release.buyUrl));
-					intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
-					startActivity(intent);
-				}
-			});
-
-			//set add button
-			ImageButton add = (ImageButton)header.findViewById(R.id.releaseinfo_add);
-			add.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					RecSongsPlaylist.getInstance().addSongsToPlaylist(adapter.songList, ReleaseInfoActivity.this);
-				}
-			});
-			
-			//set share button
-			ImageButton share = (ImageButton)header.findViewById(R.id.releaseinfo_share);
-			share.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					final Intent intent = new Intent(Intent.ACTION_SEND);					 
-					intent.setType("text/plain");
-					intent.putExtra(Intent.EXTRA_SUBJECT, "New album!");
-					intent.putExtra(Intent.EXTRA_TEXT, "I discovered the album '"+ release.name + " by "+ release.artist.name 
-							+ "' using the Song Seeker app for Android! Check it out! "+ release.buyUrl);
-					startActivity(Intent.createChooser(intent, "Share using..."));
-				}				
-			});
-			
-			//set image
-			ImageView coverart = (ImageView) header.findViewById(R.id.releaseinfo_coverArt);
-			ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, coverart, R.drawable.ic_disc_stub_large);
-			
-			ImageView bkg = (ImageView) findViewById(R.id.listview_bkg);
-			ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, getListView(), bkg);
-			
-			getListView().addHeaderView(header);
-
-			//set adapter for top tracks
-			ReleaseInfoActivity.this.setListAdapter(adapter); 	
+			setListHeader();
 		}		
 	}	
 	
@@ -360,4 +317,70 @@ public class ReleaseInfoActivity extends ListActivity {
 				MediaPlayerController.getCon().startStopMedia(song.previewUrl, position, adapter);
 		}
 	}	
+	
+	private void setListHeader(){
+		//set content for main screen
+		setContentView(R.layout.listview);	
+		
+		//set transparent background to show album image
+		getListView().setBackgroundColor(0);
+		
+		//set album info header
+		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LinearLayout header = (LinearLayout)inflater.inflate(R.layout.release_info, null);
+		
+		TextView releaseName = (TextView) header.findViewById(R.id.releaseinfo_releaseName);
+		releaseName.setText(release.name);
+
+		TextView releaseArtist = (TextView) header.findViewById(R.id.releaseinfo_artistName);
+		releaseArtist.setText(release.artist.name);
+
+		//set buy button
+		ImageButton buy = (ImageButton)header.findViewById(R.id.releaseinfo_buy);
+		buy.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(release.buyUrl));
+				intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
+			}
+		});
+
+		//set add button
+		ImageButton add = (ImageButton)header.findViewById(R.id.releaseinfo_add);
+		add.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				RecSongsPlaylist.getInstance().addSongsToPlaylist(adapter.songList, ReleaseInfoActivity.this);
+			}
+		});
+		
+		//set share button
+		ImageButton share = (ImageButton)header.findViewById(R.id.releaseinfo_share);
+		share.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				final Intent intent = new Intent(Intent.ACTION_SEND);					 
+				intent.setType("text/plain");
+				intent.putExtra(Intent.EXTRA_SUBJECT, "New album!");
+				intent.putExtra(Intent.EXTRA_TEXT, "I discovered the album '"+ release.name + " by "+ release.artist.name 
+						+ "' using the Song Seeker app for Android! Check it out! "+ release.buyUrl);
+				startActivity(Intent.createChooser(intent, "Share using..."));
+			}				
+		});
+		
+		//set image
+		ImageView coverart = (ImageView) header.findViewById(R.id.releaseinfo_coverArt);
+		ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, coverart, R.drawable.ic_disc_stub_large);
+		
+		ImageView bkg = (ImageView) findViewById(R.id.listview_bkg);
+		ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, getListView(), bkg);
+		
+		getListView().addHeaderView(header);
+
+		//set adapter for top tracks
+		ReleaseInfoActivity.this.setListAdapter(adapter); 	
+	}
+	
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return adapter.songList;
+	}
 }
