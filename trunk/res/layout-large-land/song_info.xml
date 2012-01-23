@@ -11,8 +11,8 @@
 
         <ImageView
             android:id="@+id/songinfo_coverArt"
-            android:layout_width="200dip"
-            android:layout_height="200dip"
+            android:layout_width="220dip"
+            android:layout_height="220dip"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="18dp"

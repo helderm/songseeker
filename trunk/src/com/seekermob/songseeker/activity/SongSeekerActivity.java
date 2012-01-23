@@ -10,7 +10,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.Menu;
@@ -176,7 +175,7 @@ public class SongSeekerActivity extends Activity {
     	Intent i = new Intent(SongSeekerActivity.this, ProfileActivity.class);
     	startActivity(i);
     }
-    
+
     //used by the free package in the main.xml layout after clicking the 'donate' button
     public void donate(View v) {
     	Toast.makeText(getApplicationContext(), "The Donate version will soon be released, stay tuned!", Toast.LENGTH_LONG).show();
