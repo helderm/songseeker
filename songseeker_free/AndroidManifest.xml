@@ -19,9 +19,6 @@
         android:xlargeScreens="false" />
 
     <uses-feature
-        android:name="android.hardware.screen.portrait"
-        android:required="true" />
-    <uses-feature
         android:name="android.hardware.faketouch"
         android:required="false" />
     <uses-feature
