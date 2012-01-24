@@ -11,7 +11,15 @@ import android.provider.MediaStore;
 public class Util {
 
 	public static final String APP = "SongSeeker";
-
+	public static final String ECHONEST_URL = "http://the.echonest.com/";
+	public static final String SEVENDIGITAL_URL = "http://www.7digital.com/";
+	public static final String DESIGNER_URL = "http://www.lucassanchez.com.br/";
+	public static final String ANDROIDICONS_URL = "http://www.androidicons.com/"; 
+	public static final String RDIO_URL = "http://www.rdio.com/";
+	public static final String GROOVESHARK_URL = "http://www.grooveshark.com/";
+	public static final String YOUTUBE_URL = "http://www.youtube.com/";
+	public static final String LASTFM_URL = "http://www.lastfm.com/";
+	
 	public static ArrayList<String> getArtistsFromDevice(Activity a) throws Exception{
 		ArrayList<String> artists = new ArrayList<String>();
 

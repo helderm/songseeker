@@ -6,6 +6,7 @@ import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.EchoNestComm;
 import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.data.ArtistInfo;
+import com.seekermob.songseeker.util.Util;
 import com.echonest.api.v4.News;
 
 import android.app.Dialog;
@@ -20,6 +21,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +42,11 @@ public class ArtistNewsActivity extends ListActivity {
         
         // Tell the list view which view to display when the list is empty
         getListView().setEmptyView(findViewById(R.id.empty));	    
-	    adapter = new ArtistNewsAdapter();
+	    
+		//set EN logo at the end of the listview
+		setLogoFooter();
+		        
+        adapter = new ArtistNewsAdapter();
         setListAdapter(adapter);
 	    
         //check for orientation change
@@ -183,6 +190,26 @@ public class ArtistNewsActivity extends ListActivity {
 		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(news.getURL()));
 		intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);
+	}
+	
+	private void setLogoFooter() {		
+		
+		//set logo footer
+		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LinearLayout footer = (LinearLayout)inflater.inflate(R.layout.logo, null);
+		
+		ImageView logo = (ImageView)footer.findViewById(R.id.logo);
+		logo.setImageResource(R.drawable.echonest_logo);
+		
+		logo.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Util.ECHONEST_URL));
+				intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
+			}
+		});
+		
+		getListView().addFooterView(footer);		
 	}
 	
 	@Override

@@ -11,6 +11,7 @@ import com.echonest.api.v4.Biography;
 import com.echonest.api.v4.EchoNestAPI;
 import com.echonest.api.v4.EchoNestException;
 import com.echonest.api.v4.News;
+import com.echonest.api.v4.Params;
 import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
 import com.echonest.api.v4.Song;
@@ -201,6 +202,21 @@ public class EchoNestComm {
 		return similar;
 	}	
 
+	public ArrayList<Artist> getSuggestedArtists(String partialName, int numResults) throws ServiceCommException{
+		ArrayList<Artist> suggestions = new ArrayList<Artist>();
+		
+		try{
+			Params p = new Params();
+			p.set("name", partialName);
+			p.set("results", numResults);			
+			suggestions = (ArrayList<Artist>) en.suggestArtists(p);
+		}catch (EchoNestException e){
+			treatEchoNestException(e, true);
+		}
+		
+		return suggestions;
+	}
+	
 	private void treatEchoNestException(EchoNestException e, boolean isArtist) throws ServiceCommException{
 
 		switch(e.getCode()){

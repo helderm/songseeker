@@ -25,6 +25,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 //import android.os.Debug;
 import android.util.Log;
@@ -40,6 +41,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -65,6 +67,9 @@ public class RecSongsActivity extends ListActivity {
 		// Tell the list view which view to display when the list is empty
 		getListView().setEmptyView(findViewById(R.id.empty));
 
+		//set EN logo at the end of the listview
+		setLogoFooter();
+		
 		// Set up our adapter
 		adapter = new RecSongsAdapter();
 		setListAdapter(adapter);
@@ -94,7 +99,7 @@ public class RecSongsActivity extends ListActivity {
 		PlaylistParams plp = buildPlaylistParams();	    
 		RecSongsPlaylist.getInstance(adapter).getPlaylist(plp, this, PROGRESS_DIAG);
 	}
-	
+
 	@Override
 	protected void onPause() {
 		MediaPlayerController.getCon().release();
@@ -458,11 +463,32 @@ public class RecSongsActivity extends ListActivity {
 		
 		return super.onContextItemSelected(item);		
 	}
-
+	
+	private void setLogoFooter() {		
+		
+		//set logo footer
+		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LinearLayout footer = (LinearLayout)inflater.inflate(R.layout.logo, null);
+		
+		ImageView logo = (ImageView)footer.findViewById(R.id.logo);
+		logo.setImageResource(R.drawable.echonest_logo);
+		
+		logo.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Util.ECHONEST_URL));
+				intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
+			}
+		});
+		
+		getListView().addFooterView(footer);		
+	}
+	
 	@Override
 	public Object onRetainNonConfigurationInstance() {
 		return RecSongsPlaylist.getInstance().getSongsNewInstance();
 	}
+	
 }
 
 

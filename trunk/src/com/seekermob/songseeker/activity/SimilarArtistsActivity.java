@@ -17,6 +17,7 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +47,9 @@ public class SimilarArtistsActivity extends ListActivity {
 		// Tell the list view which view to display when the list is empty
 		getListView().setEmptyView(findViewById(R.id.empty));
 
+		//set EN logo at the end of the listview
+		setLogoFooter();
+				
 		// Set up our adapter
 		adapter = new SimilarArtistsAdapter();
 		setListAdapter(adapter);
@@ -195,6 +200,26 @@ public class SimilarArtistsActivity extends ListActivity {
 		}
 	}
 
+	private void setLogoFooter() {		
+		
+		//set logo footer
+		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LinearLayout footer = (LinearLayout)inflater.inflate(R.layout.logo, null);
+		
+		ImageView logo = (ImageView)footer.findViewById(R.id.logo);
+		logo.setImageResource(R.drawable.echonest_logo);
+		
+		logo.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Util.ECHONEST_URL));
+				intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
+			}
+		});
+		
+		getListView().addFooterView(footer);		
+	}
+	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		ArtistInfo artist = adapter.getItem(position);
