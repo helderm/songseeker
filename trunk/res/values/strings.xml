@@ -37,5 +37,15 @@
     <string name="username_str">username</string>
     <string name="password_str">password</string>
     <string name="op_cancel_str">Operation cancelled!</string>
+    <string name="buy_at_str">Buy at</string>
+    <string name="sevendigital_str">7digital</string>
+    <string name="watch_on_str">Watch on</string>
+    <string name="youtube_str">YouTube</string>
+    <string name="add_to_str">Add to</string>
+    <string name="playlist_str">Playlist</string>
+    <string name="share_str">Share</string>
+    <string name="song_str">Song</string>
+    <string name="album_str">Album</string>
+    <string name="artist_str">Artist</string>
 
 </resources>

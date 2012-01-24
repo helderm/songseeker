@@ -146,12 +146,30 @@
             android:layout_width="100dip"
             android:layout_height="100dip"
             android:layout_marginLeft="200dip"
-            android:layout_marginTop="20dip"
+            android:layout_marginTop="40dip"
             android:layout_toLeftOf="@+id/songinfo_albumName"
             android:background="@drawable/btn_info_icons"
             android:scaleType="fitXY"
             android:src="@drawable/ic_btn_buy" >
         </ImageButton>
+
+        <TextView
+            style="@style/icon_label_xlarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/songinfo_watch"
+            android:layout_alignLeft="@+id/songinfo_buy"
+            android:layout_alignRight="@+id/songinfo_buy"
+            android:text="@string/buy_at_str" />
+
+        <TextView
+            style="@style/icon_label_xlarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/songinfo_buy"
+            android:layout_alignRight="@+id/songinfo_buy"
+            android:layout_below="@+id/songinfo_buy"
+            android:text="@string/sevendigital_str" />
 
         <ImageButton
             android:id="@+id/songinfo_watch"
@@ -164,6 +182,24 @@
             android:src="@drawable/ic_btn_watch" >
         </ImageButton>
 
+        <TextView
+            style="@style/icon_label_xlarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/songinfo_watch"
+            android:layout_alignLeft="@+id/songinfo_watch"
+            android:layout_alignRight="@+id/songinfo_watch"
+            android:text="@string/watch_on_str" />
+
+        <TextView
+            style="@style/icon_label_xlarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/songinfo_watch"
+            android:layout_alignRight="@+id/songinfo_watch"
+            android:layout_below="@+id/songinfo_watch"
+            android:text="@string/youtube_str" />
+
         <ImageButton
             android:id="@+id/songinfo_add"
             android:layout_width="100dip"
@@ -174,6 +210,24 @@
             android:scaleType="fitXY"
             android:src="@drawable/ic_btn_add_playlist" >
         </ImageButton>
+
+        <TextView
+            style="@style/icon_label_xlarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/songinfo_add"
+            android:layout_alignLeft="@+id/songinfo_add"
+            android:layout_alignRight="@+id/songinfo_add"
+            android:text="@string/add_to_str" />
+
+        <TextView
+            style="@style/icon_label_xlarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/songinfo_add"
+            android:layout_alignRight="@+id/songinfo_add"
+            android:layout_below="@+id/songinfo_add"
+            android:text="@string/playlist_str" />
 
         <ImageButton
             android:id="@+id/songinfo_share"
@@ -187,12 +241,31 @@
         </ImageButton>
 
         <TextView
+            style="@style/icon_label_xlarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/songinfo_share"
+            android:layout_alignLeft="@+id/songinfo_share"
+            android:layout_alignRight="@+id/songinfo_share"
+            android:text="@string/share_str" />
+
+        <TextView
+            style="@style/icon_label_xlarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/songinfo_share"
+            android:layout_alignRight="@+id/songinfo_share"
+            android:layout_below="@+id/songinfo_share"
+            android:text="@string/song_str" />
+
+        <TextView
             android:id="@+id/songinfo_topTrackTitle"
+            style="@style/music_info_subtitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/songinfo_add"
             android:layout_marginBottom="15dip"
-            android:layout_marginTop="20dip"
+            android:layout_marginTop="40dip"
             android:gravity="center|top"
             android:text="Artist&apos;s Top Songs"
             android:textAppearance="?android:attr/textAppearanceMedium" >
