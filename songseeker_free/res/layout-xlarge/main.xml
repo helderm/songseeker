@@ -30,14 +30,13 @@
         android:src="@drawable/ic_btn_search" />
 
     <TextView
-        style="@style/icon_label"
+        style="@style/icon_label_xlarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/search_but"
         android:layout_alignLeft="@+id/search_but"
         android:layout_alignRight="@+id/search_but"
-        android:text="Search"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:text="Search" />
 
     <ImageButton
         android:id="@+id/profile_but"
@@ -53,14 +52,13 @@
         android:src="@drawable/ic_btn_add_profile" />
 
     <TextView
-        style="@style/icon_label"
+        style="@style/icon_label_xlarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/profile_but"
         android:layout_alignLeft="@+id/profile_but"
         android:layout_alignRight="@+id/profile_but"
-        android:text="Profile"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:text="Profile" />
 
     <ImageButton
         android:id="@+id/share_but"
@@ -76,14 +74,13 @@
         android:src="@drawable/ic_btn_share" />
 
     <TextView
-        style="@style/icon_label"
+        style="@style/icon_label_xlarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/share_but"
         android:layout_alignLeft="@+id/share_but"
         android:layout_alignRight="@+id/share_but"
-        android:text="Share"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:text="Share" />
 
     <ImageButton
         android:id="@+id/donate_but"
@@ -99,14 +96,13 @@
         android:src="@drawable/ic_btn_donate" />
 
     <TextView
-        style="@style/icon_label"
+        style="@style/icon_label_xlarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/donate_but"
         android:layout_alignLeft="@+id/donate_but"
         android:layout_alignRight="@+id/donate_but"
-        android:text="Donate"
-        android:textAppearance="?android:attr/textAppearanceMedium" >
+        android:text="Donate" >
     </TextView>
 
 </RelativeLayout>
