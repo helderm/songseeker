@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.data.ArtistsParcel;
 import com.seekermob.songseeker.data.UserProfile;
+import com.seekermob.songseeker.util.AppRater;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -44,6 +45,8 @@ public class SongSeekerActivity extends Activity {
             	getSongsFromProfile();
             }
         }); 
+        
+        AppRater.app_launched(this);
     }
 
 	@Override

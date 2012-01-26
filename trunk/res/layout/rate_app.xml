@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/music_info_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="If you enjoy using Song Seeker, support indie development by rating it positively! Thanks for your support!" />
+
+    <Button
+        android:id="@+id/rate_but"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Rate it!" >
+    </Button>
+
+    <Button
+        android:id="@+id/later_but"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Maybe later" >
+    </Button>
+
+    <Button
+        android:id="@+id/no_but"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="No, thanks" >
+    </Button>
+
+</LinearLayout>

@@ -55,8 +55,8 @@ public class UserProfile implements Serializable, OnCancelListener{
 		addTask = (AddToProfileTask) new AddToProfileTask(names, a, ad, true, null).execute();
 	}
 	
-	public void addToProfile(ArrayList<String> names, Activity a, ProgressDialog d){
-		addTask = (AddToProfileTask) new AddToProfileTask(names, a, null, true, d).execute();
+	public void addToProfile(ArrayList<String> names, Activity a, BaseAdapter ad, ProgressDialog d){
+		addTask = (AddToProfileTask) new AddToProfileTask(names, a, ad, true, d).execute();
 	}
 	
 	public void addIdToProfile(ArrayList<String> ids, Activity a, BaseAdapter ad){
@@ -71,7 +71,9 @@ public class UserProfile implements Serializable, OnCancelListener{
 		private BaseAdapter adapter = null;
 		private ProgressDialog dialog = null;
 		private ArrayList<String> artistsList = null;
+		
 		private boolean isSearch; //true if we have a list of names, false if we have a list of ID's
+		private boolean isCancel = false; //true when the user cancel the import
 		
 		public AddToProfileTask(ArrayList<String> al, Activity a, BaseAdapter ad, boolean is, ProgressDialog d) {
 			artistsList = al;
@@ -110,7 +112,8 @@ public class UserProfile implements Serializable, OnCancelListener{
 			
 			for(String artistNameID : artistsList){
 
-				if(Thread.interrupted())
+				//if(Thread.interrupted())
+				if(isCancel)
 					break;
 				
 				if(isSearch && isAlreadyInProfile(artistNameID)){
@@ -200,6 +203,8 @@ public class UserProfile implements Serializable, OnCancelListener{
 	}	
 	
 	synchronized void syncAddArtistsToProfile(ArrayList<ArtistProfile> artists){
+		Log.d(Util.APP, "syncAddArtistsToProfile()");
+		
 		profile.artists.addAll(artists);		
 		fileCache.saveProfile(profile);
 	}
@@ -276,7 +281,8 @@ public class UserProfile implements Serializable, OnCancelListener{
 
 	@Override
 	public void onCancel(DialogInterface dialog) {
-		if(addTask != null)
-			addTask.cancel(true);
+		if(addTask != null){
+			addTask.isCancel = true;
+		}
 	}	
 }
