@@ -6,155 +6,162 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/main_background"
         android:fillViewport="true"
-        android:orientation="vertical"
-        android:weightSum="1" >
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/label_mood"
+            style="@style/pl_options_labels"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="0.11"
             android:gravity="center"
             android:text="@string/mood_str" >
         </TextView>
 
         <SeekBar
             android:id="@+id/seekBar_mood"
-            android:layout_width="236dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
             android:progressDrawable="@drawable/seekbar_progress" >
         </SeekBar>
 
         <TextView
             android:id="@+id/label_tempo"
+            style="@style/pl_options_labels"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="0.11"
             android:gravity="center"
             android:text="@string/tempo_str" >
         </TextView>
 
         <SeekBar
             android:id="@+id/seekBar_tempo"
-            android:layout_width="236dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
             android:progressDrawable="@drawable/seekbar_progress" >
         </SeekBar>
 
         <TextView
             android:id="@+id/label_danceability"
+            style="@style/pl_options_labels"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="0.11"
             android:gravity="center"
             android:text="@string/danceability_str" >
         </TextView>
 
         <SeekBar
             android:id="@+id/seekBar_danceability"
-            android:layout_width="236dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
             android:progressDrawable="@drawable/seekbar_progress" >
         </SeekBar>
 
         <TextView
             android:id="@+id/label_energy"
+            style="@style/pl_options_labels"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="0.11"
             android:gravity="center"
             android:text="@string/energy_str" >
         </TextView>
 
         <SeekBar
             android:id="@+id/seekBar_energy"
-            android:layout_width="236dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
             android:progressDrawable="@drawable/seekbar_progress" >
         </SeekBar>
 
         <TextView
             android:id="@+id/label_hotness"
+            style="@style/pl_options_labels"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="0.11"
             android:gravity="center"
             android:text="@string/hotness_str" >
         </TextView>
 
         <SeekBar
             android:id="@+id/seekBar_hotness"
-            android:layout_width="236dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
             android:progressDrawable="@drawable/seekbar_progress" >
         </SeekBar>
 
         <TextView
             android:id="@+id/label_variety"
+            style="@style/pl_options_labels"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="0.11"
             android:gravity="center"
             android:text="@string/variety_str" >
         </TextView>
 
         <SeekBar
             android:id="@+id/seekBar_variety"
-            android:layout_width="236dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
             android:progressDrawable="@drawable/seekbar_progress" >
         </SeekBar>
 
         <TextView
             android:id="@+id/label_max_results"
+            style="@style/pl_options_labels"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="0.11"
             android:gravity="center"
             android:text="@string/max_results_str" >
         </TextView>
 
         <SeekBar
             android:id="@+id/seekBar_max_results"
-            android:layout_width="236dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
             android:progressDrawable="@drawable/seekbar_progress" >
         </SeekBar>
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:text="" >
-        </TextView>
 
         <Button
             android:id="@+id/shuffle_pl_options"
             style="@style/Button"
-            android:layout_width="117dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="0.04"
+            android:layout_marginTop="20dip"
             android:text="@string/shuffle_str" >
         </Button>
 
         <TextView
-            android:id="@+id/textView1"
+            style="@style/pl_options_labels"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dip"
@@ -171,12 +178,14 @@
 
             <RadioButton
                 android:id="@+id/exact_artists"
+                style="@style/pl_options_labels"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Only known artists" />
 
             <RadioButton
                 android:id="@+id/similar_artists"
+                style="@style/pl_options_labels"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Known and similar artists" />

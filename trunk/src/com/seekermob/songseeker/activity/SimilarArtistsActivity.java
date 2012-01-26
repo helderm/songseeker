@@ -207,7 +207,7 @@ public class SimilarArtistsActivity extends ListActivity {
 		LinearLayout footer = (LinearLayout)inflater.inflate(R.layout.logo, null);
 		
 		ImageView logo = (ImageView)footer.findViewById(R.id.logo);
-		logo.setImageResource(R.drawable.echonest_logo);
+		logo.setImageResource(R.drawable.echonest_logo_pwd);
 		
 		logo.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {

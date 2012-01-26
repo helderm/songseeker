@@ -15,7 +15,7 @@
     </style>
 
     <style name="list_view">
-        <item name="android:background">@color/dark_grey01</item>
+        <item name="android:background">@drawable/main_background</item>
         <item name="android:cacheColorHint">@color/transparent</item>
     </style>
 
@@ -102,6 +102,13 @@
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/light_grey</item>
-    </style>    
+    </style>  
+    
+    <style name="pl_options_labels">
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light_grey</item>
+    </style>
 
 </resources>
