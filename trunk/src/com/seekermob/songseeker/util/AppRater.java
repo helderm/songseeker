@@ -11,14 +11,12 @@ import android.net.Uri;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class AppRater {
     private final static String APP_TITLE = Util.APP;
     private final static String APP_PNAME = "com.seekermob.songseekerfree";
     
-    private final static int DAYS_UNTIL_PROMPT = 7;
+    private final static int DAYS_UNTIL_PROMPT = 5;
     private final static int LAUNCHES_UNTIL_PROMPT = 3;
     
     public static void app_launched(Context mContext) {
@@ -58,7 +56,7 @@ public class AppRater {
         Button b1 = (Button)dialog.findViewById(R.id.rate_but);
         b1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + APP_PNAME)));
+            	mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://market.android.com/details?id=" + APP_PNAME)));
                 dialog.dismiss();
                 
                 if (editor != null) {
