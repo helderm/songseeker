@@ -109,6 +109,9 @@ public class EchoNestComm {
 		} catch (Exception e){
 			Log.w(Util.APP, "Failed to fetch songs from EN", e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
+		}catch(NoSuchMethodError e){
+			Log.e(Util.APP, "EchoNest's noSuchMethod error strikes again!", e);
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);	
 		}
 
 		if(ls.size() <= 0)
@@ -127,6 +130,9 @@ public class EchoNestComm {
 		} catch (Exception e){
 			Log.w(Util.APP, "Failed to search for songs in EN", e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
+		}catch(NoSuchMethodError e){
+			Log.e(Util.APP, "EchoNest's noSuchMethod error strikes again!", e);
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);	
 		}
 
 		if(ls.size() <= 0)
@@ -145,6 +151,9 @@ public class EchoNestComm {
 		} catch (Exception e){
 			Log.w(Util.APP, "Failed to find artist on EN", e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
+		} catch(NoSuchMethodError e){
+			Log.e(Util.APP, "EchoNest's noSuchMethod error strikes again!", e);
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);	
 		}
 		
 		return artist;
@@ -161,6 +170,9 @@ public class EchoNestComm {
 		} catch (Exception e){
 			Log.w(Util.APP, "Failed to fetch artist bio in EN", e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
+		} catch(NoSuchMethodError e){
+			Log.e(Util.APP, "EchoNest's noSuchMethod error strikes again!", e);
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);	
 		}
 		
 		return bio;
@@ -177,6 +189,9 @@ public class EchoNestComm {
 		} catch (Exception e){
 			Log.w(Util.APP, "Failed to fecth artist news in EN", e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
+		} catch(NoSuchMethodError e){
+			Log.e(Util.APP, "EchoNest's noSuchMethod error strikes again!", e);
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);	
 		}
 		
 		return news;
@@ -197,6 +212,9 @@ public class EchoNestComm {
 		} catch (Exception e){
 			Log.w(Util.APP, "Failed to fecth similar artists in EN", e);
 			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
+		} catch(NoSuchMethodError e){
+			Log.e(Util.APP, "EchoNest's noSuchMethod error strikes again!", e);
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);	
 		}
 		
 		return similar;
@@ -210,8 +228,11 @@ public class EchoNestComm {
 			p.set("name", partialName);
 			p.set("results", numResults);			
 			suggestions = (ArrayList<Artist>) en.suggestArtists(p);
-		}catch (EchoNestException e){
+		} catch (EchoNestException e){
 			treatEchoNestException(e, true);
+		} catch(NoSuchMethodError e){
+			Log.e(Util.APP, "EchoNest's noSuchMethod error strikes again!", e);
+			throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);	
 		}
 		
 		return suggestions;
