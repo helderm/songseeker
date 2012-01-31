@@ -207,16 +207,16 @@ public class MusicInfoTab extends TabActivity {
 		protected void onPostExecute(SongInfo s) {
 
 			removeDialog(SONG_DETAILS_DIAG);
-
-			song = s;
-			release = s.release;
-			artist = s.artist;
 			
 			if(err != null){
 				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
 				MusicInfoTab.this.finish();
 				return;
-			}
+			}			
+
+			song = s;
+			release = s.release;
+			artist = s.artist;
 
 			Resources res = getResources(); // Resource object to get Drawables
 			TabHost tabHost = getTabHost();  // The activity TabHost
