@@ -111,6 +111,7 @@
         </activity>
         <activity
             android:name="com.seekermob.songseeker.activity.ProfileActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:label="Profile" >
         </activity>
         <activity
@@ -122,6 +123,11 @@
             android:name="com.seekermob.songseeker.activity.AboutActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="About" >
+        </activity>
+        <activity
+            android:name="com.seekermob.songseeker.activity.PlayPlaylistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="Play on Grooveshark" >
         </activity>
         <activity
             android:name="com.google.ads.AdActivity"
