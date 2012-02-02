@@ -6,29 +6,25 @@
 
     <uses-sdk android:minSdkVersion="8" />
 
-    <application >
+    <application>
         <activity
-            android:label="@string/app_name"
             android:name=".activity.SongSeekerActivity"
-            android:screenOrientation="portrait"
+            android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:label="Playlist Options"
             android:name=".activity.PlaylistOptionsActivity"
-            android:screenOrientation="portrait" >
+            android:label="Playlist Options" >
         </activity>
         <activity
-            android:label="Playlist"
             android:name=".activity.RecSongsActivity"
-            android:screenOrientation="portrait" >
+            android:label="Playlist" >
         </activity>
         <activity
-            android:label="Export to Rdio"
-            android:launchMode="singleInstance"
             android:name=".activity.CreatePlaylistRdioActivity"
-            android:screenOrientation="portrait" >
-            <intent-filter >
+            android:label="Export to Rdio"
+            android:launchMode="singleInstance" >
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -40,74 +36,59 @@
             </intent-filter>
         </activity>
         <activity
-            android:label="Export to Last.fm"
             android:name=".activity.CreatePlaylistLastfmActivity"
-            android:screenOrientation="portrait" >
+            android:label="Export to Last.fm" >
         </activity>
         <activity
-            android:label="Export to YouTube"
             android:name=".activity.CreatePlaylistYoutubeActivity"
-            android:screenOrientation="portrait" >
+            android:label="Export to YouTube" >
+        </activity>
+        <activity android:name=".activity.SongInfoActivity" >
+        </activity>
+        <activity android:name=".activity.ReleaseInfoActivity" >
+        </activity>
+        <activity android:name=".activity.ArtistInfoActivity" >
         </activity>
         <activity
-            android:name=".activity.SongInfoActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name=".activity.ReleaseInfoActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name=".activity.ArtistInfoActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:label="Artist Biography"
             android:name=".activity.ArtistBioActivity"
-            android:screenOrientation="portrait" >
+            android:label="Artist Biography" >
         </activity>
         <activity
-            android:label="Artist News"
             android:name=".activity.ArtistNewsActivity"
-            android:screenOrientation="portrait" >
+            android:label="Artist News" >
         </activity>
         <activity
-            android:label="Similar Artists"
             android:name=".activity.SimilarArtistsActivity"
-            android:screenOrientation="portrait" >
+            android:label="Similar Artists" >
         </activity>
         <activity
             android:name=".activity.MusicInfoTab"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:label="Export to Grooveshark"
             android:name=".activity.CreatePlaylistGroovesharkActivity"
-            android:screenOrientation="portrait" >
+            android:label="Export to Grooveshark" >
         </activity>
         <activity
-            android:label="Watch on YouTube"
             android:name=".activity.WatchSongVideoActivity"
-            android:screenOrientation="portrait" >
+            android:label="Watch on YouTube" >
         </activity>
         <activity
-            android:label="Profile"
             android:name=".activity.ProfileActivity"
-            android:screenOrientation="portrait" >
+            android:label="Profile" >
         </activity>
         <activity
-            android:label="Settings"
             android:name=".activity.SettingsActivity"
-            android:screenOrientation="portrait" >
+            android:label="Settings" >
         </activity>
         <activity
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:name="com.google.ads.AdActivity" />
+            android:name="com.google.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
         <activity
-            android:label="About"
             android:name=".activity.AboutActivity"
-            android:screenOrientation="portrait" >
+            android:label="About" >
+        </activity>
+        <activity android:name=".activity.PlayPlaylistActivity" >
         </activity>
     </application>
 

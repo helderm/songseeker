@@ -415,9 +415,19 @@ public class RecSongsActivity extends ListActivity {
         // Handle item selection
         int itemId = item.getItemId();
         
-        if(itemId == R.id.settings){
-        	Intent in = new Intent(RecSongsActivity.this, SettingsActivity.class);
-            startActivity(in);	
+        if(itemId == R.id.play){
+        	Intent i = new Intent(RecSongsActivity.this, PlayPlaylistActivity.class);
+	    	
+        	SongNamesParcel songNames = new SongNamesParcel();
+	    	ArtistsParcel songArtists = new ArtistsParcel();
+	    	
+			for(Song song : adapter.playlist){
+				songNames.addName(song.getReleaseName());
+				songArtists.addArtist(song.getArtistName());
+			}
+			i.putExtra("songNames", songNames);
+			i.putExtra("songArtists", songArtists);
+			startActivity(i);
         	return true;
         }
         

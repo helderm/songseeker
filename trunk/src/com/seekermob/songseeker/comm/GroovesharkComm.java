@@ -45,6 +45,8 @@ public class GroovesharkComm {
 	private static final String PREF_SESSIONID = "prefs.grooveshark.sessionid";	
 	private static final String CRYPT_ALG = "HmacMD5";
 
+	public static final String WIDGET_URL = "http://grooveshark.com/widget.swf?songIDs=";
+	
 	private static String sessionID = null;
 
 	public static GroovesharkComm getComm(SharedPreferences settings){

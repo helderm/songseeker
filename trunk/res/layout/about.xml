@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content" >
 
         <TextView
             android:id="@+id/about_description"
@@ -16,7 +16,7 @@
             android:layout_marginLeft="20dip"
             android:layout_marginRight="20dip"
             android:layout_marginTop="20dip"
-            android:text="Song Seeker is a new way of discovering music that matches your taste! Find millions of songs with a single click, listen to 30/60s samples, and much more! You can also configure your playlist with several options, export it to other services like YouTube and Rdio, and even buy songs that you like! Some of the features are:" />
+            android:text="Song Seeker is a new way of discovering music that matches your taste! Find millions of songs with a single click, listen to full lenght songs or 30s samples, and much more! You can also configure your playlist with several options, export it to other services like YouTube and Rdio, and even buy songs that you like! Some of the features are:" />
 
         <TextView
             android:id="@+id/about_feature_playlist"
@@ -29,15 +29,26 @@
             android:layout_marginTop="10dip"
             android:text="* Create a personalized playlist: With a single click of the main logo, you will receive songs that matches your taste!" />
 
+      <TextView
+            android:id="@+id/about_feature_play"
+            style="@style/about_features"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/about_description"
+            android:layout_below="@+id/about_feature_playlist"
+            android:layout_marginRight="20dip"
+            android:layout_marginTop="10dip"
+            android:text="* Play the songs of your playlist: Play FULL lenght songs of your playlist on Grooveshark (Playlist screen > Menu > Play!)! Requires a Flash-enabled browser." />        
+        
         <TextView
             android:id="@+id/about_feature_profile"
             style="@style/about_features"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/about_description"
-            android:layout_below="@+id/about_feature_playlist"
+            android:layout_below="@+id/about_feature_play"
             android:layout_marginTop="10dip"
-            android:text="* Build a taste profile: Add artists to your taste profile (Main screen > Menu > Profile) or import them from Last.fm or from your device top artists (Main screen > Menu > Settings)!" >
+            android:text="* Build a musical taste profile: Add artists to your taste profile (Main screen > Profile) or import them from Last.fm or from your device top artists (Main screen > Profile)!" >
         </TextView>
 
         <TextView
@@ -211,7 +222,6 @@
                 android:id="@+id/grooveshark_logo"
                 android:layout_width="120dip"
                 android:layout_height="60dip"
-                android:layout_alignLeft="@+id/about_description"
                 android:background="@color/light_grey"
                 android:src="@drawable/grooveshark_logo" />
 
@@ -221,7 +231,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dip"
-                android:text="Playlist fetch and export provided by Grooveshark." />
+                android:text="Playlist play, fetch and export provided by Grooveshark." />
         </LinearLayout>
 
         <LinearLayout
@@ -262,7 +272,6 @@
                 android:id="@+id/youtube_logo"
                 android:layout_width="120dip"
                 android:layout_height="60dip"
-                android:layout_alignLeft="@+id/about_description"
                 android:src="@drawable/youtube_logo" />
 
             <TextView

@@ -45,5 +45,6 @@
     <string name="song_str">Song</string>
     <string name="album_str">Album</string>
     <string name="artist_str">Artist</string>
-
+	<string name="play_str">Play!</string>
+    
 </resources>
