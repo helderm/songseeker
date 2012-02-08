@@ -13,6 +13,7 @@ import com.seekermob.songseeker.data.ArtistsParcel;
 import com.seekermob.songseeker.data.SongNamesParcel;
 import com.seekermob.songseeker.data.UserPlaylistsData;
 import com.seekermob.songseeker.util.Util;
+import com.google.android.apps.analytics.easytracking.TrackedListActivity;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 
@@ -21,7 +22,6 @@ import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -44,7 +44,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CreatePlaylistYoutubeActivity extends ListActivity implements AccountManagerCallback<Bundle>, OnCancelListener {
+public class CreatePlaylistYoutubeActivity extends TrackedListActivity implements AccountManagerCallback<Bundle>, OnCancelListener {
 	
 	private static final int ACCOUNTS_DIAG = 0;
 	private static final int REQUEST_AUTH_DIAG = 1;

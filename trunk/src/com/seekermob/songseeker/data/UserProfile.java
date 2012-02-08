@@ -203,8 +203,6 @@ public class UserProfile implements Serializable, OnCancelListener{
 	}	
 	
 	synchronized void syncAddArtistsToProfile(ArrayList<ArtistProfile> artists){
-		Log.d(Util.APP, "syncAddArtistsToProfile()");
-		
 		profile.artists.addAll(artists);		
 		fileCache.saveProfile(profile);
 	}

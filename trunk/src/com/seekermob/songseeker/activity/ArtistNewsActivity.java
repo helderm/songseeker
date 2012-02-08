@@ -8,9 +8,9 @@ import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.util.Util;
 import com.echonest.api.v4.News;
+import com.google.android.apps.analytics.easytracking.TrackedListActivity;
 
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -27,7 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ArtistNewsActivity extends ListActivity {
+public class ArtistNewsActivity extends TrackedListActivity {
 	private ArtistNewsAdapter adapter;
 
 	private static final int ARTIST_NEWS_DIAG = 0;	

@@ -1,16 +1,16 @@
 package com.seekermob.songseeker.activity;
 
+import com.google.android.apps.analytics.easytracking.TrackedActivity;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.util.Util;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-public class AboutActivity extends Activity {
+public class AboutActivity extends TrackedActivity {
 
 	/** Called when the activity is first created. */
 	@Override

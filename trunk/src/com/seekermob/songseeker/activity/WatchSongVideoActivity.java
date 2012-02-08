@@ -2,6 +2,7 @@ package com.seekermob.songseeker.activity;
 
 import java.util.ArrayList;
 
+import com.google.android.apps.analytics.easytracking.TrackedListActivity;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.YouTubeComm;
@@ -11,7 +12,6 @@ import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.util.ImageLoader;
 
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -27,7 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class WatchSongVideoActivity extends ListActivity {
+public class WatchSongVideoActivity extends TrackedListActivity {
 
 	private ListAdapter adapter;
 	

@@ -3,10 +3,10 @@ package com.seekermob.songseeker.activity;
 import java.util.List;
 import java.util.Random;
 
+import com.google.android.apps.analytics.easytracking.TrackedActivity;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.util.Settings;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +15,7 @@ import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-public class PlaylistOptionsActivity extends Activity implements SeekBar.OnSeekBarChangeListener{
+public class PlaylistOptionsActivity extends TrackedActivity implements SeekBar.OnSeekBarChangeListener{
 	TextView mood_label;
 	SeekBar mood;
 	TextView energy_label;

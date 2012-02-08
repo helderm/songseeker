@@ -11,9 +11,10 @@ import com.seekermob.songseeker.util.ImageLoader;
 import com.seekermob.songseeker.util.Util;
 import com.echonest.api.v4.Artist;
 import com.echonest.api.v4.EchoNestException;
+import com.google.android.apps.analytics.easytracking.TrackedListActivity;
 
 import android.app.Dialog;
-import android.app.ListActivity;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -31,7 +32,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SimilarArtistsActivity extends ListActivity {
+public class SimilarArtistsActivity extends TrackedListActivity {
 
 	private static final int SIMILAR_ARTISTS_DIAG = 0;
 	private SimilarArtistsAdapter adapter;

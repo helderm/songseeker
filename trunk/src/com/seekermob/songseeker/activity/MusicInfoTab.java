@@ -6,11 +6,11 @@ import com.seekermob.songseeker.comm.SevenDigitalComm;
 import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.data.ReleaseInfo;
 import com.seekermob.songseeker.data.SongInfo;
+import com.seekermob.songseeker.util.TrackedTabActivity;
 
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 
@@ -22,7 +22,7 @@ import android.widget.TabHost;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
-public class MusicInfoTab extends TabActivity {
+public class MusicInfoTab extends TrackedTabActivity {
 	
 	private SongInfo song = null;
 	private ReleaseInfo release = null;

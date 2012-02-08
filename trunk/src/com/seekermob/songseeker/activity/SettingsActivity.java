@@ -9,6 +9,7 @@ import com.seekermob.songseeker.comm.RdioComm;
 import com.seekermob.songseeker.comm.YouTubeComm;
 import com.seekermob.songseeker.data.UserProfile;
 import com.seekermob.songseeker.util.ImageLoader;
+import com.seekermob.songseeker.util.TrackedPreferenceActivity;
 import com.seekermob.songseeker.util.Util;
 
 import android.content.Context;
@@ -17,10 +18,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceActivity;
 import android.widget.Toast;
 
-public class SettingsActivity extends PreferenceActivity{
+public class SettingsActivity extends TrackedPreferenceActivity{
 
 	/** Called when the activity is first created. */
 	@Override

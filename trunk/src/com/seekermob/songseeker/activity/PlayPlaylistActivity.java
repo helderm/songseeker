@@ -3,6 +3,7 @@ package com.seekermob.songseeker.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.android.apps.analytics.easytracking.TrackedActivity;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.GroovesharkComm;
 import com.seekermob.songseeker.comm.ServiceCommException;
@@ -11,7 +12,6 @@ import com.seekermob.songseeker.data.ArtistsParcel;
 import com.seekermob.songseeker.data.SongNamesParcel;
 import com.seekermob.songseeker.util.Util;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -25,7 +25,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-public class PlayPlaylistActivity extends Activity implements OnCancelListener{
+public class PlayPlaylistActivity extends TrackedActivity implements OnCancelListener{
 
 	private GetSongIdsTask task;
 	

@@ -2,12 +2,12 @@ package com.seekermob.songseeker.activity;
 
 import java.util.ArrayList;
 
+import com.google.android.apps.analytics.easytracking.TrackedActivity;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.data.ArtistsParcel;
 import com.seekermob.songseeker.data.UserProfile;
 import com.seekermob.songseeker.util.AppRater;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-public class SongSeekerActivity extends Activity {
+public class SongSeekerActivity extends TrackedActivity {
    	
 	private static final int SEARCH_DIAG = 0; 
 	

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -41,8 +40,9 @@ import com.seekermob.songseeker.util.Util;
 
 import com.echonest.api.v4.Song;
 import com.echonest.api.v4.SongParams;
+import com.google.android.apps.analytics.easytracking.TrackedListActivity;
 
-public class CreatePlaylistRdioActivity extends ListActivity implements OnCancelListener{
+public class CreatePlaylistRdioActivity extends TrackedListActivity implements OnCancelListener{
 
 	private RdioPlaylistsAdapter adapter;
 	SharedPreferences settings;

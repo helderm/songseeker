@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.google.android.apps.analytics.easytracking.TrackedListActivity;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.LastfmComm;
 import com.seekermob.songseeker.comm.ServiceCommException;
@@ -16,7 +17,6 @@ import com.seekermob.songseeker.util.Util;
 import de.umass.lastfm.Playlist;
 
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,7 +36,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CreatePlaylistLastfmActivity extends ListActivity implements OnCancelListener {
+public class CreatePlaylistLastfmActivity extends TrackedListActivity implements OnCancelListener {
 
 	private LastfmPlaylistAdapter adapter;
 	SharedPreferences settings;

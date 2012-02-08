@@ -2,6 +2,7 @@ package com.seekermob.songseeker.activity;
 
 import java.util.ArrayList;
 
+import com.google.android.apps.analytics.easytracking.TrackedListActivity;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.SevenDigitalComm;
@@ -12,7 +13,6 @@ import com.seekermob.songseeker.data.UserProfile;
 import com.seekermob.songseeker.util.ImageLoader;
 
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ArtistInfoActivity extends ListActivity {
+public class ArtistInfoActivity extends TrackedListActivity {
 
 	private ArtistInfo artist;
 	

@@ -1,13 +1,13 @@
 package com.seekermob.songseeker.activity;
 
 import com.echonest.api.v4.Biography;
+import com.google.android.apps.analytics.easytracking.TrackedActivity;
 
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.EchoNestComm;
 import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.data.ArtistInfo;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -15,7 +15,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ArtistBioActivity extends Activity {
+public class ArtistBioActivity extends TrackedActivity {
 
 	private static final int ARTIST_BIO_DIAG = 0;
 	Biography bio;

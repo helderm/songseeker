@@ -17,10 +17,10 @@ import com.seekermob.songseeker.util.MediaPlayerController.MediaStatus;
 import com.echonest.api.v4.PlaylistParams;
 import com.echonest.api.v4.PlaylistParams.PlaylistType;
 import com.echonest.api.v4.Song;
+import com.google.android.apps.analytics.easytracking.TrackedListActivity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -47,7 +47,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RecSongsActivity extends ListActivity {
+public class RecSongsActivity extends TrackedListActivity {
 
 	private final int PROGRESS_DIAG = 0;
 	private final int EXPORT_DIAG = 1;

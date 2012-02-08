@@ -39,7 +39,7 @@ public class Util {
 			if(artist != null)
 				artists.add(artist);
 			
-			if(i == 30)
+			if(i == 50)
 				break;
 		}
 
