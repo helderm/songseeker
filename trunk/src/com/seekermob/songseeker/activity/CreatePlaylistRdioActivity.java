@@ -36,6 +36,7 @@ import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
 import com.seekermob.songseeker.data.IdsParcel;
 import com.seekermob.songseeker.data.UserPlaylistsData;
 import com.seekermob.songseeker.util.ImageLoader;
+import com.seekermob.songseeker.util.ImageLoader.ImageSize;
 import com.seekermob.songseeker.util.Util;
 
 import com.echonest.api.v4.Song;
@@ -141,7 +142,7 @@ public class CreatePlaylistRdioActivity extends TrackedListActivity implements O
 		    }else{			    
 			    bt.setText(data.getPlaylistNumSongs(position-1)+" songs");
 			    tt.setText(data.getPlaylistName(position-1));
-			    ImageLoader.getLoader(getCacheDir()).DisplayImage(data.getPlaylistImage(position-1), img, R.drawable.ic_playlist_stub);
+			    ImageLoader.getLoader(getCacheDir()).DisplayImage(data.getPlaylistImage(position-1), img, R.drawable.ic_playlist_stub, ImageSize.SMALL);
 		    }		
 						
 			return v;

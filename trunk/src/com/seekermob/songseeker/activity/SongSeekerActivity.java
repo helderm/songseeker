@@ -1,5 +1,6 @@
 package com.seekermob.songseeker.activity;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import com.google.android.apps.analytics.easytracking.TrackedActivity;
@@ -7,11 +8,15 @@ import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.data.ArtistsParcel;
 import com.seekermob.songseeker.data.UserProfile;
 import com.seekermob.songseeker.util.AppRater;
+import com.seekermob.songseeker.util.ImageLoader;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,6 +51,11 @@ public class SongSeekerActivity extends TrackedActivity {
             }
         }); 
         
+        
+        //check if we need to auto clear the cache
+        new AutoClearCacheTask().execute();
+        
+        //check if we want to display the request to rate the app
         AppRater.app_launched(this);
     }
 
@@ -165,6 +175,37 @@ public class SongSeekerActivity extends TrackedActivity {
 		}
     }
     
+	public class AutoClearCacheTask extends AsyncTask<Void, Void, Boolean>{
+
+		@Override
+		protected Boolean doInBackground(Void... params) {			
+			
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SongSeekerActivity.this);
+			String aux = prefs.getString("auto_clear_cache", "0");			
+			int maxCache = Integer.parseInt(aux);
+			
+			if(maxCache == 0){
+				return false;
+			}
+
+			File cacheDir = getCacheDir();			
+			long cacheSize = ImageLoader.getLoader(cacheDir).getFileCacheSize();        	
+			
+			if(cacheSize > (maxCache * 1048576)){ //bytes in a Mb
+				 ImageLoader.getLoader(cacheDir).clearCache(cacheDir);
+				 return true;
+			}					
+		
+			return false;
+		}		
+
+		@Override
+		protected void onPostExecute(Boolean isCleared) {
+			if(isCleared == true)
+				Toast.makeText(getApplicationContext(), "Cache auto cleared!", Toast.LENGTH_SHORT).show();
+		}
+	}	    
+    
     public void shareApp(View v){
 		final Intent intent = new Intent(Intent.ACTION_SEND);					 
 		intent.setType("text/plain");
@@ -187,5 +228,6 @@ public class SongSeekerActivity extends TrackedActivity {
 		intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);*/
     }   
+    
     
 }

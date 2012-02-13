@@ -11,6 +11,7 @@ import com.seekermob.songseeker.data.ReleaseInfo;
 import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.data.UserProfile;
 import com.seekermob.songseeker.util.ImageLoader;
+import com.seekermob.songseeker.util.ImageLoader.ImageSize;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -191,7 +192,7 @@ public class ArtistInfoActivity extends TrackedListActivity {
 			holder.botText.setText(release.artist.name);
 			holder.topText.setText(release.name);
 										
-			ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, holder.coverArt, R.drawable.ic_disc_stub);
+			ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);
 			
 
 			return convertView;
@@ -312,10 +313,10 @@ public class ArtistInfoActivity extends TrackedListActivity {
 		
 		//set image
 		ImageView coverart = (ImageView) header.findViewById(R.id.artistinfo_image);
-		ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, coverart, R.drawable.ic_disc_stub_large);
+		ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, coverart, R.drawable.ic_disc_stub_large, ImageSize.MEDIUM);
 		
 		ImageView bkg = (ImageView) findViewById(R.id.listview_bkg);
-		ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, getListView(), bkg);
+		ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, getListView(), bkg, ImageSize.LARGE);
 		
 		getListView().addHeaderView(header);
 

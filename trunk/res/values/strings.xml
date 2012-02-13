@@ -45,6 +45,9 @@
     <string name="song_str">Song</string>
     <string name="album_str">Album</string>
     <string name="artist_str">Artist</string>
-	<string name="play_str">Play!</string>
-    
+    <string name="play_str">Play!</string>
+	<string name="general_preferences">General Preferences</string>
+	<string name="cache_preferences">Cache Preferences</string>
+    <string name="auto_clear_cache_title_str">Auto Clear Cache</string>
+    <string name="auto_clear_cache_summ_str">Auto clears the cache when it reachs the specified size</string>
 </resources>

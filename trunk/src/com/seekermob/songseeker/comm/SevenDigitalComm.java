@@ -31,7 +31,7 @@ public class SevenDigitalComm {
 	private static final String MOBILE_URL = "http://m.7digital.com/";
 	private static final String CONSUMER_KEY = "7d9b53mkgqh6";
 	private static final String PARTNER_ID = "2539";
-	private static final String IMAGE_SIZE = "350";
+	private static final String IMAGE_SIZE = "200";
 
 	private SevenDigitalComm() {}
 

@@ -9,6 +9,7 @@ import com.seekermob.songseeker.comm.SevenDigitalComm;
 import com.seekermob.songseeker.data.RecSongsPlaylist;
 import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.util.ImageLoader;
+import com.seekermob.songseeker.util.ImageLoader.ImageSize;
 import com.seekermob.songseeker.util.MediaPlayerController;
 import com.seekermob.songseeker.util.MediaPlayerController.MediaStatus;
 
@@ -250,7 +251,7 @@ public class SongInfoActivity extends TrackedListActivity {
 				break;
 			}			    
 
-			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, holder.coverArt, R.drawable.ic_disc_stub);			
+			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);			
 
 			return convertView;
 		}
@@ -431,10 +432,10 @@ public class SongInfoActivity extends TrackedListActivity {
 
 		//set image
 		ImageView coverart = (ImageView) header.findViewById(R.id.songinfo_coverArt);
-		ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.ic_disc_stub_large);
+		ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.ic_disc_stub_large, ImageSize.MEDIUM);
 		
 		ImageView bkg = (ImageView) findViewById(R.id.listview_bkg);
-		ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, getListView(), bkg);
+		ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, getListView(), bkg, ImageSize.LARGE);
 		
 		getListView().addHeaderView(header);
 

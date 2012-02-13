@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="auto_clear_cache_entries_preference">
+        <item>Off</item>
+        <item>2 Mb</item>
+        <item>5 Mb</item>
+        <item>10 Mb</item>
+    </string-array>
+
+    <string-array name="auto_clear_cache_values_preference">
+        <item>0</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+
+</resources>

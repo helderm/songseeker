@@ -148,5 +148,21 @@ public class FileCache {
     	File f = new File(cacheDir, PROFILE_FILE);
     	f.delete();    	
     }
+    
+    public long getCacheSize(){
+    	File[] files=cacheDir.listFiles();
+       
+    	long totalSize = 0;
+
+    	for(File f:files){
+        	if(f.getName().equalsIgnoreCase(PROFILE_FILE) ||
+        			f.getName().equalsIgnoreCase(SETTINGS_FILE))
+        		continue;
+        	
+        	totalSize += f.length();
+        }
+    	
+    	return totalSize;
+    }
 
 }

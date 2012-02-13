@@ -12,6 +12,7 @@ import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.data.UserProfile;
 import com.seekermob.songseeker.data.UserProfile.ArtistProfile;
 import com.seekermob.songseeker.util.ImageLoader;
+import com.seekermob.songseeker.util.ImageLoader.ImageSize;
 import com.seekermob.songseeker.util.Util;
 
 import de.umass.lastfm.Artist;
@@ -132,7 +133,7 @@ public class ProfileActivity extends TrackedListActivity implements OnCancelList
 
 				holder.line.setText(artist.name);
 
-				ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, holder.coverArt, R.drawable.ic_disc_stub);	
+				ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);	
 			}
 
 			return convertView;

@@ -10,6 +10,7 @@ import com.seekermob.songseeker.data.RecSongsPlaylist;
 import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.data.SongNamesParcel;
 import com.seekermob.songseeker.util.ImageLoader;
+import com.seekermob.songseeker.util.ImageLoader.ImageSize;
 import com.seekermob.songseeker.util.MediaPlayerController;
 import com.seekermob.songseeker.util.Settings;
 import com.seekermob.songseeker.util.Util;
@@ -379,7 +380,7 @@ public class RecSongsActivity extends TrackedListActivity {
 			    
 				//load coverart image
 			    try{
-			    	ImageLoader.getLoader(getCacheDir()).DisplayImage(song.getString("tracks[0].release_image"), holder.coverArt, R.drawable.ic_disc_stub);
+			    	ImageLoader.getLoader(getCacheDir()).DisplayImage(song.getString("tracks[0].release_image"), holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);
 			    }catch(IndexOutOfBoundsException e){
 			    	Log.i(Util.APP, "Unable to fetch the release image from Echo Nest!");
 			    }

@@ -10,6 +10,7 @@ import com.seekermob.songseeker.comm.YouTubeComm.VideoFeed;
 import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.util.ImageLoader;
+import com.seekermob.songseeker.util.ImageLoader.ImageSize;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -166,7 +167,7 @@ public class WatchSongVideoActivity extends TrackedListActivity {
 				holder.topText.setText(video.title);
 				holder.botText.setText(video.description);
 
-				ImageLoader.getLoader(getCacheDir()).DisplayImage(video.image, holder.coverArt, R.drawable.ic_disc_stub);
+				ImageLoader.getLoader(getCacheDir()).DisplayImage(video.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);
 			}
 
 			return convertView;

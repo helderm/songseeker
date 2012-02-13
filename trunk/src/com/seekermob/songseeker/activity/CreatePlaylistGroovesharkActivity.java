@@ -234,11 +234,11 @@ public class CreatePlaylistGroovesharkActivity extends TrackedListActivity imple
 			showDialog(FETCH_SONG_IDS_DIAG);
 			
 			//access is limited today to 32 ws calls/ip/minute, so i'll need to truncate the playlist 
-			if(sn.getSongNames().size() > 30){
+			if(sn.getSongNames().size() > GroovesharkComm.RATE_LIMIT){
 				
-				songNames =  sn.getSongNames().subList(0, 30);
-				artistNames = ar.getArtistList().subList(0, 30);
-				Toast.makeText(getApplicationContext(), "Truncating playlist to 30 songs, due to technical reasons...", Toast.LENGTH_LONG).show();
+				songNames =  sn.getSongNames().subList(0, GroovesharkComm.RATE_LIMIT);
+				artistNames = ar.getArtistList().subList(0, GroovesharkComm.RATE_LIMIT);
+				Toast.makeText(getApplicationContext(), "Truncating playlist to " + GroovesharkComm.RATE_LIMIT + " songs, due to technical reasons...", Toast.LENGTH_LONG).show();
 			}else{
 				songNames = sn.getSongNames();
 				artistNames = ar.getArtistList();

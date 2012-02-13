@@ -44,8 +44,10 @@ public class GroovesharkComm {
 	
 	private static final String PREF_SESSIONID = "prefs.grooveshark.sessionid";	
 	private static final String CRYPT_ALG = "HmacMD5";
-
+		
 	public static final String WIDGET_URL = "http://grooveshark.com/widget.swf?songIDs=";
+	
+	public static final int RATE_LIMIT = 126; //actually 128, but I'm leaving a margin here
 	
 	private static String sessionID = null;
 
