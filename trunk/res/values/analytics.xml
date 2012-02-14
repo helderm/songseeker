@@ -3,6 +3,6 @@
 	<!-- EasyTracker Analytics values -->
     <string name="ga_api_key">UA-29005531-1</string>
     <bool name="ga_debug">true</bool>
-    <integer name="ga_dispatchPeriod">60</integer>
+    <integer name="ga_dispatchPeriod">300</integer>
     <bool name="ga_auto_activity_tracking">true</bool>       
 </resources>
