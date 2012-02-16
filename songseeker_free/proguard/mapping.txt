@@ -2352,7 +2352,7 @@ com.seekermob.songseeker.util.FileCache -> com.seekermob.songseeker.util.e:
     void saveSettings(com.seekermob.songseeker.util.Settings$SettingsData) -> a
     void clear(java.io.File) -> a
     void clearProfile() -> c
-    long getCacheSize() -> d
+    long getCacheSize(java.io.File) -> b
 com.seekermob.songseeker.util.ImageLoader -> com.seekermob.songseeker.util.p:
     com.seekermob.songseeker.util.ImageLoader loader -> a
     com.seekermob.songseeker.util.MemoryCache memoryCache -> b
@@ -2369,10 +2369,10 @@ com.seekermob.songseeker.util.ImageLoader -> com.seekermob.songseeker.util.p:
     android.graphics.Bitmap decodeFile(java.io.File,com.seekermob.songseeker.util.ImageLoader$ImageSize) -> a
     void stopThread() -> a
     void clearCache(java.io.File) -> b
-    long getFileCacheSize() -> b
-    com.seekermob.songseeker.util.ImageLoader$PhotosQueue access$0() -> c
+    long getFileCacheSize(java.io.File) -> c
+    com.seekermob.songseeker.util.ImageLoader$PhotosQueue access$0() -> b
     android.graphics.Bitmap access$1$7572638f(java.lang.String,com.seekermob.songseeker.util.ImageLoader$ImageSize) -> a
-    com.seekermob.songseeker.util.MemoryCache access$2() -> d
+    com.seekermob.songseeker.util.MemoryCache access$2() -> c
     java.util.Map access$3(com.seekermob.songseeker.util.ImageLoader) -> a
     int access$4(com.seekermob.songseeker.util.ImageLoader) -> b
 com.seekermob.songseeker.util.ImageLoader$BitmapDisplayer -> com.seekermob.songseeker.util.o:
