@@ -100,36 +100,43 @@ public class ImageLoader {
     }
     
     private Bitmap getBitmap(String url, ImageSize imageSize){
-        File f=fileCache.getFile(url);
-        
-        //from SD cache
-        Bitmap b = decodeFile(f, imageSize);
-        if(b!=null)
-            return b;
-        
-        //from web
-        try {
-            Bitmap bitmap=null;
-            URL imageUrl = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
-            conn.setConnectTimeout(30000);
-            conn.setReadTimeout(30000);
-            InputStream is=conn.getInputStream();
-            OutputStream os = new FileOutputStream(f);
-            Util.CopyStream(is, os);
-            os.close();
-            bitmap = decodeFile(f, imageSize);
-            return bitmap;
-        } catch (Exception ex){
-           Log.i(Util.APP, "Failed to download image from ["+url+"]", ex);
-           return null;
-        }
+
+    	//from web
+    	try {
+    		File f=fileCache.getFile(url);
+
+    		//from SD cache
+    		Bitmap b = decodeFile(f, imageSize);
+    		if(b!=null)
+    			return b;
+
+    		Bitmap bitmap=null;
+    		URL imageUrl = new URL(url);
+    		HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
+    		conn.setConnectTimeout(30000);
+    		conn.setReadTimeout(30000);
+    		InputStream is=conn.getInputStream();
+    		OutputStream os = new FileOutputStream(f);
+    		Util.CopyStream(is, os);
+    		os.close();
+    		bitmap = decodeFile(f, imageSize);
+    		return bitmap;
+    	} catch (Exception ex){
+    		Log.i(Util.APP, "Failed to download image from ["+url+"]", ex);
+    		return null;
+    	} catch (OutOfMemoryError err){
+    		//that damn problem again, set a gc to run to try recovering from it
+    		Log.e(Util.APP, "Failed to decode image ["+url+"]", err);
+    		System.gc();
+    		return null;
+    	}
     }
 
     //decodes image and scales it to reduce memory consumption
-    private Bitmap decodeFile(File f, ImageSize imageSize){
+    private Bitmap decodeFile(File f, ImageSize imageSize) throws OutOfMemoryError{
         try {
-            //decode image size
+          
+        	//decode image size
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
             BitmapFactory.decodeStream(new FileInputStream(f),null,o);
@@ -151,7 +158,8 @@ public class ImageLoader {
             o2.inSampleSize=scale;
             
             return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
-        } catch (FileNotFoundException e) {}
+        } catch (FileNotFoundException e) { } 
+        
         return null;
     }
     
@@ -254,8 +262,8 @@ public class ImageLoader {
 		fileCache.clear(unmountedCacheDir);
 	}  
 	
-	public long getFileCacheSize(){
-		return fileCache.getCacheSize();
+	public long getFileCacheSize(File unmountedCacheDir){
+		return fileCache.getCacheSize(unmountedCacheDir);
 	}
 	
 	public enum ImageSize{

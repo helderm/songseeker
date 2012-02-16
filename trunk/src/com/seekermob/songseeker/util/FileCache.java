@@ -122,19 +122,24 @@ public class FileCache {
     }
     
     public void clear(File unmountedCacheDir){
-    	File[] files=cacheDir.listFiles();
-        for(File f:files){
-        	if(f.getName().equalsIgnoreCase(PROFILE_FILE) ||
-        			f.getName().equalsIgnoreCase(SETTINGS_FILE))
-        		continue;
-        	
-        	f.delete();
-        }
+    	File[] files = null;
+    	
+    	if((files = cacheDir.listFiles()) != null){	        	    	
+	    	for(File f : files){
+	        	if(f.getName().equalsIgnoreCase(PROFILE_FILE) ||
+	        			f.getName().equalsIgnoreCase(SETTINGS_FILE))
+	        		continue;
+	        	
+	        	f.delete();
+	        }
+    	}
         
         //we need to garantee that the internal storage is cleaned also
         if(!unmountedCacheDir.getAbsolutePath().equalsIgnoreCase(cacheDir.getAbsolutePath())){
-        	files = unmountedCacheDir.listFiles();
-            for(File f:files){
+        	if((files = unmountedCacheDir.listFiles()) == null)
+        		return;
+        	
+        	for(File f:files){
             	if(f.getName().equalsIgnoreCase(PROFILE_FILE) ||
             			f.getName().equalsIgnoreCase(SETTINGS_FILE))
             		continue;
@@ -149,20 +154,41 @@ public class FileCache {
     	f.delete();    	
     }
     
-    public long getCacheSize(){
-    	File[] files=cacheDir.listFiles();
-       
+    public long getCacheSize(File unmountedCacheDir){
     	long totalSize = 0;
+    	File[] files = null;
 
-    	for(File f:files){
-        	if(f.getName().equalsIgnoreCase(PROFILE_FILE) ||
-        			f.getName().equalsIgnoreCase(SETTINGS_FILE))
-        		continue;
-        	
-        	totalSize += f.length();
-        }
-    	
+    	try{
+
+    		if((files = cacheDir.listFiles()) != null){
+        		for(File f:files){
+        			if(f.getName().equalsIgnoreCase(PROFILE_FILE) ||
+        					f.getName().equalsIgnoreCase(SETTINGS_FILE))
+        				continue;
+
+        			totalSize += f.length();
+        		}
+    		}
+    		
+            //check internal storage also
+            if(!unmountedCacheDir.getAbsolutePath().equalsIgnoreCase(cacheDir.getAbsolutePath())){
+            	if((files = unmountedCacheDir.listFiles()) == null)
+            		return 0;
+            	
+            	for(File f:files){
+                	if(f.getName().equalsIgnoreCase(PROFILE_FILE) ||
+                			f.getName().equalsIgnoreCase(SETTINGS_FILE))
+                		continue;
+                	
+                	totalSize += f.length();
+                }
+            }  
+    		
+    	}catch (Exception e) { //TODO: TEMPORARY! Just for an emergency issue. Should be fixed with the 'if(listFiles == null)'
+    		Log.e(Util.APP, "Error while trying to fetch the cache size!", e);
+    		return 0;
+    	}
+
     	return totalSize;
     }
-
 }

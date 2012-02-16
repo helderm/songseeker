@@ -50,8 +50,7 @@ public class SongSeekerActivity extends TrackedActivity {
             	getSongsFromProfile();
             }
         }); 
-        
-        
+                
         //check if we need to auto clear the cache
         new AutoClearCacheTask().execute();
         
@@ -189,7 +188,7 @@ public class SongSeekerActivity extends TrackedActivity {
 			}
 
 			File cacheDir = getCacheDir();			
-			long cacheSize = ImageLoader.getLoader(cacheDir).getFileCacheSize();        	
+			long cacheSize = ImageLoader.getLoader(cacheDir).getFileCacheSize(cacheDir);        	
 			
 			if(cacheSize > (maxCache * 1048576)){ //bytes in a Mb
 				 ImageLoader.getLoader(cacheDir).clearCache(cacheDir);
