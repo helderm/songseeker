@@ -307,11 +307,11 @@ public class MediaPlayerController implements OnCompletionListener {
 	}
 
 	private synchronized void stopPlayer() throws IllegalStateException{
-		//if(mp.isPlaying()){
+		if(mp != null)
 			mp.stop();
+		
+		if(media != null)
 			media.status = MediaStatus.STOPPED;
-		//}
-
 	}
 
 	@Override
