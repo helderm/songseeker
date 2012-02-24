@@ -415,10 +415,14 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
         int itemId = item.getItemId();
         
         if(itemId == R.id.play){
+        	
+        	if(adapter == null || adapter.playlist == null)
+        		return false;
+        	
         	Intent i = new Intent(RecSongsActivity.this, PlayPlaylistActivity.class);
 	    	
         	SongNamesParcel songNames = new SongNamesParcel();
-	    	ArtistsParcel songArtists = new ArtistsParcel();
+	    	ArtistsParcel songArtists = new ArtistsParcel();	    	
 	    	
 			for(Song song : adapter.playlist){
 				songNames.addName(song.getReleaseName());
