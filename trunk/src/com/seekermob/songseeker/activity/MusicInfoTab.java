@@ -116,7 +116,7 @@ public class MusicInfoTab extends TrackedTabActivity {
 			intent.putExtra("artistParcel", artist);
 
 			spec = tabHost.newTabSpec("artists").setIndicator("Artist",
-					res.getDrawable(R.drawable.ic_tab_songs))
+					res.getDrawable(R.drawable.ic_tab_artists))
 					.setContent(intent);
 			tabHost.addTab(spec);
 		}
