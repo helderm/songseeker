@@ -399,6 +399,6 @@ public class ProfileActivity extends TrackedListActivity implements OnCancelList
 		}			
 		
 		//adapter.notifyDataSetChanged();
-		Toast.makeText(getApplicationContext(), getString(R.string.op_cancel_str), Toast.LENGTH_SHORT).show();		
+		//Toast.makeText(getApplicationContext(), getString(R.string.op_cancel_str), Toast.LENGTH_SHORT).show();		
 	}
 }

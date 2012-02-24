@@ -82,6 +82,19 @@ public class SongInfoActivity extends TrackedListActivity {
 	protected void onPause() {
 		MediaPlayerController.getCon().release();
 		super.onPause();
+	}	
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		
+		removeDialog(SONG_DETAILS_DIAG);
+		
+		if(task != null)
+			task.cancel(true);		
+		
+		if(mp_task != null)
+			mp_task.cancel(true);
 	}
 
 	private class GetSongDetails extends AsyncTask<Void, Void, Void>{
@@ -321,17 +334,6 @@ public class SongInfoActivity extends TrackedListActivity {
 		}
 	}	
 	
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		
-		if(task != null)
-			task.cancel(true);		
-		
-		if(mp_task != null)
-			mp_task.cancel(true);
-	}
-	
 	private void setListHeader(){
 		//set content for main screen
 		setContentView(R.layout.listview);		
@@ -445,6 +447,13 @@ public class SongInfoActivity extends TrackedListActivity {
 	
 	@Override
 	public Object onRetainNonConfigurationInstance() {
+		//removeDialog(SONG_DETAILS_DIAG);
+		
+		if(task != null)
+			task.cancel(true);
+		
 		return adapter.topTracks;
 	}
+	
+	
 }

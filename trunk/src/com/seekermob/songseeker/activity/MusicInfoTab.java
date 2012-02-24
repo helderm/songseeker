@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.TabHost;
 
@@ -27,6 +26,8 @@ public class MusicInfoTab extends TrackedTabActivity {
 	private SongInfo song = null;
 	private ReleaseInfo release = null;
 	private ArtistInfo artist = null;
+	
+	private GetSongDetails task = null;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,122 +64,73 @@ public class MusicInfoTab extends TrackedTabActivity {
 				song = getIntent().getExtras().getParcelable("songParcel");
 			}
 		}
-		
-		//if we dont have froyo, then we cant call the async task 
-		if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.ECLAIR_MR1){
-			if(song != null){
-				
-				intent = new Intent().setClass(this, SongInfoActivity.class);
-				if(!isFromRecSongs){
-					intent.putExtra("songParcel", song);
-				}else{
-					intent.putExtra("songId", song);
-				}			
 
-				spec = tabHost.newTabSpec("songs").setIndicator("Song",
-						res.getDrawable(R.drawable.ic_tab_songs))
-						.setContent(intent);
-				tabHost.addTab(spec);
+		if(song != null){
+			//if we got here from RecSongs
+			if(isFromRecSongs){
+				//fetch parcel based on songId
+				task = new GetSongDetails();
+				task.execute(song);
+				return;
 			}
 
-			//prepare the release info tab, if available
+			intent = new Intent().setClass(this, SongInfoActivity.class);
+			intent.putExtra("songParcel", song);
+
+			spec = tabHost.newTabSpec("songs").setIndicator("Song",
+					res.getDrawable(R.drawable.ic_tab_songs))
+					.setContent(intent);
+			tabHost.addTab(spec);
+		}
+
+		//prepare the release info tab, if available
+		if(release == null){
 			if(song != null && song.release != null)
 				release = song.release;
 			else
 				release = getIntent().getExtras().getParcelable("releaseParcel");
-			
-			if(release != null){
-				intent = new Intent().setClass(this, ReleaseInfoActivity.class);
-				
-				if(!isFromRecSongs)
-					intent.putExtra("releaseParcel", release);
-				else
-					intent.putExtra("songId", song);
+		}
 
-				spec = tabHost.newTabSpec("albums").setIndicator("Album",
-						res.getDrawable(R.drawable.ic_tab_albums))
-						.setContent(intent);
-				tabHost.addTab(spec);
-			}
+		if(release != null){
+			intent = new Intent().setClass(this, ReleaseInfoActivity.class);
+			intent.putExtra("releaseParcel", release);
 
+			spec = tabHost.newTabSpec("albums").setIndicator("Album",
+					res.getDrawable(R.drawable.ic_tab_albums))
+					.setContent(intent);
+			tabHost.addTab(spec);
+		}
 
-			//prepare the artist info tab
+		//prepare the artist info tab
+		if(artist == null){
 			if(song != null && song.artist != null)
 				artist = song.artist;
 			else if(release != null)
 				artist = release.artist;
 			else
 				artist = getIntent().getExtras().getParcelable("artistParcel");
-			
-			if(artist != null){
-				intent = new Intent().setClass(this, ArtistInfoActivity.class);
-								
-				if(!isFromRecSongs)
-					intent.putExtra("artistParcel", artist);
-				else
-					intent.putExtra("songId", song);
-				
-				spec = tabHost.newTabSpec("artists").setIndicator("Artist",
-						res.getDrawable(R.drawable.ic_tab_artists))
-						.setContent(intent);
-				tabHost.addTab(spec);
-			}
-		}else{
-			if(song != null){
-				//if we got here from RecSongs
-				if(isFromRecSongs){
-					//fetch parcel based on songId
-					new GetSongDetails().execute(song);
-					return;
-				}
-
-				intent = new Intent().setClass(this, SongInfoActivity.class);
-				intent.putExtra("songParcel", song);
-
-				spec = tabHost.newTabSpec("songs").setIndicator("Song",
-						res.getDrawable(R.drawable.ic_tab_songs))
-						.setContent(intent);
-				tabHost.addTab(spec);
-			}
-
-			//prepare the release info tab, if available
-			if(release == null){
-				if(song != null && song.release != null)
-					release = song.release;
-				else
-					release = getIntent().getExtras().getParcelable("releaseParcel");
-			}
-			
-			if(release != null){
-				intent = new Intent().setClass(this, ReleaseInfoActivity.class);
-				intent.putExtra("releaseParcel", release);
-
-				spec = tabHost.newTabSpec("albums").setIndicator("Album",
-						res.getDrawable(R.drawable.ic_tab_albums))
-						.setContent(intent);
-				tabHost.addTab(spec);
-			}
-
-			//prepare the artist info tab
-			if(artist == null){
-				if(song != null && song.artist != null)
-					artist = song.artist;
-				else if(release != null)
-					artist = release.artist;
-				else
-					artist = getIntent().getExtras().getParcelable("artistParcel");
-			}
-			
-			if(artist != null){
-				intent = new Intent().setClass(this, ArtistInfoActivity.class);
-				intent.putExtra("artistParcel", artist);
-
-				spec = tabHost.newTabSpec("artists").setIndicator("Artist",
-						res.getDrawable(R.drawable.ic_tab_songs))
-						.setContent(intent);
-				tabHost.addTab(spec);
-			}
 		}
+
+		if(artist != null){
+			intent = new Intent().setClass(this, ArtistInfoActivity.class);
+			intent.putExtra("artistParcel", artist);
+
+			spec = tabHost.newTabSpec("artists").setIndicator("Artist",
+					res.getDrawable(R.drawable.ic_tab_songs))
+					.setContent(intent);
+			tabHost.addTab(spec);
+		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		
+		removeDialog(SONG_DETAILS_DIAG);
+		
+		if(task != null)
+			task.cancel(true);		
+		
 	}
 
 	private class GetSongDetails extends AsyncTask<SongInfo, Void, SongInfo>{
@@ -274,6 +226,8 @@ public class MusicInfoTab extends TrackedTabActivity {
 	public Object onRetainNonConfigurationInstance() {
 		SongInfo savedSong = new SongInfo();
 		
+		removeDialog(SONG_DETAILS_DIAG);
+		
 		if(song != null){
 			savedSong.buyUrl = song.buyUrl;
 			savedSong.duration = song.duration;
@@ -292,14 +246,26 @@ public class MusicInfoTab extends TrackedTabActivity {
 			savedSong.release.id = release.id;
 			savedSong.release.image = release.image;
 			savedSong.release.name = release.name;					
-		}else
+		}else if(song != null && song.release != null){			
+			savedSong.release.artist = song.release.artist;
+			savedSong.release.buyUrl = song.release.buyUrl;
+			savedSong.release.id = song.release.id;
+			savedSong.release.image = song.release.image;
+			savedSong.release.name = song.release.name;	
+		} else{
 			savedSong.release = null;
+		}
 		
 		if(artist != null){
 			savedSong.artist.buyUrl = artist.buyUrl;
 			savedSong.artist.id = artist.id;
 			savedSong.artist.image = artist.image;
 			savedSong.artist.name = artist.name;
+		} else if(song != null && song.artist != null){
+			savedSong.artist.buyUrl = song.artist.buyUrl;
+			savedSong.artist.id = song.artist.id;
+			savedSong.artist.image = song.artist.image;
+			savedSong.artist.name = song.artist.name;
 		}else
 			savedSong.artist = null;			
 		

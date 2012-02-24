@@ -7,6 +7,7 @@ import com.seekermob.songseeker.comm.EchoNestComm;
 import com.seekermob.songseeker.data.ArtistsParcel;
 import com.seekermob.songseeker.data.IdsParcel;
 import com.seekermob.songseeker.data.RecSongsPlaylist;
+import com.seekermob.songseeker.data.RecSongsPlaylist.PlaylistListener;
 import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.data.SongNamesParcel;
 import com.seekermob.songseeker.util.ImageLoader;
@@ -48,13 +49,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RecSongsActivity extends TrackedListActivity {
+public class RecSongsActivity extends TrackedListActivity implements PlaylistListener {
 
 	private final int PROGRESS_DIAG = 0;
 	private final int EXPORT_DIAG = 1;
 	
-	private RecSongsAdapter adapter;
-	
+	private RecSongsAdapter adapter;	
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -74,31 +74,28 @@ public class RecSongsActivity extends TrackedListActivity {
 		// Set up our adapter
 		adapter = new RecSongsAdapter();
 		setListAdapter(adapter);
+		
+		//register a listener for playlist data changes
+		RecSongsPlaylist.getInstance().registerListener(this);
 
 		registerForContextMenu(getListView());    	
 
-		//check orientation change
-		@SuppressWarnings("unchecked")
-		ArrayList<Song> savedSongs = (ArrayList<Song>) getLastNonConfigurationInstance();
-		if(savedSongs != null)
-			RecSongsPlaylist.getInstance().setSongs(savedSongs);
-		
 		//check if we have an empty playlist
 		ArtistsParcel ss = getIntent().getExtras().getParcelable("searchSeed");
-		if(savedSongs != null || ss == null || ss.getArtistList().size() == 0){
+		if(ss == null || ss.getArtistList().size() == 0){
 
 			if(RecSongsPlaylist.getInstance().isEmpty()){
 				Toast.makeText(getApplicationContext(), "There is no songs in your playlist!", Toast.LENGTH_SHORT).show();
 				finish();
 			}else{
-				RecSongsPlaylist.getInstance(adapter).setPlaylist();
+				RecSongsPlaylist.getInstance().setPlaylist(adapter);
 			}
 			return;
 		}
 
 		//get the playlist
 		PlaylistParams plp = buildPlaylistParams();	    
-		RecSongsPlaylist.getInstance(adapter).getPlaylist(plp, this, PROGRESS_DIAG);
+		RecSongsPlaylist.getInstance().getPlaylist(plp, this, PROGRESS_DIAG);
 	}
 
 	@Override
@@ -109,9 +106,15 @@ public class RecSongsActivity extends TrackedListActivity {
 	
 	@Override
 	protected void onDestroy() {
-		ImageLoader.getLoader(getCacheDir()).stopThread();
+		//ImageLoader.getLoader(getCacheDir()).stopThread();
 		//ImageLoader.getLoader(getCacheDir()).clearCache();
+		
+		//clears the data from the playlist
 		RecSongsPlaylist.getInstance().clearPlaylist();
+		
+		//unregister the listener
+		RecSongsPlaylist.getInstance().unregisterListener(this);
+		
 		super.onDestroy();
 	}
 	
@@ -220,9 +223,6 @@ public class RecSongsActivity extends TrackedListActivity {
 		
 	    plp.setResults(Settings.getInstance().getMaxResults());	    
 	    plp.addIDSpace(EchoNestComm.SEVEN_DIGITAL);
-	    //plp.addIDSpace(EchoNestComm.RDIO);
-	    //plp.addIDSpace("playme");
-	    //plp.add("bucket", "rdio");
 	    plp.includeTracks();
 	    plp.setLimit(true);
 	    
@@ -258,7 +258,6 @@ public class RecSongsActivity extends TrackedListActivity {
 			    moods = null;
 		    }
 	    }
-
 	    
 	    ArtistsParcel ss = getIntent().getExtras().getParcelable("searchSeed");	    
 	    for(String artist : ss.getArtistList()){
@@ -269,8 +268,7 @@ public class RecSongsActivity extends TrackedListActivity {
 	}
 	
 	public class RecSongsAdapter extends BaseAdapter {
-	
-	    //private Playlist playlist;	    
+    
 	    private ArrayList<Song> playlist;
 		private LayoutInflater inflater;
 	    
@@ -440,9 +438,9 @@ public class RecSongsActivity extends TrackedListActivity {
         
         if(itemId == R.id.refresh){
     	    //get the playlist
-        	RecSongsPlaylist.getInstance(adapter).clearPlaylist();
+        	RecSongsPlaylist.getInstance().clearPlaylist();
         	PlaylistParams plp = buildPlaylistParams();	    
-    	    RecSongsPlaylist.getInstance(adapter).getPlaylist(plp, this, PROGRESS_DIAG);
+    	    RecSongsPlaylist.getInstance().getPlaylist(plp, this, PROGRESS_DIAG);
             return true;	
         }
         
@@ -494,12 +492,13 @@ public class RecSongsActivity extends TrackedListActivity {
 		
 		getListView().addFooterView(footer);		
 	}
-	
+
 	@Override
-	public Object onRetainNonConfigurationInstance() {
-		return RecSongsPlaylist.getInstance().getSongsNewInstance();
+	//updates the playlist with the fetched songs
+	public void onDataChanged(ArrayList<Song> playlist) {
+		if(adapter != null)
+			adapter.setPlaylist(playlist);
 	}
-	
 }
 
 
