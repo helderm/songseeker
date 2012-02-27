@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import com.google.android.apps.analytics.easytracking.TrackedActivity;
 import com.seekermob.songseeker.R;
-import com.seekermob.songseeker.data.ArtistsParcel;
+import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.data.UserProfile;
 import com.seekermob.songseeker.util.AppRater;
 import com.seekermob.songseeker.util.ImageLoader;
@@ -95,12 +95,12 @@ public class SongSeekerActivity extends TrackedActivity {
     
     private void searchNewSongs(String artistName){    	
 
-    	ArtistsParcel ss = new ArtistsParcel();
-
-    	ss.addArtist(artistName);
+    	ArrayList<ArtistInfo> artist = new ArrayList<ArtistInfo>();
+    	artist.add(new ArtistInfo());    	
+    	artist.get(0).name = artistName;    	
     	
     	Intent i = new Intent(SongSeekerActivity.this, RecSongsActivity.class);
-    	i.putExtra("searchSeed", ss);
+    	i.putExtra("searchSeed", artist);
 
     	startActivity(i);    	
     }
@@ -114,15 +114,8 @@ public class SongSeekerActivity extends TrackedActivity {
 			return;
 		}
 		
-		ArrayList<String> artists = UserProfile.getInstance(getCacheDir()).getRandomArtists(5); //no more than 5 seeds is allowed in EN
-		
-		ArtistsParcel ss = new ArtistsParcel();
-		for(String name : artists){
-			ss.addArtist(name);
-		}
-		
     	Intent i = new Intent(SongSeekerActivity.this, RecSongsActivity.class);
-    	i.putExtra("searchSeed", ss);
+    	i.putExtra("searchSeed", UserProfile.getInstance(getCacheDir()).getRandomArtists(5));
 
     	startActivity(i);    			
 	}

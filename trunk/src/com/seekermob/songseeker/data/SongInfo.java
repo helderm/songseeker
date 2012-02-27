@@ -18,6 +18,14 @@ public class SongInfo implements Parcelable{
 	public SongInfo() {
 		artist = new ArtistInfo();
 		release = new ReleaseInfo();
+		
+		name = null;
+		trackNum = null;
+		buyUrl = null;
+		duration = null;
+		id = null;
+		previewUrl = null;
+		version = null;
 	}
 	
 	public SongInfo(Parcel in) {

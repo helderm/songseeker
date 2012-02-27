@@ -28,19 +28,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seekermob.songseeker.R;
-import com.seekermob.songseeker.comm.EchoNestComm;
 import com.seekermob.songseeker.comm.RdioComm;
 import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
-import com.seekermob.songseeker.data.IdsParcel;
+import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.data.UserPlaylistsData;
 import com.seekermob.songseeker.util.ImageLoader;
 import com.seekermob.songseeker.util.ImageLoader.ImageSize;
 import com.seekermob.songseeker.util.Util;
 
-import com.echonest.api.v4.Song;
-import com.echonest.api.v4.SongParams;
 import com.google.android.apps.analytics.easytracking.TrackedListActivity;
 
 public class CreatePlaylistRdioActivity extends TrackedListActivity implements OnCancelListener{
@@ -266,13 +263,13 @@ public class CreatePlaylistRdioActivity extends TrackedListActivity implements O
 
 	private class CreatePlaylistTask extends AsyncTask<HashMap<String, String>, Integer, Void>{
 		
-		private IdsParcel sl = getIntent().getExtras().getParcelable("songIds");
+		private ArrayList<SongInfo> songs = getIntent().getParcelableArrayListExtra("songsInfo");
 		private String err = null;		
 		
 		@Override
 		protected void onPreExecute() {
 			showDialog(FETCH_SONG_IDS_DIAG);
-			fetchSongIdsDiag.setMax(sl.getIds().size());
+			fetchSongIdsDiag.setMax(songs.size());
 		}
 		
 		@Override
@@ -298,44 +295,22 @@ public class CreatePlaylistRdioActivity extends TrackedListActivity implements O
 			}
 			
 			int count = 0;
-			for(String id : sl.getIds()){
+			
+			for(SongInfo song : songs){
 				if(Thread.interrupted()){
 					return null;
 				}
-				
-				Song song = null;
-				SongParams sp = new SongParams();
-				sp.setID(id);
-				sp.addIDSpace(EchoNestComm.RDIO);
-				
-				try {
-					song = EchoNestComm.getComm().getSongs(sp);
-					
-					String rdioID = song.getString("foreign_ids[0].foreign_id");
-					
-					String[] split = rdioID.split(":");
-					songIDs.add(split[2]);					
-				}catch (NoSuchMethodError err){
-					Log.e(Util.APP, "NoSuchMethodErr from jEN strikes again!", err);
-					continue;
-				}catch (ServiceCommException e) {
-					err = e.getMessage();
-					return null;
-				} catch (IndexOutOfBoundsException e){					
-					if(song != null){
-											
-						try{
-							songIDs.add(RdioComm.getComm().queryTrackID(song.getReleaseName(), song.getArtistName()));							
-						}catch(ServiceCommException ex){
-							/* This will need a cleanup of tokens inside queryTrackID
-							 * if(ex.getErr() == ServiceErr.NOT_AUTH){
-								err = e.getMessage();	
-								return null;
-							}*/
-						}
-					}					
-				}
-				
+
+				try{
+					songIDs.add(RdioComm.getComm().queryTrackID(song.name, song.artist.name));							
+				}catch(ServiceCommException e){
+					//This will need a cleanup of tokens inside queryTrackID
+					if(e.getErr() == ServiceErr.NOT_AUTH){
+						err = e.getMessage();	
+						return null;
+					}
+				}			
+
 				publishProgress(++count);
 			}
 			

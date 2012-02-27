@@ -229,24 +229,29 @@ public class UserProfile implements Serializable, OnCancelListener{
 		return false;
 	}
 	
-	public ArrayList<String> getRandomArtists(int numArtists){
-		ArrayList<String> chosenArtists = new ArrayList<String>();
+	public ArrayList<ArtistInfo> getRandomArtists(int numArtists){
+		ArrayList<ArtistInfo> chosenArtists = new ArrayList<ArtistInfo>();
 		ArrayList<ArtistProfile> profileArtists = new ArrayList<ArtistProfile>(profile.artists);
 		Random rand = new Random();
 		
 		//add all artists if the profile isnt large enough
 		if(numArtists >= profileArtists.size()){
 			for(ArtistProfile a : profileArtists){
-				chosenArtists.add(a.name);				
+				ArtistInfo artist = new ArtistInfo();
+				artist.name = a.name;
+				chosenArtists.add(artist);				
 			}
 			return chosenArtists;
 		}
 		
 		while(numArtists > 0){        	
-        	
+			ArtistInfo artist = new ArtistInfo();
+			
 			//choose a new artist from profile
         	int i = rand.nextInt(profileArtists.size());
-			chosenArtists.add(profileArtists.get(i).name);
+			
+        	artist.name = profileArtists.get(i).name;
+        	chosenArtists.add(artist);
 			
 			profileArtists.remove(i);		
 			numArtists--;

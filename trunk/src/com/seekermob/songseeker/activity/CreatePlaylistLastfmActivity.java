@@ -10,8 +10,7 @@ import com.seekermob.songseeker.comm.LastfmComm;
 import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
-import com.seekermob.songseeker.data.ArtistsParcel;
-import com.seekermob.songseeker.data.SongNamesParcel;
+import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.util.Util;
 
 import de.umass.lastfm.Playlist;
@@ -325,8 +324,7 @@ public class CreatePlaylistLastfmActivity extends TrackedListActivity implements
 	}
 	
 	private class CreatePlaylistTask extends AsyncTask<HashMap<String, String>, Integer, Void>{
-		private SongNamesParcel sn = getIntent().getExtras().getParcelable("songNames");
-		private ArtistsParcel ar = getIntent().getExtras().getParcelable("songArtists");
+		private ArrayList<SongInfo> songs = getIntent().getParcelableArrayListExtra("songsInfo");
 		private String err;
 		
 		@Override
@@ -341,7 +339,7 @@ public class CreatePlaylistLastfmActivity extends TrackedListActivity implements
 			else{
 				removeDialog(CREATE_PLAYLIST_DIAG);
 				showDialog(ADD_TRACKS_DIAG);
-				addTracksDiag.setMax(sn.getSongNames().size());
+				addTracksDiag.setMax(songs.size());
 			}
 		}
 		
@@ -371,17 +369,14 @@ public class CreatePlaylistLastfmActivity extends TrackedListActivity implements
 				
 				publishProgress(-1);
 				
-				int i;
-				ArrayList<String> songNames = sn.getSongNames();
-				ArrayList<String> songArtists = ar.getArtistList();
-				
-				for(i=0; i<songNames.size() && i<songArtists.size(); i++){
+				int count = 0;
+				for(SongInfo song : songs){				
 					if(Thread.interrupted()){
 						return null;
 					}
 					
-					LastfmComm.getComm().addToPlaylist(plId, songArtists.get(i), songNames.get(i), settings);
-					publishProgress(i+1);
+					LastfmComm.getComm().addToPlaylist(plId, song.artist.name, song.name, settings);
+					publishProgress(++count);
 				}				
 			}catch (ServiceCommException e){
 				err = e.getMessage();

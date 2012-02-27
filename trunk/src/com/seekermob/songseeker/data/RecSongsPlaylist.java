@@ -10,17 +10,16 @@ import android.widget.Toast;
 import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
 import com.echonest.api.v4.Song;
-import com.echonest.api.v4.SongParams;
 import com.seekermob.songseeker.activity.RecSongsActivity.RecSongsAdapter;
 import com.seekermob.songseeker.comm.EchoNestComm;
 import com.seekermob.songseeker.comm.ServiceCommException;
-import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
+import com.seekermob.songseeker.comm.SevenDigitalComm;
 import com.seekermob.songseeker.util.Util;
 
 public class RecSongsPlaylist {
 	private static RecSongsPlaylist obj = new RecSongsPlaylist();
 
-	private static ArrayList<Song> songs = null;	
+	private static ArrayList<SongInfo> songs = null;
 	private static ArrayList<PlaylistListener> listeners = null;
 
 	private RecSongsPlaylist() {}
@@ -29,16 +28,12 @@ public class RecSongsPlaylist {
 		return obj;
 	}
 
-	public void setSongs(ArrayList<Song> s){
+	public void setSongs(ArrayList<SongInfo> s){
 		songs = s;
 	}
 
-	public ArrayList<Song> getPlaylist(){
+	public ArrayList<SongInfo> getPlaylist(){
 		return songs;
-	}
-
-	public void setPlaylist(RecSongsAdapter adapter){
-		adapter.setPlaylist(songs);
 	}
 
 	public void clearPlaylist(){
@@ -87,7 +82,33 @@ public class RecSongsPlaylist {
 				return null;
 			}
 
-			syncAddSongsToPlaylist((ArrayList<Song>)pl.getSongs());
+			//convert the songs from EN to the parcel format
+			//release and artist info will be almost empty until we query 7digital
+			ArrayList<SongInfo> songsInfo = new ArrayList<SongInfo>();			
+			for(Song song : pl.getSongs()){
+				try {
+					SongInfo songInfo = new SongInfo();
+					
+					songInfo.id = song.getString("tracks[0].foreign_id").split(":")[2];
+					songInfo.name = song.getReleaseName();
+					songInfo.artist.name = song.getArtistName();
+					songInfo.previewUrl = song.getString("tracks[0].preview_url");	
+					songInfo.release.image = song.getString("tracks[0].release_image");
+					
+					//check for null data
+					if(songInfo.id == null || songInfo.name == null || songInfo.artist.name == null ||
+						songInfo.previewUrl == null || songInfo.release.image == null){
+						continue;
+					}				
+					
+					songsInfo.add(songInfo);					
+				}catch (Exception e){
+					Log.i(Util.APP, "Failed to fetch a song from EN, ignoring it...");
+					continue;
+				}
+			}
+			
+			syncAddSongsToPlaylist(songsInfo);
 
 			return null;
 		}
@@ -112,11 +133,6 @@ public class RecSongsPlaylist {
 
 			//notify listeners that the data changed
 			notifyListeners();
-			
-			//if(activity.getListAdapter() != null){
-			//	((RecSongsAdapter)activity.getListAdapter()).setPlaylist(songs);
-			//	((RecSongsAdapter)activity.getListAdapter()).notifyDataSetChanged();				
-			//}
 
 			activity = null; //maybe this prevents memory leakage
 		}		
@@ -141,63 +157,41 @@ public class RecSongsPlaylist {
 		@Override
 		protected void onPreExecute() {
 			Toast.makeText(activity.getApplicationContext(), "Adding song(s) to playlist, please wait...", 
-					Toast.LENGTH_LONG).show();
+					Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
 		protected Void doInBackground(ArrayList<SongInfo>... params) {
 
-			ArrayList<Song> songList = new ArrayList<Song>();
-			Song song = null;
-
-			for(SongInfo songInfo : params[0]){
-				SongParams sp = new SongParams();
-				sp.add("track_id", "7digital:track:"+songInfo.id);
-				sp.addIDSpace(EchoNestComm.SEVEN_DIGITAL);
-				sp.includeTracks();
-				sp.setLimit(true);
-
-				try{
-					song = EchoNestComm.getComm().getSongs(sp);
-				}catch (ServiceCommException e) {
-					if(e.getErr() == ServiceErr.SONG_NOT_FOUND){
-						Log.i(Util.APP, "7digital's id for song ["+ songInfo.name + " - "+ songInfo.artist.name +"] " +
-								"not found in EchoNest, trying to search for the song...");
-
-						//try with echo nest 'search'
-						sp = new SongParams();
-						sp.setArtist(songInfo.artist.name);
-						sp.setTitle(songInfo.name);
-						sp.addIDSpace(EchoNestComm.SEVEN_DIGITAL);
-						sp.includeTracks();
-						sp.setLimit(true);
-
-						try {
-							song = EchoNestComm.getComm().searchSongs(sp);
-						} catch (ServiceCommException e1) {
-
-							if(e1.getErr() == ServiceErr.SONG_NOT_FOUND){
-								Log.i(Util.APP, "Song ["+ songInfo.name + " - "+ songInfo.artist.name +"] not found in EchoNest, skiping...");
-							}
-							continue;
-						}
-					}else{
-						continue;
-					}
+			ArrayList<SongInfo> songs = new ArrayList<SongInfo>();
+			
+			for(SongInfo song : params[0]){
+								
+				//check for null data
+				if(song.id == null || song.name == null || song.artist.name == null || song.release.image == null){
+					continue;
 				}
-
-				songList.add(song);
+				
+				if(song.previewUrl == null){
+					try{
+						song.previewUrl = SevenDigitalComm.getComm().getPreviewUrl(song.id);
+					} catch(Exception e){
+						continue;
+					} 
+				}
+				
+				songs.add(song);
 			}				
 
-			if(songList.size() == 0){
+			if(songs.size() == 0){
 				err = "Failed to add song(s) to the playlist!";
 				return null;
-			}else if(songList.size() < params[0].size()){
+			}else if(songs.size() < params[0].size()){
 				msg = "Some songs were successfully added to the playlist!";
 			}else
 				msg = "Song(s) successfully added to the playlist!";				
 
-			syncAddSongsToPlaylist(songList);
+			syncAddSongsToPlaylist(songs);
 
 			return null;
 		}
@@ -209,7 +203,7 @@ public class RecSongsPlaylist {
 				return;
 			}
 
-			Toast.makeText(activity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();			
+			Toast.makeText(activity.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();			
 			
 			//notify listeners that the data changed
 			notifyListeners();
@@ -218,9 +212,9 @@ public class RecSongsPlaylist {
 		}		
 	}	
 
-	private synchronized void syncAddSongsToPlaylist(ArrayList<Song> songList){
+	private synchronized void syncAddSongsToPlaylist(ArrayList<SongInfo> songList){
 		if(songs == null)
-			songs = new ArrayList<Song>();
+			songs = new ArrayList<SongInfo>();
 
 		songs.addAll(songList);
 	}
@@ -252,7 +246,7 @@ public class RecSongsPlaylist {
 	}
 
 	public static interface PlaylistListener{
-		public void onDataChanged(ArrayList<Song> playlist);
+		public void onDataChanged(ArrayList<SongInfo> playlist);
 	}
 	
 	private void notifyListeners(){

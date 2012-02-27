@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.EchoNestComm;
-import com.seekermob.songseeker.data.ArtistsParcel;
-import com.seekermob.songseeker.data.IdsParcel;
+import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.data.RecSongsPlaylist;
 import com.seekermob.songseeker.data.RecSongsPlaylist.PlaylistListener;
 import com.seekermob.songseeker.data.SongInfo;
-import com.seekermob.songseeker.data.SongNamesParcel;
 import com.seekermob.songseeker.util.ImageLoader;
 import com.seekermob.songseeker.util.ImageLoader.ImageSize;
 import com.seekermob.songseeker.util.MediaPlayerController;
@@ -18,7 +16,6 @@ import com.seekermob.songseeker.util.Util;
 import com.seekermob.songseeker.util.MediaPlayerController.MediaStatus;
 import com.echonest.api.v4.PlaylistParams;
 import com.echonest.api.v4.PlaylistParams.PlaylistType;
-import com.echonest.api.v4.Song;
 import com.google.android.apps.analytics.easytracking.TrackedListActivity;
 
 import android.app.AlertDialog;
@@ -29,7 +26,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-//import android.os.Debug;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -81,14 +77,13 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 		registerForContextMenu(getListView());    	
 
 		//check if we have an empty playlist
-		ArtistsParcel ss = getIntent().getExtras().getParcelable("searchSeed");
-		if(ss == null || ss.getArtistList().size() == 0){
+		if(getIntent().getParcelableArrayListExtra("searchSeed") == null || getIntent().getParcelableArrayListExtra("searchSeed").size() == 0){
 
 			if(RecSongsPlaylist.getInstance().isEmpty()){
 				Toast.makeText(getApplicationContext(), "There is no songs in your playlist!", Toast.LENGTH_SHORT).show();
 				finish();
 			}else{
-				RecSongsPlaylist.getInstance().setPlaylist(adapter);
+				adapter.setPlaylist(RecSongsPlaylist.getInstance().getPlaylist());
 			}
 			return;
 		}
@@ -119,29 +114,10 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 	}
 	
 	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Song song = adapter.getItem(position);
-
-		try {
-			String foreignId = song.getString("tracks[0].foreign_id");
-		
-			SongInfo songInfo = new SongInfo();
-			songInfo.id = foreignId.split(":")[2];
-			songInfo.name = song.getReleaseName();
-			songInfo.artist.name = song.getArtistName();
-			songInfo.previewUrl = song.getString("tracks[0].preview_url");			
-			
-			Intent i = new Intent(RecSongsActivity.this, MusicInfoTab.class);
-			i.putExtra("songId", songInfo); 
-			startActivity(i);
-		} catch (IndexOutOfBoundsException e) {
-			Toast.makeText(this, "Unable to retrieve track details!", Toast.LENGTH_SHORT).show();
-			return;
-		} catch (Exception e){
-			Toast.makeText(this, "Unable to retrieve track details!", Toast.LENGTH_SHORT).show();
-			Log.e(Util.APP, e.getMessage(), e);
-			return;
-		}
+	protected void onListItemClick(ListView l, View v, int position, long id) {		
+		Intent i = new Intent(RecSongsActivity.this, MusicInfoTab.class);
+		i.putExtra("songId", adapter.getItem(position));		
+		startActivity(i);		
 	}
 	
 	@Override
@@ -162,45 +138,27 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 			builder.setTitle("Export as...");
 			builder.setItems(items, new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int item) {			        
-					
-			    	IdsParcel songIds = new IdsParcel();
-			    	SongNamesParcel songNames = new SongNamesParcel();
-			    	ArtistsParcel songArtists = new ArtistsParcel();
 			    	
-					for(Song song : adapter.playlist){
-						songIds.addId(song.getID());
-						songNames.addName(song.getReleaseName());
-						songArtists.addArtist(song.getArtistName());
-					}
-			    	
-					Intent i;
-					
+					Intent i;					
 					switch(item){
 					case 0:
 						i = new Intent(RecSongsActivity.this, CreatePlaylistRdioActivity.class);
-						i.putExtra("songIds", songIds);
 						break;
 					case 1:
 						i = new Intent(RecSongsActivity.this, CreatePlaylistLastfmActivity.class);
-						i.putExtra("songNames", songNames);
-						i.putExtra("songArtists", songArtists);
 						break;
 					case 2:
 						i = new Intent(RecSongsActivity.this, CreatePlaylistYoutubeActivity.class);
-						i.putExtra("songNames", songNames);
-						i.putExtra("songArtists", songArtists);
 						break;
 					case 3:
 						i = new Intent(RecSongsActivity.this, CreatePlaylistGroovesharkActivity.class);
-						i.putExtra("songNames", songNames);
-						i.putExtra("songArtists", songArtists);
 						break;						
 					default:
 						return;							
 					}		    	
 			    	
-			    	startActivity(i);
-			    	
+					i.putExtra("songsInfo", adapter.playlist);
+			    	startActivity(i);			    	
 			    }
 			});
 			AlertDialog alert = builder.create();
@@ -259,9 +217,9 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 		    }
 	    }
 	    
-	    ArtistsParcel ss = getIntent().getExtras().getParcelable("searchSeed");	    
-	    for(String artist : ss.getArtistList()){
-	    	plp.addArtist(artist);	
+	    ArrayList<ArtistInfo> artists = getIntent().getParcelableArrayListExtra("searchSeed");
+	    for(ArtistInfo artist : artists){
+	    	plp.addArtist(artist.name);	
 	    }
 	    
 	    return plp;
@@ -269,7 +227,7 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 	
 	public class RecSongsAdapter extends BaseAdapter {
     
-	    private ArrayList<Song> playlist;
+	    private ArrayList<SongInfo> playlist;
 		private LayoutInflater inflater;
 	    
 	    public RecSongsAdapter() {    
@@ -284,7 +242,7 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 	    	return playlist.size();
 	    }
 	
-	    public Song getItem(int position) {
+	    public SongInfo getItem(int position) {
 	        return playlist.get(position);
 	    }
 	
@@ -311,12 +269,12 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 				holder = (ViewHolder) convertView.getTag();
 			}
 			 
-			final Song song = getItem(position);
+			final SongInfo song = getItem(position);
 			final int pos = position;
 			if (song != null) {
 			    
-				holder.botText.setText(song.getArtistName());
-				holder.topText.setText(song.getReleaseName());
+				holder.botText.setText(song.artist.name);
+				holder.topText.setText(song.name);
 				holder.mediaBtns.setVisibility(View.VISIBLE);
 
 				MediaStatus mediaStatus = MediaPlayerController.getCon().getStatus(pos);
@@ -347,13 +305,8 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 				case PREPARED:
 					holder.loading.setOnClickListener(new View.OnClickListener() {
 			            public void onClick(View v) {		            	
-			            	try{
-			            		String previewUrl = song.getString("tracks[0].preview_url");
-			            		MediaPlayerController.getCon().startStopMedia(previewUrl, pos, adapter);
-			            		adapter.notifyDataSetChanged();
-			            	}catch(IndexOutOfBoundsException e){
-			            		Log.i(Util.APP, "Preview Url for song ["+song.getReleaseName()+" - "+song.getArtistName()+"] not found!", e);
-			            	}		            	
+		            		MediaPlayerController.getCon().startStopMedia(song.previewUrl, pos, adapter);
+		            		adapter.notifyDataSetChanged();			            		            	
 			            }
 			        }); 	
 					
@@ -362,15 +315,10 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 				case STOPPED:
 				default:
 					holder.playPause.setOnClickListener(new View.OnClickListener() {
-			            public void onClick(View v) {		            	
-			            	try{
-			            		String previewUrl = song.getString("tracks[0].preview_url");
-			            		MediaPlayerController.getCon().startStopMedia(previewUrl, pos, adapter);
-			            		adapter.notifyDataSetChanged();
-			            	}catch(IndexOutOfBoundsException e){
-			            		Log.i(Util.APP, "Preview Url for song ["+song.getReleaseName()+" - "+song.getArtistName()+"] not found!", e);
-			            	}		            	
-			            }
+						public void onClick(View v) {		            	
+							MediaPlayerController.getCon().startStopMedia(song.previewUrl, pos, adapter);
+							adapter.notifyDataSetChanged();
+						}
 			        });
 					
 					break;
@@ -378,7 +326,7 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 			    
 				//load coverart image
 			    try{
-			    	ImageLoader.getLoader(getCacheDir()).DisplayImage(song.getString("tracks[0].release_image"), holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);
+			    	ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);
 			    }catch(IndexOutOfBoundsException e){
 			    	Log.i(Util.APP, "Unable to fetch the release image from Echo Nest!");
 			    }
@@ -387,7 +335,7 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 			return convertView;
 		}
 	    
-	    public void setPlaylist(ArrayList<Song> pl){
+	    public void setPlaylist(ArrayList<SongInfo> pl){
 	    	this.playlist = pl;
 	    	notifyDataSetChanged();
 	    }	    
@@ -420,16 +368,7 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
         		return false;
         	
         	Intent i = new Intent(RecSongsActivity.this, PlayPlaylistActivity.class);
-	    	
-        	SongNamesParcel songNames = new SongNamesParcel();
-	    	ArtistsParcel songArtists = new ArtistsParcel();	    	
-	    	
-			for(Song song : adapter.playlist){
-				songNames.addName(song.getReleaseName());
-				songArtists.addArtist(song.getArtistName());
-			}
-			i.putExtra("songNames", songNames);
-			i.putExtra("songArtists", songArtists);
+			i.putExtra("songsInfo", adapter.playlist);
 			startActivity(i);
         	return true;
         }
@@ -449,6 +388,9 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
         }
         
         if(itemId == R.id.export){
+        	if(adapter == null || adapter.playlist == null)
+        		return false;
+        	
         	showDialog(EXPORT_DIAG);
         	return true;
         }
@@ -499,7 +441,7 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 
 	@Override
 	//updates the playlist with the fetched songs
-	public void onDataChanged(ArrayList<Song> playlist) {
+	public void onDataChanged(ArrayList<SongInfo> playlist) {
 		if(adapter != null)
 			adapter.setPlaylist(playlist);
 	}

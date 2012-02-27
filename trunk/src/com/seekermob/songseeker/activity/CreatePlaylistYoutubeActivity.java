@@ -9,8 +9,7 @@ import com.seekermob.songseeker.comm.YouTubeComm;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
 import com.seekermob.songseeker.comm.YouTubeComm.VideoFeed;
-import com.seekermob.songseeker.data.ArtistsParcel;
-import com.seekermob.songseeker.data.SongNamesParcel;
+import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.data.UserPlaylistsData;
 import com.seekermob.songseeker.util.Util;
 import com.google.android.apps.analytics.easytracking.TrackedListActivity;
@@ -293,8 +292,7 @@ public class CreatePlaylistYoutubeActivity extends TrackedListActivity implement
 	}
 	
 	private class CreatePlaylistTask extends AsyncTask<HashMap<String, String>, Integer, Void>{
-		private SongNamesParcel sn = getIntent().getExtras().getParcelable("songNames");
-		private ArtistsParcel ar = getIntent().getExtras().getParcelable("songArtists");
+		private ArrayList<SongInfo> songs = getIntent().getParcelableArrayListExtra("songsInfo");
 		private ArrayList<VideoFeed> videos = new ArrayList<VideoFeed>();
 		
 		private String err;
@@ -302,7 +300,7 @@ public class CreatePlaylistYoutubeActivity extends TrackedListActivity implement
 		@Override
 		protected void onPreExecute() {
 			showDialog(FETCH_VIDEO_IDS_DIAG);
-			progressDiag.setMax(sn.getSongNames().size());		
+			progressDiag.setMax(songs.size());		
 		}
 		
 		@Override
@@ -337,21 +335,20 @@ public class CreatePlaylistYoutubeActivity extends TrackedListActivity implement
 			}
 			
 			try{				
-				ArrayList<String> songNames = sn.getSongNames();
-				ArrayList<String> songArtists = ar.getArtistList();
 				
 				//fetch video ids		
-				for(int i=0; i<songNames.size() && i<songArtists.size(); i++){
+				int count = 0;
+				for(SongInfo song : songs){
 					//check if the task was cancelled by the user
 					if(Thread.interrupted()){
 						return null;
 					}
 					
-					ArrayList<VideoFeed> vids = YouTubeComm.getComm().searchVideo(songNames.get(i), songArtists.get(i), 1);
-					publishProgress(i+1);
+					ArrayList<VideoFeed> vids = YouTubeComm.getComm().searchVideo(song.name, song.artist.name, 1);
+					publishProgress(++count);
 					
 					if(vids.size() == 0){
-						Log.i(Util.APP, "Song ["+songNames.get(i) + "-" + songArtists.get(i)+"] not found on YouTube, ignoring...");
+						Log.i(Util.APP, "Song ["+song.name + "-" + song.artist.name+"] not found on YouTube, ignoring...");
 						continue;
 					}
 				
@@ -397,6 +394,10 @@ public class CreatePlaylistYoutubeActivity extends TrackedListActivity implement
 		
 		@Override
 		protected void onPostExecute(Void result) {
+			removeDialog(FETCH_VIDEO_IDS_DIAG);	
+			removeDialog(ADD_VIDEOS_PLAYLIST_DIAG);
+			removeDialog(CREATE_PLAYLIST_DIAG);			
+			
 			if(err != null){
 				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
 			}else{

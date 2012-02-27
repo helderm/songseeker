@@ -47,6 +47,10 @@ public class EchoNestComm {
 		while(true){		
 			try{				
 				pl = en.createStaticPlaylist(plp);
+				
+				if(pl == null)
+					throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.REQ_FAILED);
+				
 				break;
 			}catch(EchoNestException e){
 				switch(e.getCode()){
@@ -81,7 +85,9 @@ public class EchoNestComm {
 					Log.e(Util.APP, "EN createStaticPlaylist failed!", e);
 					throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.IO);				
 				}
-			} catch(NoSuchMethodError e){
+			} catch(Exception e){
+				throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
+			}catch(NoSuchMethodError e){
 				tries++;
 				if(tries > MAX_WS_RETRIES){
 					if(e.getMessage().contains("java.io.IOException"))
@@ -95,7 +101,7 @@ public class EchoNestComm {
 				} catch (InterruptedException e1) {	}	
 			} catch(OutOfMemoryError e){
 				//happened once inside jEN when fetching 100 songs in a playlist 
-				Log.e(Util.APP, "Memory not enough to fetch EN data!", e);
+				Log.e(Util.APP, "Insufficient free memory to fetch EN data!", e);
 				System.gc();
 				throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
 			}

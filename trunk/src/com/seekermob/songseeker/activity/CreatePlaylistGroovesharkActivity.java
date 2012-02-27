@@ -10,8 +10,7 @@ import com.seekermob.songseeker.comm.GroovesharkComm;
 import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
-import com.seekermob.songseeker.data.ArtistsParcel;
-import com.seekermob.songseeker.data.SongNamesParcel;
+import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.data.UserPlaylistsData;
 import com.seekermob.songseeker.util.Util;
 
@@ -221,30 +220,23 @@ public class CreatePlaylistGroovesharkActivity extends TrackedListActivity imple
 	
 	private class CreatePlaylistTask extends AsyncTask<HashMap<String, String>, Integer, Void>{
 		
-		private String err = null;		
-		
-		private List<String> songNames = new ArrayList<String>();
-		private List<String> artistNames = new ArrayList<String>(); 
+		private String err = null;			
+		private List<SongInfo> songs;
 		
 		@Override
 		protected void onPreExecute() {
-			SongNamesParcel sn = getIntent().getExtras().getParcelable("songNames");
-			ArtistsParcel ar = getIntent().getExtras().getParcelable("songArtists");
+			
+			songs = getIntent().getParcelableArrayListExtra("songsInfo");
 			
 			showDialog(FETCH_SONG_IDS_DIAG);
 			
-			//access is limited today to 32 ws calls/ip/minute, so i'll need to truncate the playlist 
-			if(sn.getSongNames().size() > GroovesharkComm.RATE_LIMIT){
-				
-				songNames =  sn.getSongNames().subList(0, GroovesharkComm.RATE_LIMIT);
-				artistNames = ar.getArtistList().subList(0, GroovesharkComm.RATE_LIMIT);
+			//access is limited today to GroovesharkComm.RATE_LIMIT ws calls/ip/minute, so i'll need to truncate the playlist 
+			if(songs.size() > GroovesharkComm.RATE_LIMIT){
+				songs =  songs.subList(0, GroovesharkComm.RATE_LIMIT);				
 				Toast.makeText(getApplicationContext(), "Truncating playlist to " + GroovesharkComm.RATE_LIMIT + " songs, due to technical reasons...", Toast.LENGTH_LONG).show();
-			}else{
-				songNames = sn.getSongNames();
-				artistNames = ar.getArtistList();
 			}
 			
-			fetchSongIdsDiag.setMax(songNames.size());
+			fetchSongIdsDiag.setMax(songs.size());
 		}
 		
 		@Override
@@ -270,7 +262,9 @@ public class CreatePlaylistGroovesharkActivity extends TrackedListActivity imple
 			}
 			
 			int count = 0;
-			for(int i=0; i<songNames.size(); i++){
+			
+			//for(int i=0; i<songs.size(); i++){
+			for(SongInfo song : songs){
 				
 				//check if the task was cancelled by the user
 				if(Thread.interrupted()){
@@ -278,12 +272,12 @@ public class CreatePlaylistGroovesharkActivity extends TrackedListActivity imple
 				}
 				
 				try {					
-					String gsID = GroovesharkComm.getComm().getSongID(songNames.get(i), artistNames.get(i), settings);
+					String gsID = GroovesharkComm.getComm().getSongID(song.name, song.artist.name, settings);
 					songIDs.add(gsID);					
 				}catch (ServiceCommException e) {
 					if(e.getErr() == ServiceErr.SONG_NOT_FOUND){
 						publishProgress(++count);
-						Log.i(Util.APP, "Song ["+songNames.get(i)+" - "+artistNames.get(i)+"] not found in Grooveshark, ignoring...");
+						Log.i(Util.APP, "Song ["+song.name+" - "+song.artist.name+"] not found in Grooveshark, ignoring...");
 						continue;
 					}
 					

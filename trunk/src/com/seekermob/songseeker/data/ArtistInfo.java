@@ -9,7 +9,12 @@ public class ArtistInfo implements Parcelable{
 	public String id;
 	public String image;
 
-	public ArtistInfo() { ; };
+	public ArtistInfo() { 
+		name = null;
+		buyUrl = null;
+		id = null;
+		image = null;
+	};
  
 	public ArtistInfo(Parcel in) {
 		readFromParcel(in);

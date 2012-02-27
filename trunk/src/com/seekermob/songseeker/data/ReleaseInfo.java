@@ -15,6 +15,11 @@ public class ReleaseInfo implements Parcelable {
 	
 	public ReleaseInfo() { 
 		artist = new ArtistInfo(); 
+		
+		name = null;
+		id = null;
+		buyUrl = null;
+		image = null;		
 	}
  
 	public ReleaseInfo(Parcel in) {
