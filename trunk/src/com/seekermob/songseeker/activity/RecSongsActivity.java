@@ -76,6 +76,20 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 
 		registerForContextMenu(getListView());    	
 
+		//check if we are recovering the state
+		ArrayList<SongInfo> savedPlaylist = null;
+		if(savedInstanceState != null && (savedPlaylist = savedInstanceState.getParcelableArrayList("savedPlaylist")) != null){
+			if(RecSongsPlaylist.getInstance().isEmpty()){
+				RecSongsPlaylist.getInstance().setSongs(savedPlaylist);
+			}
+			savedPlaylist = null;
+			
+			adapter.setPlaylist(RecSongsPlaylist.getInstance().getPlaylist());
+
+			Log.d(Util.APP, "Playlist state restored!");
+			return;
+		}
+		
 		//check if we have an empty playlist
 		if(getIntent().getParcelableArrayListExtra("searchSeed") == null || getIntent().getParcelableArrayListExtra("searchSeed").size() == 0){
 
@@ -444,6 +458,17 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 	public void onDataChanged(ArrayList<SongInfo> playlist) {
 		if(adapter != null)
 			adapter.setPlaylist(playlist);
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+	
+		if(adapter != null && adapter.playlist != null){
+			outState.putParcelableArrayList("savedPlaylist", adapter.playlist);
+			Log.d(Util.APP, "Playlist state saved!");
+		}
+		
+		super.onSaveInstanceState(outState);
 	}
 }
 
