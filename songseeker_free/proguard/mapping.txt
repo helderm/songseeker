@@ -1,9 +1,9 @@
-com.echonest.api.v4.Artist -> com.a.a.a.l:
+com.echonest.api.v4.Artist -> com.a.a.a.k:
     java.lang.String getID() -> a
     java.lang.String getForeignID(java.lang.String) -> a
     com.echonest.api.v4.PagedList getBiographies$9ba29d5(java.lang.String) -> b
     com.echonest.api.v4.PagedList getNews$32782b95(boolean) -> a
-com.echonest.api.v4.ArtistParams -> com.a.a.a.m:
+com.echonest.api.v4.ArtistParams -> com.a.a.a.l:
     java.lang.String SORT_FAMILIARITY -> a
     java.lang.String SORT_HOTTTNESSS -> b
     java.lang.String SORT_START_YEAR -> c
@@ -11,10 +11,10 @@ com.echonest.api.v4.ArtistParams -> com.a.a.a.m:
     void setID(java.lang.String) -> a
     void setLimit$1385ff() -> a
     void addIDSpace(java.lang.String) -> b
-com.echonest.api.v4.Biography -> com.a.a.a.n:
+com.echonest.api.v4.Biography -> com.a.a.a.m:
     java.lang.String getText() -> a
     java.lang.String getURL() -> b
-com.echonest.api.v4.ENItem -> com.a.a.a.q:
+com.echonest.api.v4.ENItem -> com.a.a.a.p:
     java.util.Map data -> a
     com.echonest.api.v4.EchoNestAPI en -> b
     java.lang.String type -> c
@@ -30,24 +30,22 @@ com.echonest.api.v4.ENItem -> com.a.a.a.q:
     java.util.Map getItemMap(java.lang.String,java.lang.String) -> b
     int hashCode() -> hashCode
     boolean equals(java.lang.Object) -> equals
-com.echonest.api.v4.EchoNestAPI -> com.a.a.a.j:
+com.echonest.api.v4.EchoNestAPI -> com.a.a.a.i:
     com.echonest.api.v4.util.Commander cmd -> a
     com.echonest.api.v4.Params stdParams -> b
     com.echonest.api.v4.Artist newArtistByID(java.lang.String) -> a
     java.util.List getSimilarArtists(com.echonest.api.v4.Params) -> a
-    java.util.List searchSongs(com.echonest.api.v4.Params) -> b
-    java.util.List getSongs(com.echonest.api.v4.Params) -> c
-    com.echonest.api.v4.Playlist createStaticPlaylist(com.echonest.api.v4.Params) -> d
+    com.echonest.api.v4.Playlist createStaticPlaylist(com.echonest.api.v4.Params) -> b
     com.echonest.api.v4.PagedListInfo getDocuments$71b31229(java.lang.String,java.lang.String,java.lang.String,boolean) -> a
     com.echonest.api.v4.PagedListInfo getDocuments$619a7c9b(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
     com.echonest.api.v4.PagedListInfo getPagedDocuments(java.lang.String,java.util.Map) -> a
     com.echonest.api.v4.util.Commander getCmd() -> a
-com.echonest.api.v4.EchoNestException -> com.a.a.a.i:
+com.echonest.api.v4.EchoNestException -> com.a.a.a.h:
     int code -> a
     java.lang.String message -> b
     int getCode() -> a
     java.lang.String getMessage() -> getMessage
-com.echonest.api.v4.News -> com.a.a.a.p:
+com.echonest.api.v4.News -> com.a.a.a.o:
     java.lang.String getName() -> a
     java.lang.String getURL() -> b
     java.lang.String getSummary() -> c
@@ -59,20 +57,19 @@ com.echonest.api.v4.PagedListInfo -> com.a.a.a.e:
     int start -> a
     int total -> b
     java.util.List docs -> c
-com.echonest.api.v4.Params -> com.a.a.a.o:
+com.echonest.api.v4.Params -> com.a.a.a.n:
     java.util.Map map -> a
     void add(java.lang.String,java.lang.String) -> a
     void set(java.lang.String,java.lang.String) -> b
-    int size() -> c
+    int size() -> b
     void add(java.lang.String,int) -> a
     void add(java.lang.String,float) -> a
-    void add(java.lang.String,boolean) -> a
     void set(java.lang.String,float) -> b
-    void set$505cbf4b(java.lang.String) -> e
+    void set$505cbf4b(java.lang.String) -> c
     java.lang.String toString(boolean) -> a
     java.lang.String encode(java.lang.String) -> a
     java.lang.String getDelim(java.lang.StringBuilder,boolean) -> a
-com.echonest.api.v4.Playlist -> com.a.a.a.k:
+com.echonest.api.v4.Playlist -> com.a.a.a.j:
     java.util.List songs -> a
     java.lang.String session -> b
     java.util.List getSongs() -> a
@@ -89,27 +86,6 @@ com.echonest.api.v4.Song -> com.a.a.a.c:
     java.util.Map trackMap -> c
     com.echonest.api.v4.TrackAnalysis analysis -> d
     java.lang.String toString() -> toString
-com.echonest.api.v4.SongParams -> com.a.a.a.h:
-    java.lang.String SORT_TEMPO -> a
-    java.lang.String SORT_DURATION -> b
-    java.lang.String SORT_LOUDNESS -> c
-    java.lang.String SORT_ENERGY -> d
-    java.lang.String SORT_DANCEABILITY -> e
-    java.lang.String SORT_ARTIST_FAMILIARITY -> f
-    java.lang.String SORT_ARTIST_HOTTTNESSS -> g
-    java.lang.String SORT_ARTIST_START_YEAR -> h
-    java.lang.String SORT_ARTIST_END_YEAR -> i
-    java.lang.String SORT_SONG_HOTTTNESSS -> j
-    java.lang.String SORT_LATITUDE -> k
-    java.lang.String SORT_LONGITUDE -> l
-    java.lang.String SORT_MODE -> m
-    java.lang.String SORT_KEY -> n
-    void setTitle(java.lang.String) -> a
-    void setArtist(java.lang.String) -> b
-    void setID(java.lang.String) -> c
-    void setLimit$1385ff() -> a
-    void includeTracks() -> b
-    void addIDSpace(java.lang.String) -> d
 com.echonest.api.v4.TrackAnalysis -> com.a.a.a.a:
     java.util.Map map -> a
     java.lang.String toString() -> toString
@@ -1263,7 +1239,7 @@ com.seekermob.songseeker.R$string -> com.seekermob.songseeker.f:
     int variety_str -> l
 com.seekermob.songseeker.activity.AboutActivity -> com.seekermob.songseeker.activity.AboutActivity:
     void onCreate(android.os.Bundle) -> onCreate
-com.seekermob.songseeker.activity.AboutActivity$1 -> com.seekermob.songseeker.activity.cc:
+com.seekermob.songseeker.activity.AboutActivity$1 -> com.seekermob.songseeker.activity.cd:
     com.seekermob.songseeker.activity.AboutActivity this$0 -> a
     void onClick(android.view.View) -> onClick
 com.seekermob.songseeker.activity.AboutActivity$2 -> com.seekermob.songseeker.activity.cb:
@@ -1414,9 +1390,8 @@ com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$2 -> com.see
     void onClick(android.view.View) -> onClick
 com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$CreatePlaylistTask -> com.seekermob.songseeker.activity.k:
     java.lang.String err -> a
-    java.util.List songNames -> b
-    java.util.List artistNames -> c
-    com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity this$0 -> d
+    java.util.List songs -> b
+    com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity this$0 -> c
     void onPreExecute() -> onPreExecute
     java.lang.Void doInBackground(java.util.HashMap[]) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
@@ -1472,10 +1447,9 @@ com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$2 -> com.seekermo
     com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity this$0 -> a
     void onClick(android.view.View) -> onClick
 com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$CreatePlaylistTask -> com.seekermob.songseeker.activity.cy:
-    com.seekermob.songseeker.data.SongNamesParcel sn -> a
-    com.seekermob.songseeker.data.ArtistsParcel ar -> b
-    java.lang.String err -> c
-    com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity this$0 -> d
+    java.util.ArrayList songs -> a
+    java.lang.String err -> b
+    com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity this$0 -> c
     void onPreExecute() -> onPreExecute
     java.lang.Void doInBackground(java.util.HashMap[]) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
@@ -1523,7 +1497,7 @@ com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$1 -> com.seekermob.
     com.seekermob.songseeker.activity.CreatePlaylistRdioActivity this$0 -> a
     void onClick(android.view.View) -> onClick
 com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$CreatePlaylistTask -> com.seekermob.songseeker.activity.x:
-    com.seekermob.songseeker.data.IdsParcel sl -> a
+    java.util.ArrayList songs -> a
     java.lang.String err -> b
     com.seekermob.songseeker.activity.CreatePlaylistRdioActivity this$0 -> c
     void onPreExecute() -> onPreExecute
@@ -1531,7 +1505,7 @@ com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$CreatePlaylistTask 
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
-com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$GetUserPlaylistsTask -> com.seekermob.songseeker.activity.q:
+com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$GetUserPlaylistsTask -> com.seekermob.songseeker.activity.r:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.CreatePlaylistRdioActivity this$0 -> b
     void onPreExecute() -> onPreExecute
@@ -1577,11 +1551,10 @@ com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$2 -> com.seekerm
     com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity this$0 -> a
     void onClick(android.view.View) -> onClick
 com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$CreatePlaylistTask -> com.seekermob.songseeker.activity.cf:
-    com.seekermob.songseeker.data.SongNamesParcel sn -> a
-    com.seekermob.songseeker.data.ArtistsParcel ar -> b
-    java.util.ArrayList videos -> c
-    java.lang.String err -> d
-    com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity this$0 -> e
+    java.util.ArrayList songs -> a
+    java.util.ArrayList videos -> b
+    java.lang.String err -> c
+    com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity this$0 -> d
     void onPreExecute() -> onPreExecute
     java.lang.Void doInBackground(java.util.HashMap[]) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
@@ -1639,9 +1612,8 @@ com.seekermob.songseeker.activity.PlayPlaylistActivity -> com.seekermob.songseek
     android.app.ProgressDialog access$0(com.seekermob.songseeker.activity.PlayPlaylistActivity) -> a
 com.seekermob.songseeker.activity.PlayPlaylistActivity$GetSongIdsTask -> com.seekermob.songseeker.activity.av:
     java.lang.String err -> a
-    java.util.List songNames -> b
-    java.util.List artistNames -> c
-    com.seekermob.songseeker.activity.PlayPlaylistActivity this$0 -> d
+    java.util.List songs -> b
+    com.seekermob.songseeker.activity.PlayPlaylistActivity this$0 -> c
     void onPreExecute() -> onPreExecute
     java.util.ArrayList doInBackground$2b2655bf() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
@@ -1749,6 +1721,7 @@ com.seekermob.songseeker.activity.RecSongsActivity -> com.seekermob.songseeker.a
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
     void onDataChanged(java.util.ArrayList) -> a
+    void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
     com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter access$0(com.seekermob.songseeker.activity.RecSongsActivity) -> a
 com.seekermob.songseeker.activity.RecSongsActivity$1 -> com.seekermob.songseeker.activity.cm:
     com.seekermob.songseeker.activity.RecSongsActivity this$0 -> a
@@ -1762,7 +1735,7 @@ com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter -> com.seeker
     com.seekermob.songseeker.activity.RecSongsActivity this$0 -> a
     int[] $SWITCH_TABLE$com$seekermob$songseeker$util$MediaPlayerController$MediaStatus -> d
     int getCount() -> getCount
-    com.echonest.api.v4.Song getItem(int) -> a
+    com.seekermob.songseeker.data.SongInfo getItem(int) -> a
     long getItemId(int) -> getItemId
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     void setPlaylist(java.util.ArrayList) -> a
@@ -1771,12 +1744,12 @@ com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter -> com.seeker
     java.util.ArrayList access$2(com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter) -> a
 com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter$1 -> com.seekermob.songseeker.activity.cj:
     com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter this$1 -> a
-    com.echonest.api.v4.Song val$song -> b
+    com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
 com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter$2 -> com.seekermob.songseeker.activity.ci:
     com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter this$1 -> a
-    com.echonest.api.v4.Song val$song -> b
+    com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
 com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter$ViewHolder -> com.seekermob.songseeker.activity.cs:
@@ -1961,7 +1934,7 @@ com.seekermob.songseeker.activity.SongInfoActivity$StartMediaPlayerTask -> com.s
     com.seekermob.songseeker.data.SongInfo doInBackground(com.seekermob.songseeker.data.SongInfo[]) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.activity.SongInfoActivity$TopTracksAdapter -> com.seekermob.songseeker.activity.cd:
+com.seekermob.songseeker.activity.SongInfoActivity$TopTracksAdapter -> com.seekermob.songseeker.activity.cc:
     java.util.ArrayList topTracks -> b
     android.view.LayoutInflater inflater -> c
     com.seekermob.songseeker.activity.SongInfoActivity this$0 -> a
@@ -2020,7 +1993,7 @@ com.seekermob.songseeker.activity.WatchSongVideoActivity -> com.seekermob.songse
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
     java.lang.Object onRetainNonConfigurationInstance() -> onRetainNonConfigurationInstance
     com.seekermob.songseeker.activity.WatchSongVideoActivity$ListAdapter access$0(com.seekermob.songseeker.activity.WatchSongVideoActivity) -> a
-com.seekermob.songseeker.activity.WatchSongVideoActivity$GetVideosTask -> com.seekermob.songseeker.activity.r:
+com.seekermob.songseeker.activity.WatchSongVideoActivity$GetVideosTask -> com.seekermob.songseeker.activity.q:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.WatchSongVideoActivity this$0 -> b
     void onPreExecute() -> onPreExecute
@@ -2049,12 +2022,10 @@ com.seekermob.songseeker.comm.EchoNestComm -> com.seekermob.songseeker.a.j:
     com.echonest.api.v4.EchoNestAPI en -> b
     int MAX_WS_RETRIES -> c
     com.echonest.api.v4.Playlist createStaticPlaylist(com.echonest.api.v4.PlaylistParams) -> a
-    com.echonest.api.v4.Song getSongs(com.echonest.api.v4.SongParams) -> a
-    com.echonest.api.v4.Song searchSongs(com.echonest.api.v4.SongParams) -> b
     com.echonest.api.v4.Biography getArtistBioFromBucket(java.lang.String) -> a
     java.util.ArrayList getArtistNewsFromBucket$aa11a4a(java.lang.String,boolean) -> a
     java.util.ArrayList getSimilarArtistsFromBucket$59b77542(java.lang.String) -> b
-    void treatEchoNestException(com.echonest.api.v4.EchoNestException,boolean) -> a
+    void treatEchoNestException$45212042(com.echonest.api.v4.EchoNestException) -> a
 com.seekermob.songseeker.comm.GroovesharkComm -> com.seekermob.songseeker.a.b:
     com.seekermob.songseeker.comm.GroovesharkComm comm -> a
     java.lang.String sessionID -> b
@@ -2175,27 +2146,7 @@ com.seekermob.songseeker.data.ArtistInfo -> com.seekermob.songseeker.data.Artist
     android.os.Parcelable$Creator CREATOR -> CREATOR
     int describeContents() -> describeContents
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.seekermob.songseeker.data.ArtistInfo$1 -> com.seekermob.songseeker.data.p:
-    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
-    java.lang.Object[] newArray(int) -> newArray
-com.seekermob.songseeker.data.ArtistsParcel -> com.seekermob.songseeker.data.ArtistsParcel:
-    java.util.ArrayList artistList -> a
-    android.os.Parcelable$Creator CREATOR -> CREATOR
-    void addArtist(java.lang.String) -> a
-    java.util.ArrayList getArtistList() -> a
-    int describeContents() -> describeContents
-    void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.seekermob.songseeker.data.ArtistsParcel$1 -> com.seekermob.songseeker.data.n:
-    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
-    java.lang.Object[] newArray(int) -> newArray
-com.seekermob.songseeker.data.IdsParcel -> com.seekermob.songseeker.data.IdsParcel:
-    java.util.ArrayList ids -> a
-    android.os.Parcelable$Creator CREATOR -> CREATOR
-    void addId(java.lang.String) -> a
-    java.util.ArrayList getIds() -> a
-    int describeContents() -> describeContents
-    void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.seekermob.songseeker.data.IdsParcel$1 -> com.seekermob.songseeker.data.g:
+com.seekermob.songseeker.data.ArtistInfo$1 -> com.seekermob.songseeker.data.m:
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
     java.lang.Object[] newArray(int) -> newArray
 com.seekermob.songseeker.data.RecSongsPlaylist -> com.seekermob.songseeker.data.d:
@@ -2203,18 +2154,19 @@ com.seekermob.songseeker.data.RecSongsPlaylist -> com.seekermob.songseeker.data.
     java.util.ArrayList songs -> b
     java.util.ArrayList listeners -> c
     com.seekermob.songseeker.data.RecSongsPlaylist getInstance() -> a
-    void setPlaylist(com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter) -> a
-    void clearPlaylist() -> b
-    boolean isEmpty() -> c
+    void setSongs(java.util.ArrayList) -> a
+    java.util.ArrayList getPlaylist() -> b
+    void clearPlaylist() -> c
+    boolean isEmpty() -> d
     void getPlaylist$1f97bfa5(com.echonest.api.v4.PlaylistParams,android.app.ListActivity) -> a
     void addSongsToPlaylist(java.util.ArrayList,android.app.ListActivity) -> a
-    void syncAddSongsToPlaylist(java.util.ArrayList) -> a
+    void syncAddSongsToPlaylist(java.util.ArrayList) -> b
     void removeSongFromPlaylist(int,android.app.ListActivity) -> a
     void registerListener(com.seekermob.songseeker.data.RecSongsPlaylist$PlaylistListener) -> a
     void unregisterListener(com.seekermob.songseeker.data.RecSongsPlaylist$PlaylistListener) -> b
     void access$0(com.seekermob.songseeker.data.RecSongsPlaylist,java.util.ArrayList) -> a
-    java.util.ArrayList access$1() -> d
-    void access$2$20cc7d8e() -> e
+    java.util.ArrayList access$1() -> e
+    void access$2$20cc7d8e() -> f
 com.seekermob.songseeker.data.RecSongsPlaylist$GetPlaylistTask -> com.seekermob.songseeker.data.e:
     java.lang.String err -> a
     com.echonest.api.v4.PlaylistParams playlistParams -> b
@@ -2225,7 +2177,7 @@ com.seekermob.songseeker.data.RecSongsPlaylist$GetPlaylistTask -> com.seekermob.
     java.lang.Void doInBackground$10299ca() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.data.RecSongsPlaylist$GetSongInfoTask -> com.seekermob.songseeker.data.j:
+com.seekermob.songseeker.data.RecSongsPlaylist$GetSongInfoTask -> com.seekermob.songseeker.data.i:
     java.lang.String msg -> a
     java.lang.String err -> b
     android.app.ListActivity activity -> c
@@ -2245,7 +2197,7 @@ com.seekermob.songseeker.data.ReleaseInfo -> com.seekermob.songseeker.data.Relea
     android.os.Parcelable$Creator CREATOR -> CREATOR
     int describeContents() -> describeContents
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.seekermob.songseeker.data.ReleaseInfo$1 -> com.seekermob.songseeker.data.h:
+com.seekermob.songseeker.data.ReleaseInfo$1 -> com.seekermob.songseeker.data.g:
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
     java.lang.Object[] newArray(int) -> newArray
 com.seekermob.songseeker.data.SongInfo -> com.seekermob.songseeker.data.SongInfo:
@@ -2261,17 +2213,7 @@ com.seekermob.songseeker.data.SongInfo -> com.seekermob.songseeker.data.SongInfo
     android.os.Parcelable$Creator CREATOR -> CREATOR
     int describeContents() -> describeContents
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.seekermob.songseeker.data.SongInfo$1 -> com.seekermob.songseeker.data.l:
-    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
-    java.lang.Object[] newArray(int) -> newArray
-com.seekermob.songseeker.data.SongNamesParcel -> com.seekermob.songseeker.data.SongNamesParcel:
-    java.util.ArrayList songNames -> a
-    android.os.Parcelable$Creator CREATOR -> CREATOR
-    void addName(java.lang.String) -> a
-    java.util.ArrayList getSongNames() -> a
-    int describeContents() -> describeContents
-    void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.seekermob.songseeker.data.SongNamesParcel$1 -> com.seekermob.songseeker.data.k:
+com.seekermob.songseeker.data.SongInfo$1 -> com.seekermob.songseeker.data.k:
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
     java.lang.Object[] newArray(int) -> newArray
 com.seekermob.songseeker.data.UserPlaylistsData -> com.seekermob.songseeker.data.f:
@@ -2283,7 +2225,7 @@ com.seekermob.songseeker.data.UserPlaylistsData -> com.seekermob.songseeker.data
     java.lang.String getPlaylistId(int) -> d
     void addPlaylist(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
     void addPlaylist(java.lang.String,java.lang.Integer,java.lang.String) -> a
-com.seekermob.songseeker.data.UserPlaylistsData$Playlist -> com.seekermob.songseeker.data.i:
+com.seekermob.songseeker.data.UserPlaylistsData$Playlist -> com.seekermob.songseeker.data.h:
     java.lang.String name -> a
     java.lang.String numSongs -> b
     java.lang.String imageUrl -> c
@@ -2292,19 +2234,18 @@ com.seekermob.songseeker.data.UserPlaylistsData$Playlist -> com.seekermob.songse
 com.seekermob.songseeker.data.UserProfile -> com.seekermob.songseeker.data.b:
     com.seekermob.songseeker.data.UserProfile obj -> a
     com.seekermob.songseeker.data.UserProfile$Profile profile -> b
-    com.seekermob.songseeker.util.FileCache fileCache -> c
-    com.seekermob.songseeker.data.UserProfile$AddToProfileTask addTask -> d
-    com.seekermob.songseeker.data.UserProfile getInstance(java.io.File) -> a
+    com.seekermob.songseeker.data.UserProfile$AddToProfileTask addTask -> c
+    com.seekermob.songseeker.data.UserProfile getInstance(android.app.Activity) -> a
     com.seekermob.songseeker.data.UserProfile$Profile getProfile() -> a
     void addToProfile(java.util.ArrayList,android.app.Activity,android.widget.BaseAdapter) -> a
     void addToProfile(java.util.ArrayList,android.app.Activity,android.widget.BaseAdapter,android.app.ProgressDialog) -> a
     void addIdToProfile(java.util.ArrayList,android.app.Activity,android.widget.BaseAdapter) -> b
-    void syncAddArtistsToProfile(java.util.ArrayList) -> a
-    void removeArtistFromProfile(int,android.widget.BaseAdapter) -> a
+    void syncAddArtistsToProfile(java.util.ArrayList,android.app.Activity) -> a
+    void removeArtistFromProfile(int,android.app.ListActivity) -> a
     boolean isAlreadyInProfile(java.lang.String) -> a
     boolean isEmpty() -> b
     java.util.ArrayList getRandomArtists(int) -> a
-    void clearProfile() -> c
+    void clearProfile(android.app.Activity) -> b
     void onCancel(android.content.DialogInterface) -> onCancel
 com.seekermob.songseeker.data.UserProfile$AddToProfileTask -> com.seekermob.songseeker.data.c:
     java.lang.String msg -> a
@@ -2322,13 +2263,13 @@ com.seekermob.songseeker.data.UserProfile$AddToProfileTask -> com.seekermob.song
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
     void access$3$d58f2c6(com.seekermob.songseeker.data.UserProfile$AddToProfileTask) -> a
-com.seekermob.songseeker.data.UserProfile$ArtistProfile -> com.seekermob.songseeker.data.o:
+com.seekermob.songseeker.data.UserProfile$ArtistProfile -> com.seekermob.songseeker.data.l:
     java.lang.String name -> a
     java.lang.String image -> b
     java.lang.String id -> c
     java.lang.String buyUrl -> d
     com.seekermob.songseeker.data.UserProfile this$0 -> e
-com.seekermob.songseeker.data.UserProfile$Profile -> com.seekermob.songseeker.data.m:
+com.seekermob.songseeker.data.UserProfile$Profile -> com.seekermob.songseeker.data.j:
     java.util.ArrayList artists -> a
     com.seekermob.songseeker.data.UserProfile this$0 -> b
 com.seekermob.songseeker.util.AppRater -> com.seekermob.songseeker.util.d:
@@ -2349,12 +2290,7 @@ com.seekermob.songseeker.util.AppRater$3 -> com.seekermob.songseeker.util.s:
 com.seekermob.songseeker.util.FileCache -> com.seekermob.songseeker.util.e:
     java.io.File cacheDir -> a
     java.io.File getFile(java.lang.String) -> a
-    com.seekermob.songseeker.data.UserProfile$Profile getProfile() -> a
-    com.seekermob.songseeker.util.Settings$SettingsData getSettings() -> b
-    void saveProfile(com.seekermob.songseeker.data.UserProfile$Profile) -> a
-    void saveSettings(com.seekermob.songseeker.util.Settings$SettingsData) -> a
     void clear(java.io.File) -> a
-    void clearProfile() -> c
     long getCacheSize(java.io.File) -> b
 com.seekermob.songseeker.util.ImageLoader -> com.seekermob.songseeker.util.p:
     com.seekermob.songseeker.util.ImageLoader loader -> a
@@ -2464,8 +2400,7 @@ com.seekermob.songseeker.util.MemoryCache -> com.seekermob.songseeker.util.l:
 com.seekermob.songseeker.util.Settings -> com.seekermob.songseeker.util.k:
     com.seekermob.songseeker.util.Settings obj -> a
     com.seekermob.songseeker.util.Settings$SettingsData settings -> b
-    com.seekermob.songseeker.util.FileCache fileCache -> c
-    com.seekermob.songseeker.util.Settings getInstance(java.io.File) -> a
+    com.seekermob.songseeker.util.Settings getInstance(android.app.Activity) -> a
     com.seekermob.songseeker.util.Settings$SettingsData getSettings() -> a
     float getMinEnergy() -> b
     float getMaxEnergy() -> c
@@ -2478,7 +2413,7 @@ com.seekermob.songseeker.util.Settings -> com.seekermob.songseeker.util.k:
     java.util.List getMood() -> j
     float getVariety() -> k
     int getMaxResults() -> l
-    void saveSettings() -> m
+    void saveSettings(android.app.Activity) -> b
 com.seekermob.songseeker.util.Settings$SettingsData -> com.seekermob.songseeker.util.f:
     int pl_energy -> a
     int pl_danceability -> b
@@ -2501,6 +2436,9 @@ com.seekermob.songseeker.util.TrackedTabActivity -> com.seekermob.songseeker.uti
     void onStop() -> onStop
 com.seekermob.songseeker.util.Util -> com.seekermob.songseeker.util.m:
     void CopyStream(java.io.InputStream,java.io.OutputStream) -> a
+    void writeObjectToDevice(android.app.Activity,java.lang.Object,java.lang.String) -> a
+    java.lang.Object readObjectFromDevice(android.app.Activity,java.lang.String) -> a
+    java.lang.Object readObjectFromCache(android.app.Activity,java.lang.String) -> b
 de.umass.lastfm.Album -> b.a.a.r:
     de.umass.lastfm.ItemFactory FACTORY -> a
     java.text.DateFormat RELEASE_DATE_FORMAT -> b
