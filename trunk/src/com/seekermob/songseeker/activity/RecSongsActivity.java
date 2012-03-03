@@ -85,8 +85,6 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 			savedPlaylist = null;
 			
 			adapter.setPlaylist(RecSongsPlaylist.getInstance().getPlaylist());
-
-			Log.d(Util.APP, "Playlist state restored!");
 			return;
 		}
 		
@@ -188,7 +186,7 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 	    
 		plp = new PlaylistParams();
 	    
-		if(Settings.getInstance(getCacheDir()).getSettings().isSimilar)
+		if(Settings.getInstance(this).getSettings().isSimilar)
 			plp.setType(PlaylistType.ARTIST_RADIO);
 		else
 			plp.setType(PlaylistType.ARTIST);
@@ -464,8 +462,7 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 	protected void onSaveInstanceState(Bundle outState) {
 	
 		if(adapter != null && adapter.playlist != null){
-			outState.putParcelableArrayList("savedPlaylist", adapter.playlist);
-			Log.d(Util.APP, "Playlist state saved!");
+			outState.putParcelableArrayList("savedPlaylist", adapter.playlist);			
 		}
 		
 		super.onSaveInstanceState(outState);

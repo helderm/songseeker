@@ -48,7 +48,7 @@ public class SettingsActivity extends TrackedPreferenceActivity{
 		Preference clearProfile = (Preference) findPreference("clear_prof");
 		clearProfile.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			public boolean onPreferenceClick(Preference preference) {
-				UserProfile.getInstance(getCacheDir()).clearProfile();
+				UserProfile.getInstance(SettingsActivity.this).clearProfile(SettingsActivity.this);
 				Toast.makeText(getApplicationContext(), "Profile cleared!", Toast.LENGTH_SHORT).show();
 				return true;
 			}

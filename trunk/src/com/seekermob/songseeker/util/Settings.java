@@ -5,24 +5,39 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
+
 public class Settings implements Serializable{
 	private static Settings obj = new Settings();
 	private static SettingsData settings = null;
 	
 	public static final int PL_MAX_TEMPO = 500;	
-	private static FileCache fileCache = null;
+	
+	private static final String SETTINGS_FILENAME = "settings";
+	
+	//private static FileCache fileCache = null;
 	private static final long serialVersionUID = 1L;
 	
-	public static Settings getInstance(File unmountedCacheDir){
-		if(fileCache == null)
-			fileCache = new FileCache(unmountedCacheDir, true);
+	public static Settings getInstance(Activity activity){		
+		
+		//TODO: This checks if we have the 'settings' file in the 'cache' dir
+		//if we do, restore that copy, to later save under the 'files' dir
+		//this will be needed until everyone updates to version 10 or later!
+		SettingsData cache = null;
+		if((cache = (SettingsData)Util.readObjectFromCache(activity, SETTINGS_FILENAME)) != null){
+			//loaded file from the cache! need to remove it now
+			settings = cache;
+			cache = null;			
+			File f = new File(activity.getCacheDir(), SETTINGS_FILENAME);
+			f.delete();
+			Util.writeObjectToDevice(activity, settings, SETTINGS_FILENAME);
+		}
 		
 		//check if we have settings written in the disk		
-		if(settings == null){
-			settings = fileCache.getSettings();
-			
-			if(settings == null)
+		if(settings == null){			
+			if((settings = (SettingsData)Util.readObjectFromDevice(activity, SETTINGS_FILENAME)) == null){
 				settings = obj.new SettingsData();
+			}
 		}
 		
 		return obj;
@@ -183,9 +198,8 @@ public class Settings implements Serializable{
 		return settings.pl_max_results;
 	}
 	
-	public void saveSettings(){
-		if(fileCache != null)
-			fileCache.saveSettings(settings);
+	public void saveSettings(Activity activity){
+		Util.writeObjectToDevice(activity, settings, SETTINGS_FILENAME);		
 	}
 	
 	public class SettingsData implements Serializable{

@@ -62,8 +62,8 @@ public class ReleaseInfoActivity extends TrackedListActivity {
 			task = new GetReleaseDetails();
 			task.execute();
 		}else{
-			setListHeader();
 			adapter.setSongList(savedSongList);
+			setListHeader();
 		}
 	}
 
@@ -270,6 +270,7 @@ public class ReleaseInfoActivity extends TrackedListActivity {
 		
 		public void setSongList(ArrayList<SongInfo> tp){
 			this.songList = tp;
+			notifyDataSetChanged();
 		}
 	}
 

@@ -59,8 +59,8 @@ public class SongInfoActivity extends TrackedListActivity {
 			task = new GetSongDetails();
 			task.execute();
 		}else{
-			setListHeader();
 			adapter.setTopTracks(savedTopTracks);
+			setListHeader();
 		}
 	}
 
@@ -271,6 +271,7 @@ public class SongInfoActivity extends TrackedListActivity {
 
 		public void setTopTracks(ArrayList<SongInfo> tp){
 			this.topTracks = tp;
+			notifyDataSetChanged();
 		}
 		
 	    private class ViewHolder{

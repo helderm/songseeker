@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -17,31 +18,40 @@ import android.widget.Toast;
 import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.SevenDigitalComm;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
-import com.seekermob.songseeker.util.FileCache;
 import com.seekermob.songseeker.util.Util;
 
 public class UserProfile implements Serializable, OnCancelListener{
 
 	private static UserProfile obj = new UserProfile();
 	private static Profile profile = null;	
-	private static FileCache fileCache = null;
 	
 	private static AddToProfileTask addTask = null;
 
+	private static final String PROFILE_FILENAME = "profile";
 	private static final long serialVersionUID = 1L;
 	
 	private UserProfile(){}
 	
-	public static UserProfile getInstance(File unmountedCacheDir){
-		if(fileCache == null)
-			fileCache = new FileCache(unmountedCacheDir, true);
+	public static UserProfile getInstance(Activity activity){
+
+		//TODO: This checks if we have the 'settings' file in the 'cache' dir
+		//if we do, restore that copy and save under the 'files' dir
+		//this will be needed until everyone updates to version 10 or later!
+		Profile cache = null;
+		if((cache = (Profile)Util.readObjectFromCache(activity, PROFILE_FILENAME)) != null){
+			//loaded file from the cache! need to remove it now
+			profile = cache;
+			cache = null;
+			File f = new File(activity.getCacheDir(), PROFILE_FILENAME);
+			f.delete();
+			Util.writeObjectToDevice(activity, profile, PROFILE_FILENAME);
+		}
 		
 		//check if we have a profile written in the disk		
 		if(profile == null){
-			profile = fileCache.getProfile();
-			
-			if(profile == null)
+			if((profile = (Profile)Util.readObjectFromDevice(activity, PROFILE_FILENAME)) == null){
 				profile = obj.new Profile();
+			}
 		}
 		
 		return obj;
@@ -112,7 +122,6 @@ public class UserProfile implements Serializable, OnCancelListener{
 			
 			for(String artistNameID : artistsList){
 
-				//if(Thread.interrupted())
 				if(isCancel)
 					break;
 				
@@ -180,7 +189,7 @@ public class UserProfile implements Serializable, OnCancelListener{
 			}else
 				msg = "Artist(s) successfully added to your profile!";				
 			
-			syncAddArtistsToProfile(artists);
+			syncAddArtistsToProfile(artists, activity);
 			
 			return null;
 		}
@@ -199,18 +208,25 @@ public class UserProfile implements Serializable, OnCancelListener{
 				adapter.notifyDataSetChanged();		
 			
 			Toast.makeText(activity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+			
+			activity = null;
+			adapter = null;
+			dialog = null;
 		}		
 	}	
 	
-	synchronized void syncAddArtistsToProfile(ArrayList<ArtistProfile> artists){
+	synchronized void syncAddArtistsToProfile(ArrayList<ArtistProfile> artists, Activity activity){
 		profile.artists.addAll(artists);		
-		fileCache.saveProfile(profile);
+		Util.writeObjectToDevice(activity, profile, PROFILE_FILENAME);
 	}
 	
-	public void removeArtistFromProfile(int position, BaseAdapter adapter){
+	/** Removes an artist from the profile
+	 * Is not sync because it is called from the UI thread. Shouldn't be a problem while the addToProfile task has a ProgressDialog*/
+	public void removeArtistFromProfile(int position, ListActivity activity){
 		profile.artists.remove(position);
-		fileCache.saveProfile(profile);
-		adapter.notifyDataSetChanged();
+		Util.writeObjectToDevice(activity, profile, PROFILE_FILENAME);	
+		
+		((BaseAdapter)activity.getListAdapter()).notifyDataSetChanged();
 	}
 	
 	public boolean isAlreadyInProfile(String artist){
@@ -229,6 +245,8 @@ public class UserProfile implements Serializable, OnCancelListener{
 		return false;
 	}
 	
+	/** Get random artists from the profile.
+	 * Main use is to feed the playlist/event creation*/
 	public ArrayList<ArtistInfo> getRandomArtists(int numArtists){
 		ArrayList<ArtistInfo> chosenArtists = new ArrayList<ArtistInfo>();
 		ArrayList<ArtistProfile> profileArtists = new ArrayList<ArtistProfile>(profile.artists);
@@ -261,9 +279,10 @@ public class UserProfile implements Serializable, OnCancelListener{
 		
 	}
 	
-	public void clearProfile(){
-		fileCache.clearProfile();
-		profile = obj.new Profile();		
+	public void clearProfile(Activity activity){
+		profile = obj.new Profile();
+		
+		Util.writeObjectToDevice(activity, profile, PROFILE_FILENAME);
 	}
 	
 	public class Profile implements Serializable{
@@ -281,7 +300,7 @@ public class UserProfile implements Serializable, OnCancelListener{
 		
 		private static final long serialVersionUID = 1L;		
 	}
-
+	
 	@Override
 	public void onCancel(DialogInterface dialog) {
 		if(addTask != null){

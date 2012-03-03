@@ -106,7 +106,7 @@ public class SongSeekerActivity extends TrackedActivity {
     }
     
     protected void getSongsFromProfile() {
-		if(UserProfile.getInstance(getCacheDir()).isEmpty()){
+		if(UserProfile.getInstance(this).isEmpty()){
 			Toast.makeText(getApplicationContext(), "Please add at least one artist to your profile.", Toast.LENGTH_LONG).show();
 			
 			Intent i = new Intent(SongSeekerActivity.this, ProfileActivity.class);
@@ -115,7 +115,7 @@ public class SongSeekerActivity extends TrackedActivity {
 		}
 		
     	Intent i = new Intent(SongSeekerActivity.this, RecSongsActivity.class);
-    	i.putExtra("searchSeed", UserProfile.getInstance(getCacheDir()).getRandomArtists(5));
+    	i.putExtra("searchSeed", UserProfile.getInstance(this).getRandomArtists(5));
 
     	startActivity(i);    			
 	}

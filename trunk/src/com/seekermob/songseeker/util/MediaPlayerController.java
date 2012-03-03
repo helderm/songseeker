@@ -36,25 +36,33 @@ public class MediaPlayerController implements OnCompletionListener {
 	}
 
 	public void release(){
-		commander.cancel(true);
 		
-		if(media != null){
-			if(media.icon != null){
-				media.icon.setImageResource(R.drawable.ic_image_play);	
-				media = null;
-			}else if(media.adapter != null){
-				BaseAdapter adapter = media.adapter;
-				media = null;
-				adapter.notifyDataSetChanged();
-			}
-		}		
+		try{
+			if(commander != null)
+				commander.cancel(true);
 
-		//to avoid hanging inside a prepare()
-		if(isPreparing)
-			return;
-		
-		mp.release();
-		mp = null;
+			if(media != null){
+				if(media.icon != null){
+					media.icon.setImageResource(R.drawable.ic_image_play);	
+					media = null;
+				}else if(media.adapter != null){
+					BaseAdapter adapter = media.adapter;
+					media = null;
+					adapter.notifyDataSetChanged();
+				}
+			}		
+
+			//to avoid hanging inside a prepare()
+			if(isPreparing)
+				return;
+
+			if(mp != null){
+				mp.release();
+				mp = null;
+			}
+		}catch(Exception e){ //TODO: this catches a reported crash, but should be fixed with mp != null
+			Log.w(Util.APP, "Error while trying to release Media Player resources!", e);
+		}
 	}
 
 	public void startStopMedia(String source, int position, BaseAdapter adapter){

@@ -41,9 +41,7 @@ public class PlaylistOptionsActivity extends TrackedActivity implements SeekBar.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playlist_options);
-        
-        Settings.getInstance(getCacheDir());
-        
+                
         mood = (SeekBar)findViewById(R.id.seekBar_mood);
         mood.setOnSeekBarChangeListener(this);
         mood_label = (TextView)findViewById(R.id.label_mood);
@@ -71,6 +69,9 @@ public class PlaylistOptionsActivity extends TrackedActivity implements SeekBar.
         max_results = (SeekBar)findViewById(R.id.seekBar_max_results);
         max_results.setOnSeekBarChangeListener(this); 
         max_results_label = (TextView)findViewById(R.id.label_max_results);
+        
+        //load settings one time only
+        Settings.getInstance(this);
         
         mood.setProgress(Settings.getInstance().getSettings().pl_mood);
         energy.setProgress(Settings.getInstance().getSettings().pl_energy);
@@ -120,10 +121,12 @@ public class PlaylistOptionsActivity extends TrackedActivity implements SeekBar.
         
     	int seekBarId = seekBar.getId();
     	
+    	Settings.getInstance(this);
+    	
     	if(seekBarId == R.id.seekBar_energy){
     		Settings.getInstance().getSettings().pl_energy = progress;
     		
-    		if(Settings.getInstance(getCacheDir()).getMinEnergy() == -1.0f){
+    		if(Settings.getInstance().getMinEnergy() == -1.0f){
     			energy_label.setText(getResources().getText(R.string.energy_str) + " (Off)");
     		}else{
     			energy_label.setText(getResources().getText(R.string.energy_str) + " (" + progress + "%)");
@@ -222,8 +225,6 @@ public class PlaylistOptionsActivity extends TrackedActivity implements SeekBar.
     protected void onDestroy() {
        	super.onDestroy();
        	
-       	Settings.getInstance(getCacheDir()).saveSettings();
+       	Settings.getInstance(this).saveSettings(this);
     }
-    
-    
 }

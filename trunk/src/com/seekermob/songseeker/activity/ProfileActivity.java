@@ -94,7 +94,7 @@ public class ProfileActivity extends TrackedListActivity implements OnCancelList
 		private LayoutInflater inflater;
 
 		public ListAdapter() {    
-			prof = UserProfile.getInstance(getCacheDir());
+			prof = UserProfile.getInstance(ProfileActivity.this);
 			inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
@@ -181,7 +181,7 @@ public class ProfileActivity extends TrackedListActivity implements OnCancelList
 	            	
 	            	ArrayList<String> names = new ArrayList<String>();
 	            	names.add(textInput.getText().toString()); 	            	
-	            	UserProfile.getInstance(getCacheDir()).addToProfile(names, ProfileActivity.this, adapter);	            	
+	            	UserProfile.getInstance(ProfileActivity.this).addToProfile(names, ProfileActivity.this, adapter);	            	
 	            }
 	        }); 
 			
@@ -301,7 +301,7 @@ public class ProfileActivity extends TrackedListActivity implements OnCancelList
 			pd.setMessage("Adding artists to profile...");
 			pd.setCancelable(true);
 			
-			UserProfile.getInstance(getCacheDir()).addToProfile(artists, ProfileActivity.this, adapter, pd);
+			UserProfile.getInstance(ProfileActivity.this).addToProfile(artists, ProfileActivity.this, adapter, pd);
 		}
 	}	
 	
@@ -345,7 +345,7 @@ public class ProfileActivity extends TrackedListActivity implements OnCancelList
 			pd.setMessage("Adding artists to profile...");
 			pd.setCancelable(true);
 			
-			UserProfile.getInstance(getCacheDir()).addToProfile(topArtists, ProfileActivity.this, adapter, pd);
+			UserProfile.getInstance(ProfileActivity.this).addToProfile(topArtists, ProfileActivity.this, adapter, pd);
 		}
 	}	
 	
@@ -379,7 +379,7 @@ public class ProfileActivity extends TrackedListActivity implements OnCancelList
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		
 		if(item.getItemId() == R.id.remove_artist){
-			UserProfile.getInstance(getCacheDir()).removeArtistFromProfile(info.position, (BaseAdapter)getListAdapter());
+			UserProfile.getInstance(ProfileActivity.this).removeArtistFromProfile(info.position, this);
 			return true;
 		}
 		

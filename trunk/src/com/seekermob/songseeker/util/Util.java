@@ -1,12 +1,21 @@
 package com.seekermob.songseeker.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.provider.MediaStore;
+import android.util.Log;
 
 public class Util {
 
@@ -48,14 +57,11 @@ public class Util {
 		return artists;
 	}
 
-	public static void CopyStream(InputStream is, OutputStream os)
-	{
+	public static void CopyStream(InputStream is, OutputStream os){
 		final int buffer_size=1024;
-		try
-		{
+		try{
 			byte[] bytes=new byte[buffer_size];
-			for(;;)
-			{
+			for(;;){
 				int count=is.read(bytes, 0, buffer_size);
 				if(count==-1)
 					break;
@@ -64,4 +70,72 @@ public class Util {
 		}
 		catch(Exception ex){}
 	}
+	
+	/** Save the object to the device persistent storage*/
+	public static void  writeObjectToDevice(Activity activity, Object object, String filename){		
+		ObjectOutputStream out = null;
+		
+		try {
+			FileOutputStream fos = activity.openFileOutput(filename, Context.MODE_PRIVATE);
+			out = new ObjectOutputStream(fos);
+			out.writeObject(object);
+			out.close();
+		} catch (Exception e) {
+			Log.w(Util.APP, "Couldnt write "+filename +" file to device memory, it may be lost in the next reboot of the app!", e);
+		} finally{
+			if(out != null){
+				try {
+					out.close();
+				} catch (IOException e) {}
+			}
+		}
+	}
+	
+	/** Restore the object written on disk, if it exists */
+	public static Object readObjectFromDevice(Activity activity, String filename){
+		Object object = null;
+		ObjectInputStream in = null;
+		try{			
+			in = new ObjectInputStream(activity.openFileInput(filename));
+			object = in.readObject();			
+		}catch(FileNotFoundException e){   
+			return null;
+		}catch(Exception e){
+			Log.w(Util.APP, "Couldnt read "+filename +" file from device memory, nothing serious...", e);
+			return null;
+		}finally{
+			if(in != null){
+				try {
+					in.close();
+				} catch (IOException e) {}
+			}
+		}
+		
+		return object;
+	}	
+	
+	/** Restore the object written on the cache, if it exists */
+	public static Object readObjectFromCache(Activity activity, String filename){
+		Object object = null;
+		ObjectInputStream in = null;
+		
+		File f = new File(activity.getCacheDir(), filename);
+		
+		try{			
+			in = new ObjectInputStream(new FileInputStream(f));
+			object = in.readObject();			
+		}catch(FileNotFoundException e){   
+			return null;
+		}catch(Exception e){			
+			return null;
+		}finally{
+			if(in != null){
+				try {
+					in.close();
+				} catch (IOException e) {}
+			}
+		}
+		
+		return object;
+	}	
 }

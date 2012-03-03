@@ -54,9 +54,8 @@ public class ArtistInfoActivity extends TrackedListActivity {
 			task.execute();
 		}else{
 			artist.image = savedInfo.imageUrl;
-			
-			setListHeader();
 			adapter.setArtistReleases(savedInfo.releases);
+			setListHeader();
 		}		
 	}
 	
@@ -200,6 +199,7 @@ public class ArtistInfoActivity extends TrackedListActivity {
 
 		public void setArtistReleases(ArrayList<ReleaseInfo> tp){
 			this.releases = tp;
+			notifyDataSetChanged();
 		}
 		
 	    public class ViewHolder{
@@ -277,7 +277,7 @@ public class ArtistInfoActivity extends TrackedListActivity {
 				ArrayList<String> ids = new ArrayList<String>();
 				ids.add(artist.id);
 				
-				UserProfile.getInstance(getCacheDir()).addIdToProfile(ids, ArtistInfoActivity.this, adapter);
+				UserProfile.getInstance(ArtistInfoActivity.this).addIdToProfile(ids, ArtistInfoActivity.this, adapter);
 			}
 		});
 		
