@@ -68,10 +68,19 @@ public class MusicInfoTab extends TrackedTabActivity {
 		if(song != null){
 			//if we got here from RecSongs
 			if(isFromRecSongs){
-				//fetch parcel based on songId
-				task = new GetSongDetails();
-				task.execute(song);
-				return;
+				
+				//check if we have all the info needed for the tabs
+				//call 7digital ws if we dont
+				if(song.buyUrl == null || song.artist.buyUrl == null || song.artist.id == null ||
+					song.release.artist == null || song.release.buyUrl == null || song.release.id == null || 
+					song.release.image == null || song.release.name == null){
+
+					//fetch parcel based on songId
+					task = new GetSongDetails();
+					task.execute(song);
+					return;
+					
+				}
 			}
 
 			intent = new Intent().setClass(this, SongInfoActivity.class);

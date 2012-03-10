@@ -22,6 +22,8 @@ public class RecSongsPlaylist {
 	private static ArrayList<SongInfo> songs = null;
 	private static ArrayList<PlaylistListener> listeners = null;
 
+	private static final int MAX_QUERY_RETRIES = 5;
+	
 	private RecSongsPlaylist() {}
 
 	public static RecSongsPlaylist getInstance(){
@@ -74,6 +76,7 @@ public class RecSongsPlaylist {
 		@Override
 		protected Void doInBackground(Void... params) {
 			Playlist pl = null;
+			int retries = MAX_QUERY_RETRIES;
 
 			try {
 				pl = EchoNestComm.getComm().createStaticPlaylist(playlistParams);
@@ -86,20 +89,40 @@ public class RecSongsPlaylist {
 			//release and artist info will be almost empty until we query 7digital
 			ArrayList<SongInfo> songsInfo = new ArrayList<SongInfo>();			
 			for(Song song : pl.getSongs()){
+				
+				SongInfo songInfo = new SongInfo();
+				
 				try {
-					SongInfo songInfo = new SongInfo();
 					
-					songInfo.id = song.getString("tracks[0].foreign_id").split(":")[2];
 					songInfo.name = song.getReleaseName();
 					songInfo.artist.name = song.getArtistName();
-					songInfo.previewUrl = song.getString("tracks[0].preview_url");	
-					songInfo.release.image = song.getString("tracks[0].release_image");
 					
-					//check for null data
-					if(songInfo.id == null || songInfo.name == null || songInfo.artist.name == null ||
-						songInfo.previewUrl == null || songInfo.release.image == null){
-						continue;
-					}				
+					try{
+						songInfo.id = song.getString("tracks[0].foreign_id").split(":")[2];
+						songInfo.previewUrl = song.getString("tracks[0].preview_url");	
+						songInfo.release.image = song.getString("tracks[0].release_image");	
+					}catch (IndexOutOfBoundsException e) { /*ignore and try to recover later*/}					
+					
+					//if id differs from null but we need some data, try fetching from 7digital
+					if(songInfo.id != null && (songInfo.name == null || songInfo.artist.name == null ||
+						(songInfo.release.image == null && retries > 0))){
+							
+						songInfo = SevenDigitalComm.getComm().querySongDetails(songInfo.id, songInfo.name, songInfo.artist.name);	
+						retries--;
+					}						
+					
+					//if the id is null, try using 7digital search with the name of songs and artist
+					if(((songInfo.id == null && retries > 0) || (songInfo.release.image == null && retries > 0)) && 
+						(songInfo.name != null && songInfo.artist.name != null)){
+						
+						songInfo = SevenDigitalComm.getComm().querySongSearch(songInfo.name, songInfo.artist.name);	
+						retries--;
+					}
+					
+					//final assert
+					if(songInfo.id == null || songInfo.name == null || songInfo.artist.name == null){						
+						throw new Exception("Failed to fetch a song from EN");						
+					}					
 					
 					songsInfo.add(songInfo);					
 				}catch (Exception e){

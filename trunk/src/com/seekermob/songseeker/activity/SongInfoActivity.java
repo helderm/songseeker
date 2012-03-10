@@ -328,9 +328,9 @@ public class SongInfoActivity extends TrackedListActivity {
 
 			if(!isCancelled()){
 				if(icon != null)
-					MediaPlayerController.getCon().startStopMedia(song.previewUrl, icon, loading);
+					MediaPlayerController.getCon().startStopMedia(song.previewUrl, song.id, icon, loading);
 				else
-					MediaPlayerController.getCon().startStopMedia(song.previewUrl, position, adapter);
+					MediaPlayerController.getCon().startStopMedia(song.previewUrl, song.id, position, adapter);
 			}
 		}
 	}	

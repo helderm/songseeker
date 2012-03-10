@@ -26,7 +26,9 @@ public class ServiceCommException extends Exception {
 		GROOVESHARK ("Grooveshark"),
 		RDIO ("Rdio"),
 		YOUTUBE ("YouTube"),
-		SEVENDIGITAL ("7Digital");
+		SEVENDIGITAL ("7Digital"),
+		BANDSINTOWN ("BandsInTown");
+		
 		private final String name;
 		
 		ServiceID(String name) {

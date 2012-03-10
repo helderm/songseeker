@@ -317,7 +317,7 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 				case PREPARED:
 					holder.loading.setOnClickListener(new View.OnClickListener() {
 			            public void onClick(View v) {		            	
-		            		MediaPlayerController.getCon().startStopMedia(song.previewUrl, pos, adapter);
+		            		MediaPlayerController.getCon().startStopMedia(song.previewUrl, song.id, pos, adapter);
 		            		adapter.notifyDataSetChanged();			            		            	
 			            }
 			        }); 	
@@ -328,7 +328,7 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 				default:
 					holder.playPause.setOnClickListener(new View.OnClickListener() {
 						public void onClick(View v) {		            	
-							MediaPlayerController.getCon().startStopMedia(song.previewUrl, pos, adapter);
+							MediaPlayerController.getCon().startStopMedia(song.previewUrl, song.id, pos, adapter);
 							adapter.notifyDataSetChanged();
 						}
 			        });

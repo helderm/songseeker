@@ -316,7 +316,7 @@ public class ReleaseInfoActivity extends TrackedListActivity {
 			}	
 			
 			if(!isCancelled())
-				MediaPlayerController.getCon().startStopMedia(song.previewUrl, position, adapter);
+				MediaPlayerController.getCon().startStopMedia(song.previewUrl, song.id, position, adapter);
 		}
 	}	
 	

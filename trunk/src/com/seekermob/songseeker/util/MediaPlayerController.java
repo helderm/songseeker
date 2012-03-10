@@ -3,6 +3,7 @@ package com.seekermob.songseeker.util;
 import java.io.IOException;
 
 import com.seekermob.songseeker.R;
+import com.seekermob.songseeker.comm.SevenDigitalComm;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -65,7 +66,7 @@ public class MediaPlayerController implements OnCompletionListener {
 		}
 	}
 
-	public void startStopMedia(String source, int position, BaseAdapter adapter){
+	public void startStopMedia(String source, String songId, int position, BaseAdapter adapter){
 		if(media == null || media.position != position || media.status == MediaStatus.STOPPED){
 
 			if(media != null){
@@ -82,7 +83,7 @@ public class MediaPlayerController implements OnCompletionListener {
 					media.adapter.notifyDataSetChanged();
 			}
 
-			start(source, position, adapter);
+			start(source, songId, position, adapter);
 		}
 		else{
 			media.status = MediaStatus.STOPPED;
@@ -94,7 +95,7 @@ public class MediaPlayerController implements OnCompletionListener {
 		}
 	}
 	
-	public void startStopMedia(String source, ImageView icon, ProgressBar loading){
+	public void startStopMedia(String source, String songId, ImageView icon, ProgressBar loading){
 		if(media == null || !media.source.equalsIgnoreCase(source) || media.status == MediaStatus.STOPPED){
 			
 			if(media != null){
@@ -114,7 +115,7 @@ public class MediaPlayerController implements OnCompletionListener {
 				media.loading = loading;
 			}
 			
-			start(source, icon, loading);
+			start(source, songId, icon, loading);
 		}
 		else{
 			media.status = MediaStatus.STOPPED;
@@ -137,11 +138,12 @@ public class MediaPlayerController implements OnCompletionListener {
 		return media.status;
 	}
 
-	public void start(String source, int position, BaseAdapter adapter){
+	public void start(String source, String songId, int position, BaseAdapter adapter){
 		commander.cancel(true);
 		commander = new MediaPlayerCommander();
 
 		MediaInfo newMedia = new MediaInfo();
+		newMedia.songId = songId;
 		newMedia.source = source;
 		newMedia.position = position;
 		newMedia.adapter = adapter;
@@ -157,11 +159,12 @@ public class MediaPlayerController implements OnCompletionListener {
 		commander.execute(tp);
 	}
 
-	public void start(String source, ImageView icon, ProgressBar loading){
+	public void start(String source, String songId, ImageView icon, ProgressBar loading){
 		commander.cancel(true);
 		commander = new MediaPlayerCommander();
 				
 		MediaInfo newMedia = new MediaInfo();
+		newMedia.songId = songId;
 		newMedia.source = source;
 		newMedia.icon = icon;
 		newMedia.loading = loading;
@@ -241,6 +244,13 @@ public class MediaPlayerController implements OnCompletionListener {
 					if(isCancelled())
 						return null;
 
+					//fetches the preview url from 7digital, if it is not set already
+					if(params.media.source == null){
+						params.media.source = SevenDigitalComm.getComm().getPreviewUrl(params.media.songId);
+						if(params.media.source == null)
+							throw new Exception("Failed to fetch preview URL from 7digital!");
+					}					
+					
 					preparePlayer(params.media);
 					publishProgress(media);
 
@@ -264,13 +274,11 @@ public class MediaPlayerController implements OnCompletionListener {
 					break;
 				}
 
-			}catch(IOException e){
-				Log.w(Util.APP, e.getMessage(), e);
-				err = "Unable to " + (params.action==MP_PLAY? "start":"stop") + " the Media Player. Please try again.";
-			}catch(IllegalStateException e){
+			}catch(Exception e){
 				Log.w(Util.APP, e.getMessage(), e);
 				err = "Unable to " + (params.action==MP_PLAY? "start":"stop") + " the Media Player. Please try again.";
 			}
+			
 			return null;
 		}
 
@@ -340,6 +348,7 @@ public class MediaPlayerController implements OnCompletionListener {
 
 	private class MediaInfo{
 		public String source;
+		public String songId;
 		public BaseAdapter adapter;
 		public int position;	
 		
