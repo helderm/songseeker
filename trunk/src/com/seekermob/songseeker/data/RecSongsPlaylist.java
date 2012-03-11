@@ -22,7 +22,7 @@ public class RecSongsPlaylist {
 	private static ArrayList<SongInfo> songs = null;
 	private static ArrayList<PlaylistListener> listeners = null;
 
-	private static final int MAX_QUERY_RETRIES = 5;
+	private static final int MAX_QUERY_RETRIES = 10;
 	
 	private RecSongsPlaylist() {}
 

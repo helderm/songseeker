@@ -28,6 +28,33 @@ public class SongInfo implements Parcelable{
 		version = null;
 	}
 	
+	public SongInfo(SongInfoCache song){
+		if(song == null){
+			artist = new ArtistInfo();
+			release = new ReleaseInfo();
+			
+			name = null;
+			trackNum = null;
+			buyUrl = null;
+			duration = null;
+			id = null;
+			previewUrl = null;
+			version = null;
+			return;
+		}		
+		
+		name = song.name;
+		trackNum = song.trackNum;
+		buyUrl = song.buyUrl;
+		duration = song.duration;
+		id = song.id;
+		previewUrl = song.previewUrl;
+		version = song.version;
+		
+		artist = new ArtistInfo(song.artist);
+		release = new ReleaseInfo(song.release);
+	}
+	
 	public SongInfo(Parcel in) {
 		readFromParcel(in);
 	} 

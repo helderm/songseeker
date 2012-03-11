@@ -22,7 +22,10 @@ import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
 import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.data.ReleaseInfo;
 import com.seekermob.songseeker.data.SongInfo;
+import com.seekermob.songseeker.data.SongInfoCache;
+import com.seekermob.songseeker.util.FileCache;
 import com.seekermob.songseeker.util.Util;
+import com.seekermob.songseeker.util.FileCache.FileType;
 
 public class SevenDigitalComm {
 
@@ -49,6 +52,13 @@ public class SevenDigitalComm {
 		String reqParam = "trackid="+trackId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
 
 		try {
+			
+			//try fetching song from cache first
+			SongInfoCache cachedSong = (SongInfoCache)FileCache.getCache().getObject(trackId, FileType.SONG);
+			if(cachedSong != null){
+				return new SongInfo(cachedSong);
+			}
+			
 			URL url = new URL(urlStr+reqParam);			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
@@ -74,6 +84,9 @@ public class SevenDigitalComm {
 			song = parseSongDetails(doc.getDocumentElement()).get(0);
 			if(song == null)
 				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+
+			//cache the song details for faster access			
+			FileCache.getCache().putObject(new SongInfoCache(song), song.id, FileType.SONG);
 
 		}catch(IOException e) {
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	
@@ -123,6 +136,8 @@ public class SevenDigitalComm {
  				if(artistName.equalsIgnoreCase(song.artist.name) || song.artist.name.toLowerCase().contains(artistName.toLowerCase()) 
  						|| artistName.toLowerCase().contains(song.artist.name.toLowerCase())){
  					
+ 					//cache the song details for faster access			
+ 					FileCache.getCache().putObject(new SongInfoCache(song), song.id, FileType.SONG);
  					return song;
  				} 	
 			}

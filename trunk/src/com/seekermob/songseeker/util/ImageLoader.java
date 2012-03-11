@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.WeakHashMap;
 
+import com.seekermob.songseeker.util.FileCache.FileType;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,7 +30,6 @@ public class ImageLoader {
     
 	private static MemoryCache memoryCache = new MemoryCache();
 	private static PhotosQueue photosQueue = loader.new PhotosQueue();
-	private static FileCache fileCache = null;
     
     private Map<View, String> views = Collections.synchronizedMap(new WeakHashMap<View, String>());
     private static PhotosLoader photoLoaderThread = null;
@@ -38,10 +39,7 @@ public class ImageLoader {
     
 	private ImageLoader(){}
 	
-	public static ImageLoader getLoader(File unmountedCacheDir){
-		if(fileCache == null)
-			fileCache = new FileCache(unmountedCacheDir, false);
-		
+	public static ImageLoader getLoader(){		
 		if(photoLoaderThread == null)
 			photoLoaderThread = loader.new PhotosLoader();
 		
@@ -103,7 +101,7 @@ public class ImageLoader {
 
     	//from web
     	try {
-    		File f=fileCache.getFile(url);
+    		File f=FileCache.getCache().getFile(url, FileType.IMAGE);
 
     		//from SD cache
     		Bitmap b = decodeFile(f, imageSize);
@@ -257,15 +255,6 @@ public class ImageLoader {
     	}
     }
 
-	public void clearCache(File unmountedCacheDir) {
-		memoryCache.clear();
-		fileCache.clear(unmountedCacheDir);
-	}  
-	
-	public long getFileCacheSize(File unmountedCacheDir){
-		return fileCache.getCacheSize(unmountedCacheDir);
-	}
-	
 	public enum ImageSize{
 		SMALL(70), MEDIUM(140), LARGE(200);
 		

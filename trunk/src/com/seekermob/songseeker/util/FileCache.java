@@ -1,71 +1,175 @@
 package com.seekermob.songseeker.util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
 
+import android.content.Context;
 import android.util.Log;
 
 
 public class FileCache {
-    private File cacheDir;
+    private static FileCache obj = new FileCache();
+	
+	private static File externalCacheDir = null;
+    private static File internalCacheDir = null;
     
-    public FileCache(File unmountedCacheDir, boolean isImportant){
-        //Find the dir to save cached images
-        if(!isImportant && android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
-            cacheDir=new File(android.os.Environment.getExternalStorageDirectory(),"data/SongSeeker");
-        else
-            cacheDir=unmountedCacheDir;
-        if(!cacheDir.exists())
-            cacheDir.mkdirs();
-    }
+    private FileCache(){  }
     
-    public File getFile(String url){
-        //I identify images by hashcode. Not a perfect solution, good for the demo.
-        String filename=String.valueOf(url.hashCode());
-        File f = new File(cacheDir, filename);
-        return f;
-        
-    }
-    
-    public void clear(File unmountedCacheDir){
-    	File[] files = null;
+    public static void setCacheDirs(Context context){
+    	externalCacheDir = context.getExternalCacheDir();
+    	internalCacheDir = context.getCacheDir();
     	
-    	if((files = cacheDir.listFiles()) != null){	        	    	
+    	//build needed directories
+    	File dir = new File(externalCacheDir + FileType.IMAGE.getDir());
+    	if(!dir.exists())
+    		dir.mkdirs();
+    	
+    	dir = new File(internalCacheDir + FileType.IMAGE.getDir());
+    	if(!dir.exists())
+    		dir.mkdirs();    
+    	
+    	dir = new File(externalCacheDir + FileType.SONG.getDir());
+    	if(!dir.exists())
+    		dir.mkdirs();    
+    	
+    	dir = new File(internalCacheDir + FileType.SONG.getDir());
+    	if(!dir.exists())
+    		dir.mkdirs();    
+    }
+    
+    public static FileCache getCache(){
+    	//I could pass the context here and reload the externalCacheDir if the
+    	//SD card is mounted again while the app executes, but I chose not to for now
+    	if(externalCacheDir == null && internalCacheDir == null){
+    		Log.w(Util.APP, "Cache dirs not set!");
+    		return null;
+    	}
+    	return obj;
+    }
+    
+    public File getFile(String filename, FileType type){
+    	boolean isMounted = false;
+    	
+    	if(externalCacheDir != null && android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)){
+    		isMounted = true;
+    	}
+    	
+    	switch(type){
+    	
+    	case IMAGE:
+    		if(isMounted){
+    			return new File(externalCacheDir + FileType.IMAGE.getDir(), String.valueOf(filename.hashCode()));
+    		}else{
+    			return new File(internalCacheDir + FileType.IMAGE.getDir(), String.valueOf(filename.hashCode()));
+    		}  		
+    		
+    	case SONG:
+    		if(isMounted){
+    			return new File(externalCacheDir + FileType.SONG.getDir(), filename);
+    		}else{
+    			return new File(internalCacheDir + FileType.SONG.getDir(), filename);
+    		}  
+    	}
+    	
+    	return null;
+    }
+    
+    public void putObject(Serializable obj, String filename, FileType type) throws Exception{		
+    	OutputStream fos = new FileOutputStream(getFile(filename, type));
+		ObjectOutputStream out = new ObjectOutputStream(fos);
+		out.writeObject(obj);
+		out.close();
+    }
+    
+    public Object getObject(String filename, FileType type) throws Exception{
+    	try{
+    		ObjectInputStream in = new ObjectInputStream(new FileInputStream(getFile(filename, type)));
+			return in.readObject();    	
+    	}catch(FileNotFoundException e){
+    		return null;
+    	}
+    }
+    
+    public void clear(){
+    	File[] files = null;
+    	File dir = null;
+    	
+    	//removes files in the external storage
+    	if(externalCacheDir != null && android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)){
+    		dir = new File(externalCacheDir + FileType.IMAGE.getDir());    		
+    		if((files = dir.listFiles()) != null){	        	    	
+    	    	for(File f : files){
+    	        	f.delete();
+    	        }
+        	}
+    		
+    		dir = new File(externalCacheDir + FileType.SONG.getDir());
+    		if((files = dir.listFiles()) != null){	        	    	
+    	    	for(File f : files){
+    	        	f.delete();
+    	        }
+        	}
+    	}
+		
+    	//removes files from the internal storage
+    	dir = new File(internalCacheDir + FileType.IMAGE.getDir());    		
+		if((files = dir.listFiles()) != null){	        	    	
 	    	for(File f : files){
 	        	f.delete();
 	        }
     	}
-        
-        //we need to garantee that the internal storage is cleaned also
-        if(!unmountedCacheDir.getAbsolutePath().equalsIgnoreCase(cacheDir.getAbsolutePath())){
-        	if((files = unmountedCacheDir.listFiles()) == null)
-        		return;
-        	
-        	for(File f:files){           	
-            	f.delete();
-            }
-        }        	
+		
+		dir = new File(internalCacheDir + FileType.SONG.getDir());
+		if((files = dir.listFiles()) != null){	        	    	
+	    	for(File f : files){
+	        	f.delete();
+	        }
+    	}      	
+   	
     }
     
-    public long getCacheSize(File unmountedCacheDir){
+    public long getCacheSize(){
     	long totalSize = 0;
     	File[] files = null;
+    	File dir = null;
 
     	try{
-    		if((files = cacheDir.listFiles()) != null){
-        		for(File f:files){
-        			totalSize += f.length();
-        		}
-    		}
     		
-            //check internal storage also
-            if(!unmountedCacheDir.getAbsolutePath().equalsIgnoreCase(cacheDir.getAbsolutePath())){
-            	if((files = unmountedCacheDir.listFiles()) == null)
-            		return 0;
-            	
-            	for(File f:files){
-                	totalSize += f.length();
-                }
-            }  
+        	if(externalCacheDir != null && android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)){
+        		dir = new File(externalCacheDir + FileType.IMAGE.getDir());    		
+        		if((files = dir.listFiles()) != null){	        	    	
+        	    	for(File f : files){
+        	    		totalSize += f.length();
+        	        }
+            	}
+        		
+        		dir = new File(externalCacheDir + FileType.SONG.getDir());
+        		if((files = dir.listFiles()) != null){	        	    	
+        	    	for(File f : files){
+        	    		totalSize += f.length();
+        	        }
+            	}
+        	}
+    		
+        	dir = new File(internalCacheDir + FileType.IMAGE.getDir());    		
+    		if((files = dir.listFiles()) != null){	        	    	
+    	    	for(File f : files){
+    	    		totalSize += f.length();
+    	        }
+        	}
+    		
+    		dir = new File(internalCacheDir + FileType.SONG.getDir());
+    		if((files = dir.listFiles()) != null){	        	    	
+    	    	for(File f : files){
+    	    		totalSize += f.length();
+    	        }
+        	} 
     		
     	}catch (Exception e) { //TODO: TEMPORARY! Just for an emergency issue. Should be fixed with the 'if(listFiles == null)'
     		Log.e(Util.APP, "Error while trying to fetch the cache size!", e);
@@ -73,5 +177,19 @@ public class FileCache {
     	}
 
     	return totalSize;
+    }
+    
+    public enum FileType{
+    	IMAGE ("/images"),
+    	SONG ("/songs");
+    	
+    	private String dir;
+
+		FileType(String dir) {
+	        this.dir = dir;	        
+	    }		
+		public String getDir(){
+			return this.dir;
+		}    	
     }
 }

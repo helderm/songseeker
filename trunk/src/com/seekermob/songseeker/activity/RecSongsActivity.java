@@ -338,7 +338,7 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 			    
 				//load coverart image
 			    try{
-			    	ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);
+			    	ImageLoader.getLoader().DisplayImage(song.release.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);
 			    }catch(IndexOutOfBoundsException e){
 			    	Log.i(Util.APP, "Unable to fetch the release image from Echo Nest!");
 			    }

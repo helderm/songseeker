@@ -139,7 +139,7 @@ public class CreatePlaylistRdioActivity extends TrackedListActivity implements O
 		    }else{			    
 			    bt.setText(data.getPlaylistNumSongs(position-1)+" songs");
 			    tt.setText(data.getPlaylistName(position-1));
-			    ImageLoader.getLoader(getCacheDir()).DisplayImage(data.getPlaylistImage(position-1), img, R.drawable.ic_playlist_stub, ImageSize.SMALL);
+			    ImageLoader.getLoader().DisplayImage(data.getPlaylistImage(position-1), img, R.drawable.ic_playlist_stub, ImageSize.SMALL);
 		    }		
 						
 			return v;

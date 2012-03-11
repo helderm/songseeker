@@ -182,7 +182,7 @@ public class SimilarArtistsActivity extends TrackedListActivity {
 				holder.line.setText(artist.name);			
 
 				try{
-					ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);
+					ImageLoader.getLoader().DisplayImage(artist.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);
 				}catch(IndexOutOfBoundsException e){
 					Log.i(Util.APP, "Unable to fetch the release image from Echo Nest!");
 				}

@@ -26,6 +26,25 @@ public class ReleaseInfo implements Parcelable {
 		readFromParcel(in);
 	} 
 	
+	public ReleaseInfo(ReleaseInfoCache release) {
+		if(release == null){
+			artist = new ArtistInfo(); 
+			
+			name = null;
+			id = null;
+			buyUrl = null;
+			image = null;
+			return;
+		}			
+		
+		artist = new ArtistInfo(release.artist); 
+		
+		name = release.name;
+		id = release.id;
+		buyUrl = release.buyUrl;
+		image = release.image;
+	}
+
 	@Override
 	public int describeContents() {
 		return 0;

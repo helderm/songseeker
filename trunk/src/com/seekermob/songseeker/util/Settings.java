@@ -11,11 +11,9 @@ public class Settings implements Serializable{
 	private static Settings obj = new Settings();
 	private static SettingsData settings = null;
 	
-	public static final int PL_MAX_TEMPO = 500;	
-	
+	public static final int PL_MAX_TEMPO = 500;		
 	private static final String SETTINGS_FILENAME = "settings";
 	
-	//private static FileCache fileCache = null;
 	private static final long serialVersionUID = 1L;
 	
 	public static Settings getInstance(Activity activity){		

@@ -167,7 +167,7 @@ public class WatchSongVideoActivity extends TrackedListActivity {
 				holder.topText.setText(video.title);
 				holder.botText.setText(video.description);
 
-				ImageLoader.getLoader(getCacheDir()).DisplayImage(video.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);
+				ImageLoader.getLoader().DisplayImage(video.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);
 			}
 
 			return convertView;

@@ -1,14 +1,12 @@
 package com.seekermob.songseeker.activity;
 
-import java.io.File;
-
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.GroovesharkComm;
 import com.seekermob.songseeker.comm.LastfmComm;
 import com.seekermob.songseeker.comm.RdioComm;
 import com.seekermob.songseeker.comm.YouTubeComm;
 import com.seekermob.songseeker.data.UserProfile;
-import com.seekermob.songseeker.util.ImageLoader;
+import com.seekermob.songseeker.util.FileCache;
 import com.seekermob.songseeker.util.TrackedPreferenceActivity;
 import com.seekermob.songseeker.util.Util;
 
@@ -73,8 +71,7 @@ public class SettingsActivity extends TrackedPreferenceActivity{
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			File cacheDir = getCacheDir();
-			ImageLoader.getLoader(cacheDir).clearCache(cacheDir);        	
+			FileCache.getCache().clear();        	
 			return null;
 		}		
 

@@ -264,7 +264,7 @@ public class SongInfoActivity extends TrackedListActivity {
 				break;
 			}			    
 
-			ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);			
+			ImageLoader.getLoader().DisplayImage(song.release.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);			
 
 			return convertView;
 		}
@@ -435,10 +435,10 @@ public class SongInfoActivity extends TrackedListActivity {
 
 		//set image
 		ImageView coverart = (ImageView) header.findViewById(R.id.songinfo_coverArt);
-		ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, coverart, R.drawable.ic_disc_stub_large, ImageSize.MEDIUM);
+		ImageLoader.getLoader().DisplayImage(song.release.image, coverart, R.drawable.ic_disc_stub_large, ImageSize.MEDIUM);
 		
 		ImageView bkg = (ImageView) findViewById(R.id.listview_bkg);
-		ImageLoader.getLoader(getCacheDir()).DisplayImage(song.release.image, getListView(), bkg, ImageSize.LARGE);
+		ImageLoader.getLoader().DisplayImage(song.release.image, getListView(), bkg, ImageSize.LARGE);
 		
 		getListView().addHeaderView(header);
 

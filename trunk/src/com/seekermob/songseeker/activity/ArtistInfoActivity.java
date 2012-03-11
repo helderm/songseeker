@@ -191,7 +191,7 @@ public class ArtistInfoActivity extends TrackedListActivity {
 			holder.botText.setText(release.artist.name);
 			holder.topText.setText(release.name);
 										
-			ImageLoader.getLoader(getCacheDir()).DisplayImage(release.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);
+			ImageLoader.getLoader().DisplayImage(release.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);
 			
 
 			return convertView;
@@ -313,10 +313,10 @@ public class ArtistInfoActivity extends TrackedListActivity {
 		
 		//set image
 		ImageView coverart = (ImageView) header.findViewById(R.id.artistinfo_image);
-		ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, coverart, R.drawable.ic_disc_stub_large, ImageSize.MEDIUM);
+		ImageLoader.getLoader().DisplayImage(artist.image, coverart, R.drawable.ic_disc_stub_large, ImageSize.MEDIUM);
 		
 		ImageView bkg = (ImageView) findViewById(R.id.listview_bkg);
-		ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, getListView(), bkg, ImageSize.LARGE);
+		ImageLoader.getLoader().DisplayImage(artist.image, getListView(), bkg, ImageSize.LARGE);
 		
 		getListView().addHeaderView(header);
 

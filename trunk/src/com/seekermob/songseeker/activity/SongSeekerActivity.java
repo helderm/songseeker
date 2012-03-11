@@ -1,6 +1,5 @@
 package com.seekermob.songseeker.activity;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import com.google.android.apps.analytics.easytracking.TrackedActivity;
@@ -8,7 +7,7 @@ import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.data.UserProfile;
 import com.seekermob.songseeker.util.AppRater;
-import com.seekermob.songseeker.util.ImageLoader;
+import com.seekermob.songseeker.util.FileCache;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -50,7 +49,10 @@ public class SongSeekerActivity extends TrackedActivity {
             	getSongsFromProfile();
             }
         }); 
-                
+            
+        //set cache dirs
+        FileCache.setCacheDirs(getApplicationContext());
+        
         //check if we need to auto clear the cache
         new AutoClearCacheTask().execute();
         
@@ -173,19 +175,17 @@ public class SongSeekerActivity extends TrackedActivity {
 		protected Boolean doInBackground(Void... params) {			
 			
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SongSeekerActivity.this);
-			String aux = prefs.getString("auto_clear_cache", "0");			
+			String aux = prefs.getString("auto_clear_cache", "10");			
 			int maxCache = Integer.parseInt(aux);
 			
 			if(maxCache == 0){
 				return false;
 			}
-
-			File cacheDir = getCacheDir();			
-			long cacheSize = ImageLoader.getLoader(cacheDir).getFileCacheSize(cacheDir);        	
 			
+			long cacheSize = FileCache.getCache().getCacheSize();		
 			if(cacheSize > (maxCache * 1048576)){ //bytes in a Mb
-				 ImageLoader.getLoader(cacheDir).clearCache(cacheDir);
-				 return true;
+				FileCache.getCache().clear();
+				return true;
 			}					
 		
 			return false;

@@ -133,7 +133,7 @@ public class ProfileActivity extends TrackedListActivity implements OnCancelList
 
 				holder.line.setText(artist.name);
 
-				ImageLoader.getLoader(getCacheDir()).DisplayImage(artist.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);	
+				ImageLoader.getLoader().DisplayImage(artist.image, holder.coverArt, R.drawable.ic_disc_stub, ImageSize.SMALL);	
 			}
 
 			return convertView;

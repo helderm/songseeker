@@ -15,6 +15,21 @@ public class ArtistInfo implements Parcelable{
 		id = null;
 		image = null;
 	};
+	
+	public ArtistInfo(ArtistInfoCache artist){
+		if(artist == null){
+			name = null;
+			buyUrl = null;
+			id = null;
+			image = null;
+			return;
+		}
+		
+		name = artist.name;
+		buyUrl = artist.buyUrl;
+		id = artist.id;
+		image = artist.image;	
+	}
  
 	public ArtistInfo(Parcel in) {
 		readFromParcel(in);
