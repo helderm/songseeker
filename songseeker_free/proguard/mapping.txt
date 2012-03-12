@@ -2097,8 +2097,9 @@ com.seekermob.songseeker.comm.ServiceCommException$ServiceID -> com.seekermob.so
     com.seekermob.songseeker.comm.ServiceCommException$ServiceID RDIO -> d
     com.seekermob.songseeker.comm.ServiceCommException$ServiceID YOUTUBE -> e
     com.seekermob.songseeker.comm.ServiceCommException$ServiceID SEVENDIGITAL -> f
-    java.lang.String name -> g
-    com.seekermob.songseeker.comm.ServiceCommException$ServiceID[] ENUM$VALUES -> h
+    com.seekermob.songseeker.comm.ServiceCommException$ServiceID BANDSINTOWN -> g
+    java.lang.String name -> h
+    com.seekermob.songseeker.comm.ServiceCommException$ServiceID[] ENUM$VALUES -> i
     java.lang.String getName() -> a
     com.seekermob.songseeker.comm.ServiceCommException$ServiceID[] values() -> values
     com.seekermob.songseeker.comm.ServiceCommException$ServiceID valueOf(java.lang.String) -> valueOf
@@ -2146,7 +2147,26 @@ com.seekermob.songseeker.data.ArtistInfo -> com.seekermob.songseeker.data.Artist
     android.os.Parcelable$Creator CREATOR -> CREATOR
     int describeContents() -> describeContents
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.seekermob.songseeker.data.ArtistInfo$1 -> com.seekermob.songseeker.data.m:
+com.seekermob.songseeker.data.ArtistInfo$1 -> com.seekermob.songseeker.data.r:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
+com.seekermob.songseeker.data.ArtistInfoCache -> com.seekermob.songseeker.data.l:
+    java.lang.String name -> a
+    java.lang.String buyUrl -> b
+    java.lang.String id -> c
+    java.lang.String image -> d
+com.seekermob.songseeker.data.EventInfo -> com.seekermob.songseeker.data.EventInfo:
+    java.lang.String id -> a
+    java.lang.String artistName -> b
+    java.lang.String url -> c
+    java.lang.String ticketStatus -> d
+    java.lang.String ticketUrl -> e
+    java.lang.String date -> f
+    com.seekermob.songseeker.data.VenueInfo venue -> g
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.seekermob.songseeker.data.EventInfo$1 -> com.seekermob.songseeker.data.h:
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
     java.lang.Object[] newArray(int) -> newArray
 com.seekermob.songseeker.data.RecSongsPlaylist -> com.seekermob.songseeker.data.d:
@@ -2177,7 +2197,7 @@ com.seekermob.songseeker.data.RecSongsPlaylist$GetPlaylistTask -> com.seekermob.
     java.lang.Void doInBackground$10299ca() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.data.RecSongsPlaylist$GetSongInfoTask -> com.seekermob.songseeker.data.i:
+com.seekermob.songseeker.data.RecSongsPlaylist$GetSongInfoTask -> com.seekermob.songseeker.data.k:
     java.lang.String msg -> a
     java.lang.String err -> b
     android.app.ListActivity activity -> c
@@ -2197,9 +2217,15 @@ com.seekermob.songseeker.data.ReleaseInfo -> com.seekermob.songseeker.data.Relea
     android.os.Parcelable$Creator CREATOR -> CREATOR
     int describeContents() -> describeContents
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.seekermob.songseeker.data.ReleaseInfo$1 -> com.seekermob.songseeker.data.g:
+com.seekermob.songseeker.data.ReleaseInfo$1 -> com.seekermob.songseeker.data.i:
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
     java.lang.Object[] newArray(int) -> newArray
+com.seekermob.songseeker.data.ReleaseInfoCache -> com.seekermob.songseeker.data.n:
+    java.lang.String name -> a
+    java.lang.String id -> b
+    java.lang.String buyUrl -> c
+    java.lang.String image -> d
+    com.seekermob.songseeker.data.ArtistInfoCache artist -> e
 com.seekermob.songseeker.data.SongInfo -> com.seekermob.songseeker.data.SongInfo:
     java.lang.String name -> a
     java.lang.String trackNum -> b
@@ -2213,10 +2239,20 @@ com.seekermob.songseeker.data.SongInfo -> com.seekermob.songseeker.data.SongInfo
     android.os.Parcelable$Creator CREATOR -> CREATOR
     int describeContents() -> describeContents
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.seekermob.songseeker.data.SongInfo$1 -> com.seekermob.songseeker.data.k:
+com.seekermob.songseeker.data.SongInfo$1 -> com.seekermob.songseeker.data.p:
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
     java.lang.Object[] newArray(int) -> newArray
-com.seekermob.songseeker.data.UserPlaylistsData -> com.seekermob.songseeker.data.f:
+com.seekermob.songseeker.data.SongInfoCache -> com.seekermob.songseeker.data.f:
+    java.lang.String name -> a
+    java.lang.String trackNum -> b
+    java.lang.String buyUrl -> c
+    java.lang.String duration -> d
+    java.lang.String id -> e
+    java.lang.String previewUrl -> f
+    java.lang.String version -> g
+    com.seekermob.songseeker.data.ArtistInfoCache artist -> h
+    com.seekermob.songseeker.data.ReleaseInfoCache release -> i
+com.seekermob.songseeker.data.UserPlaylistsData -> com.seekermob.songseeker.data.g:
     java.util.ArrayList playlists -> a
     int getPlaylistsSize() -> a
     java.lang.String getPlaylistName(int) -> a
@@ -2225,7 +2261,7 @@ com.seekermob.songseeker.data.UserPlaylistsData -> com.seekermob.songseeker.data
     java.lang.String getPlaylistId(int) -> d
     void addPlaylist(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
     void addPlaylist(java.lang.String,java.lang.Integer,java.lang.String) -> a
-com.seekermob.songseeker.data.UserPlaylistsData$Playlist -> com.seekermob.songseeker.data.h:
+com.seekermob.songseeker.data.UserPlaylistsData$Playlist -> com.seekermob.songseeker.data.j:
     java.lang.String name -> a
     java.lang.String numSongs -> b
     java.lang.String imageUrl -> c
@@ -2263,63 +2299,90 @@ com.seekermob.songseeker.data.UserProfile$AddToProfileTask -> com.seekermob.song
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
     void access$3$d58f2c6(com.seekermob.songseeker.data.UserProfile$AddToProfileTask) -> a
-com.seekermob.songseeker.data.UserProfile$ArtistProfile -> com.seekermob.songseeker.data.l:
+com.seekermob.songseeker.data.UserProfile$ArtistProfile -> com.seekermob.songseeker.data.q:
     java.lang.String name -> a
     java.lang.String image -> b
     java.lang.String id -> c
     java.lang.String buyUrl -> d
     com.seekermob.songseeker.data.UserProfile this$0 -> e
-com.seekermob.songseeker.data.UserProfile$Profile -> com.seekermob.songseeker.data.j:
+com.seekermob.songseeker.data.UserProfile$Profile -> com.seekermob.songseeker.data.o:
     java.util.ArrayList artists -> a
     com.seekermob.songseeker.data.UserProfile this$0 -> b
+com.seekermob.songseeker.data.VenueInfo -> com.seekermob.songseeker.data.VenueInfo:
+    java.lang.String id -> a
+    java.lang.String name -> b
+    java.lang.String city -> c
+    java.lang.String latitude -> d
+    java.lang.String longitude -> e
+    java.lang.String country -> f
+    java.lang.String url -> g
+    android.os.Parcelable$Creator CREATOR -> CREATOR
+    int describeContents() -> describeContents
+    void writeToParcel(android.os.Parcel,int) -> writeToParcel
+com.seekermob.songseeker.data.VenueInfo$1 -> com.seekermob.songseeker.data.m:
+    java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+    java.lang.Object[] newArray(int) -> newArray
 com.seekermob.songseeker.util.AppRater -> com.seekermob.songseeker.util.d:
     void app_launched(android.content.Context) -> a
-com.seekermob.songseeker.util.AppRater$1 -> com.seekermob.songseeker.util.q:
+com.seekermob.songseeker.util.AppRater$1 -> com.seekermob.songseeker.util.r:
     android.content.Context val$mContext -> a
     android.app.Dialog val$dialog -> b
     android.content.SharedPreferences$Editor val$editor -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.util.AppRater$2 -> com.seekermob.songseeker.util.r:
+com.seekermob.songseeker.util.AppRater$2 -> com.seekermob.songseeker.util.s:
     android.content.SharedPreferences$Editor val$editor -> a
     android.app.Dialog val$dialog -> b
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.util.AppRater$3 -> com.seekermob.songseeker.util.s:
+com.seekermob.songseeker.util.AppRater$3 -> com.seekermob.songseeker.util.t:
     android.content.SharedPreferences$Editor val$editor -> a
     android.app.Dialog val$dialog -> b
     void onClick(android.view.View) -> onClick
 com.seekermob.songseeker.util.FileCache -> com.seekermob.songseeker.util.e:
-    java.io.File cacheDir -> a
-    java.io.File getFile(java.lang.String) -> a
-    void clear(java.io.File) -> a
-    long getCacheSize(java.io.File) -> b
-com.seekermob.songseeker.util.ImageLoader -> com.seekermob.songseeker.util.p:
+    com.seekermob.songseeker.util.FileCache obj -> a
+    java.io.File externalCacheDir -> b
+    java.io.File internalCacheDir -> c
+    int[] $SWITCH_TABLE$com$seekermob$songseeker$util$FileCache$FileType -> d
+    void setCacheDirs(android.content.Context) -> a
+    com.seekermob.songseeker.util.FileCache getCache() -> a
+    java.io.File getFile(java.lang.String,com.seekermob.songseeker.util.FileCache$FileType) -> a
+    void putObject(java.io.Serializable,java.lang.String,com.seekermob.songseeker.util.FileCache$FileType) -> a
+    java.lang.Object getObject(java.lang.String,com.seekermob.songseeker.util.FileCache$FileType) -> b
+    void clear() -> b
+    long getCacheSize() -> c
+    int[] $SWITCH_TABLE$com$seekermob$songseeker$util$FileCache$FileType() -> d
+com.seekermob.songseeker.util.FileCache$FileType -> com.seekermob.songseeker.util.n:
+    com.seekermob.songseeker.util.FileCache$FileType IMAGE -> a
+    com.seekermob.songseeker.util.FileCache$FileType SONG -> b
+    java.lang.String dir -> c
+    com.seekermob.songseeker.util.FileCache$FileType[] ENUM$VALUES -> d
+    java.lang.String getDir() -> a
+    com.seekermob.songseeker.util.FileCache$FileType[] values() -> values
+    com.seekermob.songseeker.util.FileCache$FileType valueOf(java.lang.String) -> valueOf
+com.seekermob.songseeker.util.ImageLoader -> com.seekermob.songseeker.util.q:
     com.seekermob.songseeker.util.ImageLoader loader -> a
     com.seekermob.songseeker.util.MemoryCache memoryCache -> b
     com.seekermob.songseeker.util.ImageLoader$PhotosQueue photosQueue -> c
-    com.seekermob.songseeker.util.FileCache fileCache -> d
-    java.util.Map views -> e
-    com.seekermob.songseeker.util.ImageLoader$PhotosLoader photoLoaderThread -> f
-    int stub_id -> g
-    com.seekermob.songseeker.util.ImageLoader getLoader(java.io.File) -> a
+    java.util.Map views -> d
+    com.seekermob.songseeker.util.ImageLoader$PhotosLoader photoLoaderThread -> e
+    int stub_id -> f
+    com.seekermob.songseeker.util.ImageLoader getLoader() -> a
     void DisplayImage(java.lang.String,android.view.View,int,com.seekermob.songseeker.util.ImageLoader$ImageSize) -> a
     void DisplayImage(java.lang.String,android.widget.ListView,android.widget.ImageView,com.seekermob.songseeker.util.ImageLoader$ImageSize) -> a
     void queuePhoto(java.lang.String,android.view.View,com.seekermob.songseeker.util.ImageLoader$ImageSize,boolean) -> a
     android.graphics.Bitmap getBitmap(java.lang.String,com.seekermob.songseeker.util.ImageLoader$ImageSize) -> b
     android.graphics.Bitmap decodeFile(java.io.File,com.seekermob.songseeker.util.ImageLoader$ImageSize) -> a
-    void clearCache(java.io.File) -> b
-    long getFileCacheSize(java.io.File) -> c
-    com.seekermob.songseeker.util.ImageLoader$PhotosQueue access$0() -> a
+    com.seekermob.songseeker.util.ImageLoader$PhotosQueue access$0() -> b
     android.graphics.Bitmap access$1$7572638f(java.lang.String,com.seekermob.songseeker.util.ImageLoader$ImageSize) -> a
-    com.seekermob.songseeker.util.MemoryCache access$2() -> b
+    com.seekermob.songseeker.util.MemoryCache access$2() -> c
     java.util.Map access$3(com.seekermob.songseeker.util.ImageLoader) -> a
     int access$4(com.seekermob.songseeker.util.ImageLoader) -> b
-com.seekermob.songseeker.util.ImageLoader$BitmapDisplayer -> com.seekermob.songseeker.util.o:
+com.seekermob.songseeker.util.ImageLoader$BitmapDisplayer -> com.seekermob.songseeker.util.p:
     android.graphics.Bitmap bitmap -> a
     android.view.View view -> b
     boolean isBkg -> c
     com.seekermob.songseeker.util.ImageLoader this$0 -> d
     void run() -> run
-com.seekermob.songseeker.util.ImageLoader$ImageSize -> com.seekermob.songseeker.util.n:
+com.seekermob.songseeker.util.ImageLoader$ImageSize -> com.seekermob.songseeker.util.o:
     com.seekermob.songseeker.util.ImageLoader$ImageSize SMALL -> a
     com.seekermob.songseeker.util.ImageLoader$ImageSize MEDIUM -> b
     com.seekermob.songseeker.util.ImageLoader$ImageSize LARGE -> c
@@ -2350,8 +2413,8 @@ com.seekermob.songseeker.util.MediaPlayerController -> com.seekermob.songseeker.
     boolean isPreparing -> e
     com.seekermob.songseeker.util.MediaPlayerController getCon() -> a
     void release() -> b
-    void startStopMedia(java.lang.String,int,android.widget.BaseAdapter) -> a
-    void startStopMedia(java.lang.String,android.widget.ImageView,android.widget.ProgressBar) -> a
+    void startStopMedia(java.lang.String,java.lang.String,int,android.widget.BaseAdapter) -> a
+    void startStopMedia(java.lang.String,java.lang.String,android.widget.ImageView,android.widget.ProgressBar) -> a
     com.seekermob.songseeker.util.MediaPlayerController$MediaStatus getStatus(int) -> a
     void setNewMedia(com.seekermob.songseeker.util.MediaPlayerController$MediaInfo) -> a
     void stop() -> d
@@ -2363,14 +2426,15 @@ com.seekermob.songseeker.util.MediaPlayerController -> com.seekermob.songseeker.
     com.seekermob.songseeker.util.MediaPlayerController$MediaInfo access$1() -> c
     void access$2(com.seekermob.songseeker.util.MediaPlayerController) -> a
     void access$3(com.seekermob.songseeker.util.MediaPlayerController) -> b
-com.seekermob.songseeker.util.MediaPlayerController$MediaInfo -> com.seekermob.songseeker.util.t:
+com.seekermob.songseeker.util.MediaPlayerController$MediaInfo -> com.seekermob.songseeker.util.u:
     java.lang.String source -> a
-    android.widget.BaseAdapter adapter -> b
-    int position -> c
-    android.widget.ImageView icon -> d
-    android.widget.ProgressBar loading -> e
-    com.seekermob.songseeker.util.MediaPlayerController$MediaStatus status -> f
-    com.seekermob.songseeker.util.MediaPlayerController this$0 -> g
+    java.lang.String songId -> b
+    android.widget.BaseAdapter adapter -> c
+    int position -> d
+    android.widget.ImageView icon -> e
+    android.widget.ProgressBar loading -> f
+    com.seekermob.songseeker.util.MediaPlayerController$MediaStatus status -> g
+    com.seekermob.songseeker.util.MediaPlayerController this$0 -> h
 com.seekermob.songseeker.util.MediaPlayerController$MediaPlayerCommander -> com.seekermob.songseeker.util.i:
     java.lang.String err -> a
     com.seekermob.songseeker.util.MediaPlayerController this$0 -> b
@@ -2396,7 +2460,6 @@ com.seekermob.songseeker.util.MemoryCache -> com.seekermob.songseeker.util.l:
     java.util.HashMap cache -> a
     android.graphics.Bitmap get(java.lang.String) -> a
     void put(java.lang.String,android.graphics.Bitmap) -> a
-    void clear() -> a
 com.seekermob.songseeker.util.Settings -> com.seekermob.songseeker.util.k:
     com.seekermob.songseeker.util.Settings obj -> a
     com.seekermob.songseeker.util.Settings$SettingsData settings -> b
