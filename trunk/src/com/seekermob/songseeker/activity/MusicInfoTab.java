@@ -8,7 +8,6 @@ import com.seekermob.songseeker.data.ReleaseInfo;
 import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.util.TrackedTabActivity;
 
-
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -86,6 +85,11 @@ public class MusicInfoTab extends TrackedTabActivity {
 			intent = new Intent().setClass(this, SongInfoActivity.class);
 			intent.putExtra("songParcel", song);
 
+			//pass the top songs to the tab if we have it
+			if(getIntent().getExtras().getParcelableArrayList("artistTopSongs") != null){
+				intent.putParcelableArrayListExtra("artistTopSongs", getIntent().getExtras().getParcelableArrayList("artistTopSongs"));
+			}
+			
 			spec = tabHost.newTabSpec("songs").setIndicator("Song",
 					res.getDrawable(R.drawable.ic_tab_songs))
 					.setContent(intent);
@@ -104,6 +108,10 @@ public class MusicInfoTab extends TrackedTabActivity {
 			intent = new Intent().setClass(this, ReleaseInfoActivity.class);
 			intent.putExtra("releaseParcel", release);
 
+			if(getIntent().getExtras().getParcelableArrayList("releaseSongList") != null){
+				intent.putParcelableArrayListExtra("releaseSongList", getIntent().getExtras().getParcelableArrayList("releaseSongList"));
+			}
+			
 			spec = tabHost.newTabSpec("albums").setIndicator("Album",
 					res.getDrawable(R.drawable.ic_tab_albums))
 					.setContent(intent);
@@ -124,6 +132,10 @@ public class MusicInfoTab extends TrackedTabActivity {
 			intent = new Intent().setClass(this, ArtistInfoActivity.class);
 			intent.putExtra("artistParcel", artist);
 
+			if(getIntent().getExtras().getParcelableArrayList("artistReleases") != null){
+				intent.putParcelableArrayListExtra("artistReleases", getIntent().getExtras().getParcelableArrayList("artistReleases"));
+			}
+			
 			spec = tabHost.newTabSpec("artists").setIndicator("Artist",
 					res.getDrawable(R.drawable.ic_tab_artists))
 					.setContent(intent);
@@ -155,7 +167,7 @@ public class MusicInfoTab extends TrackedTabActivity {
 			SongInfo song = args[0];				
 
 			try{
-				song = SevenDigitalComm.getComm().querySongDetails(song.id, song.name, song.artist.name);				
+				song = SevenDigitalComm.getComm().querySongDetails(song.id, song.name, song.artist.name, getApplicationContext());				
 			}catch(ServiceCommException e){
 				err = e.getMessage();		
 				return null;

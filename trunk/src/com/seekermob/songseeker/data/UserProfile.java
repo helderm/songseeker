@@ -135,7 +135,7 @@ public class UserProfile implements Serializable, OnCancelListener{
 					if(isSearch)
 						artist = SevenDigitalComm.getComm().queryArtistSearch(artistNameID);
 					else
-						artist = SevenDigitalComm.getComm().queryArtistDetails(artistNameID);
+						artist = SevenDigitalComm.getComm().queryArtistDetails(artistNameID, activity.getApplicationContext());
 						
 				}catch(ServiceCommException e) {
 					if(e.getErr() == ServiceErr.IO || e.getErr() == ServiceErr.TRY_LATER){

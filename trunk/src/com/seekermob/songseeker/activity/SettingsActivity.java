@@ -71,7 +71,7 @@ public class SettingsActivity extends TrackedPreferenceActivity{
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			FileCache.getCache().clear();        	
+			FileCache.getCache(getApplicationContext()).clear();        	
 			return null;
 		}		
 

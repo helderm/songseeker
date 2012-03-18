@@ -49,18 +49,21 @@ public class SongInfoActivity extends TrackedListActivity {
 		super.onCreate(savedInstanceState);
 
 		adapter = new TopTracksAdapter();	
-		song = getIntent().getExtras().getParcelable("songParcel");
-				
-		//check orientation change
-		@SuppressWarnings("unchecked")
-		ArrayList<SongInfo> savedTopTracks = (ArrayList<SongInfo>) getLastNonConfigurationInstance();
+		song = getIntent().getExtras().getParcelable("songParcel");				
 		
-		if(savedTopTracks == null){		
-			task = new GetSongDetails();
-			task.execute();
-		}else{
+		@SuppressWarnings("unchecked")
+		ArrayList<SongInfo> savedTopTracks = (ArrayList<SongInfo>) getLastNonConfigurationInstance();		
+		if(savedTopTracks != null){		
+			//check orientation change
 			adapter.setTopTracks(savedTopTracks);
 			setListHeader();
+		}else if((savedTopTracks = getIntent().getExtras().getParcelableArrayList("artistTopSongs")) != null){
+			//check if we received the top tracks from a previous song
+			adapter.setTopTracks(savedTopTracks);
+			setListHeader();
+		}else{
+			task = new GetSongDetails();
+			task.execute();
 		}
 	}
 
@@ -119,14 +122,6 @@ public class SongInfoActivity extends TrackedListActivity {
 				return null;
 			
 			try{
-				//if we already have the info, dont query it again
-				//song = getIntent().getExtras().getParcelable("songParcel");	
-				if(song == null){
-					//this will happen only on Eclair, see MusicInfoTab
-					song = getIntent().getExtras().getParcelable("songId");	
-					song = SevenDigitalComm.getComm().querySongDetails(song.id, song.name, song.artist.name);		
-				}	
-
 				if(isCancelled())
 					return null;
 				
@@ -289,6 +284,7 @@ public class SongInfoActivity extends TrackedListActivity {
 		SongInfo si = adapter.getItem(position-1);
 		Intent i = new Intent(SongInfoActivity.this, MusicInfoTab.class);
 		i.putExtra("songParcel", si);
+		i.putParcelableArrayListExtra("artistTopSongs", adapter.topTracks);
 		startActivity(i);
 	}
 

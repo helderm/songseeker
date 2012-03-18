@@ -102,7 +102,7 @@ public class SimilarArtistsActivity extends TrackedListActivity {
 					String foreignId = a.getForeignID(EchoNestComm.SEVEN_DIGITAL);
 
 					try{
-						artist = SevenDigitalComm.getComm().queryArtistDetails(foreignId.split(":")[2]);
+						artist = SevenDigitalComm.getComm().queryArtistDetails(foreignId.split(":")[2], getApplicationContext());
 					}catch (ServiceCommException e) {
 						Log.i(Util.APP, "Artist ["+a.getForeignID(EchoNestComm.SEVEN_DIGITAL)+"] not found in 7digital, skipping...");
 						continue;

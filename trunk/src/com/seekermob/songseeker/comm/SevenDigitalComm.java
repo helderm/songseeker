@@ -15,11 +15,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
 import com.seekermob.songseeker.data.ArtistInfo;
+import com.seekermob.songseeker.data.ArtistInfoCache;
 import com.seekermob.songseeker.data.ReleaseInfo;
 import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.data.SongInfoCache;
@@ -42,7 +44,7 @@ public class SevenDigitalComm {
 		return comm;
 	}
 
-	public SongInfo querySongDetails(String trackId, String trackName, String artistName) throws ServiceCommException{
+	public SongInfo querySongDetails(String trackId, String trackName, String artistName, Context context) throws ServiceCommException{
 		Element fstNmElmnt;
 		NodeList fstNmElmntLst;
 
@@ -54,7 +56,7 @@ public class SevenDigitalComm {
 		try {
 			
 			//try fetching song from cache first
-			SongInfoCache cachedSong = (SongInfoCache)FileCache.getCache().getObject(trackId, FileType.SONG);
+			SongInfoCache cachedSong = (SongInfoCache)FileCache.getCache(context).getObject(trackId, FileType.SONG);
 			if(cachedSong != null){
 				return new SongInfo(cachedSong);
 			}
@@ -86,7 +88,7 @@ public class SevenDigitalComm {
 				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 
 			//cache the song details for faster access			
-			FileCache.getCache().putObject(new SongInfoCache(song), song.id, FileType.SONG);
+			FileCache.getCache(context).putObject(new SongInfoCache(song), song.id, FileType.SONG);
 
 		}catch(IOException e) {
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	
@@ -414,7 +416,7 @@ public class SevenDigitalComm {
 		return releases;
 	}
 
-	public ArtistInfo queryArtistDetails(String artistId) throws ServiceCommException{
+	public ArtistInfo queryArtistDetails(String artistId, Context context) throws ServiceCommException{
 		ArtistInfo artist;		
 		Element fstNmElmnt;
 		NodeList fstNmElmntLst;
@@ -423,9 +425,21 @@ public class SevenDigitalComm {
 		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
 
 		try {
+			//try fetching song from cache first
+			ArtistInfoCache cachedArtist = (ArtistInfoCache)FileCache.getCache(context).getObject(artistId, FileType.ARTIST);
+			if(cachedArtist != null){
+				return new ArtistInfo(cachedArtist);
+			}
+			
 			URL url = new URL(urlStr+reqParam);			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
+			
+			//Use this to fetch http headers!
+			//URLConnection conn = url.openConnection();
+			//conn.getInputStream();
+			//http://www.roseindia.net/java/java-get-example/http-headers.shtml
+			
 			Document doc = db.parse(new InputSource(url.openStream()));
 			doc.getDocumentElement().normalize();
 
@@ -437,7 +451,13 @@ public class SevenDigitalComm {
 				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 			}	
 
-			artist = parseArtistDetails(doc.getDocumentElement()).get(0);			
+			artist = parseArtistDetails(doc.getDocumentElement()).get(0);		
+			
+			if(artist == null)
+				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+			
+			//add this artist to the cache
+			FileCache.getCache(context).putObject(new ArtistInfoCache(artist), artist.id, FileType.ARTIST);
 
 		}catch(IOException e) {
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	

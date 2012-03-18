@@ -182,9 +182,9 @@ public class SongSeekerActivity extends TrackedActivity {
 				return false;
 			}
 			
-			long cacheSize = FileCache.getCache().getCacheSize();		
+			long cacheSize = FileCache.getCache(getApplicationContext()).getCacheSize();		
 			if(cacheSize > (maxCache * 1048576)){ //bytes in a Mb
-				FileCache.getCache().clear();
+				FileCache.getCache(getApplicationContext()).clear();
 				return true;
 			}					
 		

@@ -107,7 +107,7 @@ public class RecSongsPlaylist {
 					if(songInfo.id != null && (songInfo.name == null || songInfo.artist.name == null ||
 						(songInfo.release.image == null && retries > 0))){
 							
-						songInfo = SevenDigitalComm.getComm().querySongDetails(songInfo.id, songInfo.name, songInfo.artist.name);	
+						songInfo = SevenDigitalComm.getComm().querySongDetails(songInfo.id, songInfo.name, songInfo.artist.name, activity.getApplicationContext());	
 						retries--;
 					}						
 					

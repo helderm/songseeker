@@ -26,32 +26,58 @@ public class FileCache {
     	internalCacheDir = context.getCacheDir();
     	
     	//build needed directories
-    	File dir = new File(externalCacheDir + FileType.IMAGE.getDir());
+    	File dir = new File(internalCacheDir + FileType.IMAGE.getDir());
     	if(!dir.exists())
-    		dir.mkdirs();
-    	
-    	dir = new File(internalCacheDir + FileType.IMAGE.getDir());
-    	if(!dir.exists())
-    		dir.mkdirs();    
-    	
-    	dir = new File(externalCacheDir + FileType.SONG.getDir());
-    	if(!dir.exists())
-    		dir.mkdirs();    
+    		dir.mkdirs();  
     	
     	dir = new File(internalCacheDir + FileType.SONG.getDir());
     	if(!dir.exists())
-    		dir.mkdirs();    
+    		dir.mkdirs();  
+    	
+    	dir = new File(internalCacheDir + FileType.ARTIST.getDir());
+    	if(!dir.exists())
+    		dir.mkdirs();  
+    	
+    	if(externalCacheDir != null && android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)){
+        	dir = new File(externalCacheDir + FileType.IMAGE.getDir());
+        	if(!dir.exists())
+        		dir.mkdirs();      
+        	
+        	dir = new File(externalCacheDir + FileType.SONG.getDir());
+        	if(!dir.exists())
+        		dir.mkdirs(); 
+        	
+        	dir = new File(externalCacheDir + FileType.ARTIST.getDir());
+        	if(!dir.exists())
+        		dir.mkdirs();  
+    	}
     }
     
-    public static FileCache getCache(){
-    	//I could pass the context here and reload the externalCacheDir if the
-    	//SD card is mounted again while the app executes, but I chose not to for now
+    public static FileCache getCache(Context context){
+    	
+    	if(externalCacheDir == null){
+        	externalCacheDir = context.getExternalCacheDir();
+        }
+    	
+    	if(internalCacheDir == null){
+    		internalCacheDir = context.getCacheDir();
+    	}
+    	
     	if(externalCacheDir == null && internalCacheDir == null){
     		Log.w(Util.APP, "Cache dirs not set!");
     		return null;
     	}
     	return obj;
     }
+    
+    public static FileCache getCache(){
+    	if(externalCacheDir == null && internalCacheDir == null){
+    		Log.w(Util.APP, "Cache dirs not set!");
+    		return null;
+    	}
+    	return obj;
+    }
+    
     
     public File getFile(String filename, FileType type){
     	boolean isMounted = false;
@@ -75,6 +101,13 @@ public class FileCache {
     		}else{
     			return new File(internalCacheDir + FileType.SONG.getDir(), filename);
     		}  
+    		
+    	case ARTIST:
+    		if(isMounted){
+    			return new File(externalCacheDir + FileType.ARTIST.getDir(), filename);
+    		}else{
+    			return new File(internalCacheDir + FileType.ARTIST.getDir(), filename);
+    		}     		
     	}
     	
     	return null;
@@ -92,6 +125,9 @@ public class FileCache {
     		ObjectInputStream in = new ObjectInputStream(new FileInputStream(getFile(filename, type)));
 			return in.readObject();    	
     	}catch(FileNotFoundException e){
+    		return null;
+    	}catch(Exception e){
+    		Log.w(Util.APP, "Unable to load a file from cache...", e);
     		return null;
     	}
     }
@@ -115,6 +151,13 @@ public class FileCache {
     	        	f.delete();
     	        }
         	}
+    		
+    		dir = new File(externalCacheDir + FileType.ARTIST.getDir());
+    		if((files = dir.listFiles()) != null){	        	    	
+    	    	for(File f : files){
+    	        	f.delete();
+    	        }
+        	}    		
     	}
 		
     	//removes files from the internal storage
@@ -130,8 +173,14 @@ public class FileCache {
 	    	for(File f : files){
 	        	f.delete();
 	        }
-    	}      	
-   	
+    	}    
+		
+		dir = new File(internalCacheDir + FileType.ARTIST.getDir());
+		if((files = dir.listFiles()) != null){	        	    	
+	    	for(File f : files){
+	        	f.delete();
+	        }
+    	}     	
     }
     
     public long getCacheSize(){
@@ -155,6 +204,13 @@ public class FileCache {
         	    		totalSize += f.length();
         	        }
             	}
+        		
+        		dir = new File(externalCacheDir + FileType.ARTIST.getDir());
+        		if((files = dir.listFiles()) != null){	        	    	
+        	    	for(File f : files){
+        	    		totalSize += f.length();
+        	        }
+            	}
         	}
     		
         	dir = new File(internalCacheDir + FileType.IMAGE.getDir());    		
@@ -171,6 +227,13 @@ public class FileCache {
     	        }
         	} 
     		
+    		dir = new File(internalCacheDir + FileType.ARTIST.getDir());
+    		if((files = dir.listFiles()) != null){	        	    	
+    	    	for(File f : files){
+    	    		totalSize += f.length();
+    	        }
+        	} 
+    		
     	}catch (Exception e) { //TODO: TEMPORARY! Just for an emergency issue. Should be fixed with the 'if(listFiles == null)'
     		Log.e(Util.APP, "Error while trying to fetch the cache size!", e);
     		return 0;
@@ -181,7 +244,8 @@ public class FileCache {
     
     public enum FileType{
     	IMAGE ("/images"),
-    	SONG ("/songs");
+    	SONG ("/songs"),
+    	ARTIST ("/artists");
     	
     	private String dir;
 

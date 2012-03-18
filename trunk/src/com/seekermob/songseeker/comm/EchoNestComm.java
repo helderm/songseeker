@@ -25,7 +25,7 @@ public class EchoNestComm {
 	private static EchoNestComm comm = new EchoNestComm();
 	private static EchoNestAPI en;
 
-	public static final String SEVEN_DIGITAL = "7digital";
+	public static final String SEVEN_DIGITAL = "7digital-US";
 	public static final String RDIO = "rdio-us-streaming";
 
 	private static int MAX_WS_RETRIES = 5;

@@ -4,6 +4,7 @@ import com.google.android.apps.analytics.easytracking.EasyTracker;
 import android.app.TabActivity;
 import android.os.Bundle;
 
+@SuppressWarnings("deprecation")
 public class TrackedTabActivity extends TabActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

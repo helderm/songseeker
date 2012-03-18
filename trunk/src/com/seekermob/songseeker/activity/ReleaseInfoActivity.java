@@ -54,16 +54,19 @@ public class ReleaseInfoActivity extends TrackedListActivity {
 		release = getIntent().getExtras().getParcelable("releaseParcel");
 		adapter = new SongListAdapter();
 		
-		//check orientation change
 		@SuppressWarnings("unchecked")
-		ArrayList<SongInfo> savedSongList = (ArrayList<SongInfo>) getLastNonConfigurationInstance();
-		
-		if(savedSongList == null){		
-			task = new GetReleaseDetails();
-			task.execute();
-		}else{
+		ArrayList<SongInfo> savedSongList = (ArrayList<SongInfo>) getLastNonConfigurationInstance();		
+		if(savedSongList != null){		
+			//check orientation change
 			adapter.setSongList(savedSongList);
 			setListHeader();
+		}else if((savedSongList = getIntent().getExtras().getParcelableArrayList("releaseSongList")) != null){
+			//check if we are recovering the song list of the release
+			adapter.setSongList(savedSongList);
+			setListHeader();
+		}else{
+			task = new GetReleaseDetails();
+			task.execute();
 		}
 	}
 
@@ -117,13 +120,6 @@ public class ReleaseInfoActivity extends TrackedListActivity {
 			ArrayList<SongInfo> songList;
 
 			try{
-				if(release == null){
-					//this will happen only on Eclair, see MusicInfoTab
-					SongInfo song = getIntent().getExtras().getParcelable("songId");	
-					song = SevenDigitalComm.getComm().querySongDetails(song.id, song.name, song.artist.name);	
-					release = song.release;
-				}				
-				
 				songList = SevenDigitalComm.getComm().queryReleaseSongList(release.id);
 			}catch(ServiceCommException e){
 				err = e.getMessage();		
@@ -279,6 +275,7 @@ public class ReleaseInfoActivity extends TrackedListActivity {
 		SongInfo si = adapter.getItem(position-1);
 		Intent i = new Intent(ReleaseInfoActivity.this, MusicInfoTab.class);
 		i.putExtra("songParcel", si);
+		i.putParcelableArrayListExtra("releaseSongList", adapter.songList);
 		startActivity(i);
 	}
 	

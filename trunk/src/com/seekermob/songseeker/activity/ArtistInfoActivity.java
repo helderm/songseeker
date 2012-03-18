@@ -8,7 +8,6 @@ import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.SevenDigitalComm;
 import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.data.ReleaseInfo;
-import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.data.UserProfile;
 import com.seekermob.songseeker.util.ImageLoader;
 import com.seekermob.songseeker.util.ImageLoader.ImageSize;
@@ -40,6 +39,7 @@ public class ArtistInfoActivity extends TrackedListActivity {
 	private static final int RELEASE_DETAILS_DIAG = 0;	
 	
 	/** Called when the activity is first created. */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
@@ -47,15 +47,23 @@ public class ArtistInfoActivity extends TrackedListActivity {
 		artist = getIntent().getExtras().getParcelable("artistParcel");	    
 	    adapter = new ArtistReleasesAdapter();
 	    
-		SavedInfo savedInfo = (SavedInfo) getLastNonConfigurationInstance();
-		
-		if(savedInfo == null){    
-			task = new GetArtistDetails();
-			task.execute();
-		}else{
+		SavedInfo savedInfo = (SavedInfo) getLastNonConfigurationInstance();		
+		if(savedInfo != null){    
+			//check orientation change
 			artist.image = savedInfo.imageUrl;
 			adapter.setArtistReleases(savedInfo.releases);
 			setListHeader();
+		}else{
+			//fetch the albums of that artist on the extras if we have it
+			ArrayList<ReleaseInfo> artistReleases = getIntent().getExtras().getParcelableArrayList("artistReleases");
+					
+			if(artist.image != null && artistReleases != null){
+				adapter.setArtistReleases(artistReleases);
+				setListHeader();
+			}else{				
+				task = new GetArtistDetails();
+				task.execute(artistReleases);
+			}
 		}		
 	}
 	
@@ -81,7 +89,7 @@ public class ArtistInfoActivity extends TrackedListActivity {
 		}
 	}
 	
-	private class GetArtistDetails extends AsyncTask<Void, Void, Void>{
+	private class GetArtistDetails extends AsyncTask<ArrayList<ReleaseInfo>, Void, Void>{
 		String err = null;		
 
 		@Override
@@ -90,29 +98,28 @@ public class ArtistInfoActivity extends TrackedListActivity {
 		}
 
 		@Override
-		protected Void doInBackground(Void... arg0) {
+		protected Void doInBackground(ArrayList<ReleaseInfo>... args) {
 			ArrayList<ReleaseInfo> releases;
 
 			try{
-				if(artist == null){
-					//this happens only on Eclair, see MusicInfoTab
-					SongInfo song = getIntent().getExtras().getParcelable("songId");	
-					song = SevenDigitalComm.getComm().querySongDetails(song.id, song.name, song.artist.name);	
-					artist = song.artist;
-				}
-				
 				if(isCancelled())
 					return null;
 				
 				//will need to fetch artist details, since we dont have the artist image url 
 				if(artist.image == null){				
-					artist = SevenDigitalComm.getComm().queryArtistDetails(artist.id);
+					artist = SevenDigitalComm.getComm().queryArtistDetails(artist.id, getApplicationContext());
 				}	
 				
 				if(isCancelled())
 					return null;
 				
-				releases = SevenDigitalComm.getComm().getArtistReleases(artist.id);
+				if(args[0] == null){
+					releases = SevenDigitalComm.getComm().getArtistReleases(artist.id);
+				} else{
+					releases = args[0];
+				}
+				
+				
 			}catch(ServiceCommException e){
 				err = e.getMessage();		
 				return null;
@@ -220,6 +227,7 @@ public class ArtistInfoActivity extends TrackedListActivity {
 		
 		Intent i = new Intent(ArtistInfoActivity.this, MusicInfoTab.class);
 		i.putExtra("releaseParcel", ri);
+		i.putParcelableArrayListExtra("artistReleases", adapter.releases);
 		startActivity(i);
 	}
 	

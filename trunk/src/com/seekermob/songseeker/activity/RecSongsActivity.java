@@ -113,9 +113,7 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 	
 	@Override
 	protected void onDestroy() {
-		//ImageLoader.getLoader(getCacheDir()).stopThread();
-		//ImageLoader.getLoader(getCacheDir()).clearCache();
-		
+
 		//clears the data from the playlist
 		RecSongsPlaylist.getInstance().clearPlaylist();
 		
