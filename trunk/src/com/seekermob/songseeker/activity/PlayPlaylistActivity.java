@@ -18,7 +18,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,7 +39,7 @@ public class PlayPlaylistActivity extends TrackedActivity implements OnCancelLis
 	    task.execute();
 	}
 	
-	private class GetSongIdsTask extends AsyncTask<Void, Integer, ArrayList<String>>{
+	private class GetSongIdsTask extends AsyncTask<Void, Integer, int[]>{
 		
 		private String err = null;
 		private List<SongInfo> songs = getIntent().getParcelableArrayListExtra("songsInfo");
@@ -50,7 +49,7 @@ public class PlayPlaylistActivity extends TrackedActivity implements OnCancelLis
 
 			showDialog(FETCH_SONG_IDS_DIAG);
 			
-			//access is limited today to 32 ws calls/ip/minute, so i'll need to truncate the playlist 
+			//access is limited today to some ws calls/ip/minute, so i'll need to truncate the playlist 
 			if(songs.size() > GroovesharkComm.RATE_LIMIT){
 				
 				songs = songs.subList(0, GroovesharkComm.RATE_LIMIT);
@@ -67,14 +66,14 @@ public class PlayPlaylistActivity extends TrackedActivity implements OnCancelLis
 		}		
 		
 		@Override
-		protected ArrayList<String> doInBackground(Void... params) {
-		
-			ArrayList<String> songIDs = new ArrayList<String>();
-			
+		protected int[] doInBackground(Void... params) {
 			SharedPreferences settings = getApplicationContext().getSharedPreferences(Util.APP, Context.MODE_PRIVATE);
-			
+			ArrayList<String> ids = new ArrayList<String>();
+			int songIds[] = null;
+			int i = 0;			
 			int count = 0;
 			
+			//fetch the song ids from grooveshark
 			for(SongInfo song : songs){
 
 				//check if the task was cancelled by the user
@@ -83,8 +82,8 @@ public class PlayPlaylistActivity extends TrackedActivity implements OnCancelLis
 				}
 				
 				try {					
-					String gsID = GroovesharkComm.getComm().getSongID(song.name, song.artist.name, settings);
-					songIDs.add(gsID);					
+					String gsID = GroovesharkComm.getComm().getSongID(song.name, song.artist.name, settings);					
+					ids.add(gsID);
 				}catch (ServiceCommException e) {
 					if(e.getErr() == ServiceErr.SONG_NOT_FOUND){
 						publishProgress(++count);
@@ -92,13 +91,18 @@ public class PlayPlaylistActivity extends TrackedActivity implements OnCancelLis
 						continue;
 					}
 					
+					songIds = new int[ids.size()];
+					for(String id : ids){
+						songIds[i++] = Integer.parseInt(id);
+					}
+					
 					if(e.getErr() == ServiceErr.TRY_LATER){
 						err = "Some songs were not fetched due to technical reasons, try later!";
-						return songIDs;
+						return songIds;
 					}
 					
 					err = e.getMessage();
-					return songIDs;
+					return songIds;
 				} 
 				
 				publishProgress(++count);
@@ -109,34 +113,34 @@ public class PlayPlaylistActivity extends TrackedActivity implements OnCancelLis
 				return null;
 			}
 			
-			return songIDs;
+			//convert from string list to static array
+			songIds = new int[ids.size()];
+			for(String id : ids){
+				songIds[i++] = Integer.parseInt(id);
+			}
+			
+			return songIds;
 		}
 		
 		@Override
-		protected void onPostExecute(ArrayList<String> songIds) {
+		protected void onPostExecute(int songIds[]) {
 			removeDialog(FETCH_SONG_IDS_DIAG);
 			
 			if(err != null){
 				Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
 			}
 			
-			if(songIds == null || songIds.isEmpty()){
+			if(songIds == null || songIds.length == 0){
 				Toast.makeText(getApplicationContext(), "No song found!", Toast.LENGTH_SHORT).show();
 				PlayPlaylistActivity.this.finish();
 				return;
 			}
 			
-			//build url with fetched song ids
-			StringBuilder sb = new StringBuilder();
-			
-			sb.append(GroovesharkComm.WIDGET_URL);			
-			for(String id : songIds){
-				sb.append(id+",");
-			}
-			sb.deleteCharAt(sb.length()-1);	
-
-			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(sb.toString()));
-			startActivity(intent);
+			Intent intent = new Intent();
+			intent.setAction("com.mysticdeath.md_gs_app.remotelist");
+			intent.putExtra("name", Util.APP);
+			intent.putExtra("songIDs", songIds);
+			sendBroadcast(intent);
 			PlayPlaylistActivity.this.finish();
 		}		
 	}
