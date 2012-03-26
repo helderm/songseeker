@@ -18,6 +18,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,18 @@ public class PlayPlaylistActivity extends TrackedActivity implements OnCancelLis
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	
+		//check if DMS is installed on the device
+		if(!Util.isAppInstalled("com.mysticdeath.md_gs_app", PlayPlaylistActivity.this)){
+			Toast.makeText(getApplicationContext(), "Install Dood's Music Streamer to enable this feature!", Toast.LENGTH_LONG).show();
+			
+			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.mysticdeath.md_gs_app"));
+			intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			
+			PlayPlaylistActivity.this.finish();
+			return;
+		}
+	    
 	    task = new GetSongIdsTask();
 	    task.execute();
 	}
@@ -46,14 +59,15 @@ public class PlayPlaylistActivity extends TrackedActivity implements OnCancelLis
 		
 		@Override
 		protected void onPreExecute() {
-
-			showDialog(FETCH_SONG_IDS_DIAG);
+			
+			showDialog(FETCH_SONG_IDS_DIAG);			
+			Toast.makeText(getApplicationContext(), "Be sure that 'Settings > Share Requests' is turned on at Dood's Music!", Toast.LENGTH_LONG).show();
 			
 			//access is limited today to some ws calls/ip/minute, so i'll need to truncate the playlist 
 			if(songs.size() > GroovesharkComm.RATE_LIMIT){
 				
 				songs = songs.subList(0, GroovesharkComm.RATE_LIMIT);
-				Toast.makeText(getApplicationContext(), "Truncating playlist to " + GroovesharkComm.RATE_LIMIT + " songs, due to technical reasons...", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), "Truncating playlist to " + GroovesharkComm.RATE_LIMIT + " songs, due to technical reasons...", Toast.LENGTH_SHORT).show();
 			}
 			
 			fetchSongIdsDiag.setMax(songs.size());

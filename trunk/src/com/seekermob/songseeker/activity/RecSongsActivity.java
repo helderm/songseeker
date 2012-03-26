@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -64,6 +65,9 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 		// Tell the list view which view to display when the list is empty
 		getListView().setEmptyView(findViewById(R.id.empty));
 
+		//set 'Play All' button at the start of the listview
+		setButtonHeader();
+		
 		//set EN logo at the end of the listview
 		setLogoFooter();
 		
@@ -372,13 +376,8 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
         // Handle item selection
         int itemId = item.getItemId();
         
-        if(itemId == R.id.play){
-        	
-        	if(adapter == null || adapter.playlist == null)
-        		return false;
-        	
-        	Intent i = new Intent(RecSongsActivity.this, PlayPlaylistActivity.class);
-			i.putExtra("songsInfo", adapter.playlist);
+        if(itemId == R.id.settings){
+        	Intent i = new Intent(RecSongsActivity.this, SettingsActivity.class);
 			startActivity(i);
         	return true;
         }
@@ -427,6 +426,26 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 		}
 		
 		return super.onContextItemSelected(item);		
+	}
+	
+	private void setButtonHeader(){
+		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LinearLayout header = (LinearLayout)inflater.inflate(R.layout.btn_single_row, null);
+		
+		Button playAll = (Button)header.findViewById(R.id.play_all);	
+		playAll.setText("Play All!");
+		playAll.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+	        	if(adapter == null || adapter.playlist == null)
+	        		return;
+	        	
+	        	Intent i = new Intent(RecSongsActivity.this, PlayPlaylistActivity.class);
+				i.putExtra("songsInfo", adapter.playlist);
+				startActivity(i);
+			}
+		});		
+		
+		getListView().addHeaderView(header);		
 	}
 	
 	private void setLogoFooter() {		

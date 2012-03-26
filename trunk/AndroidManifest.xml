@@ -7,41 +7,17 @@
     <uses-sdk android:minSdkVersion="8" />
 
     <application>
-        <activity
-            android:name=".activity.SongSeekerActivity"
-            android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan" >
+        <activity android:name=".activity.SongSeekerActivity" >
         </activity>
-        <activity
-            android:name=".activity.PlaylistOptionsActivity"
-            android:label="Playlist Options" >
+        <activity android:name=".activity.PlaylistOptionsActivity" >
         </activity>
-        <activity
-            android:name=".activity.RecSongsActivity"
-            android:label="Playlist" >
+        <activity android:name=".activity.RecSongsActivity" >
         </activity>
-        <activity
-            android:name=".activity.CreatePlaylistRdioActivity"
-            android:label="Export to Rdio"
-            android:launchMode="singleInstance" >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="checkin4me"
-                    android:scheme="oauth" />
-            </intent-filter>
+        <activity android:name=".activity.CreatePlaylistRdioActivity" >
         </activity>
-        <activity
-            android:name=".activity.CreatePlaylistLastfmActivity"
-            android:label="Export to Last.fm" >
+        <activity android:name=".activity.CreatePlaylistLastfmActivity" >
         </activity>
-        <activity
-            android:name=".activity.CreatePlaylistYoutubeActivity"
-            android:label="Export to YouTube" >
+        <activity android:name=".activity.CreatePlaylistYoutubeActivity" >
         </activity>
         <activity android:name=".activity.SongInfoActivity" >
         </activity>
@@ -49,44 +25,26 @@
         </activity>
         <activity android:name=".activity.ArtistInfoActivity" >
         </activity>
-        <activity
-            android:name=".activity.ArtistBioActivity"
-            android:label="Artist Biography" >
+        <activity android:name=".activity.ArtistBioActivity" >
         </activity>
-        <activity
-            android:name=".activity.ArtistNewsActivity"
-            android:label="Artist News" >
+        <activity android:name=".activity.ArtistNewsActivity" >
         </activity>
-        <activity
-            android:name=".activity.SimilarArtistsActivity"
-            android:label="Similar Artists" >
+        <activity android:name=".activity.SimilarArtistsActivity" >
         </activity>
-        <activity
-            android:name=".activity.MusicInfoTab"
-            android:theme="@android:style/Theme.NoTitleBar" >
+        <activity android:name=".activity.MusicInfoTab" >
         </activity>
-        <activity
-            android:name=".activity.CreatePlaylistGroovesharkActivity"
-            android:label="Export to Grooveshark" >
+        <activity android:name=".activity.CreatePlaylistGroovesharkActivity" >
         </activity>
-        <activity
-            android:name=".activity.WatchSongVideoActivity"
-            android:label="Watch on YouTube" >
+        <activity android:name=".activity.WatchSongVideoActivity" >
         </activity>
-        <activity
-            android:name=".activity.ProfileActivity"
-            android:label="Profile" >
+        <activity android:name=".activity.ProfileActivity" >
         </activity>
-        <activity
-            android:name=".activity.SettingsActivity"
-            android:label="Settings" >
+        <activity android:name=".activity.SettingsActivity" >
         </activity>
         <activity
             android:name="com.google.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
-        <activity
-            android:name=".activity.AboutActivity"
-            android:label="About" >
+        <activity android:name=".activity.AboutActivity" >
         </activity>
         <activity android:name=".activity.PlayPlaylistActivity" >
         </activity>

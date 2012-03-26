@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -138,4 +140,19 @@ public class Util {
 		
 		return object;
 	}	
+	
+	/** Check if the specified app is installed on the device*/
+    public static boolean isAppInstalled(String uri, Context context){
+    	PackageManager pm = context.getPackageManager();
+    	boolean app_installed = false;
+
+    	try{
+    		pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+    		app_installed = true;
+    	}catch (NameNotFoundException e){
+    		app_installed = false;
+    	}
+
+        return app_installed ;
+    }
 }
