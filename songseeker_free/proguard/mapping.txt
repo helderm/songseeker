@@ -1,9 +1,9 @@
-com.echonest.api.v4.Artist -> com.echonest.api.v4.g:
+com.echonest.api.v4.Artist -> com.echonest.api.v4.k:
     java.lang.String getID() -> a
     java.lang.String getForeignID(java.lang.String) -> a
     com.echonest.api.v4.PagedList getBiographies$9ba29d5(java.lang.String) -> b
     com.echonest.api.v4.PagedList getNews$32782b95(boolean) -> a
-com.echonest.api.v4.ArtistParams -> com.echonest.api.v4.h:
+com.echonest.api.v4.ArtistParams -> com.echonest.api.v4.e:
     java.lang.String SORT_FAMILIARITY -> a
     java.lang.String SORT_HOTTTNESSS -> b
     java.lang.String SORT_START_YEAR -> c
@@ -11,7 +11,7 @@ com.echonest.api.v4.ArtistParams -> com.echonest.api.v4.h:
     void setID(java.lang.String) -> a
     void setLimit$1385ff() -> a
     void addIDSpace(java.lang.String) -> b
-com.echonest.api.v4.Biography -> com.echonest.api.v4.i:
+com.echonest.api.v4.Biography -> com.echonest.api.v4.f:
     java.lang.String getText() -> a
     java.lang.String getURL() -> b
 com.echonest.api.v4.ENItem -> com.echonest.api.v4.l:
@@ -30,7 +30,7 @@ com.echonest.api.v4.ENItem -> com.echonest.api.v4.l:
     java.util.Map getItemMap(java.lang.String,java.lang.String) -> b
     int hashCode() -> hashCode
     boolean equals(java.lang.Object) -> equals
-com.echonest.api.v4.EchoNestAPI -> com.echonest.api.v4.e:
+com.echonest.api.v4.EchoNestAPI -> com.echonest.api.v4.c:
     com.echonest.api.v4.util.Commander cmd -> a
     com.echonest.api.v4.Params stdParams -> b
     com.echonest.api.v4.Artist newArtistByID(java.lang.String) -> a
@@ -45,7 +45,7 @@ com.echonest.api.v4.EchoNestException -> com.echonest.api.v4.EchoNestException:
     java.lang.String message -> message
     int getCode() -> a
     java.lang.String getMessage() -> getMessage
-com.echonest.api.v4.News -> com.echonest.api.v4.k:
+com.echonest.api.v4.News -> com.echonest.api.v4.h:
     java.lang.String getName() -> a
     java.lang.String getURL() -> b
     java.lang.String getSummary() -> c
@@ -54,11 +54,11 @@ com.echonest.api.v4.PagedList -> com.echonest.api.v4.PagedList:
     long serialVersionUID -> serialVersionUID
     int start -> start
     int total -> total
-com.echonest.api.v4.PagedListInfo -> com.echonest.api.v4.c:
+com.echonest.api.v4.PagedListInfo -> com.echonest.api.v4.b:
     int start -> a
     int total -> b
     java.util.List docs -> c
-com.echonest.api.v4.Params -> com.echonest.api.v4.j:
+com.echonest.api.v4.Params -> com.echonest.api.v4.g:
     java.util.Map map -> a
     void add(java.lang.String,java.lang.String) -> a
     void set(java.lang.String,java.lang.String) -> b
@@ -70,7 +70,7 @@ com.echonest.api.v4.Params -> com.echonest.api.v4.j:
     java.lang.String toString(boolean) -> a
     java.lang.String encode(java.lang.String) -> a
     java.lang.String getDelim(java.lang.StringBuilder,boolean) -> a
-com.echonest.api.v4.Playlist -> com.echonest.api.v4.f:
+com.echonest.api.v4.Playlist -> com.echonest.api.v4.d:
     java.util.List songs -> a
     java.lang.String session -> b
     java.util.List getSongs() -> a
@@ -83,21 +83,21 @@ com.echonest.api.v4.PlaylistParams$PlaylistType -> com.echonest.api.v4.PlaylistP
     com.echonest.api.v4.PlaylistParams$PlaylistType[] ENUM$VALUES -> d
     com.echonest.api.v4.PlaylistParams$PlaylistType[] values() -> values
     com.echonest.api.v4.PlaylistParams$PlaylistType valueOf(java.lang.String) -> valueOf
-com.echonest.api.v4.Song -> com.echonest.api.v4.b:
+com.echonest.api.v4.Song -> com.echonest.api.v4.i:
     java.util.Map trackMap -> c
     com.echonest.api.v4.TrackAnalysis analysis -> d
     java.lang.String toString() -> toString
 com.echonest.api.v4.TrackAnalysis -> com.echonest.api.v4.a:
     java.util.Map map -> a
     java.lang.String toString() -> toString
-com.echonest.api.v4.WebDocument -> com.echonest.api.v4.d:
+com.echonest.api.v4.WebDocument -> com.echonest.api.v4.j:
     java.text.SimpleDateFormat ISO8601FORMAT -> a
     java.text.SimpleDateFormat RFC822DATEFORMAT -> b
     java.util.Map map -> c
     java.lang.String type -> d
     java.lang.String getString(java.lang.String) -> a
     java.util.Date getDate(java.lang.String) -> b
-com.echonest.api.v4.util.Commander -> com.echonest.api.v4.a.c:
+com.echonest.api.v4.util.Commander -> com.echonest.api.v4.a.b:
     java.lang.String name -> a
     java.lang.String defaultHost -> b
     java.lang.String host -> c
@@ -123,11 +123,11 @@ com.echonest.api.v4.util.Commander -> com.echonest.api.v4.a.c:
     java.io.InputStream sendCommandRaw$4bdf4991(java.lang.String,boolean) -> a
     void setMinCommandTime$13462e() -> a
     void setStandardParams(com.echonest.api.v4.Params) -> a
-com.echonest.api.v4.util.MQuery -> com.echonest.api.v4.a.b:
+com.echonest.api.v4.util.MQuery -> com.echonest.api.v4.a.d:
     java.util.Map data -> a
     java.lang.Object getObject(java.lang.String) -> a
     java.lang.Integer getInteger(java.lang.String) -> b
-com.echonest.api.v4.util.OpData -> com.echonest.api.v4.a.d:
+com.echonest.api.v4.util.OpData -> com.echonest.api.v4.a.c:
     java.lang.String name -> f
     int count -> a
     int error -> b
@@ -145,7 +145,7 @@ com.echonest.api.v4.util.StatsManager$Tracker -> com.echonest.api.v4.a.e:
     java.lang.String name -> a
     long startTime -> b
     long endTime -> c
-com.google.ads.Ad -> com.google.ads.u:
+com.google.ads.Ad -> com.google.ads.ae:
 com.google.ads.AdActivity -> com.google.ads.AdActivity:
     java.lang.Object a -> a
     com.google.ads.AdActivity b -> b
@@ -177,7 +177,7 @@ com.google.ads.AdActivity -> com.google.ads.AdActivity:
     void a() -> d
     void onWindowFocusChanged(boolean) -> onWindowFocusChanged
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
-com.google.ads.AdListener -> com.google.ads.ah:
+com.google.ads.AdListener -> com.google.ads.al:
 com.google.ads.AdRequest -> com.google.ads.AdRequest:
     com.google.ads.AdRequest$Gender a -> b
     java.lang.String b -> c
@@ -227,8 +227,8 @@ com.google.ads.AdView -> com.google.ads.AdView:
     void a(android.content.Context,java.lang.String,com.google.ads.AdSize,android.util.AttributeSet) -> a
     void a(android.content.Context,android.util.AttributeSet) -> a
     void a(android.app.Activity,com.google.ads.AdSize,java.lang.String) -> a
-com.google.ads.InterstitialAd -> com.google.ads.aj:
-com.google.ads.a -> com.google.ads.v:
+com.google.ads.InterstitialAd -> com.google.ads.am:
+com.google.ads.a -> com.google.ads.af:
     java.util.Map a -> a
     java.util.Map b -> b
     void a(com.google.ads.d,java.util.Map,android.net.Uri,android.webkit.WebView) -> a
@@ -240,12 +240,12 @@ com.google.ads.a -> com.google.ads.v:
     void a(android.webkit.WebView,java.util.Map) -> a
     void a(android.webkit.WebView) -> a
     void b(android.webkit.WebView) -> b
-com.google.ads.aa -> com.google.ads.aa:
+com.google.ads.aa -> com.google.ads.ak:
     boolean a(android.content.Context) -> a
     boolean a(android.content.Intent,android.content.Context) -> a
 com.google.ads.ab -> com.google.ads.ab:
     void a(com.google.ads.d,java.util.HashMap,android.webkit.WebView) -> a
-com.google.ads.ab$a -> com.google.ads.af:
+com.google.ads.ab$a -> com.google.ads.e:
     void onClick(android.content.DialogInterface,int) -> onClick
 com.google.ads.ab$b -> com.google.ads.ab$b:
     com.google.ads.ab$b a -> a
@@ -254,10 +254,10 @@ com.google.ads.ab$b -> com.google.ads.ab$b:
     com.google.ads.ab$b[] d -> d
     com.google.ads.ab$b[] values() -> values
     com.google.ads.ab$b valueOf(java.lang.String) -> valueOf
-com.google.ads.ab$c -> com.google.ads.ag:
+com.google.ads.ab$c -> com.google.ads.f:
     com.google.ads.d a -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.google.ads.b -> com.google.ads.w:
+com.google.ads.b -> com.google.ads.ag:
     com.google.ads.c a -> a
     com.google.ads.d b -> b
     boolean c -> c
@@ -295,7 +295,7 @@ com.google.ads.c -> com.google.ads.c:
     void b() -> a
     void a(int) -> a
     void a(boolean) -> a
-com.google.ads.c$a -> com.google.ads.ad:
+com.google.ads.c$a -> com.google.ads.b:
     com.google.ads.d b -> a
     android.webkit.WebView c -> b
     com.google.ads.b d -> c
@@ -305,7 +305,7 @@ com.google.ads.c$a -> com.google.ads.ad:
     void run() -> run
 com.google.ads.c$b -> com.google.ads.c$b:
     com.google.ads.c a -> a
-com.google.ads.c$c -> com.google.ads.ac:
+com.google.ads.c$c -> com.google.ads.a:
     java.lang.String b -> a
     java.lang.String c -> b
     android.webkit.WebView d -> c
@@ -313,13 +313,13 @@ com.google.ads.c$c -> com.google.ads.ac:
     void run() -> run
 com.google.ads.c$d -> com.google.ads.c$d:
     com.google.ads.c a -> a
-com.google.ads.c$e -> com.google.ads.ae:
+com.google.ads.c$e -> com.google.ads.d:
     com.google.ads.d b -> a
     java.util.LinkedList c -> b
     int d -> c
     com.google.ads.c a -> d
     void run() -> run
-com.google.ads.d -> com.google.ads.x:
+com.google.ads.d -> com.google.ads.ah:
     java.lang.Object a -> a
     java.lang.ref.WeakReference b -> b
     com.google.ads.Ad c -> c
@@ -375,13 +375,13 @@ com.google.ads.d -> com.google.ads.x:
     void a(long) -> a
     void a(float) -> a
     void b(long) -> b
-com.google.ads.e -> com.google.ads.y:
+com.google.ads.e -> com.google.ads.ai:
     java.lang.String a -> a
     java.util.HashMap b -> b
     android.os.Bundle a() -> a
     java.lang.String b() -> b
     java.util.HashMap c() -> c
-com.google.ads.f -> com.google.ads.z:
+com.google.ads.f -> com.google.ads.aj:
     java.util.LinkedList b -> a
     long c -> b
     long d -> c
@@ -409,7 +409,7 @@ com.google.ads.f -> com.google.ads.z:
     void o() -> o
     java.lang.String p() -> p
     void b(java.lang.String) -> b
-com.google.ads.g -> com.google.ads.p:
+com.google.ads.g -> com.google.ads.y:
     java.lang.ref.WeakReference b -> a
     com.google.ads.h c -> b
     android.widget.MediaController a -> c
@@ -428,12 +428,12 @@ com.google.ads.g -> com.google.ads.p:
     void a(android.view.MotionEvent) -> a
     void d() -> d
     void e() -> e
-com.google.ads.g$a -> com.google.ads.ai:
+com.google.ads.g$a -> com.google.ads.g:
     java.lang.ref.WeakReference a -> a
     android.os.Handler b -> b
     void run() -> run
     void a() -> a
-com.google.ads.h -> com.google.ads.o:
+com.google.ads.h -> com.google.ads.x:
     java.lang.ref.WeakReference a -> a
     com.google.ads.AdSize b -> b
     com.google.ads.AdActivity b() -> a
@@ -443,7 +443,7 @@ com.google.ads.h -> com.google.ads.o:
     void stopLoading() -> stopLoading
     void destroy() -> destroy
     void onMeasure(int,int) -> onMeasure
-com.google.ads.i -> com.google.ads.n:
+com.google.ads.i -> com.google.ads.w:
     com.google.ads.d a -> a
     java.util.Map b -> b
     boolean c -> c
@@ -455,23 +455,23 @@ com.google.ads.i -> com.google.ads.n:
     void a() -> a
     void b() -> b
     void c() -> c
-com.google.ads.j -> com.google.ads.m:
+com.google.ads.j -> com.google.ads.v:
     void a(com.google.ads.d,java.util.HashMap,android.webkit.WebView) -> a
-com.google.ads.k -> com.google.ads.l:
+com.google.ads.k -> com.google.ads.u:
     void a(com.google.ads.d,java.util.HashMap,android.webkit.WebView) -> a
-com.google.ads.l -> com.google.ads.k:
+com.google.ads.l -> com.google.ads.t:
     void a(com.google.ads.d,java.util.HashMap,android.webkit.WebView) -> a
-com.google.ads.m -> com.google.ads.j:
+com.google.ads.m -> com.google.ads.s:
     void a(com.google.ads.d,java.util.HashMap,android.webkit.WebView) -> a
-com.google.ads.n -> com.google.ads.i:
+com.google.ads.n -> com.google.ads.r:
     void a(com.google.ads.d,java.util.HashMap,android.webkit.WebView) -> a
-com.google.ads.o -> com.google.ads.h:
+com.google.ads.o -> com.google.ads.q:
     void a(com.google.ads.d,java.util.HashMap,android.webkit.WebView) -> a
-com.google.ads.p -> com.google.ads.g:
+com.google.ads.p -> com.google.ads.p:
     void a(com.google.ads.d,java.util.HashMap,android.webkit.WebView) -> a
-com.google.ads.q -> com.google.ads.f:
+com.google.ads.q -> com.google.ads.o:
     void a(com.google.ads.d,java.util.HashMap,android.webkit.WebView) -> a
-com.google.ads.s -> com.google.ads.e:
+com.google.ads.s -> com.google.ads.n:
     void a(com.google.ads.d,java.util.HashMap,android.webkit.WebView) -> a
 com.google.ads.searchads.SearchAdRequest -> com.google.ads.searchads.SearchAdRequest:
     java.lang.String a -> b
@@ -497,9 +497,9 @@ com.google.ads.searchads.SearchAdRequest$BorderType -> com.google.ads.searchads.
     com.google.ads.searchads.SearchAdRequest$BorderType[] values() -> values
     com.google.ads.searchads.SearchAdRequest$BorderType valueOf(java.lang.String) -> valueOf
     java.lang.String toString() -> toString
-com.google.ads.t -> com.google.ads.d:
+com.google.ads.t -> com.google.ads.m:
     void a(com.google.ads.d,java.util.HashMap,android.webkit.WebView) -> a
-com.google.ads.u -> com.google.ads.b:
+com.google.ads.u -> com.google.ads.l:
     void a(com.google.ads.d,java.util.HashMap,android.webkit.WebView) -> a
 com.google.ads.util.AdUtil -> com.google.ads.util.AdUtil:
     int a -> a
@@ -583,49 +583,49 @@ com.google.ads.util.c -> com.google.ads.util.e:
     int a(android.content.Context,android.util.DisplayMetrics) -> a
     int b(android.content.Context,android.util.DisplayMetrics) -> b
     int a(android.content.Context,float,int) -> a
-com.google.ads.v -> com.google.ads.a:
+com.google.ads.v -> com.google.ads.k:
     int a(java.util.HashMap,java.lang.String,int,android.util.DisplayMetrics) -> a
     void a(com.google.ads.d,java.util.HashMap,android.webkit.WebView) -> a
-com.google.ads.w -> com.google.ads.s:
+com.google.ads.w -> com.google.ads.ac:
     android.content.Context a -> a
     java.lang.String b -> b
     void run() -> run
-com.google.ads.x -> com.google.ads.t:
+com.google.ads.x -> com.google.ads.ad:
     java.lang.ref.WeakReference a -> a
     void run() -> run
-com.google.ads.y -> com.google.ads.q:
+com.google.ads.y -> com.google.ads.z:
     android.net.Uri a -> a
     android.net.Uri b -> b
     java.lang.String[] c -> c
     java.lang.String[] d -> d
-com.google.ads.z -> com.google.ads.r:
+com.google.ads.z -> com.google.ads.aa:
     void a(android.webkit.WebView,boolean) -> a
-com.google.ads.z$a -> com.google.ads.ak:
+com.google.ads.z$a -> com.google.ads.h:
     java.lang.ref.WeakReference a -> a
     void run() -> run
-com.google.ads.z$b -> com.google.ads.al:
+com.google.ads.z$b -> com.google.ads.i:
     java.lang.ref.WeakReference a -> a
     android.webkit.WebView b -> b
     java.lang.String c -> c
     void run() -> run
-com.google.ads.z$c -> com.google.ads.am:
+com.google.ads.z$c -> com.google.ads.j:
     boolean a -> a
     android.webkit.WebView b -> b
     void run() -> run
 com.google.android.apps.analytics.AdHitIdGenerator -> com.google.android.apps.analytics.b:
     boolean adMobSdkInstalled -> a
     int getAdHitId() -> a
-com.google.android.apps.analytics.AdMobInfo -> com.google.android.apps.analytics.e:
+com.google.android.apps.analytics.AdMobInfo -> com.google.android.apps.analytics.d:
     com.google.android.apps.analytics.AdMobInfo INSTANCE -> a
     int adHitId -> b
     java.util.Random random -> c
     com.google.android.apps.analytics.AdMobInfo getInstance() -> a
     int generateAdHitId() -> b
-com.google.android.apps.analytics.AnalyticsParameterEncoder -> com.google.android.apps.analytics.d:
+com.google.android.apps.analytics.AnalyticsParameterEncoder -> com.google.android.apps.analytics.c:
     java.lang.String encode(java.lang.String,java.lang.String) -> a
 com.google.android.apps.analytics.AnalyticsReceiver -> com.google.android.apps.analytics.AnalyticsReceiver:
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.google.android.apps.analytics.CustomVariable -> com.google.android.apps.analytics.s:
+com.google.android.apps.analytics.CustomVariable -> com.google.android.apps.analytics.j:
     int scope -> a
     java.lang.String name -> b
     java.lang.String value -> c
@@ -634,7 +634,7 @@ com.google.android.apps.analytics.CustomVariable -> com.google.android.apps.anal
     java.lang.String getName() -> b
     java.lang.String getValue() -> c
     int getIndex() -> d
-com.google.android.apps.analytics.CustomVariableBuffer -> com.google.android.apps.analytics.v:
+com.google.android.apps.analytics.CustomVariableBuffer -> com.google.android.apps.analytics.k:
     com.google.android.apps.analytics.CustomVariable[] customVariables -> a
     boolean isIndexAvailable(int) -> a
     void setCustomVariable(com.google.android.apps.analytics.CustomVariable) -> a
@@ -695,7 +695,7 @@ com.google.android.apps.analytics.Event -> com.google.android.apps.analytics.x:
     com.google.android.apps.analytics.Item getItem() -> k
     void setItem(com.google.android.apps.analytics.Item) -> a
     boolean isSessionInitialized() -> l
-com.google.android.apps.analytics.GoogleAnalyticsTracker -> com.google.android.apps.analytics.c:
+com.google.android.apps.analytics.GoogleAnalyticsTracker -> com.google.android.apps.analytics.l:
     com.google.android.apps.analytics.GoogleAnalyticsTracker instance -> a
     boolean debug -> b
     boolean dryRun -> c
@@ -734,20 +734,20 @@ com.google.android.apps.analytics.GoogleAnalyticsTracker -> com.google.android.a
     void setDryRun(boolean) -> c
     android.os.Handler access$000(com.google.android.apps.analytics.GoogleAnalyticsTracker) -> a
     com.google.android.apps.analytics.HitStore access$100(com.google.android.apps.analytics.GoogleAnalyticsTracker) -> b
-com.google.android.apps.analytics.GoogleAnalyticsTracker$1 -> com.google.android.apps.analytics.g:
+com.google.android.apps.analytics.GoogleAnalyticsTracker$1 -> com.google.android.apps.analytics.n:
     com.google.android.apps.analytics.GoogleAnalyticsTracker this$0 -> a
     void run() -> run
-com.google.android.apps.analytics.GoogleAnalyticsTracker$DispatcherCallbacks -> com.google.android.apps.analytics.k:
+com.google.android.apps.analytics.GoogleAnalyticsTracker$DispatcherCallbacks -> com.google.android.apps.analytics.e:
     com.google.android.apps.analytics.GoogleAnalyticsTracker this$0 -> a
     void dispatchFinished() -> a
     void hitDispatched(long) -> a
-com.google.android.apps.analytics.GoogleAnalyticsTracker$DispatcherCallbacks$1 -> com.google.android.apps.analytics.i:
+com.google.android.apps.analytics.GoogleAnalyticsTracker$DispatcherCallbacks$1 -> com.google.android.apps.analytics.p:
     com.google.android.apps.analytics.GoogleAnalyticsTracker$DispatcherCallbacks this$1 -> a
     void run() -> run
-com.google.android.apps.analytics.Hit -> com.google.android.apps.analytics.j:
+com.google.android.apps.analytics.Hit -> com.google.android.apps.analytics.q:
     java.lang.String hitString -> a
     long hitId -> b
-com.google.android.apps.analytics.HitBuilder -> com.google.android.apps.analytics.r:
+com.google.android.apps.analytics.HitBuilder -> com.google.android.apps.analytics.i:
     void appendStringValue(java.lang.StringBuilder,java.lang.String,java.lang.String) -> a
     void appendCurrencyValue(java.lang.StringBuilder,java.lang.String,double) -> a
     java.lang.String constructHitRequestPath(com.google.android.apps.analytics.Event,com.google.android.apps.analytics.Referrer) -> a
@@ -755,7 +755,7 @@ com.google.android.apps.analytics.HitBuilder -> com.google.android.apps.analytic
     void createX10Project(com.google.android.apps.analytics.CustomVariable[],java.lang.StringBuilder,int) -> a
     java.lang.String x10Escape(java.lang.String) -> a
     java.lang.String getEscapedCookieString(com.google.android.apps.analytics.Event,com.google.android.apps.analytics.Referrer) -> b
-com.google.android.apps.analytics.HitStore -> com.google.android.apps.analytics.u:
+com.google.android.apps.analytics.HitStore -> com.google.android.apps.analytics.v:
     void putEvent(com.google.android.apps.analytics.Event) -> a
     com.google.android.apps.analytics.Hit[] peekHits() -> a
     void deleteHit(long) -> a
@@ -777,7 +777,7 @@ com.google.android.apps.analytics.Item -> com.google.android.apps.analytics.w:
     java.lang.String getItemCategory() -> d
     double getItemPrice() -> e
     long getItemCount() -> f
-com.google.android.apps.analytics.Item$Builder -> com.google.android.apps.analytics.p:
+com.google.android.apps.analytics.Item$Builder -> com.google.android.apps.analytics.s:
     java.lang.String orderId -> a
     java.lang.String itemSKU -> b
     double itemPrice -> c
@@ -792,7 +792,7 @@ com.google.android.apps.analytics.Item$Builder -> com.google.android.apps.analyt
     long access$300(com.google.android.apps.analytics.Item$Builder) -> d
     java.lang.String access$400(com.google.android.apps.analytics.Item$Builder) -> e
     java.lang.String access$500(com.google.android.apps.analytics.Item$Builder) -> f
-com.google.android.apps.analytics.NetworkDispatcher -> com.google.android.apps.analytics.t:
+com.google.android.apps.analytics.NetworkDispatcher -> com.google.android.apps.analytics.u:
     java.lang.String userAgent -> a
     org.apache.http.HttpHost googleAnalyticsHost -> b
     com.google.android.apps.analytics.NetworkDispatcher$DispatcherThread dispatcherThread -> c
@@ -802,7 +802,7 @@ com.google.android.apps.analytics.NetworkDispatcher -> com.google.android.apps.a
     void setDryRun(boolean) -> a
     boolean isDryRun() -> a
     org.apache.http.HttpHost access$200(com.google.android.apps.analytics.NetworkDispatcher) -> a
-com.google.android.apps.analytics.NetworkDispatcher$DispatcherThread -> com.google.android.apps.analytics.o:
+com.google.android.apps.analytics.NetworkDispatcher$DispatcherThread -> com.google.android.apps.analytics.h:
     android.os.Handler handlerExecuteOnDispatcherThread -> a
     com.google.android.apps.analytics.PipelinedRequester pipelinedRequester -> b
     java.lang.String userAgent -> c
@@ -828,7 +828,7 @@ com.google.android.apps.analytics.NetworkDispatcher$DispatcherThread -> com.goog
     int access$1002$78cf9110(com.google.android.apps.analytics.NetworkDispatcher$DispatcherThread) -> k
     com.google.android.apps.analytics.NetworkDispatcher$DispatcherThread$AsyncDispatchTask access$400(com.google.android.apps.analytics.NetworkDispatcher$DispatcherThread) -> l
     int access$502(com.google.android.apps.analytics.NetworkDispatcher$DispatcherThread,int) -> a
-com.google.android.apps.analytics.NetworkDispatcher$DispatcherThread$AsyncDispatchTask -> com.google.android.apps.analytics.m:
+com.google.android.apps.analytics.NetworkDispatcher$DispatcherThread$AsyncDispatchTask -> com.google.android.apps.analytics.f:
     java.util.LinkedList hits -> a
     com.google.android.apps.analytics.NetworkDispatcher$DispatcherThread this$0 -> b
     void run() -> run
@@ -838,7 +838,7 @@ com.google.android.apps.analytics.NetworkDispatcher$DispatcherThread$RequesterCa
     void pipelineModeChanged$1385ff() -> a
     void requestSent() -> b
     void serverError(int) -> a
-com.google.android.apps.analytics.PersistentHitStore -> com.google.android.apps.analytics.n:
+com.google.android.apps.analytics.PersistentHitStore -> com.google.android.apps.analytics.g:
     com.google.android.apps.analytics.PersistentHitStore$DataBaseHelper databaseHelper -> a
     int storeId -> b
     long timestampFirst -> c
@@ -892,7 +892,7 @@ com.google.android.apps.analytics.PersistentHitStore -> com.google.android.apps.
     com.google.android.apps.analytics.CustomVariableBuffer access$702(com.google.android.apps.analytics.PersistentHitStore,com.google.android.apps.analytics.CustomVariableBuffer) -> a
     void access$800$6548677(com.google.android.apps.analytics.PersistentHitStore,com.google.android.apps.analytics.Event,android.database.sqlite.SQLiteDatabase) -> a
     boolean access$900(android.database.sqlite.SQLiteDatabase) -> c
-com.google.android.apps.analytics.PersistentHitStore$DataBaseHelper -> com.google.android.apps.analytics.h:
+com.google.android.apps.analytics.PersistentHitStore$DataBaseHelper -> com.google.android.apps.analytics.o:
     int databaseVersion -> a
     com.google.android.apps.analytics.PersistentHitStore store -> b
     void onCreate(android.database.sqlite.SQLiteDatabase) -> onCreate
@@ -903,7 +903,7 @@ com.google.android.apps.analytics.PersistentHitStore$DataBaseHelper -> com.googl
     void migrateEventsToHits(android.database.sqlite.SQLiteDatabase,int) -> a
     void createReferrerTable(android.database.sqlite.SQLiteDatabase) -> d
     void onUpgrade(android.database.sqlite.SQLiteDatabase,int,int) -> onUpgrade
-com.google.android.apps.analytics.PipelinedRequester -> com.google.android.apps.analytics.f:
+com.google.android.apps.analytics.PipelinedRequester -> com.google.android.apps.analytics.m:
     org.apache.http.impl.DefaultHttpClientConnection connection -> b
     com.google.android.apps.analytics.PipelinedRequester$Callbacks callbacks -> a
     int lastStatusCode -> c
@@ -918,7 +918,7 @@ com.google.android.apps.analytics.PipelinedRequester$Callbacks -> com.google.and
     void pipelineModeChanged$1385ff() -> a
     void serverError(int) -> a
     void requestSent() -> b
-com.google.android.apps.analytics.Referrer -> com.google.android.apps.analytics.q:
+com.google.android.apps.analytics.Referrer -> com.google.android.apps.analytics.t:
     java.lang.String referrer -> a
     long timeStamp -> b
     int visit -> c
@@ -927,7 +927,7 @@ com.google.android.apps.analytics.Referrer -> com.google.android.apps.analytics.
     long getTimeStamp() -> b
     int getVisit() -> c
     int getIndex() -> d
-com.google.android.apps.analytics.Transaction -> com.google.android.apps.analytics.l:
+com.google.android.apps.analytics.Transaction -> com.google.android.apps.analytics.r:
     java.lang.String orderId -> a
     java.lang.String storeName -> b
     double totalCost -> c
@@ -954,7 +954,7 @@ com.google.android.apps.analytics.Transaction$Builder -> com.google.android.apps
     double access$400(com.google.android.apps.analytics.Transaction$Builder) -> e
 com.google.android.apps.analytics.Utils -> com.google.android.apps.analytics.y:
     java.lang.String addQueueTimeParameter(java.lang.String,long) -> a
-com.google.android.apps.analytics.easytracking.EasyTracker -> com.google.android.apps.analytics.easytracking.g:
+com.google.android.apps.analytics.easytracking.EasyTracker -> com.google.android.apps.analytics.easytracking.e:
     com.google.android.apps.analytics.easytracking.EasyTracker instance -> a
     boolean gaEnabled -> b
     java.lang.String gaAccountId -> c
@@ -992,22 +992,22 @@ com.google.android.apps.analytics.easytracking.EasyTracker -> com.google.android
     boolean access$900(com.google.android.apps.analytics.easytracking.EasyTracker) -> j
     java.lang.String access$1000(com.google.android.apps.analytics.easytracking.EasyTracker,android.app.Activity) -> a
     java.util.concurrent.LinkedBlockingQueue access$1100(com.google.android.apps.analytics.easytracking.EasyTracker) -> k
-com.google.android.apps.analytics.easytracking.EasyTracker$1 -> com.google.android.apps.analytics.easytracking.c:
+com.google.android.apps.analytics.easytracking.EasyTracker$1 -> com.google.android.apps.analytics.easytracking.b:
     com.google.android.apps.analytics.easytracking.EasyTracker this$0 -> a
     void run() -> run
-com.google.android.apps.analytics.easytracking.EasyTracker$2 -> com.google.android.apps.analytics.easytracking.d:
+com.google.android.apps.analytics.easytracking.EasyTracker$2 -> com.google.android.apps.analytics.easytracking.c:
     boolean val$startASession -> a
     android.app.Activity val$activity -> b
     com.google.android.apps.analytics.easytracking.EasyTracker this$0 -> c
     void run() -> run
-com.google.android.apps.analytics.easytracking.EasyTracker$3 -> com.google.android.apps.analytics.easytracking.e:
+com.google.android.apps.analytics.easytracking.EasyTracker$3 -> com.google.android.apps.analytics.easytracking.d:
     boolean val$sendEvent -> a
     com.google.android.apps.analytics.easytracking.EasyTracker this$0 -> b
     void run() -> run
-com.google.android.apps.analytics.easytracking.EasyTracker$TrackerThread -> com.google.android.apps.analytics.easytracking.f:
+com.google.android.apps.analytics.easytracking.EasyTracker$TrackerThread -> com.google.android.apps.analytics.easytracking.g:
     com.google.android.apps.analytics.easytracking.EasyTracker this$0 -> a
     void run() -> run
-com.google.android.apps.analytics.easytracking.GoogleAnalyticsTrackerDelegate -> com.google.android.apps.analytics.easytracking.b:
+com.google.android.apps.analytics.easytracking.GoogleAnalyticsTrackerDelegate -> com.google.android.apps.analytics.easytracking.f:
     void startNewSession(java.lang.String,int,android.content.Context) -> a
     void trackEvent$78a4d1d0(java.lang.String,java.lang.String,java.lang.String) -> a
     void trackPageView(java.lang.String) -> a
@@ -1079,15 +1079,15 @@ com.google.api.client.http.HttpMethod -> com.google.api.client.http.HttpMethod:
     com.google.api.client.http.HttpMethod[] $VALUES -> g
     com.google.api.client.http.HttpMethod[] values() -> values
     com.google.api.client.http.HttpMethod valueOf(java.lang.String) -> valueOf
-com.google.api.client.http.HttpResponse -> com.google.api.client.http.a:
+com.google.api.client.http.HttpResponse -> com.google.api.client.http.b:
     int statusCode -> a
 com.google.api.client.http.HttpResponseException -> com.google.api.client.http.HttpResponseException:
     long serialVersionUID -> serialVersionUID
     com.google.api.client.http.HttpResponse response -> response
-com.google.api.client.http.HttpTransport -> com.google.api.client.http.b:
+com.google.api.client.http.HttpTransport -> com.google.api.client.http.a:
     java.util.logging.Logger LOGGER -> a
 com.google.api.client.json.JsonFactory -> com.google.api.client.b.a:
-com.google.gdata.util.common.base.PercentEscaper -> com.google.a.a.a.a.b:
+com.google.gdata.util.common.base.PercentEscaper -> com.google.a.a.a.a.c:
     char[] URI_ESCAPED_SPACE -> a
     char[] UPPER_HEX_DIGITS -> b
     boolean plusForSpace -> c
@@ -1096,7 +1096,7 @@ com.google.gdata.util.common.base.PercentEscaper -> com.google.a.a.a.a.b:
     int nextEscapeIndex(java.lang.CharSequence,int,int) -> a
     java.lang.String escape(java.lang.String) -> a
     char[] escape(int) -> a
-com.google.gdata.util.common.base.UnicodeEscaper -> com.google.a.a.a.a.a:
+com.google.gdata.util.common.base.UnicodeEscaper -> com.google.a.a.a.a.b:
     java.lang.ThreadLocal DEST_TL -> a
     char[] escape(int) -> a
     int nextEscapeIndex(java.lang.CharSequence,int,int) -> a
@@ -1104,7 +1104,7 @@ com.google.gdata.util.common.base.UnicodeEscaper -> com.google.a.a.a.a.a:
     java.lang.String escapeSlow(java.lang.String,int) -> a
     int codePointAt(java.lang.CharSequence,int,int) -> b
     char[] growBuffer(char[],int,int) -> a
-com.google.gdata.util.common.base.UnicodeEscaper$2 -> com.google.a.a.a.a.c:
+com.google.gdata.util.common.base.UnicodeEscaper$2 -> com.google.a.a.a.a.a:
     java.lang.Object initialValue() -> initialValue
 com.seekermob.songseeker.R -> com.seekermob.songseeker.a:
 com.seekermob.songseeker.R$drawable -> com.seekermob.songseeker.b:
@@ -1117,7 +1117,7 @@ com.seekermob.songseeker.R$drawable -> com.seekermob.songseeker.b:
     int ic_tab_albums -> g
     int ic_tab_artists -> h
     int ic_tab_songs -> i
-com.seekermob.songseeker.R$id -> com.seekermob.songseeker.d:
+com.seekermob.songseeker.R$id -> com.seekermob.songseeker.e:
     int about -> a
     int androidicons_logo -> b
     int artistinfo_add -> c
@@ -1159,7 +1159,7 @@ com.seekermob.songseeker.R$id -> com.seekermob.songseeker.d:
     int no_but -> M
     int pl_name_input -> N
     int pl_options -> O
-    int play -> P
+    int play_all -> P
     int playpause -> Q
     int profile_add -> R
     int profile_import -> S
@@ -1208,25 +1208,26 @@ com.seekermob.songseeker.R$layout -> com.seekermob.songseeker.c:
     int artist_info -> b
     int artist_news -> c
     int artist_row -> d
-    int link_text -> e
-    int list_row -> f
-    int listview -> g
-    int logo -> h
-    int main -> i
-    int new_playlist_diag -> j
-    int playlist_options -> k
-    int profile -> l
-    int rate_app -> m
-    int release_info -> n
-    int settings -> o
-    int song_info -> p
-    int user_auth_diag -> q
-com.seekermob.songseeker.R$menu -> com.seekermob.songseeker.e:
+    int btn_single_row -> e
+    int link_text -> f
+    int list_row -> g
+    int listview -> h
+    int logo -> i
+    int main -> j
+    int new_playlist_diag -> k
+    int playlist_options -> l
+    int profile -> m
+    int rate_app -> n
+    int release_info -> o
+    int settings -> p
+    int song_info -> q
+    int user_auth_diag -> r
+com.seekermob.songseeker.R$menu -> com.seekermob.songseeker.f:
     int main_menu -> a
     int profile_contextmenu -> b
     int recsong_contextmenu -> c
     int recsongs_menu -> d
-com.seekermob.songseeker.R$string -> com.seekermob.songseeker.f:
+com.seekermob.songseeker.R$string -> com.seekermob.songseeker.d:
     int artist_name_str -> a
     int danceability_str -> b
     int energy_str -> c
@@ -1241,28 +1242,28 @@ com.seekermob.songseeker.R$string -> com.seekermob.songseeker.f:
     int variety_str -> l
 com.seekermob.songseeker.activity.AboutActivity -> com.seekermob.songseeker.activity.AboutActivity:
     void onCreate(android.os.Bundle) -> onCreate
-com.seekermob.songseeker.activity.AboutActivity$1 -> com.seekermob.songseeker.activity.cd:
+com.seekermob.songseeker.activity.AboutActivity$1 -> com.seekermob.songseeker.activity.av:
     com.seekermob.songseeker.activity.AboutActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.AboutActivity$2 -> com.seekermob.songseeker.activity.cb:
+com.seekermob.songseeker.activity.AboutActivity$2 -> com.seekermob.songseeker.activity.au:
     com.seekermob.songseeker.activity.AboutActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.AboutActivity$3 -> com.seekermob.songseeker.activity.ca:
+com.seekermob.songseeker.activity.AboutActivity$3 -> com.seekermob.songseeker.activity.at:
     com.seekermob.songseeker.activity.AboutActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.AboutActivity$4 -> com.seekermob.songseeker.activity.bz:
+com.seekermob.songseeker.activity.AboutActivity$4 -> com.seekermob.songseeker.activity.as:
     com.seekermob.songseeker.activity.AboutActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.AboutActivity$5 -> com.seekermob.songseeker.activity.bc:
+com.seekermob.songseeker.activity.AboutActivity$5 -> com.seekermob.songseeker.activity.af:
     com.seekermob.songseeker.activity.AboutActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.AboutActivity$6 -> com.seekermob.songseeker.activity.bd:
+com.seekermob.songseeker.activity.AboutActivity$6 -> com.seekermob.songseeker.activity.ag:
     com.seekermob.songseeker.activity.AboutActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.AboutActivity$7 -> com.seekermob.songseeker.activity.be:
+com.seekermob.songseeker.activity.AboutActivity$7 -> com.seekermob.songseeker.activity.ah:
     com.seekermob.songseeker.activity.AboutActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.AboutActivity$8 -> com.seekermob.songseeker.activity.bf:
+com.seekermob.songseeker.activity.AboutActivity$8 -> com.seekermob.songseeker.activity.ai:
     com.seekermob.songseeker.activity.AboutActivity this$0 -> a
     void onClick(android.view.View) -> onClick
 com.seekermob.songseeker.activity.ArtistBioActivity -> com.seekermob.songseeker.activity.ArtistBioActivity:
@@ -1270,7 +1271,7 @@ com.seekermob.songseeker.activity.ArtistBioActivity -> com.seekermob.songseeker.
     void onCreate(android.os.Bundle) -> onCreate
     android.app.Dialog onCreateDialog(int) -> onCreateDialog
     java.lang.Object onRetainNonConfigurationInstance() -> onRetainNonConfigurationInstance
-com.seekermob.songseeker.activity.ArtistBioActivity$GetArtistBio -> com.seekermob.songseeker.activity.ap:
+com.seekermob.songseeker.activity.ArtistBioActivity$GetArtistBio -> com.seekermob.songseeker.activity.bx:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.ArtistBioActivity this$0 -> b
     void onPreExecute() -> onPreExecute
@@ -1291,25 +1292,25 @@ com.seekermob.songseeker.activity.ArtistInfoActivity -> com.seekermob.songseeker
     void access$1(com.seekermob.songseeker.activity.ArtistInfoActivity,com.seekermob.songseeker.data.ArtistInfo) -> a
     com.seekermob.songseeker.activity.ArtistInfoActivity$ArtistReleasesAdapter access$2(com.seekermob.songseeker.activity.ArtistInfoActivity) -> b
     void access$3(com.seekermob.songseeker.activity.ArtistInfoActivity) -> c
-com.seekermob.songseeker.activity.ArtistInfoActivity$1 -> com.seekermob.songseeker.activity.o:
+com.seekermob.songseeker.activity.ArtistInfoActivity$1 -> com.seekermob.songseeker.activity.bq:
     com.seekermob.songseeker.activity.ArtistInfoActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.ArtistInfoActivity$2 -> com.seekermob.songseeker.activity.n:
+com.seekermob.songseeker.activity.ArtistInfoActivity$2 -> com.seekermob.songseeker.activity.bp:
     com.seekermob.songseeker.activity.ArtistInfoActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.ArtistInfoActivity$3 -> com.seekermob.songseeker.activity.h:
+com.seekermob.songseeker.activity.ArtistInfoActivity$3 -> com.seekermob.songseeker.activity.bk:
     com.seekermob.songseeker.activity.ArtistInfoActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.ArtistInfoActivity$4 -> com.seekermob.songseeker.activity.i:
+com.seekermob.songseeker.activity.ArtistInfoActivity$4 -> com.seekermob.songseeker.activity.bl:
     com.seekermob.songseeker.activity.ArtistInfoActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.ArtistInfoActivity$5 -> com.seekermob.songseeker.activity.f:
+com.seekermob.songseeker.activity.ArtistInfoActivity$5 -> com.seekermob.songseeker.activity.bi:
     com.seekermob.songseeker.activity.ArtistInfoActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.ArtistInfoActivity$6 -> com.seekermob.songseeker.activity.g:
+com.seekermob.songseeker.activity.ArtistInfoActivity$6 -> com.seekermob.songseeker.activity.bj:
     com.seekermob.songseeker.activity.ArtistInfoActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.ArtistInfoActivity$7 -> com.seekermob.songseeker.activity.j:
+com.seekermob.songseeker.activity.ArtistInfoActivity$7 -> com.seekermob.songseeker.activity.bm:
     com.seekermob.songseeker.activity.ArtistInfoActivity this$0 -> a
     void onClick(android.view.View) -> onClick
 com.seekermob.songseeker.activity.ArtistInfoActivity$ArtistReleasesAdapter -> com.seekermob.songseeker.activity.c:
@@ -1328,14 +1329,14 @@ com.seekermob.songseeker.activity.ArtistInfoActivity$ArtistReleasesAdapter$ViewH
     android.widget.TextView botText -> b
     android.widget.ImageView coverArt -> c
     com.seekermob.songseeker.activity.ArtistInfoActivity$ArtistReleasesAdapter this$1 -> d
-com.seekermob.songseeker.activity.ArtistInfoActivity$GetArtistDetails -> com.seekermob.songseeker.activity.cv:
+com.seekermob.songseeker.activity.ArtistInfoActivity$GetArtistDetails -> com.seekermob.songseeker.activity.bf:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.ArtistInfoActivity this$0 -> b
     void onPreExecute() -> onPreExecute
     java.lang.Void doInBackground(java.util.ArrayList[]) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.activity.ArtistInfoActivity$SavedInfo -> com.seekermob.songseeker.activity.cq:
+com.seekermob.songseeker.activity.ArtistInfoActivity$SavedInfo -> com.seekermob.songseeker.activity.bc:
     java.lang.String imageUrl -> a
     java.util.ArrayList releases -> b
     com.seekermob.songseeker.activity.ArtistInfoActivity this$0 -> c
@@ -1346,10 +1347,10 @@ com.seekermob.songseeker.activity.ArtistNewsActivity -> com.seekermob.songseeker
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
     java.lang.Object onRetainNonConfigurationInstance() -> onRetainNonConfigurationInstance
     com.seekermob.songseeker.activity.ArtistNewsActivity$ArtistNewsAdapter access$0(com.seekermob.songseeker.activity.ArtistNewsActivity) -> a
-com.seekermob.songseeker.activity.ArtistNewsActivity$1 -> com.seekermob.songseeker.activity.by:
+com.seekermob.songseeker.activity.ArtistNewsActivity$1 -> com.seekermob.songseeker.activity.co:
     com.seekermob.songseeker.activity.ArtistNewsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.ArtistNewsActivity$ArtistNewsAdapter -> com.seekermob.songseeker.activity.cp:
+com.seekermob.songseeker.activity.ArtistNewsActivity$ArtistNewsAdapter -> com.seekermob.songseeker.activity.cw:
     java.util.ArrayList news -> a
     android.view.LayoutInflater inflater -> b
     com.seekermob.songseeker.activity.ArtistNewsActivity this$0 -> c
@@ -1359,12 +1360,12 @@ com.seekermob.songseeker.activity.ArtistNewsActivity$ArtistNewsAdapter -> com.se
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     void setArtistNews(java.util.ArrayList) -> a
     java.lang.Object getItem(int) -> getItem
-com.seekermob.songseeker.activity.ArtistNewsActivity$ArtistNewsAdapter$ViewHolder -> com.seekermob.songseeker.activity.cz:
+com.seekermob.songseeker.activity.ArtistNewsActivity$ArtistNewsAdapter$ViewHolder -> com.seekermob.songseeker.activity.da:
     android.widget.TextView firstLine -> a
     android.widget.TextView secondLine -> b
     android.widget.TextView thirdLine -> c
     com.seekermob.songseeker.activity.ArtistNewsActivity$ArtistNewsAdapter this$1 -> d
-com.seekermob.songseeker.activity.ArtistNewsActivity$GetArtistNews -> com.seekermob.songseeker.activity.bu:
+com.seekermob.songseeker.activity.ArtistNewsActivity$GetArtistNews -> com.seekermob.songseeker.activity.ap:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.ArtistNewsActivity this$0 -> b
     void onPreExecute() -> onPreExecute
@@ -1390,7 +1391,7 @@ com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$1 -> com.see
 com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$2 -> com.seekermob.songseeker.activity.b:
     com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$CreatePlaylistTask -> com.seekermob.songseeker.activity.k:
+com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$CreatePlaylistTask -> com.seekermob.songseeker.activity.f:
     java.lang.String err -> a
     java.util.List songs -> b
     com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity this$0 -> c
@@ -1399,14 +1400,14 @@ com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$CreatePlayli
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
-com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$GetUserPlaylistsTask -> com.seekermob.songseeker.activity.ah:
+com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$GetUserPlaylistsTask -> com.seekermob.songseeker.activity.bv:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity this$0 -> b
     void onPreExecute() -> onPreExecute
     com.seekermob.songseeker.data.UserPlaylistsData doInBackground$35107aaa() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$PlaylistsAdapter -> com.seekermob.songseeker.activity.bp:
+com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$PlaylistsAdapter -> com.seekermob.songseeker.activity.ao:
     com.seekermob.songseeker.data.UserPlaylistsData playlists -> a
     android.view.LayoutInflater inflater -> b
     com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity this$0 -> c
@@ -1417,12 +1418,12 @@ com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$PlaylistsAda
     void setPlaylists(com.seekermob.songseeker.data.UserPlaylistsData) -> a
     java.lang.String getPlaylistId(int) -> a
     com.seekermob.songseeker.data.UserPlaylistsData access$0(com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$PlaylistsAdapter) -> a
-com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$PlaylistsAdapter$ViewHolder -> com.seekermob.songseeker.activity.ck:
+com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$PlaylistsAdapter$ViewHolder -> com.seekermob.songseeker.activity.cv:
     android.widget.TextView topText -> a
     android.widget.TextView botText -> b
     android.widget.ImageView image -> c
     com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$PlaylistsAdapter this$1 -> d
-com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$RequestAuthorizeTask -> com.seekermob.songseeker.activity.bv:
+com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity$RequestAuthorizeTask -> com.seekermob.songseeker.activity.aq:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity this$0 -> b
     void onPreExecute() -> onPreExecute
@@ -1442,13 +1443,13 @@ com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity -> com.seekermob.
     com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$LastfmPlaylistAdapter access$0(com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity) -> a
     android.app.ProgressDialog access$1(com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity) -> b
     void access$2(com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity,com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$CreatePlaylistTask) -> a
-com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$1 -> com.seekermob.songseeker.activity.co:
+com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$1 -> com.seekermob.songseeker.activity.bb:
     com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$2 -> com.seekermob.songseeker.activity.cn:
+com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$2 -> com.seekermob.songseeker.activity.ba:
     com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$CreatePlaylistTask -> com.seekermob.songseeker.activity.cy:
+com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$CreatePlaylistTask -> com.seekermob.songseeker.activity.bh:
     java.util.ArrayList songs -> a
     java.lang.String err -> b
     com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity this$0 -> c
@@ -1457,14 +1458,14 @@ com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$CreatePlaylistTas
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
-com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$GetUserPlaylistsTask -> com.seekermob.songseeker.activity.t:
+com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$GetUserPlaylistsTask -> com.seekermob.songseeker.activity.h:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity this$0 -> b
     void onPreExecute() -> onPreExecute
     java.util.List doInBackground$68cf9880() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$LastfmPlaylistAdapter -> com.seekermob.songseeker.activity.cr:
+com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$LastfmPlaylistAdapter -> com.seekermob.songseeker.activity.cx:
     java.util.List pls -> a
     com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity this$0 -> b
     int getCount() -> getCount
@@ -1474,7 +1475,7 @@ com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$LastfmPlaylistAda
     void setPlaylists(java.util.List) -> a
     java.lang.String getPlaylistId(int) -> a
     java.util.List access$1(com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$LastfmPlaylistAdapter) -> a
-com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$RequestAuthorizeTask -> com.seekermob.songseeker.activity.ak:
+com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity$RequestAuthorizeTask -> com.seekermob.songseeker.activity.bw:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity this$0 -> b
     void onPreExecute() -> onPreExecute
@@ -1495,10 +1496,10 @@ com.seekermob.songseeker.activity.CreatePlaylistRdioActivity -> com.seekermob.so
     android.app.ProgressDialog access$0(com.seekermob.songseeker.activity.CreatePlaylistRdioActivity) -> a
     com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$RdioPlaylistsAdapter access$1(com.seekermob.songseeker.activity.CreatePlaylistRdioActivity) -> b
     void access$2(com.seekermob.songseeker.activity.CreatePlaylistRdioActivity,com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$CreatePlaylistTask) -> a
-com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$1 -> com.seekermob.songseeker.activity.z:
+com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$1 -> com.seekermob.songseeker.activity.n:
     com.seekermob.songseeker.activity.CreatePlaylistRdioActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$CreatePlaylistTask -> com.seekermob.songseeker.activity.x:
+com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$CreatePlaylistTask -> com.seekermob.songseeker.activity.l:
     java.util.ArrayList songs -> a
     java.lang.String err -> b
     com.seekermob.songseeker.activity.CreatePlaylistRdioActivity this$0 -> c
@@ -1507,14 +1508,14 @@ com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$CreatePlaylistTask 
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
-com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$GetUserPlaylistsTask -> com.seekermob.songseeker.activity.r:
+com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$GetUserPlaylistsTask -> com.seekermob.songseeker.activity.g:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.CreatePlaylistRdioActivity this$0 -> b
     void onPreExecute() -> onPreExecute
     com.seekermob.songseeker.data.UserPlaylistsData doInBackground$35107aaa() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$RdioPlaylistsAdapter -> com.seekermob.songseeker.activity.l:
+com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$RdioPlaylistsAdapter -> com.seekermob.songseeker.activity.bn:
     com.seekermob.songseeker.data.UserPlaylistsData data -> a
     com.seekermob.songseeker.activity.CreatePlaylistRdioActivity this$0 -> b
     int getCount() -> getCount
@@ -1522,7 +1523,7 @@ com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$RdioPlaylistsAdapte
     long getItemId(int) -> getItemId
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     void access$0(com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$RdioPlaylistsAdapter,com.seekermob.songseeker.data.UserPlaylistsData) -> a
-com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$RequestAuthorizeTask -> com.seekermob.songseeker.activity.aj:
+com.seekermob.songseeker.activity.CreatePlaylistRdioActivity$RequestAuthorizeTask -> com.seekermob.songseeker.activity.v:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.CreatePlaylistRdioActivity this$0 -> b
     void onPreExecute() -> onPreExecute
@@ -1545,14 +1546,14 @@ com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity -> com.seekermob
     com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$YouTubePlaylistsAdapter access$1(com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity) -> b
     android.app.ProgressDialog access$2(com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity) -> c
     void access$3(com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity,com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$CreatePlaylistTask) -> a
-com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$1 -> com.seekermob.songseeker.activity.w:
+com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$1 -> com.seekermob.songseeker.activity.k:
     com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity this$0 -> a
     java.lang.String[] val$names -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$2 -> com.seekermob.songseeker.activity.v:
+com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$2 -> com.seekermob.songseeker.activity.j:
     com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$CreatePlaylistTask -> com.seekermob.songseeker.activity.cf:
+com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$CreatePlaylistTask -> com.seekermob.songseeker.activity.aw:
     java.util.ArrayList songs -> a
     java.util.ArrayList videos -> b
     java.lang.String err -> c
@@ -1562,20 +1563,20 @@ com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$CreatePlaylistTa
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
-com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$GetUserPlaylistsTask -> com.seekermob.songseeker.activity.bb:
+com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$GetUserPlaylistsTask -> com.seekermob.songseeker.activity.ae:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity this$0 -> b
     void onPreExecute() -> onPreExecute
     com.seekermob.songseeker.data.UserPlaylistsData doInBackground$35107aaa() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$RequestAuthorizeTask -> com.seekermob.songseeker.activity.s:
+com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$RequestAuthorizeTask -> com.seekermob.songseeker.activity.bt:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity this$0 -> b
     void onPreExecute() -> onPreExecute
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$YouTubePlaylistsAdapter -> com.seekermob.songseeker.activity.ce:
+com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity$YouTubePlaylistsAdapter -> com.seekermob.songseeker.activity.cq:
     com.seekermob.songseeker.data.UserPlaylistsData data -> a
     android.view.LayoutInflater inflater -> b
     com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity this$0 -> c
@@ -1598,7 +1599,7 @@ com.seekermob.songseeker.activity.MusicInfoTab -> com.seekermob.songseeker.activ
     void access$1(com.seekermob.songseeker.activity.MusicInfoTab,com.seekermob.songseeker.data.ReleaseInfo) -> a
     void access$2(com.seekermob.songseeker.activity.MusicInfoTab,com.seekermob.songseeker.data.ArtistInfo) -> a
     com.seekermob.songseeker.data.SongInfo access$3(com.seekermob.songseeker.activity.MusicInfoTab) -> a
-com.seekermob.songseeker.activity.MusicInfoTab$GetSongDetails -> com.seekermob.songseeker.activity.bo:
+com.seekermob.songseeker.activity.MusicInfoTab$GetSongDetails -> com.seekermob.songseeker.activity.ci:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.MusicInfoTab this$0 -> b
     void onPreExecute() -> onPreExecute
@@ -1612,12 +1613,12 @@ com.seekermob.songseeker.activity.PlayPlaylistActivity -> com.seekermob.songseek
     android.app.Dialog onCreateDialog(int) -> onCreateDialog
     void onCancel(android.content.DialogInterface) -> onCancel
     android.app.ProgressDialog access$0(com.seekermob.songseeker.activity.PlayPlaylistActivity) -> a
-com.seekermob.songseeker.activity.PlayPlaylistActivity$GetSongIdsTask -> com.seekermob.songseeker.activity.av:
+com.seekermob.songseeker.activity.PlayPlaylistActivity$GetSongIdsTask -> com.seekermob.songseeker.activity.ac:
     java.lang.String err -> a
     java.util.List songs -> b
     com.seekermob.songseeker.activity.PlayPlaylistActivity this$0 -> c
     void onPreExecute() -> onPreExecute
-    java.util.ArrayList doInBackground$2b2655bf() -> a
+    int[] doInBackground$63193ddd() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
@@ -1644,13 +1645,13 @@ com.seekermob.songseeker.activity.PlaylistOptionsActivity -> com.seekermob.songs
     void onStartTrackingTouch(android.widget.SeekBar) -> onStartTrackingTouch
     void onStopTrackingTouch(android.widget.SeekBar) -> onStopTrackingTouch
     void onDestroy() -> onDestroy
-com.seekermob.songseeker.activity.PlaylistOptionsActivity$1 -> com.seekermob.songseeker.activity.bi:
+com.seekermob.songseeker.activity.PlaylistOptionsActivity$1 -> com.seekermob.songseeker.activity.ch:
     com.seekermob.songseeker.activity.PlaylistOptionsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.PlaylistOptionsActivity$2 -> com.seekermob.songseeker.activity.bg:
+com.seekermob.songseeker.activity.PlaylistOptionsActivity$2 -> com.seekermob.songseeker.activity.cf:
     com.seekermob.songseeker.activity.PlaylistOptionsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.PlaylistOptionsActivity$3 -> com.seekermob.songseeker.activity.bh:
+com.seekermob.songseeker.activity.PlaylistOptionsActivity$3 -> com.seekermob.songseeker.activity.cg:
     com.seekermob.songseeker.activity.PlaylistOptionsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
 com.seekermob.songseeker.activity.ProfileActivity -> com.seekermob.songseeker.activity.ProfileActivity:
@@ -1666,29 +1667,29 @@ com.seekermob.songseeker.activity.ProfileActivity -> com.seekermob.songseeker.ac
     com.seekermob.songseeker.activity.ProfileActivity$ListAdapter access$0(com.seekermob.songseeker.activity.ProfileActivity) -> a
     void access$1(com.seekermob.songseeker.activity.ProfileActivity,com.seekermob.songseeker.activity.ProfileActivity$ImportProfileDeviceTask) -> a
     void access$2(com.seekermob.songseeker.activity.ProfileActivity,com.seekermob.songseeker.activity.ProfileActivity$ImportProfileLastfmTask) -> a
-com.seekermob.songseeker.activity.ProfileActivity$1 -> com.seekermob.songseeker.activity.ad:
+com.seekermob.songseeker.activity.ProfileActivity$1 -> com.seekermob.songseeker.activity.r:
     com.seekermob.songseeker.activity.ProfileActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.ProfileActivity$2 -> com.seekermob.songseeker.activity.af:
+com.seekermob.songseeker.activity.ProfileActivity$2 -> com.seekermob.songseeker.activity.s:
     com.seekermob.songseeker.activity.ProfileActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.ProfileActivity$3 -> com.seekermob.songseeker.activity.ag:
+com.seekermob.songseeker.activity.ProfileActivity$3 -> com.seekermob.songseeker.activity.t:
     com.seekermob.songseeker.activity.ProfileActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.ProfileActivity$4 -> com.seekermob.songseeker.activity.ai:
+com.seekermob.songseeker.activity.ProfileActivity$4 -> com.seekermob.songseeker.activity.u:
     com.seekermob.songseeker.activity.ProfileActivity this$0 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.seekermob.songseeker.activity.ProfileActivity$5 -> com.seekermob.songseeker.activity.ab:
+com.seekermob.songseeker.activity.ProfileActivity$5 -> com.seekermob.songseeker.activity.o:
     com.seekermob.songseeker.activity.ProfileActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.ProfileActivity$ImportProfileDeviceTask -> com.seekermob.songseeker.activity.bq:
+com.seekermob.songseeker.activity.ProfileActivity$ImportProfileDeviceTask -> com.seekermob.songseeker.activity.cj:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.ProfileActivity this$0 -> b
     void onPreExecute() -> onPreExecute
     java.util.ArrayList doInBackground$2b2655bf() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.activity.ProfileActivity$ImportProfileLastfmTask -> com.seekermob.songseeker.activity.ba:
+com.seekermob.songseeker.activity.ProfileActivity$ImportProfileLastfmTask -> com.seekermob.songseeker.activity.ce:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.ProfileActivity this$0 -> b
     void onPreExecute() -> onPreExecute
@@ -1704,7 +1705,7 @@ com.seekermob.songseeker.activity.ProfileActivity$ListAdapter -> com.seekermob.s
     long getItemId(int) -> getItemId
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     java.lang.Object getItem(int) -> getItem
-com.seekermob.songseeker.activity.ProfileActivity$ListAdapter$ViewHolder -> com.seekermob.songseeker.activity.ct:
+com.seekermob.songseeker.activity.ProfileActivity$ListAdapter$ViewHolder -> com.seekermob.songseeker.activity.be:
     android.widget.TextView line -> a
     android.widget.ImageView coverArt -> b
     com.seekermob.songseeker.activity.ProfileActivity$ListAdapter this$1 -> c
@@ -1725,13 +1726,16 @@ com.seekermob.songseeker.activity.RecSongsActivity -> com.seekermob.songseeker.a
     void onDataChanged(java.util.ArrayList) -> a
     void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
     com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter access$0(com.seekermob.songseeker.activity.RecSongsActivity) -> a
-com.seekermob.songseeker.activity.RecSongsActivity$1 -> com.seekermob.songseeker.activity.cm:
+com.seekermob.songseeker.activity.RecSongsActivity$1 -> com.seekermob.songseeker.activity.az:
     com.seekermob.songseeker.activity.RecSongsActivity this$0 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.seekermob.songseeker.activity.RecSongsActivity$2 -> com.seekermob.songseeker.activity.cl:
+com.seekermob.songseeker.activity.RecSongsActivity$2 -> com.seekermob.songseeker.activity.ax:
     com.seekermob.songseeker.activity.RecSongsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter -> com.seekermob.songseeker.activity.cw:
+com.seekermob.songseeker.activity.RecSongsActivity$3 -> com.seekermob.songseeker.activity.ay:
+    com.seekermob.songseeker.activity.RecSongsActivity this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter -> com.seekermob.songseeker.activity.bg:
     java.util.ArrayList playlist -> b
     android.view.LayoutInflater inflater -> c
     com.seekermob.songseeker.activity.RecSongsActivity this$0 -> a
@@ -1744,17 +1748,17 @@ com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter -> com.seeker
     java.lang.Object getItem(int) -> getItem
     int[] $SWITCH_TABLE$com$seekermob$songseeker$util$MediaPlayerController$MediaStatus() -> a
     java.util.ArrayList access$2(com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter) -> a
-com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter$1 -> com.seekermob.songseeker.activity.cj:
+com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter$1 -> com.seekermob.songseeker.activity.cu:
     com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter this$1 -> a
     com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter$2 -> com.seekermob.songseeker.activity.ci:
+com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter$2 -> com.seekermob.songseeker.activity.ct:
     com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter this$1 -> a
     com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter$ViewHolder -> com.seekermob.songseeker.activity.cs:
+com.seekermob.songseeker.activity.RecSongsActivity$RecSongsAdapter$ViewHolder -> com.seekermob.songseeker.activity.bd:
     android.widget.TextView topText -> a
     android.widget.TextView botText -> b
     android.widget.ImageView coverArt -> c
@@ -1780,23 +1784,23 @@ com.seekermob.songseeker.activity.ReleaseInfoActivity -> com.seekermob.songseeke
     void access$2(com.seekermob.songseeker.activity.ReleaseInfoActivity) -> c
     com.seekermob.songseeker.activity.ReleaseInfoActivity$StartMediaPlayerTask access$3(com.seekermob.songseeker.activity.ReleaseInfoActivity) -> d
     void access$4(com.seekermob.songseeker.activity.ReleaseInfoActivity,com.seekermob.songseeker.activity.ReleaseInfoActivity$StartMediaPlayerTask) -> a
-com.seekermob.songseeker.activity.ReleaseInfoActivity$1 -> com.seekermob.songseeker.activity.au:
+com.seekermob.songseeker.activity.ReleaseInfoActivity$1 -> com.seekermob.songseeker.activity.ad:
     com.seekermob.songseeker.activity.ReleaseInfoActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.ReleaseInfoActivity$2 -> com.seekermob.songseeker.activity.as:
+com.seekermob.songseeker.activity.ReleaseInfoActivity$2 -> com.seekermob.songseeker.activity.ab:
     com.seekermob.songseeker.activity.ReleaseInfoActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.ReleaseInfoActivity$3 -> com.seekermob.songseeker.activity.aq:
+com.seekermob.songseeker.activity.ReleaseInfoActivity$3 -> com.seekermob.songseeker.activity.aa:
     com.seekermob.songseeker.activity.ReleaseInfoActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.ReleaseInfoActivity$GetReleaseDetails -> com.seekermob.songseeker.activity.bt:
+com.seekermob.songseeker.activity.ReleaseInfoActivity$GetReleaseDetails -> com.seekermob.songseeker.activity.cm:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.ReleaseInfoActivity this$0 -> b
     void onPreExecute() -> onPreExecute
     java.lang.Void doInBackground$10299ca() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.activity.ReleaseInfoActivity$SongListAdapter -> com.seekermob.songseeker.activity.bn:
+com.seekermob.songseeker.activity.ReleaseInfoActivity$SongListAdapter -> com.seekermob.songseeker.activity.an:
     java.util.ArrayList songList -> b
     android.view.LayoutInflater inflater -> c
     com.seekermob.songseeker.activity.ReleaseInfoActivity this$0 -> a
@@ -1809,17 +1813,17 @@ com.seekermob.songseeker.activity.ReleaseInfoActivity$SongListAdapter -> com.see
     java.lang.Object getItem(int) -> getItem
     int[] $SWITCH_TABLE$com$seekermob$songseeker$util$MediaPlayerController$MediaStatus() -> a
     java.util.ArrayList access$2(com.seekermob.songseeker.activity.ReleaseInfoActivity$SongListAdapter) -> a
-com.seekermob.songseeker.activity.ReleaseInfoActivity$SongListAdapter$1 -> com.seekermob.songseeker.activity.ch:
+com.seekermob.songseeker.activity.ReleaseInfoActivity$SongListAdapter$1 -> com.seekermob.songseeker.activity.cs:
     com.seekermob.songseeker.activity.ReleaseInfoActivity$SongListAdapter this$1 -> a
     int val$pos -> b
     com.seekermob.songseeker.data.SongInfo val$song -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.ReleaseInfoActivity$SongListAdapter$2 -> com.seekermob.songseeker.activity.cg:
+com.seekermob.songseeker.activity.ReleaseInfoActivity$SongListAdapter$2 -> com.seekermob.songseeker.activity.cr:
     com.seekermob.songseeker.activity.ReleaseInfoActivity$SongListAdapter this$1 -> a
     int val$pos -> b
     com.seekermob.songseeker.data.SongInfo val$song -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.ReleaseInfoActivity$SongListAdapter$ViewHolder -> com.seekermob.songseeker.activity.cx:
+com.seekermob.songseeker.activity.ReleaseInfoActivity$SongListAdapter$ViewHolder -> com.seekermob.songseeker.activity.cz:
     android.widget.TextView topText -> a
     android.widget.TextView botText -> b
     android.widget.ImageView coverArt -> c
@@ -1827,7 +1831,7 @@ com.seekermob.songseeker.activity.ReleaseInfoActivity$SongListAdapter$ViewHolder
     android.widget.ProgressBar loading -> e
     android.widget.FrameLayout mediaBtns -> f
     com.seekermob.songseeker.activity.ReleaseInfoActivity$SongListAdapter this$1 -> g
-com.seekermob.songseeker.activity.ReleaseInfoActivity$StartMediaPlayerTask -> com.seekermob.songseeker.activity.ae:
+com.seekermob.songseeker.activity.ReleaseInfoActivity$StartMediaPlayerTask -> com.seekermob.songseeker.activity.bu:
     java.lang.String err -> b
     int position -> a
     com.seekermob.songseeker.activity.ReleaseInfoActivity this$0 -> c
@@ -1836,16 +1840,16 @@ com.seekermob.songseeker.activity.ReleaseInfoActivity$StartMediaPlayerTask -> co
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.seekermob.songseeker.activity.SettingsActivity -> com.seekermob.songseeker.activity.SettingsActivity:
     void onCreate(android.os.Bundle) -> onCreate
-com.seekermob.songseeker.activity.SettingsActivity$1 -> com.seekermob.songseeker.activity.an:
+com.seekermob.songseeker.activity.SettingsActivity$1 -> com.seekermob.songseeker.activity.y:
     com.seekermob.songseeker.activity.SettingsActivity this$0 -> a
     boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
-com.seekermob.songseeker.activity.SettingsActivity$2 -> com.seekermob.songseeker.activity.am:
+com.seekermob.songseeker.activity.SettingsActivity$2 -> com.seekermob.songseeker.activity.x:
     com.seekermob.songseeker.activity.SettingsActivity this$0 -> a
     boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
-com.seekermob.songseeker.activity.SettingsActivity$3 -> com.seekermob.songseeker.activity.al:
+com.seekermob.songseeker.activity.SettingsActivity$3 -> com.seekermob.songseeker.activity.w:
     com.seekermob.songseeker.activity.SettingsActivity this$0 -> a
     boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
-com.seekermob.songseeker.activity.SettingsActivity$ClearCacheTask -> com.seekermob.songseeker.activity.bj:
+com.seekermob.songseeker.activity.SettingsActivity$ClearCacheTask -> com.seekermob.songseeker.activity.aj:
     com.seekermob.songseeker.activity.SettingsActivity this$0 -> a
     void onPreExecute() -> onPreExecute
     void onPostExecute(java.lang.Object) -> onPostExecute
@@ -1857,17 +1861,17 @@ com.seekermob.songseeker.activity.SimilarArtistsActivity -> com.seekermob.songse
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
     java.lang.Object onRetainNonConfigurationInstance() -> onRetainNonConfigurationInstance
     com.seekermob.songseeker.activity.SimilarArtistsActivity$SimilarArtistsAdapter access$0(com.seekermob.songseeker.activity.SimilarArtistsActivity) -> a
-com.seekermob.songseeker.activity.SimilarArtistsActivity$1 -> com.seekermob.songseeker.activity.ac:
+com.seekermob.songseeker.activity.SimilarArtistsActivity$1 -> com.seekermob.songseeker.activity.q:
     com.seekermob.songseeker.activity.SimilarArtistsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.SimilarArtistsActivity$GetSimilarArtists -> com.seekermob.songseeker.activity.ao:
+com.seekermob.songseeker.activity.SimilarArtistsActivity$GetSimilarArtists -> com.seekermob.songseeker.activity.z:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.SimilarArtistsActivity this$0 -> b
     void onPreExecute() -> onPreExecute
     java.util.ArrayList doInBackground$2b2655bf() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.activity.SimilarArtistsActivity$SimilarArtistsAdapter -> com.seekermob.songseeker.activity.bx:
+com.seekermob.songseeker.activity.SimilarArtistsActivity$SimilarArtistsAdapter -> com.seekermob.songseeker.activity.ar:
     java.util.ArrayList similarArtists -> a
     android.view.LayoutInflater inflater -> b
     com.seekermob.songseeker.activity.SimilarArtistsActivity this$0 -> c
@@ -1878,7 +1882,7 @@ com.seekermob.songseeker.activity.SimilarArtistsActivity$SimilarArtistsAdapter -
     void setSimilarArtists(java.util.ArrayList) -> a
     java.lang.Object getItem(int) -> getItem
     java.util.ArrayList access$1(com.seekermob.songseeker.activity.SimilarArtistsActivity$SimilarArtistsAdapter) -> a
-com.seekermob.songseeker.activity.SimilarArtistsActivity$SimilarArtistsAdapter$ViewHolder -> com.seekermob.songseeker.activity.u:
+com.seekermob.songseeker.activity.SimilarArtistsActivity$SimilarArtistsAdapter$ViewHolder -> com.seekermob.songseeker.activity.i:
     android.widget.TextView line -> a
     android.widget.ImageView coverArt -> b
     com.seekermob.songseeker.activity.SimilarArtistsActivity$SimilarArtistsAdapter this$1 -> c
@@ -1900,32 +1904,32 @@ com.seekermob.songseeker.activity.SongInfoActivity -> com.seekermob.songseeker.a
     void access$3(com.seekermob.songseeker.activity.SongInfoActivity) -> d
     com.seekermob.songseeker.activity.SongInfoActivity$StartMediaPlayerTask access$4(com.seekermob.songseeker.activity.SongInfoActivity) -> e
     void access$5(com.seekermob.songseeker.activity.SongInfoActivity,com.seekermob.songseeker.activity.SongInfoActivity$StartMediaPlayerTask) -> a
-com.seekermob.songseeker.activity.SongInfoActivity$1 -> com.seekermob.songseeker.activity.az:
+com.seekermob.songseeker.activity.SongInfoActivity$1 -> com.seekermob.songseeker.activity.cd:
     com.seekermob.songseeker.activity.SongInfoActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.SongInfoActivity$2 -> com.seekermob.songseeker.activity.ay:
+com.seekermob.songseeker.activity.SongInfoActivity$2 -> com.seekermob.songseeker.activity.cc:
     com.seekermob.songseeker.activity.SongInfoActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.SongInfoActivity$3 -> com.seekermob.songseeker.activity.ax:
+com.seekermob.songseeker.activity.SongInfoActivity$3 -> com.seekermob.songseeker.activity.cb:
     com.seekermob.songseeker.activity.SongInfoActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.SongInfoActivity$4 -> com.seekermob.songseeker.activity.aw:
+com.seekermob.songseeker.activity.SongInfoActivity$4 -> com.seekermob.songseeker.activity.ca:
     com.seekermob.songseeker.activity.SongInfoActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.SongInfoActivity$5 -> com.seekermob.songseeker.activity.ar:
+com.seekermob.songseeker.activity.SongInfoActivity$5 -> com.seekermob.songseeker.activity.by:
     com.seekermob.songseeker.activity.SongInfoActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.SongInfoActivity$6 -> com.seekermob.songseeker.activity.at:
+com.seekermob.songseeker.activity.SongInfoActivity$6 -> com.seekermob.songseeker.activity.bz:
     com.seekermob.songseeker.activity.SongInfoActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.SongInfoActivity$GetSongDetails -> com.seekermob.songseeker.activity.y:
+com.seekermob.songseeker.activity.SongInfoActivity$GetSongDetails -> com.seekermob.songseeker.activity.m:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.SongInfoActivity this$0 -> b
     void onPreExecute() -> onPreExecute
     java.lang.Void doInBackground$10299ca() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.activity.SongInfoActivity$StartMediaPlayerTask -> com.seekermob.songseeker.activity.p:
+com.seekermob.songseeker.activity.SongInfoActivity$StartMediaPlayerTask -> com.seekermob.songseeker.activity.br:
     java.lang.String err -> d
     int position -> a
     android.widget.ImageView icon -> b
@@ -1934,7 +1938,7 @@ com.seekermob.songseeker.activity.SongInfoActivity$StartMediaPlayerTask -> com.s
     com.seekermob.songseeker.data.SongInfo doInBackground(com.seekermob.songseeker.data.SongInfo[]) -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.activity.SongInfoActivity$TopTracksAdapter -> com.seekermob.songseeker.activity.cc:
+com.seekermob.songseeker.activity.SongInfoActivity$TopTracksAdapter -> com.seekermob.songseeker.activity.cp:
     java.util.ArrayList topTracks -> b
     android.view.LayoutInflater inflater -> c
     com.seekermob.songseeker.activity.SongInfoActivity this$0 -> a
@@ -1947,17 +1951,17 @@ com.seekermob.songseeker.activity.SongInfoActivity$TopTracksAdapter -> com.seeke
     java.lang.Object getItem(int) -> getItem
     int[] $SWITCH_TABLE$com$seekermob$songseeker$util$MediaPlayerController$MediaStatus() -> a
     java.util.ArrayList access$2(com.seekermob.songseeker.activity.SongInfoActivity$TopTracksAdapter) -> a
-com.seekermob.songseeker.activity.SongInfoActivity$TopTracksAdapter$1 -> com.seekermob.songseeker.activity.br:
+com.seekermob.songseeker.activity.SongInfoActivity$TopTracksAdapter$1 -> com.seekermob.songseeker.activity.ck:
     com.seekermob.songseeker.activity.SongInfoActivity$TopTracksAdapter this$1 -> a
     int val$pos -> b
     com.seekermob.songseeker.data.SongInfo val$song -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.SongInfoActivity$TopTracksAdapter$2 -> com.seekermob.songseeker.activity.bs:
+com.seekermob.songseeker.activity.SongInfoActivity$TopTracksAdapter$2 -> com.seekermob.songseeker.activity.cl:
     com.seekermob.songseeker.activity.SongInfoActivity$TopTracksAdapter this$1 -> a
     int val$pos -> b
     com.seekermob.songseeker.data.SongInfo val$song -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.SongInfoActivity$TopTracksAdapter$ViewHolder -> com.seekermob.songseeker.activity.aa:
+com.seekermob.songseeker.activity.SongInfoActivity$TopTracksAdapter$ViewHolder -> com.seekermob.songseeker.activity.p:
     android.widget.TextView topText -> a
     android.widget.TextView botText -> b
     android.widget.ImageView coverArt -> c
@@ -1973,16 +1977,16 @@ com.seekermob.songseeker.activity.SongSeekerActivity -> com.seekermob.songseeker
     void shareApp(android.view.View) -> shareApp
     void viewProfile(android.view.View) -> viewProfile
     void donate(android.view.View) -> donate
-com.seekermob.songseeker.activity.SongSeekerActivity$1 -> com.seekermob.songseeker.activity.bm:
+com.seekermob.songseeker.activity.SongSeekerActivity$1 -> com.seekermob.songseeker.activity.am:
     com.seekermob.songseeker.activity.SongSeekerActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.SongSeekerActivity$2 -> com.seekermob.songseeker.activity.bk:
+com.seekermob.songseeker.activity.SongSeekerActivity$2 -> com.seekermob.songseeker.activity.ak:
     com.seekermob.songseeker.activity.SongSeekerActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.SongSeekerActivity$3 -> com.seekermob.songseeker.activity.bl:
+com.seekermob.songseeker.activity.SongSeekerActivity$3 -> com.seekermob.songseeker.activity.al:
     com.seekermob.songseeker.activity.SongSeekerActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.activity.SongSeekerActivity$AutoClearCacheTask -> com.seekermob.songseeker.activity.m:
+com.seekermob.songseeker.activity.SongSeekerActivity$AutoClearCacheTask -> com.seekermob.songseeker.activity.bo:
     com.seekermob.songseeker.activity.SongSeekerActivity this$0 -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
@@ -1993,14 +1997,14 @@ com.seekermob.songseeker.activity.WatchSongVideoActivity -> com.seekermob.songse
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
     java.lang.Object onRetainNonConfigurationInstance() -> onRetainNonConfigurationInstance
     com.seekermob.songseeker.activity.WatchSongVideoActivity$ListAdapter access$0(com.seekermob.songseeker.activity.WatchSongVideoActivity) -> a
-com.seekermob.songseeker.activity.WatchSongVideoActivity$GetVideosTask -> com.seekermob.songseeker.activity.q:
+com.seekermob.songseeker.activity.WatchSongVideoActivity$GetVideosTask -> com.seekermob.songseeker.activity.bs:
     java.lang.String err -> a
     com.seekermob.songseeker.activity.WatchSongVideoActivity this$0 -> b
     void onPreExecute() -> onPreExecute
     java.util.ArrayList doInBackground$2b2655bf() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.activity.WatchSongVideoActivity$ListAdapter -> com.seekermob.songseeker.activity.bw:
+com.seekermob.songseeker.activity.WatchSongVideoActivity$ListAdapter -> com.seekermob.songseeker.activity.cn:
     java.util.ArrayList videos -> a
     android.view.LayoutInflater inflater -> b
     com.seekermob.songseeker.activity.WatchSongVideoActivity this$0 -> c
@@ -2011,13 +2015,13 @@ com.seekermob.songseeker.activity.WatchSongVideoActivity$ListAdapter -> com.seek
     void setAdapter(java.util.ArrayList) -> a
     java.lang.Object getItem(int) -> getItem
     java.util.ArrayList access$1(com.seekermob.songseeker.activity.WatchSongVideoActivity$ListAdapter) -> a
-com.seekermob.songseeker.activity.WatchSongVideoActivity$ListAdapter$ViewHolder -> com.seekermob.songseeker.activity.cu:
+com.seekermob.songseeker.activity.WatchSongVideoActivity$ListAdapter$ViewHolder -> com.seekermob.songseeker.activity.cy:
     android.widget.TextView topText -> a
     android.widget.TextView botText -> b
     android.widget.ImageView coverArt -> c
     android.widget.ImageView playPause -> d
     com.seekermob.songseeker.activity.WatchSongVideoActivity$ListAdapter this$1 -> e
-com.seekermob.songseeker.comm.EchoNestComm -> com.seekermob.songseeker.comm.g:
+com.seekermob.songseeker.comm.EchoNestComm -> com.seekermob.songseeker.comm.e:
     com.seekermob.songseeker.comm.EchoNestComm comm -> a
     com.echonest.api.v4.EchoNestAPI en -> b
     int MAX_WS_RETRIES -> c
@@ -2026,7 +2030,7 @@ com.seekermob.songseeker.comm.EchoNestComm -> com.seekermob.songseeker.comm.g:
     java.util.ArrayList getArtistNewsFromBucket$aa11a4a(java.lang.String,boolean) -> a
     java.util.ArrayList getSimilarArtistsFromBucket$59b77542(java.lang.String) -> b
     void treatEchoNestException$45212042(com.echonest.api.v4.EchoNestException) -> a
-com.seekermob.songseeker.comm.GroovesharkComm -> com.seekermob.songseeker.comm.a:
+com.seekermob.songseeker.comm.GroovesharkComm -> com.seekermob.songseeker.comm.f:
     com.seekermob.songseeker.comm.GroovesharkComm comm -> a
     java.lang.String sessionID -> b
     com.seekermob.songseeker.comm.GroovesharkComm getComm(android.content.SharedPreferences) -> a
@@ -2041,7 +2045,7 @@ com.seekermob.songseeker.comm.GroovesharkComm -> com.seekermob.songseeker.comm.a
     java.lang.String getSignature(java.util.LinkedHashMap) -> a
     void parseError(java.lang.String,org.json.simple.parser.JSONParser) -> a
     void cleanAuth(android.content.SharedPreferences) -> c
-com.seekermob.songseeker.comm.LastfmComm -> com.seekermob.songseeker.comm.f:
+com.seekermob.songseeker.comm.LastfmComm -> com.seekermob.songseeker.comm.g:
     com.seekermob.songseeker.comm.LastfmComm comm -> a
     de.umass.lastfm.Session session -> b
     java.lang.String sessionKey -> c
@@ -2055,7 +2059,7 @@ com.seekermob.songseeker.comm.LastfmComm -> com.seekermob.songseeker.comm.f:
     java.util.Collection getTopArtists(java.lang.String) -> a
     boolean isAuthorized() -> c
     void cleanAuth(android.content.SharedPreferences) -> b
-com.seekermob.songseeker.comm.RdioComm -> com.seekermob.songseeker.comm.e:
+com.seekermob.songseeker.comm.RdioComm -> com.seekermob.songseeker.comm.d:
     com.seekermob.songseeker.comm.RdioComm comm -> a
     oauth.signpost.OAuthConsumer consumer -> b
     oauth.signpost.OAuthProvider provider -> c
@@ -2104,7 +2108,7 @@ com.seekermob.songseeker.comm.ServiceCommException$ServiceID -> com.seekermob.so
     java.lang.String getName() -> a
     com.seekermob.songseeker.comm.ServiceCommException$ServiceID[] values() -> values
     com.seekermob.songseeker.comm.ServiceCommException$ServiceID valueOf(java.lang.String) -> valueOf
-com.seekermob.songseeker.comm.SevenDigitalComm -> com.seekermob.songseeker.comm.d:
+com.seekermob.songseeker.comm.SevenDigitalComm -> com.seekermob.songseeker.comm.c:
     com.seekermob.songseeker.comm.SevenDigitalComm comm -> a
     com.seekermob.songseeker.data.SongInfo querySongDetails(java.lang.String,java.lang.String,java.lang.String,android.content.Context) -> a
     com.seekermob.songseeker.data.SongInfo querySongSearch(java.lang.String,java.lang.String) -> a
@@ -2118,7 +2122,7 @@ com.seekermob.songseeker.comm.SevenDigitalComm -> com.seekermob.songseeker.comm.
     java.util.ArrayList parseReleaseDetails(org.w3c.dom.Element) -> b
     java.util.ArrayList parseArtistDetails(org.w3c.dom.Element) -> c
     void parseError(org.w3c.dom.Element) -> d
-com.seekermob.songseeker.comm.YouTubeComm -> com.seekermob.songseeker.comm.b:
+com.seekermob.songseeker.comm.YouTubeComm -> com.seekermob.songseeker.comm.a:
     com.seekermob.songseeker.comm.YouTubeComm comm -> a
     com.google.api.client.googleapis.extensions.android2.auth.GoogleAccountManager accountManager -> b
     com.google.api.client.googleapis.auth.oauth2.draft10.GoogleAccessProtectedResource accessProtectedResource -> c
@@ -2134,7 +2138,7 @@ com.seekermob.songseeker.comm.YouTubeComm -> com.seekermob.songseeker.comm.b:
     java.util.ArrayList searchVideo(java.lang.String,java.lang.String,int) -> a
     void addVideosToPlaylist(java.lang.String,java.lang.String,android.content.SharedPreferences) -> a
     void treatHttpError(org.apache.http.HttpResponse,android.content.SharedPreferences) -> a
-com.seekermob.songseeker.comm.YouTubeComm$VideoFeed -> com.seekermob.songseeker.comm.c:
+com.seekermob.songseeker.comm.YouTubeComm$VideoFeed -> com.seekermob.songseeker.comm.b:
     java.lang.String id -> a
     java.lang.String title -> b
     java.lang.String description -> c
@@ -2168,7 +2172,7 @@ com.seekermob.songseeker.data.EventInfo -> com.seekermob.songseeker.data.EventIn
     android.os.Parcelable$Creator CREATOR -> CREATOR
     int describeContents() -> describeContents
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.seekermob.songseeker.data.EventInfo$1 -> com.seekermob.songseeker.data.f:
+com.seekermob.songseeker.data.EventInfo$1 -> com.seekermob.songseeker.data.e:
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
     java.lang.Object[] newArray(int) -> newArray
 com.seekermob.songseeker.data.RecSongsPlaylist -> com.seekermob.songseeker.data.c:
@@ -2199,7 +2203,7 @@ com.seekermob.songseeker.data.RecSongsPlaylist$GetPlaylistTask -> com.seekermob.
     java.lang.Void doInBackground$10299ca() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.data.RecSongsPlaylist$GetSongInfoTask -> com.seekermob.songseeker.data.i:
+com.seekermob.songseeker.data.RecSongsPlaylist$GetSongInfoTask -> com.seekermob.songseeker.data.g:
     java.lang.String msg -> a
     java.lang.String err -> b
     android.app.ListActivity activity -> c
@@ -2219,7 +2223,7 @@ com.seekermob.songseeker.data.ReleaseInfo -> com.seekermob.songseeker.data.Relea
     android.os.Parcelable$Creator CREATOR -> CREATOR
     int describeContents() -> describeContents
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.seekermob.songseeker.data.ReleaseInfo$1 -> com.seekermob.songseeker.data.g:
+com.seekermob.songseeker.data.ReleaseInfo$1 -> com.seekermob.songseeker.data.j:
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
     java.lang.Object[] newArray(int) -> newArray
 com.seekermob.songseeker.data.ReleaseInfoCache -> com.seekermob.songseeker.data.ReleaseInfoCache:
@@ -2242,7 +2246,7 @@ com.seekermob.songseeker.data.SongInfo -> com.seekermob.songseeker.data.SongInfo
     android.os.Parcelable$Creator CREATOR -> CREATOR
     int describeContents() -> describeContents
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.seekermob.songseeker.data.SongInfo$1 -> com.seekermob.songseeker.data.k:
+com.seekermob.songseeker.data.SongInfo$1 -> com.seekermob.songseeker.data.h:
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
     java.lang.Object[] newArray(int) -> newArray
 com.seekermob.songseeker.data.SongInfoCache -> com.seekermob.songseeker.data.SongInfoCache:
@@ -2256,7 +2260,7 @@ com.seekermob.songseeker.data.SongInfoCache -> com.seekermob.songseeker.data.Son
     java.lang.String version -> version
     com.seekermob.songseeker.data.ArtistInfoCache artist -> artist
     com.seekermob.songseeker.data.ReleaseInfoCache release -> release
-com.seekermob.songseeker.data.UserPlaylistsData -> com.seekermob.songseeker.data.e:
+com.seekermob.songseeker.data.UserPlaylistsData -> com.seekermob.songseeker.data.i:
     java.util.ArrayList playlists -> a
     int getPlaylistsSize() -> a
     java.lang.String getPlaylistName(int) -> a
@@ -2265,7 +2269,7 @@ com.seekermob.songseeker.data.UserPlaylistsData -> com.seekermob.songseeker.data
     java.lang.String getPlaylistId(int) -> d
     void addPlaylist(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
     void addPlaylist(java.lang.String,java.lang.Integer,java.lang.String) -> a
-com.seekermob.songseeker.data.UserPlaylistsData$Playlist -> com.seekermob.songseeker.data.h:
+com.seekermob.songseeker.data.UserPlaylistsData$Playlist -> com.seekermob.songseeker.data.f:
     java.lang.String name -> a
     java.lang.String numSongs -> b
     java.lang.String imageUrl -> c
@@ -2326,10 +2330,10 @@ com.seekermob.songseeker.data.VenueInfo -> com.seekermob.songseeker.data.VenueIn
     android.os.Parcelable$Creator CREATOR -> CREATOR
     int describeContents() -> describeContents
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
-com.seekermob.songseeker.data.VenueInfo$1 -> com.seekermob.songseeker.data.j:
+com.seekermob.songseeker.data.VenueInfo$1 -> com.seekermob.songseeker.data.k:
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
     java.lang.Object[] newArray(int) -> newArray
-com.seekermob.songseeker.util.AppRater -> com.seekermob.songseeker.util.c:
+com.seekermob.songseeker.util.AppRater -> com.seekermob.songseeker.util.e:
     void app_launched(android.content.Context) -> a
 com.seekermob.songseeker.util.AppRater$1 -> com.seekermob.songseeker.util.j:
     android.content.Context val$mContext -> a
@@ -2385,7 +2389,7 @@ com.seekermob.songseeker.util.ImageLoader -> com.seekermob.songseeker.util.Image
     com.seekermob.songseeker.util.MemoryCache access$2() -> c
     java.util.Map access$3(com.seekermob.songseeker.util.ImageLoader) -> a
     int access$4(com.seekermob.songseeker.util.ImageLoader) -> b
-com.seekermob.songseeker.util.ImageLoader$BitmapDisplayer -> com.seekermob.songseeker.util.i:
+com.seekermob.songseeker.util.ImageLoader$BitmapDisplayer -> com.seekermob.songseeker.util.c:
     android.graphics.Bitmap bitmap -> a
     android.view.View view -> b
     boolean isBkg -> c
@@ -2400,16 +2404,16 @@ com.seekermob.songseeker.util.ImageLoader$ImageSize -> com.seekermob.songseeker.
     com.seekermob.songseeker.util.ImageLoader$ImageSize[] values() -> values
     com.seekermob.songseeker.util.ImageLoader$ImageSize valueOf(java.lang.String) -> valueOf
     int access$2(com.seekermob.songseeker.util.ImageLoader$ImageSize) -> a
-com.seekermob.songseeker.util.ImageLoader$PhotoToLoad -> com.seekermob.songseeker.util.d:
+com.seekermob.songseeker.util.ImageLoader$PhotoToLoad -> com.seekermob.songseeker.util.f:
     java.lang.String url -> a
     android.view.View view -> b
     com.seekermob.songseeker.util.ImageLoader$ImageSize imageSize -> c
     boolean isBkg -> d
     com.seekermob.songseeker.util.ImageLoader this$0 -> e
-com.seekermob.songseeker.util.ImageLoader$PhotosLoader -> com.seekermob.songseeker.util.e:
+com.seekermob.songseeker.util.ImageLoader$PhotosLoader -> com.seekermob.songseeker.util.b:
     com.seekermob.songseeker.util.ImageLoader this$0 -> a
     void run() -> run
-com.seekermob.songseeker.util.ImageLoader$PhotosQueue -> com.seekermob.songseeker.util.a:
+com.seekermob.songseeker.util.ImageLoader$PhotosQueue -> com.seekermob.songseeker.util.d:
     java.util.Stack photosToLoad -> a
     com.seekermob.songseeker.util.ImageLoader this$0 -> b
     void Clean(android.view.View) -> a
@@ -2444,7 +2448,7 @@ com.seekermob.songseeker.util.MediaPlayerController$MediaInfo -> com.seekermob.s
     android.widget.ProgressBar loading -> f
     com.seekermob.songseeker.util.MediaPlayerController$MediaStatus status -> g
     com.seekermob.songseeker.util.MediaPlayerController this$0 -> h
-com.seekermob.songseeker.util.MediaPlayerController$MediaPlayerCommander -> com.seekermob.songseeker.util.f:
+com.seekermob.songseeker.util.MediaPlayerController$MediaPlayerCommander -> com.seekermob.songseeker.util.g:
     java.lang.String err -> a
     com.seekermob.songseeker.util.MediaPlayerController this$0 -> b
     int[] $SWITCH_TABLE$com$seekermob$songseeker$util$MediaPlayerController$MediaStatus -> c
@@ -2461,11 +2465,11 @@ com.seekermob.songseeker.util.MediaPlayerController$MediaStatus -> com.seekermob
     com.seekermob.songseeker.util.MediaPlayerController$MediaStatus[] ENUM$VALUES -> e
     com.seekermob.songseeker.util.MediaPlayerController$MediaStatus[] values() -> values
     com.seekermob.songseeker.util.MediaPlayerController$MediaStatus valueOf(java.lang.String) -> valueOf
-com.seekermob.songseeker.util.MediaPlayerController$TaskParams -> com.seekermob.songseeker.util.b:
+com.seekermob.songseeker.util.MediaPlayerController$TaskParams -> com.seekermob.songseeker.util.a:
     int action -> a
     com.seekermob.songseeker.util.MediaPlayerController$MediaInfo media -> b
     com.seekermob.songseeker.util.MediaPlayerController this$0 -> c
-com.seekermob.songseeker.util.MemoryCache -> com.seekermob.songseeker.util.g:
+com.seekermob.songseeker.util.MemoryCache -> com.seekermob.songseeker.util.h:
     java.util.HashMap cache -> a
     android.graphics.Bitmap get(java.lang.String) -> a
     void put(java.lang.String,android.graphics.Bitmap) -> a
@@ -2508,39 +2512,40 @@ com.seekermob.songseeker.util.TrackedTabActivity -> com.seekermob.songseeker.uti
     void onStart() -> onStart
     java.lang.Object onRetainNonConfigurationInstance() -> onRetainNonConfigurationInstance
     void onStop() -> onStop
-com.seekermob.songseeker.util.Util -> com.seekermob.songseeker.util.h:
+com.seekermob.songseeker.util.Util -> com.seekermob.songseeker.util.i:
     void CopyStream(java.io.InputStream,java.io.OutputStream) -> a
     void writeObjectToDevice(android.app.Activity,java.lang.Object,java.lang.String) -> a
     java.lang.Object readObjectFromDevice(android.app.Activity,java.lang.String) -> a
     java.lang.Object readObjectFromCache(android.app.Activity,java.lang.String) -> b
-de.umass.lastfm.Album -> de.umass.lastfm.n:
-    de.umass.lastfm.ItemFactory FACTORY -> a
-    java.text.DateFormat RELEASE_DATE_FORMAT -> b
-    java.text.DateFormat RELEASE_DATE_FORMAT_2 -> c
-    java.lang.String artist -> d
-    java.util.Date releaseDate -> e
+    boolean isAppInstalled(java.lang.String,android.content.Context) -> a
+de.umass.lastfm.Album -> de.umass.lastfm.q:
+    de.umass.lastfm.ItemFactory FACTORY -> b
+    java.text.DateFormat RELEASE_DATE_FORMAT -> c
+    java.text.DateFormat RELEASE_DATE_FORMAT_2 -> d
+    java.lang.String artist -> e
+    java.util.Date releaseDate -> f
     java.lang.String access$202(de.umass.lastfm.Album,java.lang.String) -> a
     java.lang.String access$200(de.umass.lastfm.Album) -> a
     java.util.Date access$302(de.umass.lastfm.Album,java.util.Date) -> a
     java.text.DateFormat access$400() -> b
     java.text.DateFormat access$500() -> c
-de.umass.lastfm.Album$AlbumFactory -> de.umass.lastfm.f:
+de.umass.lastfm.Album$AlbumFactory -> de.umass.lastfm.c:
     de.umass.lastfm.Album createItemFromElement(de.umass.xml.DomElement) -> b
     java.lang.Object createItemFromElement(de.umass.xml.DomElement) -> a
-de.umass.lastfm.Artist -> de.umass.lastfm.t:
-    de.umass.lastfm.ItemFactory FACTORY -> a
-    java.util.Collection similar -> b
-    float similarityMatch -> c
+de.umass.lastfm.Artist -> de.umass.lastfm.h:
+    de.umass.lastfm.ItemFactory FACTORY -> b
+    java.util.Collection similar -> c
+    float similarityMatch -> d
     float access$102(de.umass.lastfm.Artist,float) -> a
     java.util.Collection access$200(de.umass.lastfm.Artist) -> a
-de.umass.lastfm.Artist$ArtistFactory -> de.umass.lastfm.j:
+de.umass.lastfm.Artist$ArtistFactory -> de.umass.lastfm.e:
     de.umass.lastfm.Artist createItemFromElement(de.umass.xml.DomElement) -> b
     java.lang.Object createItemFromElement(de.umass.xml.DomElement) -> a
-de.umass.lastfm.Authenticator -> de.umass.lastfm.p:
+de.umass.lastfm.Authenticator -> de.umass.lastfm.r:
     de.umass.lastfm.Session getMobileSession(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
     java.lang.String createSignature(java.lang.String,java.util.Map,java.lang.String) -> a
 de.umass.lastfm.CallException -> de.umass.lastfm.CallException:
-de.umass.lastfm.Caller -> de.umass.lastfm.o:
+de.umass.lastfm.Caller -> de.umass.lastfm.f:
     de.umass.lastfm.Caller instance -> a
     java.lang.String apiRootUrl -> b
     java.net.Proxy proxy -> c
@@ -2591,10 +2596,10 @@ de.umass.lastfm.Event -> de.umass.lastfm.Event:
 de.umass.lastfm.Event$EventFactory -> de.umass.lastfm.w:
     de.umass.lastfm.Event createItemFromElement(de.umass.xml.DomElement) -> b
     java.lang.Object createItemFromElement(de.umass.xml.DomElement) -> a
-de.umass.lastfm.Event$TicketSupplier -> de.umass.lastfm.r:
+de.umass.lastfm.Event$TicketSupplier -> de.umass.lastfm.t:
     java.lang.String name -> a
     java.lang.String website -> b
-de.umass.lastfm.Image -> de.umass.lastfm.c:
+de.umass.lastfm.Image -> de.umass.lastfm.j:
     de.umass.lastfm.ItemFactory FACTORY -> a
     java.text.DateFormat DATE_ADDED_FORMAT -> b
     java.lang.String title -> c
@@ -2612,10 +2617,10 @@ de.umass.lastfm.Image -> de.umass.lastfm.c:
     java.lang.String access$702(de.umass.lastfm.Image,java.lang.String) -> d
     int access$802(de.umass.lastfm.Image,int) -> a
     int access$902(de.umass.lastfm.Image,int) -> b
-de.umass.lastfm.Image$ImageFactory -> de.umass.lastfm.s:
+de.umass.lastfm.Image$ImageFactory -> de.umass.lastfm.g:
     de.umass.lastfm.Image createItemFromElement(de.umass.xml.DomElement) -> b
     java.lang.Object createItemFromElement(de.umass.xml.DomElement) -> a
-de.umass.lastfm.ImageHolder -> de.umass.lastfm.i:
+de.umass.lastfm.ImageHolder -> de.umass.lastfm.m:
     java.util.Map imageUrls -> m
     void loadImages(de.umass.lastfm.ImageHolder,de.umass.xml.DomElement) -> a
 de.umass.lastfm.ImageSize -> de.umass.lastfm.ImageSize:
@@ -2630,27 +2635,27 @@ de.umass.lastfm.ImageSize -> de.umass.lastfm.ImageSize:
     de.umass.lastfm.ImageSize[] $VALUES -> i
     de.umass.lastfm.ImageSize[] values() -> values
     de.umass.lastfm.ImageSize valueOf(java.lang.String) -> valueOf
-de.umass.lastfm.ItemFactory -> de.umass.lastfm.b:
+de.umass.lastfm.ItemFactory -> de.umass.lastfm.i:
     java.lang.Object createItemFromElement(de.umass.xml.DomElement) -> a
-de.umass.lastfm.ItemFactoryBuilder -> de.umass.lastfm.q:
+de.umass.lastfm.ItemFactoryBuilder -> de.umass.lastfm.s:
     de.umass.lastfm.ItemFactoryBuilder INSTANCE -> a
     java.util.Map factories -> b
     de.umass.lastfm.ItemFactoryBuilder getFactoryBuilder() -> a
     void addItemFactory(java.lang.Class,de.umass.lastfm.ItemFactory) -> a
     de.umass.lastfm.ItemFactory getItemFactory(java.lang.Class) -> a
-de.umass.lastfm.MusicEntry -> de.umass.lastfm.h:
-    java.text.DateFormat DATE_FORMAT -> a
-    java.lang.String name -> l
-    java.lang.String url -> b
-    java.lang.String mbid -> c
-    int playcount -> d
-    int userPlaycount -> e
-    int listeners -> f
-    boolean streamable -> g
-    java.lang.String id -> h
-    int percentageChange -> i
-    java.util.Collection tags -> j
-    java.util.Date wikiLastChanged -> k
+de.umass.lastfm.MusicEntry -> de.umass.lastfm.d:
+    java.text.DateFormat DATE_FORMAT -> b
+    java.lang.String name -> a
+    java.lang.String url -> c
+    java.lang.String mbid -> d
+    int playcount -> e
+    int userPlaycount -> f
+    int listeners -> g
+    boolean streamable -> h
+    java.lang.String id -> i
+    int percentageChange -> j
+    java.util.Collection tags -> k
+    java.util.Date wikiLastChanged -> l
     java.lang.String wikiSummary -> n
     java.lang.String wikiText -> o
     java.lang.String getName() -> a
@@ -2665,7 +2670,7 @@ de.umass.lastfm.Period -> de.umass.lastfm.Period:
     de.umass.lastfm.Period[] values() -> values
     de.umass.lastfm.Period valueOf(java.lang.String) -> valueOf
     java.lang.String getString() -> a
-de.umass.lastfm.Playlist -> de.umass.lastfm.m:
+de.umass.lastfm.Playlist -> de.umass.lastfm.p:
     int id -> a
     java.lang.String title -> b
     java.lang.String annotation -> c
@@ -2696,7 +2701,7 @@ de.umass.lastfm.Result$Status -> de.umass.lastfm.Result$Status:
     de.umass.lastfm.Result$Status[] $VALUES -> c
     de.umass.lastfm.Result$Status[] values() -> values
     de.umass.lastfm.Result$Status valueOf(java.lang.String) -> valueOf
-de.umass.lastfm.Session -> de.umass.lastfm.g:
+de.umass.lastfm.Session -> de.umass.lastfm.l:
     java.lang.String apiKey -> a
     java.lang.String secret -> b
     java.lang.String username -> c
@@ -2708,7 +2713,7 @@ de.umass.lastfm.Session -> de.umass.lastfm.g:
     java.lang.String getKey() -> c
     java.lang.String getUsername() -> d
     de.umass.lastfm.Session sessionFromElement(de.umass.xml.DomElement,java.lang.String,java.lang.String) -> a
-de.umass.lastfm.Tag -> de.umass.lastfm.d:
+de.umass.lastfm.Tag -> de.umass.lastfm.b:
     de.umass.lastfm.ItemFactory FACTORY -> a
     java.text.DateFormat DATE_FORMAT -> b
     java.lang.String name -> c
@@ -2732,22 +2737,22 @@ de.umass.lastfm.Tag$TagFactory -> de.umass.lastfm.a:
     de.umass.lastfm.Tag createItemFromElement(de.umass.xml.DomElement) -> b
     java.lang.Object createItemFromElement(de.umass.xml.DomElement) -> a
 de.umass.lastfm.Track -> de.umass.lastfm.Track:
-    de.umass.lastfm.ItemFactory FACTORY -> a
-    java.lang.String artist -> b
-    java.lang.String artistMbid -> c
-    java.lang.String album -> d
-    java.lang.String albumMbid -> e
+    de.umass.lastfm.ItemFactory FACTORY -> b
+    java.lang.String artist -> c
+    java.lang.String artistMbid -> d
+    java.lang.String album -> e
+    java.lang.String albumMbid -> f
     int position -> n
-    boolean fullTrackAvailable -> f
-    boolean nowPlaying -> g
-    java.util.Date playedWhen -> h
-    int duration -> i
-    java.lang.String location -> j
-    java.util.Map lastFmExtensionInfos -> k
+    boolean fullTrackAvailable -> g
+    boolean nowPlaying -> h
+    java.util.Date playedWhen -> i
+    int duration -> j
+    java.lang.String location -> k
+    java.util.Map lastFmExtensionInfos -> l
     java.lang.String toString() -> toString
-de.umass.lastfm.Track$TrackFactory -> de.umass.lastfm.l:
+de.umass.lastfm.Track$TrackFactory -> de.umass.lastfm.o:
     java.lang.Object createItemFromElement(de.umass.xml.DomElement) -> a
-de.umass.lastfm.User -> de.umass.lastfm.e:
+de.umass.lastfm.User -> de.umass.lastfm.k:
     de.umass.lastfm.ItemFactory FACTORY -> a
     java.lang.String id -> b
     java.lang.String name -> c
@@ -2774,7 +2779,7 @@ de.umass.lastfm.User -> de.umass.lastfm.e:
 de.umass.lastfm.User$UserFactory -> de.umass.lastfm.u:
     de.umass.lastfm.User createItemFromElement(de.umass.xml.DomElement) -> b
     java.lang.Object createItemFromElement(de.umass.xml.DomElement) -> a
-de.umass.lastfm.Venue -> de.umass.lastfm.k:
+de.umass.lastfm.Venue -> de.umass.lastfm.n:
     de.umass.lastfm.ItemFactory FACTORY -> a
     java.lang.String name -> b
     java.lang.String url -> c
@@ -2802,28 +2807,28 @@ de.umass.lastfm.Venue -> de.umass.lastfm.k:
     float access$1302(de.umass.lastfm.Venue,float) -> b
 de.umass.lastfm.Venue$VenueFactory -> de.umass.lastfm.v:
     java.lang.Object createItemFromElement(de.umass.xml.DomElement) -> a
-de.umass.lastfm.cache.Cache -> de.umass.lastfm.a.d:
+de.umass.lastfm.cache.Cache -> de.umass.lastfm.a.b:
     boolean hashCacheEntryNames -> a
     de.umass.lastfm.cache.ExpirationPolicy expirationPolicy -> b
     de.umass.lastfm.cache.ExpirationPolicy getExpirationPolicy() -> a
     boolean contains(java.lang.String) -> a
-    java.io.InputStream load(java.lang.String) -> d
-    void remove(java.lang.String) -> b
+    java.io.InputStream load(java.lang.String) -> b
+    void remove(java.lang.String) -> c
     void store(java.lang.String,java.io.InputStream,long) -> a
-    boolean isExpired(java.lang.String) -> c
+    boolean isExpired(java.lang.String) -> d
     java.lang.String createCacheEntryName(java.lang.String,java.util.Map) -> a
 de.umass.lastfm.cache.DefaultExpirationPolicy -> de.umass.lastfm.a.a:
     java.util.Set ONE_WEEK_METHODS -> a
     long cacheRecentWeeklyCharts -> b
     long getExpirationTime(java.lang.String,java.util.Map) -> a
-de.umass.lastfm.cache.ExpirationPolicy -> de.umass.lastfm.a.b:
+de.umass.lastfm.cache.ExpirationPolicy -> de.umass.lastfm.a.c:
     long getExpirationTime(java.lang.String,java.util.Map) -> a
-de.umass.lastfm.cache.FileSystemCache -> de.umass.lastfm.a.c:
+de.umass.lastfm.cache.FileSystemCache -> de.umass.lastfm.a.d:
     java.io.File cacheDir -> a
     boolean contains(java.lang.String) -> a
-    void remove(java.lang.String) -> b
-    boolean isExpired(java.lang.String) -> c
-    java.io.InputStream load(java.lang.String) -> d
+    void remove(java.lang.String) -> c
+    boolean isExpired(java.lang.String) -> d
+    java.io.InputStream load(java.lang.String) -> b
     void store(java.lang.String,java.io.InputStream,long) -> a
 de.umass.util.StringUtilities -> de.umass.b.a:
     java.security.MessageDigest digest -> a
@@ -2912,7 +2917,7 @@ oauth.signpost.commonshttp.CommonsHttpOAuthProvider -> oauth.signpost.commonshtt
     oauth.signpost.http.HttpRequest createRequest(java.lang.String) -> a
     oauth.signpost.http.HttpResponse sendRequest(oauth.signpost.http.HttpRequest) -> a
     void closeConnection$590d452b(oauth.signpost.http.HttpResponse) -> a
-oauth.signpost.commonshttp.HttpRequestAdapter -> oauth.signpost.commonshttp.b:
+oauth.signpost.commonshttp.HttpRequestAdapter -> oauth.signpost.commonshttp.a:
     org.apache.http.client.methods.HttpUriRequest request -> a
     org.apache.http.HttpEntity entity -> b
     java.lang.String getMethod() -> a
@@ -2922,7 +2927,7 @@ oauth.signpost.commonshttp.HttpRequestAdapter -> oauth.signpost.commonshttp.b:
     java.lang.String getContentType() -> d
     java.io.InputStream getMessagePayload() -> c
     java.lang.Object unwrap() -> e
-oauth.signpost.commonshttp.HttpResponseAdapter -> oauth.signpost.commonshttp.a:
+oauth.signpost.commonshttp.HttpResponseAdapter -> oauth.signpost.commonshttp.b:
     org.apache.http.HttpResponse response -> a
     java.io.InputStream getContent() -> c
     int getStatusCode() -> a
@@ -3001,14 +3006,14 @@ org.json.simple.JSONArray -> org.json.simple.JSONArray:
     java.lang.String toJSONString(java.util.List) -> a
     java.lang.String toJSONString() -> a
     java.lang.String toString() -> toString
-org.json.simple.JSONAware -> org.json.simple.b:
+org.json.simple.JSONAware -> org.json.simple.a:
     java.lang.String toJSONString() -> a
 org.json.simple.JSONObject -> org.json.simple.JSONObject:
     long serialVersionUID -> serialVersionUID
     java.lang.String toJSONString(java.util.Map) -> a
     java.lang.String toJSONString() -> a
     java.lang.String toString() -> toString
-org.json.simple.JSONValue -> org.json.simple.a:
+org.json.simple.JSONValue -> org.json.simple.b:
     java.lang.String toJSONString(java.lang.Object) -> a
     void escape(java.lang.String,java.lang.StringBuffer) -> a
 org.json.simple.parser.JSONParser -> org.json.simple.parser.c:
