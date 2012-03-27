@@ -130,7 +130,7 @@ public class RecSongsActivity extends TrackedListActivity implements PlaylistLis
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {		
 		Intent i = new Intent(RecSongsActivity.this, MusicInfoTab.class);
-		i.putExtra("songId", adapter.getItem(position));		
+		i.putExtra("songId", adapter.getItem(position-1)); //minus one due to header of the list counting as index 0		
 		startActivity(i);		
 	}
 	
