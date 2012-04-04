@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Song Seeker</string>
+    <string name="songs">Songs</string>
+    <string name="playlists">Playlists</string>
+    <string name="profile">Profile</string>
+    <string name="play_songs">Play Songs</string>
+    <string name="save_playlist">Save Playlist</string>
+    <string name="refresh_songs">Refresh Songs</string>
+    <string name="playlist_options">Playlist Options</string>
+
+</resources>
