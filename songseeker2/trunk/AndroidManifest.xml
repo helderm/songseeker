@@ -23,6 +23,10 @@
         </activity>
         <activity android:name=".ui.SongsFragment" >
         </activity>
+        <activity android:name=".ui.PlaylistsFragment" >
+        </activity>
+        <activity android:name=".ui.ProfileFragment" >
+        </activity>
     </application>
 
 </manifest>

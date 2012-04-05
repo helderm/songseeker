@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Song Seeker</string>
+
+    <string name="app_name">Song Seeker</string>
     <string name="songs">Songs</string>
     <string name="playlists">Playlists</string>
     <string name="profile">Profile</string>
@@ -8,5 +9,13 @@
     <string name="save_playlist">Save Playlist</string>
     <string name="refresh_songs">Refresh Songs</string>
     <string name="playlist_options">Playlist Options</string>
+    <string name="clear_playlists">Clear Playlists</string>
+    <string name="add_artist">Add Artist</string>
+    <string name="import_artists">Import Artists</string>
+    
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="donate">Donate</string>
+    
 
 </resources>

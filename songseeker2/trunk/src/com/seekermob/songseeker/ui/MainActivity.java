@@ -42,8 +42,8 @@ public class MainActivity extends SherlockFragmentActivity {
         
         //add songs tab
         mTabsAdapter.addTab(songsTab, SongsFragment.class);        
-        mTabsAdapter.addTab(playlistsTab, SongsFragment.class);
-        mTabsAdapter.addTab(profileTab, SongsFragment.class);
+        mTabsAdapter.addTab(playlistsTab, PlaylistsFragment.class);
+        mTabsAdapter.addTab(profileTab, ProfileFragment.class);
         
         if (savedInstanceState != null) {
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("index"));
