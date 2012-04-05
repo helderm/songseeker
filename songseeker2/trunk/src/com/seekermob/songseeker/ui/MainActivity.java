@@ -7,6 +7,9 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.ActionBar.Tab;
 
 import com.seekermob.songseeker.R;
+import com.seekermob.songseeker.util.FileCache;
+import com.seekermob.songseeker.util.MediaPlayerController;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,6 +29,9 @@ public class MainActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);	    
 		setContentView(R.layout.main);
 		
+		//set cache dirs
+        FileCache.setCacheDirs(getApplicationContext());
+		
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(false);
@@ -40,7 +46,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
         mTabsAdapter = new TabsAdapter(this, actionBar, mViewPager);
         
-        //add songs tab
+        //add tabs
         mTabsAdapter.addTab(songsTab, SongsFragment.class);        
         mTabsAdapter.addTab(playlistsTab, PlaylistsFragment.class);
         mTabsAdapter.addTab(profileTab, ProfileFragment.class);
@@ -50,6 +56,12 @@ public class MainActivity extends SherlockFragmentActivity {
         }
 	}
 
+	@Override
+	protected void onPause() {
+		MediaPlayerController.getCon().release();
+		super.onPause();
+	}
+	
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -83,6 +95,9 @@ public class MainActivity extends SherlockFragmentActivity {
 			mViewPager = pager;
 			mViewPager.setAdapter(this);
 			mViewPager.setOnPageChangeListener(this);
+			
+			//increase this so the viewpager will hold all my tabs 
+			mViewPager.setOffscreenPageLimit(2);
 		}
 
 		public void addTab(ActionBar.Tab tab, Class<?> clss, Bundle args) {

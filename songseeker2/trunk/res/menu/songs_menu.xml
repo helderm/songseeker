@@ -22,6 +22,16 @@
         android:showAsAction="ifRoom"
         android:title="@string/playlist_options"/>
     <item
+        android:id="@+id/menu_export_playlist"
+        android:icon="@drawable/ic_action_export"
+        android:showAsAction="ifRoom"
+        android:title="@string/export_playlist"/>
+    <item
+        android:id="@+id/menu_search_artist"
+        android:icon="@drawable/ic_action_search"
+        android:showAsAction="ifRoom"
+        android:title="@string/search_artist"/>
+    <item
         android:id="@+id/menu_settings"
         android:showAsAction="never"
         android:title="@string/settings"/>

@@ -9,13 +9,28 @@
     <string name="save_playlist">Save Playlist</string>
     <string name="refresh_songs">Refresh Songs</string>
     <string name="playlist_options">Playlist Options</string>
+    <string name="export_playlist">Export Playlist</string>
+    <string name="search_artist">Search Artist</string>
     <string name="clear_playlists">Clear Playlists</string>
     <string name="add_artist">Add Artist</string>
-    <string name="import_artists">Import Artists</string>
-    
+    <string name="import_artists">Import Artists</string>    
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="donate">Donate</string>
+    <string name="tap_to_get_songs"> Tap here to get some SONGS!</string>
+    <string name="req_add_artists_profile">Please add at least one artist to your profile.</string>
+    
+    <string name="playlist_empty">Your playlist is empty! Try changing your playlist options.</string>    
+    <string name="adding_songs_playlist">Adding songs to the playlist, please wait.</string>
+    <string name="err_add_songs_playlist">Failed to add songs to the playlist!</string>
+    <string name="some_songs_added_playlist">Some songs were successfully added to the playlist!</string>
+    <string name="success_add_songs_playlist">Songs successfully added to the playlist!</string>
+    
+    <string name="adding_artists_profile">Adding artists to your profile, please wait.</string>
+    <string name="artists_already_profile">Artists already in your profile!</string>
+    <string name="err_add_artists_profile">Failed to add the artists to your profile!</string>
+    <string name="some_artists_added_profile">Some artists were successfully added to your profile!</string>
+    <string name="success_add_artists_profile">Artists successfully added to your profile!</string>
     
 
 </resources>

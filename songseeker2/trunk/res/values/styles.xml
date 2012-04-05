@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="SongSeekerTheme" parent="Theme.Sherlock.ForceOverflow">
+    <style name="SongSeekerTheme" parent="Theme.Sherlock.ForceOverflow"></style>
+
+    <style name="list_view_first_line">
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light_green</item>
+    </style>
+
+    <style name="list_view_second_line">
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/light_grey</item>
+    </style>
+
+    <style name="list_view_third_line">
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/light_grey</item>
+        <item name="android:textStyle">italic</item>
     </style>
 
 </resources>
