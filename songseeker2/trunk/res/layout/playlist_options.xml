@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/label_mood"
+            style="@style/pl_options_labels"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/layout_padding"
+            android:gravity="center"
+            android:text="@string/mood_str" >
+        </TextView>
+
+        <SeekBar
+            android:id="@+id/seekBar_mood"
+            style="@style/seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:layout_marginRight="@dimen/layout_padding" >
+        </SeekBar>
+
+        <TextView
+            android:id="@+id/label_tempo"
+            style="@style/pl_options_labels"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/tempo_str" >
+        </TextView>
+
+        <SeekBar
+            android:id="@+id/seekBar_tempo"
+            style="@style/seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:layout_marginRight="@dimen/layout_padding" >
+        </SeekBar>
+
+        <TextView
+            android:id="@+id/label_danceability"
+            style="@style/pl_options_labels"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/danceability_str" >
+        </TextView>
+
+        <SeekBar
+            android:id="@+id/seekBar_danceability"
+            style="@style/seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:layout_marginRight="@dimen/layout_padding" >
+        </SeekBar>
+
+        <TextView
+            android:id="@+id/label_energy"
+            style="@style/pl_options_labels"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/energy_str" >
+        </TextView>
+
+        <SeekBar
+            android:id="@+id/seekBar_energy"
+            style="@style/seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:layout_marginRight="@dimen/layout_padding" >
+        </SeekBar>
+
+        <TextView
+            android:id="@+id/label_hotness"
+            style="@style/pl_options_labels"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/hotness_str" >
+        </TextView>
+
+        <SeekBar
+            android:id="@+id/seekBar_hotness"
+            style="@style/seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:layout_marginRight="@dimen/layout_padding" >
+        </SeekBar>
+
+        <TextView
+            android:id="@+id/label_variety"
+            style="@style/pl_options_labels"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/variety_str" >
+        </TextView>
+
+        <SeekBar
+            android:id="@+id/seekBar_variety"
+            style="@style/seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:layout_marginRight="@dimen/layout_padding" >
+        </SeekBar>
+
+        <TextView
+            android:id="@+id/label_max_results"
+            style="@style/pl_options_labels"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/max_results_str" >
+        </TextView>
+
+        <SeekBar
+            android:id="@+id/seekBar_max_results"
+            style="@style/seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:layout_marginRight="@dimen/layout_padding" >
+        </SeekBar>
+
+        <TextView
+            style="@style/pl_options_labels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:layout_marginTop="@dimen/layout_padding"
+            android:text="@string/playlist_type"
+            android:textAppearance="?android:attr/textAppearanceMedium" >
+        </TextView>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/layout_padding"
+            android:orientation="vertical" >
+
+            <RadioButton
+                android:id="@+id/exact_artists"
+                style="@style/pl_options_labels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/btn_radio"
+                android:text="@string/known_artists" />
+
+            <RadioButton
+                android:id="@+id/similar_artists"
+                style="@style/pl_options_labels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/btn_radio"
+                android:text="@string/similar_artists" />
+        </RadioGroup>
+    </LinearLayout>
+
+</ScrollView>

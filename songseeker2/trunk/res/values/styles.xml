@@ -26,4 +26,16 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="seekbar">
+        <item name="android:thumb">@drawable/seekbar_thumb</item>
+        <item name="android:progressDrawable">@drawable/seekbar_progress</item>
+    </style>
+
+    <style name="pl_options_labels">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light_grey</item>
+    </style>
+
 </resources>

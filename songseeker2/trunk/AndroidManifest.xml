@@ -27,12 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.SongsFragment" >
-        </activity>
-        <activity android:name=".ui.PlaylistsFragment" >
-        </activity>
-        <activity android:name=".ui.ProfileFragment" >
-        </activity>
+        <activity android:name=".ui.PlaylistOptionsActivity"></activity>
     </application>
 
 </manifest>

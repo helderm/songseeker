@@ -6,6 +6,7 @@ import com.seekermob.songseeker.R;
 import android.app.ListActivity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -53,25 +54,23 @@ public class RecSongsPlaylist {
 	}
 
 	/** Get a new playlist methods*/
-	public void getPlaylist(PlaylistParams plp, Context c, int progressDiag){
-		new GetPlaylistTask(plp, c, progressDiag).execute();		
+	public void getPlaylist(PlaylistParams plp, ListFragment lf){
+		new GetPlaylistTask(plp, lf).execute();		
 	}
 
 	private class GetPlaylistTask extends AsyncTask<Void, Void, Void>{
 		private String err = null;
 		private PlaylistParams playlistParams;
-		private Context context;
-		//private int progressDiag;		
+		private ListFragment listFragment;	
 
-		public GetPlaylistTask(PlaylistParams plp, Context c, int pd) {
+		public GetPlaylistTask(PlaylistParams plp, ListFragment lf) {
 			playlistParams = plp;
-			context = c;
-			//progressDiag = pd;
+			listFragment = lf;
 		}
 
 		@Override
 		protected void onPreExecute() {
-			//activity.showDialog(progressDiag);
+			listFragment.setListShown(false);
 		}
 
 		@Override
@@ -108,7 +107,7 @@ public class RecSongsPlaylist {
 					if(songInfo.id != null && (songInfo.name == null || songInfo.artist.name == null ||
 						(songInfo.release.image == null && retries > 0))){
 							
-						songInfo = SevenDigitalComm.getComm().querySongDetails(songInfo.id, songInfo.name, songInfo.artist.name, context);	
+						songInfo = SevenDigitalComm.getComm().querySongDetails(songInfo.id, songInfo.name, songInfo.artist.name, listFragment.getActivity().getApplicationContext());	
 						retries--;
 					}						
 					
@@ -140,25 +139,24 @@ public class RecSongsPlaylist {
 		@Override
 		protected void onPostExecute(Void result) {
 
-			//activity.removeDialog(progressDiag);
+			listFragment.setListShown(true);
 
+			//notify listeners that the data changed
+			notifyListeners();
+			
 			if(err != null){
-				Toast.makeText(context, err, Toast.LENGTH_LONG).show();
-				//activity.finish();
+				Toast.makeText(listFragment.getActivity().getApplicationContext(), err, Toast.LENGTH_LONG).show();
+				listFragment = null;
 				return;
 			}
 
 			if(songs.size() == 0){
-				Toast.makeText(context, R.string.playlist_empty, 
-						Toast.LENGTH_LONG).show();
-				//activity.finish();
+				Toast.makeText(listFragment.getActivity().getApplicationContext(), R.string.playlist_empty, Toast.LENGTH_LONG).show();
+				listFragment = null;
 				return;	    		
-			}
+			}			
 
-			//notify listeners that the data changed
-			notifyListeners();
-
-			context = null; //maybe this prevents memory leakage
+			listFragment = null; //maybe this prevents memory leakage
 		}		
 	}	
 
