@@ -3,6 +3,8 @@
 
     <color name="light_green">#b3ea35</color>
     <color name="dark_green">#6e9826</color>
+    <color name="light_blue">#33b5e5</color>
+    <color name="dark_blue">#19576e</color>
     <color name="light_grey">#e4e4e4</color>
     <color name="dark_grey">#575c62</color>
     <color name="dark_grey01">#292626</color>

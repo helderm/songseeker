@@ -24,21 +24,19 @@ import com.seekermob.songseeker.util.ImageLoader.ImageSize;
 import com.seekermob.songseeker.util.MediaPlayerController;
 import com.seekermob.songseeker.util.MediaPlayerController.MediaStatus;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -46,9 +44,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SongsFragment extends SherlockListFragment implements PlaylistListener, OnCancelListener {
+public class SongsFragment extends SherlockListFragment implements PlaylistListener{
 	private SongsAdapter mAdapter;
-	private AsyncTask<?,?,?> task;
+	private PlaySongsTask mPlaySongsTask;
+	private Bundle mSavedState;
+	
+	private static final String STATE_PLAYLIST = "playlist";
+	private static final String STATE_PLAY_SONGS_IDS = "playSongsIds";
+	private static final String STATE_PLAY_SONGS_INDEX = "playSongsIndex";
+	private static final String STATE_PLAY_SONGS_RUNNING = "playSongsRunning";
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -71,16 +75,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		RecSongsPlaylist.getInstance().registerListener(this);
 
 		//check if we are recovering the state
-		ArrayList<SongInfo> savedPlaylist = null;
-		if(savedInstanceState != null && (savedPlaylist = savedInstanceState.getParcelableArrayList("savedPlaylist")) != null){
-			if(RecSongsPlaylist.getInstance().isEmpty()){
-				RecSongsPlaylist.getInstance().setSongs(savedPlaylist);
-			}
-			savedPlaylist = null;
-
-			mAdapter.setPlaylist(RecSongsPlaylist.getInstance().getPlaylist());
-			return;
-		}
+		restoreLocalState(savedInstanceState);
 
 		//set main onClick on emptyView that fetches data from EN
 		setEmptyText(getString(R.string.tap_to_get_songs));	    
@@ -95,15 +90,9 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 				RecSongsPlaylist.getInstance().getPlaylist(buildPlaylistParams(), SongsFragment.this);
 			}
 		});
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		if(mAdapter != null && mAdapter.playlist != null){
-			outState.putParcelableArrayList("savedPlaylist", new ArrayList<Parcelable>(mAdapter.playlist));			
-		}
-
-		super.onSaveInstanceState(outState);
+		
+		//set listview selector
+		getListView().setSelector(R.drawable.list_selector_holo_dark);
 	}
 
 	@Override
@@ -116,10 +105,76 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		RecSongsPlaylist.getInstance().unregisterListener(this);
 
 		//cancel the task
-		if(task != null)
-			task.cancel(true);
+		if(mPlaySongsTask != null)
+			mPlaySongsTask.cancel(true);
 		
 		super.onDestroy();
+	}		
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+        if (mSavedState != null) {
+            restoreLocalState(mSavedState);
+        }
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		
+		//save the playlist
+		if(mAdapter != null && mAdapter.playlist != null){
+			outState.putParcelableArrayList(STATE_PLAYLIST, new ArrayList<Parcelable>(mAdapter.playlist));			
+		}
+
+		//save the progress of the 'Play Songs' dialog
+        final PlaySongsTask task = mPlaySongsTask;
+        if (task != null && task.getStatus() != AsyncTask.Status.FINISHED) {
+            task.cancel(true);
+
+            outState.putBoolean(STATE_PLAY_SONGS_RUNNING, true);
+            outState.putStringArrayList(STATE_PLAY_SONGS_IDS, task.songIds);
+            outState.putInt(STATE_PLAY_SONGS_INDEX, task.index);
+
+            mPlaySongsTask = null;
+        }
+        
+        
+        mSavedState = outState;
+		
+		super.onSaveInstanceState(outState);
+	}
+	
+	/** Restores the saved instance of this fragment*/
+	private void restoreLocalState(Bundle savedInstanceState){		
+
+		if(savedInstanceState == null){
+			return;
+		}
+		
+		//restore the playlist
+		ArrayList<SongInfo> savedPlaylist = null;
+		if(savedInstanceState != null && (savedPlaylist = savedInstanceState.getParcelableArrayList(STATE_PLAYLIST)) != null){
+			if(RecSongsPlaylist.getInstance().isEmpty()){
+				RecSongsPlaylist.getInstance().setSongs(savedPlaylist);
+			}
+			savedPlaylist = null;
+
+			mAdapter.setPlaylist(RecSongsPlaylist.getInstance().getPlaylist());			
+		}	
+		
+		//restore the playsongs task
+		if(savedInstanceState.getBoolean(STATE_PLAY_SONGS_RUNNING)) {
+			ArrayList<String> ids = savedInstanceState.getStringArrayList(STATE_PLAY_SONGS_IDS);
+			int index = savedInstanceState.getInt(STATE_PLAY_SONGS_INDEX);
+
+			if (ids != null) {
+				mPlaySongsTask = (PlaySongsTask) new PlaySongsTask(ids, index).execute();
+			}
+		}
+		
+		mSavedState = null;
 	}	
 
 	@Override
@@ -371,108 +426,137 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		}
 
 		//start task to fetch song ids from grooveshark
-		if(task != null)
-			task.cancel(true);
-		task = new GetSongIdsGroovesharkTask().execute();
+		if(mPlaySongsTask != null)
+			mPlaySongsTask.cancel(true);
+		mPlaySongsTask = (PlaySongsTask) new PlaySongsTask().execute();
 	}
 
-	private class GetSongIdsGroovesharkTask extends AsyncTask<Void, Integer, int[]>{
+	private class PlaySongsTask extends AsyncTask<Void, Integer, int[]>{
 
 		private String err;
-		private DialogFragment dialogFrag;
 		private List<SongInfo> songs = new ArrayList<SongInfo>(mAdapter.playlist);
-
+		private View mProgressOverlay;
+		private ProgressBar mUpdateProgress;
+		
+		private ArrayList<String> songIds = new ArrayList<String>();
+		private int index;
+		
+        protected PlaySongsTask() {
+        }
+		
+        protected PlaySongsTask(ArrayList<String> ids, int i) {
+        	songIds = ids;
+        	index = i;
+        }
+		
 		@Override
 		protected void onPreExecute() {
 
+            // see if we already inflated the progress overlay
+            mProgressOverlay = getActivity().findViewById(R.id.overlay_update);
+            if (mProgressOverlay == null) {
+                mProgressOverlay = ((ViewStub) getActivity().findViewById(R.id.stub_update)).inflate();
+            }                        
+            showOverlay(mProgressOverlay);
+            
+            // setup the progress overlay
+            TextView mUpdateStatus = (TextView) mProgressOverlay
+                    .findViewById(R.id.textViewUpdateStatus);
+            mUpdateStatus.setText(R.string.loading);
+
+            mUpdateProgress = (ProgressBar) mProgressOverlay
+                    .findViewById(R.id.ProgressBarShowListDet);
+
+            View cancelButton = mProgressOverlay.findViewById(R.id.overlayCancel);
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    onCancelTasks();
+                }
+            });
+			
 			Toast.makeText(getActivity().getBaseContext(), R.string.check_dms_setting_on, Toast.LENGTH_LONG).show();
 
 			//access is limited today to some ws calls/ip/minute, so i'll need to truncate the playlist 
 			if(songs.size() > GroovesharkComm.RATE_LIMIT){
-
-				songs = songs.subList(0, GroovesharkComm.RATE_LIMIT);
-				//Toast.makeText(getActivity(), "Truncating playlist to " + GroovesharkComm.RATE_LIMIT + " songs, due to technical reasons...", Toast.LENGTH_SHORT).show();
+				songs = songs.subList(0, GroovesharkComm.RATE_LIMIT);				
 			}
 
-			dialogFrag = ProgressDialogFragment.showDialog(R.string.loading, songs.size(), getFragmentManager());			
+			mUpdateProgress.setMax(songs.size());
+			mUpdateProgress.setProgress(index);
 		}
 
 		@Override
 		protected void onProgressUpdate(Integer... progress) {			
-			if(dialogFrag.getDialog() == null)
-				return;
-			
-			((ProgressDialog)dialogFrag.getDialog()).setProgress(progress[0]);			
-			dialogFrag.getDialog().setOnCancelListener(SongsFragment.this);
+			mUpdateProgress.setProgress(progress[0]);
 		}		
 
 		@Override
 		protected int[] doInBackground(Void... params) {
 			SharedPreferences settings = getActivity().getSharedPreferences(Util.APP, Context.MODE_PRIVATE);
-			ArrayList<String> ids = new ArrayList<String>();
-			int songIds[] = null;
-			int i = 0;			
-			int count = 0;
+			int i = 0;
+			int ids[];
 
 			//fetch the song ids from grooveshark
-			for(SongInfo song : songs){
-
+			for(i=index; i<songs.size(); i++){
+				SongInfo song = songs.get(i);
+				
 				//check if the task was cancelled by the user
-				if(Thread.interrupted()){
+				if(isCancelled()){
 					return null;
 				}
 
 				try {					
 					String gsID = GroovesharkComm.getComm().getSongID(song.name, song.artist.name, settings);					
-					ids.add(gsID);
+					songIds.add(gsID);
 				}catch (ServiceCommException e) {
 					if(e.getErr() == ServiceErr.SONG_NOT_FOUND){
-						publishProgress(++count);
+						publishProgress(++index);
 						Log.i(Util.APP, "Song ["+song.name+" - "+song.artist.name+"] not found in Grooveshark, ignoring...");
 						continue;
 					}
-
-					songIds = new int[ids.size()];
-					for(String id : ids){
-						songIds[i++] = Integer.parseInt(id);
-					}
-
-					if(e.getErr() == ServiceErr.TRY_LATER){
-						//err = "Some songs were not fetched due to technical reasons, try later!";
-						return songIds;
-					}
+					
+					songs = null;
+					
+					//in case of error, return what song ids we have
+					i = 0;
+					ids = new int[songIds.size()];
+					for(String id : songIds){
+						ids[i++] = Integer.parseInt(id);
+					}					
 
 					err = e.getMessage();
-					return songIds;
+					return ids;
 				} 
 
-				publishProgress(++count);
+				publishProgress(++index);
 			}
-
+			songs = null;
+			
 			//check if the task was cancelled by the user
-			if(Thread.interrupted()){
+			if(isCancelled()){
 				return null;
 			}
 
 			//convert from string list to static array
-			songIds = new int[ids.size()];
-			for(String id : ids){
-				songIds[i++] = Integer.parseInt(id);
+			i = 0;
+			ids = new int[songIds.size()];
+			for(String id : songIds){
+				ids[i++] = Integer.parseInt(id);
 			}
 
-			return songIds;
+			return ids;
 		}
 
 		@Override
-		protected void onPostExecute(int songIds[]) {
+		protected void onPostExecute(int[] ids) {
 
-			dialogFrag.dismiss();
+			hideOverlay(mProgressOverlay);
 			
 			if(err != null){
 				Toast.makeText(getActivity(), err, Toast.LENGTH_SHORT).show();
 			}
 
-			if(songIds == null || songIds.length == 0){
+			if(ids == null || ids.length == 0){
 				Toast.makeText(getActivity(), R.string.no_song_found, Toast.LENGTH_SHORT).show();
 				return;
 			}
@@ -480,15 +564,37 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			Intent intent = new Intent();
 			intent.setAction("com.mysticdeath.md_gs_app.remotelist");
 			intent.putExtra("name", Util.APP);
-			intent.putExtra("songIDs", songIds);
+			intent.putExtra("songIDs", ids);
 			getActivity().sendBroadcast(intent);			
-		}		
+		}
+		
+        @Override
+        protected void onCancelled() {
+        	hideOverlay(mProgressOverlay);
+        }
 	}
 
-	@Override
-	public void onCancel(DialogInterface dialog) {
-		if(task != null)
-			task.cancel(true);		
-	}
+    private void showOverlay(View overlay) {
+        overlay.startAnimation(AnimationUtils.loadAnimation(getActivity().getApplicationContext(),
+        		R.anim.fade_in));
+        overlay.setVisibility(View.VISIBLE);
+    }
 
+    private void hideOverlay(View overlay) {
+        
+    	//this occurs when changing orientation
+    	if(getActivity() == null)
+        	return;
+    	
+    	overlay.startAnimation(AnimationUtils.loadAnimation(getActivity().getApplicationContext(),
+                R.anim.fade_out));
+        overlay.setVisibility(View.GONE);
+    }	
+    
+    private void onCancelTasks() {
+        if (mPlaySongsTask != null && mPlaySongsTask.getStatus() == AsyncTask.Status.RUNNING) {
+        	mPlaySongsTask.cancel(true);
+        	mPlaySongsTask = null;
+        }
+    }
 }

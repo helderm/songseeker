@@ -8,7 +8,8 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:singleLine">true</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/light_green</item>
+        <item name="android:textColor">@color/light_blue</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
 
     <style name="list_view_second_line">
@@ -16,6 +17,7 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:singleLine">true</item>
         <item name="android:textColor">@color/light_grey</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
 
     <style name="list_view_third_line">
@@ -24,6 +26,7 @@
         <item name="android:singleLine">true</item>
         <item name="android:textColor">@color/light_grey</item>
         <item name="android:textStyle">italic</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
 
     <style name="seekbar">
@@ -33,7 +36,7 @@
 
     <style name="pl_options_labels">
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/light_grey</item>
     </style>

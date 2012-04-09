@@ -45,5 +45,6 @@
     <string name="known_artists">Only known artists</string>
     <string name="similar_artists">Known and similar artists</string>
     <string name="shuffle">Shuffle</string>
+    <string name="cancel">Cancel</string>
 
 </resources>
