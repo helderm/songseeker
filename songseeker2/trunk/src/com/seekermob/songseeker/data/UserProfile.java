@@ -27,7 +27,7 @@ public class UserProfile implements Serializable, OnCancelListener{
 	
 	private static AddToProfileTask addTask = null;
 
-	private static final String PROFILE_FILENAME = "profile";
+	public static final String PROFILE_FILENAME = "profile";
 	private static final long serialVersionUID = 1L;
 	
 	private UserProfile(){}
@@ -37,7 +37,7 @@ public class UserProfile implements Serializable, OnCancelListener{
 		//check if we have a profile written in the disk		
 		if(profile == null){
 			if((profile = (Profile)Util.readObjectFromDevice(activity, PROFILE_FILENAME)) == null){
-				profile = obj.new Profile();
+				profile = new Profile();
 			}
 		}
 		
@@ -202,7 +202,7 @@ public class UserProfile implements Serializable, OnCancelListener{
 		}		
 	}	
 	
-	synchronized void syncAddArtistsToProfile(ArrayList<ArtistProfile> artists, Activity activity){
+	public synchronized void syncAddArtistsToProfile(ArrayList<ArtistProfile> artists, Activity activity){
 		profile.artists.addAll(artists);		
 		Util.writeObjectToDevice(activity, profile, PROFILE_FILENAME);
 	}
@@ -267,19 +267,19 @@ public class UserProfile implements Serializable, OnCancelListener{
 	}
 	
 	public void clearProfile(Activity activity){
-		profile = obj.new Profile();
+		profile = new Profile();
 		
 		Util.writeObjectToDevice(activity, profile, PROFILE_FILENAME);
 	}
 	
-	public class Profile implements Serializable{
+	public static class Profile implements Serializable{
 		public ArrayList<ArtistProfile> artists = new ArrayList<ArtistProfile>();
 		
 		private static final long serialVersionUID = 1L;
 	}
 
 	//Note to self: Cannot use ArtistInfo since it implements Parcel, and Parcels are not suitable to write to disk
-	public class ArtistProfile implements Serializable {
+	public static class ArtistProfile implements Serializable {
 		public String name;
 		public String image;
 		public String id;

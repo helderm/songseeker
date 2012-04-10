@@ -10,7 +10,8 @@
         android:layout_height="@dimen/image_list_item"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="6dip" />
+        android:layout_marginRight="6dip"
+        android:contentDescription="@string/album_image" />
 
     <TextView
         android:id="@+id/firstLine"
@@ -49,7 +50,8 @@
             android:id="@+id/playpause"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_gravity="center" />
+            android:layout_gravity="center" 
+            android:contentDescription="@string/play_pause_preview"/>
 
         <ProgressBar
             android:id="@+id/loading"

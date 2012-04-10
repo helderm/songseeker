@@ -7,30 +7,30 @@
         android:showAsAction="ifRoom"
         android:title="@string/play_songs"/>
     <item
-        android:id="@+id/menu_save_playlist"
-        android:icon="@drawable/ic_action_save_playlist"
-        android:showAsAction="ifRoom"
-        android:title="@string/save_playlist"/>
-    <item
         android:id="@+id/menu_refresh_songs"
         android:icon="@drawable/ic_action_refresh"
         android:showAsAction="ifRoom"
         android:title="@string/refresh_songs"/>
+    <item
+        android:id="@+id/menu_save_playlist"
+        android:icon="@drawable/ic_action_save_playlist"
+        android:showAsAction="ifRoom"
+        android:title="@string/save_playlist"/>    
     <item
         android:id="@+id/menu_playlist_options"
         android:icon="@drawable/ic_action_playlist_options"
         android:showAsAction="ifRoom"
         android:title="@string/playlist_options"/>
     <item
+        android:id="@+id/menu_search_artist"
+        android:icon="@drawable/ic_action_search"
+        android:showAsAction="ifRoom"
+        android:title="@string/search_artist"/>   
+    <item
         android:id="@+id/menu_export_playlist"
         android:icon="@drawable/ic_action_export"
         android:showAsAction="ifRoom"
         android:title="@string/export_playlist"/>
-    <item
-        android:id="@+id/menu_search_artist"
-        android:icon="@drawable/ic_action_search"
-        android:showAsAction="ifRoom"
-        android:title="@string/search_artist"/>
     <item
         android:id="@+id/menu_settings"
         android:showAsAction="never"

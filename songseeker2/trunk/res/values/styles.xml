@@ -3,6 +3,8 @@
 
     <style name="SongSeekerTheme" parent="Theme.Sherlock.ForceOverflow"></style>
 
+    <style name="DialogTheme" parent="Theme.Sherlock.Dialog"></style>
+
     <style name="list_view_first_line">
         <item name="android:ellipsize">marquee</item>
         <item name="android:gravity">center_vertical</item>
@@ -38,6 +40,11 @@
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light_grey</item>
+    </style>
+
+    <style name="editTextHolo">
+        <item name="android:background">@drawable/edit_text_holo_dark</item>
         <item name="android:textColor">@color/light_grey</item>
     </style>
 

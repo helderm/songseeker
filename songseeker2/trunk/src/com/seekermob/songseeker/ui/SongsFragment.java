@@ -2,6 +2,7 @@ package com.seekermob.songseeker.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -54,12 +55,6 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	private static final String STATE_PLAY_SONGS_INDEX = "playSongsIndex";
 	private static final String STATE_PLAY_SONGS_RUNNING = "playSongsRunning";
 	
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -78,7 +73,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		restoreLocalState(savedInstanceState);
 
 		//set main onClick on emptyView that fetches data from EN
-		setEmptyText(getString(R.string.tap_to_get_songs));	    
+		setEmptyText(getString(R.string.songs_frag_empty_list));	    
 		getListView().getEmptyView().setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {		            	
 
@@ -134,8 +129,8 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
             task.cancel(true);
 
             outState.putBoolean(STATE_PLAY_SONGS_RUNNING, true);
-            outState.putStringArrayList(STATE_PLAY_SONGS_IDS, task.songIds);
-            outState.putInt(STATE_PLAY_SONGS_INDEX, task.index);
+            outState.putStringArrayList(STATE_PLAY_SONGS_IDS, task.mSongIds);
+            outState.putInt(STATE_PLAY_SONGS_INDEX, task.mFetchCount.get());
 
             mPlaySongsTask = null;
         }
@@ -189,6 +184,11 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.menu_play_songs:
+			if(isPlaySongsTaskRunning()){
+				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
+				return true;
+			}
+			
 			playSongsIntoDoodsMusic();            	
 			return true;
 		case R.id.menu_save_playlist:
@@ -253,7 +253,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			ViewHolder holder;
 
 			if (convertView == null) {
-				convertView = inflater.inflate(R.layout.list_item_2_image, null);
+				convertView = inflater.inflate(R.layout.list_item_2_image_media, null);
 
 				holder = new ViewHolder();
 				holder.topText = (TextView) convertView.findViewById(R.id.firstLine);
@@ -434,19 +434,19 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	private class PlaySongsTask extends AsyncTask<Void, Integer, int[]>{
 
 		private String err;
-		private List<SongInfo> songs = new ArrayList<SongInfo>(mAdapter.playlist);
+		private List<SongInfo> mSongs = new ArrayList<SongInfo>(mAdapter.playlist);
 		private View mProgressOverlay;
 		private ProgressBar mUpdateProgress;
 		
-		private ArrayList<String> songIds = new ArrayList<String>();
-		private int index;
+		private ArrayList<String> mSongIds = new ArrayList<String>();
+		final AtomicInteger mFetchCount = new AtomicInteger();
 		
         protected PlaySongsTask() {
         }
 		
         protected PlaySongsTask(ArrayList<String> ids, int i) {
-        	songIds = ids;
-        	index = i;
+        	mSongIds = ids;
+        	mFetchCount.set(i);
         }
 		
 		@Override
@@ -474,15 +474,17 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
                 }
             });
 			
-			Toast.makeText(getActivity().getBaseContext(), R.string.check_dms_setting_on, Toast.LENGTH_LONG).show();
+            //show dms warning only once
+			if(mFetchCount.get() == 0)
+				Toast.makeText(getActivity().getBaseContext(), R.string.check_dms_setting_on, Toast.LENGTH_LONG).show();
 
 			//access is limited today to some ws calls/ip/minute, so i'll need to truncate the playlist 
-			if(songs.size() > GroovesharkComm.RATE_LIMIT){
-				songs = songs.subList(0, GroovesharkComm.RATE_LIMIT);				
+			if(mSongs.size() > GroovesharkComm.RATE_LIMIT){
+				mSongs = mSongs.subList(0, GroovesharkComm.RATE_LIMIT);				
 			}
 
-			mUpdateProgress.setMax(songs.size());
-			mUpdateProgress.setProgress(index);
+			mUpdateProgress.setMax(mSongs.size());
+			mUpdateProgress.setProgress(mFetchCount.get());
 		}
 
 		@Override
@@ -497,8 +499,9 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			int ids[];
 
 			//fetch the song ids from grooveshark
-			for(i=index; i<songs.size(); i++){
-				SongInfo song = songs.get(i);
+			final AtomicInteger fetchCount = mFetchCount;
+			for(i=fetchCount.get(); i<mSongs.size(); i++){
+				SongInfo song = mSongs.get(i);
 				
 				//check if the task was cancelled by the user
 				if(isCancelled()){
@@ -507,20 +510,20 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 
 				try {					
 					String gsID = GroovesharkComm.getComm().getSongID(song.name, song.artist.name, settings);					
-					songIds.add(gsID);
+					mSongIds.add(gsID);
 				}catch (ServiceCommException e) {
 					if(e.getErr() == ServiceErr.SONG_NOT_FOUND){
-						publishProgress(++index);
+						publishProgress(fetchCount.incrementAndGet());
 						Log.i(Util.APP, "Song ["+song.name+" - "+song.artist.name+"] not found in Grooveshark, ignoring...");
 						continue;
 					}
 					
-					songs = null;
+					mSongs = null;
 					
 					//in case of error, return what song ids we have
 					i = 0;
-					ids = new int[songIds.size()];
-					for(String id : songIds){
+					ids = new int[mSongIds.size()];
+					for(String id : mSongIds){
 						ids[i++] = Integer.parseInt(id);
 					}					
 
@@ -528,9 +531,9 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 					return ids;
 				} 
 
-				publishProgress(++index);
+				publishProgress(fetchCount.incrementAndGet());
 			}
-			songs = null;
+			mSongs = null;
 			
 			//check if the task was cancelled by the user
 			if(isCancelled()){
@@ -539,8 +542,8 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 
 			//convert from string list to static array
 			i = 0;
-			ids = new int[songIds.size()];
-			for(String id : songIds){
+			ids = new int[mSongIds.size()];
+			for(String id : mSongIds){
 				ids[i++] = Integer.parseInt(id);
 			}
 
@@ -560,7 +563,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 				Toast.makeText(getActivity(), R.string.no_song_found, Toast.LENGTH_SHORT).show();
 				return;
 			}
-
+			
 			Intent intent = new Intent();
 			intent.setAction("com.mysticdeath.md_gs_app.remotelist");
 			intent.putExtra("name", Util.APP);
@@ -583,8 +586,8 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
     private void hideOverlay(View overlay) {
         
     	//this occurs when changing orientation
-    	if(getActivity() == null)
-        	return;
+    	//if(getActivity() == null)
+        //	return;
     	
     	overlay.startAnimation(AnimationUtils.loadAnimation(getActivity().getApplicationContext(),
                 R.anim.fade_out));
@@ -595,6 +598,14 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
         if (mPlaySongsTask != null && mPlaySongsTask.getStatus() == AsyncTask.Status.RUNNING) {
         	mPlaySongsTask.cancel(true);
         	mPlaySongsTask = null;
+        }
+    }
+    
+    private boolean isPlaySongsTaskRunning() {
+        if (mPlaySongsTask != null && mPlaySongsTask.getStatus() == AsyncTask.Status.RUNNING) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
