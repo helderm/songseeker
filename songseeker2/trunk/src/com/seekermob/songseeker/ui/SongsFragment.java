@@ -15,10 +15,13 @@ import com.seekermob.songseeker.comm.EchoNestComm;
 import com.seekermob.songseeker.comm.GroovesharkComm;
 import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
+import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.data.PlaylistOptions;
 import com.seekermob.songseeker.data.RecSongsPlaylist;
 import com.seekermob.songseeker.data.RecSongsPlaylist.PlaylistListener;
 import com.seekermob.songseeker.data.SongInfo;
+import com.seekermob.songseeker.data.UserProfile;
+import com.seekermob.songseeker.ui.InputDialogFragment.OnTextEnteredListener;
 import com.seekermob.songseeker.util.ImageLoader;
 import com.seekermob.songseeker.util.Util;
 import com.seekermob.songseeker.util.ImageLoader.ImageSize;
@@ -45,7 +48,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SongsFragment extends SherlockListFragment implements PlaylistListener{
+public class SongsFragment extends SherlockListFragment implements PlaylistListener, OnTextEnteredListener{
 	private SongsAdapter mAdapter;
 	private PlaySongsTask mPlaySongsTask;
 	private Bundle mSavedState;
@@ -75,14 +78,8 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		//set main onClick on emptyView that fetches data from EN
 		setEmptyText(getString(R.string.songs_frag_empty_list));	    
 		getListView().getEmptyView().setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {		            	
-
-				//if(UserProfile.getInstance(getActivity()).isEmpty()){
-				//	Toast.makeText(getActivity().getApplicationContext(), R.string.req_add_artists_profile, Toast.LENGTH_LONG).show();
-				//}
-
-				//get the playlist
-				RecSongsPlaylist.getInstance().getPlaylist(buildPlaylistParams(), SongsFragment.this);
+			public void onClick(View v) {
+				getNewPlaylist(null);
 			}
 		});
 		
@@ -194,16 +191,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		case R.id.menu_save_playlist:
 			return true;
 		case R.id.menu_refresh_songs:
-			//if(UserProfile.getInstance(getActivity()).isEmpty()){
-			//	Toast.makeText(getActivity().getApplicationContext(), R.string.req_add_artists_profile, Toast.LENGTH_LONG).show();
-			//}
-
-			//cancel the media player
-			MediaPlayerController.getCon().release();
-			
-			//get the playlist
-			RecSongsPlaylist.getInstance().clearPlaylist();
-			RecSongsPlaylist.getInstance().getPlaylist(buildPlaylistParams(), SongsFragment.this);
+			getNewPlaylist(null);
 			return true;
 		case R.id.menu_playlist_options:
         	Intent i = new Intent(getActivity(), PlaylistOptionsActivity.class);
@@ -212,6 +200,10 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		case R.id.menu_export_playlist:
 			return true;
 		case R.id.menu_search_artist:
+			InputDialogFragment newFragment = InputDialogFragment
+				.newInstance(R.string.artist_name, this);
+			
+			newFragment.showDialog(getActivity());	
 			return true;
 		case R.id.menu_settings:
 			return true;
@@ -345,7 +337,33 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		}
 	}
 
-	private PlaylistParams buildPlaylistParams(){
+	private void getNewPlaylist(String artistName) {
+		
+		if(UserProfile.getInstance(getActivity()).isEmpty()){
+			Toast.makeText(getActivity().getApplicationContext(), R.string.req_add_artists_profile, Toast.LENGTH_LONG).show();
+			return;
+		}
+		
+		//cancel the media player
+		MediaPlayerController.getCon().release();
+		
+		RecSongsPlaylist.getInstance().clearPlaylist();
+		
+		//get the playlist
+		if(artistName == null){
+			RecSongsPlaylist.getInstance()
+				.getPlaylist(buildPlaylistParams(UserProfile.getInstance(getActivity()).getRandomArtists(5)), 
+													SongsFragment.this);
+		}else{
+			ArtistInfo artist = new ArtistInfo();
+			artist.name = artistName;
+			ArrayList<ArtistInfo> artists = new ArrayList<ArtistInfo>();
+			artists.add(artist);
+			RecSongsPlaylist.getInstance().getPlaylist(buildPlaylistParams(artists),SongsFragment.this);
+		}		
+	}	
+	
+	private PlaylistParams buildPlaylistParams(ArrayList<ArtistInfo> artists){
 		PlaylistParams plp = new PlaylistParams();
 
 		if(PlaylistOptions.getInstance(getActivity()).getSettings().isSimilar)
@@ -391,11 +409,11 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			}
 		}
 
-		/* TODO: FIX! ArrayList<ArtistInfo> artists = UserProfile.getInstance(getActivity()).getRandomArtists(5);	    	    
+		//ODO: FIX! ArrayList<ArtistInfo> artists = UserProfile.getInstance(getActivity()).getRandomArtists(5);	    	    
 	    for(ArtistInfo artist : artists){
 	    	plp.addArtist(artist.name);	
-	    }*/
-		plp.addArtist("Eric Clapton");
+	    }
+		//plp.addArtist("Eric Clapton");
 
 		return plp;
 	}
@@ -586,8 +604,8 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
     private void hideOverlay(View overlay) {
         
     	//this occurs when changing orientation
-    	//if(getActivity() == null)
-        //	return;
+    	if(getActivity() == null)
+        	return;
     	
     	overlay.startAnimation(AnimationUtils.loadAnimation(getActivity().getApplicationContext(),
                 R.anim.fade_out));
@@ -608,4 +626,9 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
             return false;
         }
     }
+
+	@Override
+	public void onDialogTextEntered(String artistName) {
+		getNewPlaylist(artistName);		
+	}
 }

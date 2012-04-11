@@ -36,12 +36,12 @@
 
     <Button
         android:id="@+id/overlayCancel"
+        style="@style/button_holo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:background="@drawable/btn_default_holo_dark"
         android:minWidth="100dip"
-        android:text="@string/cancel"
-        android:textColor="#ffffffff" />
+        android:text="@string/cancel" />
 
 </LinearLayout>

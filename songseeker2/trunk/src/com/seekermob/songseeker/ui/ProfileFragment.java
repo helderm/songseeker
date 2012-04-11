@@ -13,7 +13,7 @@ import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.data.UserProfile;
 import com.seekermob.songseeker.data.UserProfile.ArtistProfile;
-import com.seekermob.songseeker.ui.InputDialogFragment.onTextEnteredListener;
+import com.seekermob.songseeker.ui.InputDialogFragment.OnTextEnteredListener;
 import com.seekermob.songseeker.util.ImageLoader;
 import com.seekermob.songseeker.util.Util;
 import com.seekermob.songseeker.util.ImageLoader.ImageSize;
@@ -32,7 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ProfileFragment extends SherlockListFragment implements onTextEnteredListener {
+public class ProfileFragment extends SherlockListFragment implements OnTextEnteredListener {
 
 	private ArtistsAdapter mAdapter;
 	private AddArtistsProfileTask mProfileTask;
@@ -70,17 +70,9 @@ public class ProfileFragment extends SherlockListFragment implements onTextEnter
 			}
 			
 			InputDialogFragment newFragment = InputDialogFragment
-					.newInstance(R.string.artist_search, R.string.artist_name, this);
+					.newInstance(R.string.artist_name, this);
 			newFragment.showDialog(getActivity());			
-			
-			//TEST
-			/*ArrayList<String> test = new ArrayList<String>();
-			test.add(new String("Eric Clapton"));
-			test.add(new String("The Derek Trucks Band"));
-			test.add(new String("U2"));
-			mProfileTask = (AddArtistsProfileTask) new AddArtistsProfileTask(test, 0).execute();*/
-			//TEST
-			
+
 			return true;
 		case R.id.menu_import_artists:
 			if(isProfileTaskRunning()){
@@ -174,8 +166,8 @@ public class ProfileFragment extends SherlockListFragment implements onTextEnter
 		private String err;
 		private String msg;
        
-		protected AddArtistsProfileTask() {
-        }
+		//protected AddArtistsProfileTask() {
+        //}
 		
         protected AddArtistsProfileTask(ArrayList<String> artists, int i) {
         	mArtistsNames = artists;
