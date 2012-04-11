@@ -18,8 +18,13 @@ import com.seekermob.songseeker.util.ImageLoader;
 import com.seekermob.songseeker.util.Util;
 import com.seekermob.songseeker.util.ImageLoader.ImageSize;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,6 +84,11 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
 				return true;
 			}
+			
+			ImportDialogFragment importDiag = ImportDialogFragment.newInstance();
+	    	FragmentTransaction ft = getFragmentManager().beginTransaction();
+	    	importDiag.show(ft, "import-dialog");
+			
 			return true;
 		case R.id.menu_clear_profile:
 			if(isProfileTaskRunning()){
@@ -340,8 +350,30 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 
 	@Override
 	public void onDialogTextEntered(String text) {
+		//callback when the user inputs some text at the 'add artist' action
 		ArrayList<String> artist = new ArrayList<String>();
 		artist.add(text);
 		mProfileTask = (AddArtistsProfileTask) new AddArtistsProfileTask(artist, 0).execute();
 	}    
+	
+	public static class ImportDialogFragment extends DialogFragment{
+		
+		public static ImportDialogFragment newInstance(){						
+			return new ImportDialogFragment();
+		}
+		
+	    @Override
+	    public Dialog onCreateDialog(Bundle savedInstanceState) {
+	    	return new AlertDialog.Builder(getActivity())
+	    			.setTitle(R.string.import_from)
+	    			.setSingleChoiceItems(getResources().getStringArray(R.array.import_from_options), -1, 
+		    			new DialogInterface.OnClickListener() {
+	    					public void onClick(DialogInterface dialog, int item) {
+	    						Log.d(Util.APP, ">>>item = "+item);
+	    						dismiss();
+	    					}
+	    				})
+	    			.create();
+	    }
+	}	
 }

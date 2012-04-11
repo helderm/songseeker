@@ -54,4 +54,11 @@
     <string name="operation_in_progress">Operation in progress, please wait…</string>
     <string name="artist_search">Artist Search</string>
     <string name="artist_name">artist name</string>
+    <string name="import_from">Import artists from…</string>
+    
+    <string-array name="import_from_options">
+        <item>Device</item>
+        <item>Last.fm</item>
+    </string-array>
+    
 </resources>

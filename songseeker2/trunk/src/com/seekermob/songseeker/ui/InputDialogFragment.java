@@ -15,16 +15,15 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class InputDialogFragment extends DialogFragment{
-	private OnTextEnteredListener listener; 
+	private static OnTextEnteredListener listener; //should be static because i cant put this on the bundle 
 	
 	public static InputDialogFragment newInstance(int hint, OnTextEnteredListener l){
 		InputDialogFragment diag = new InputDialogFragment();
         Bundle args = new Bundle();
-        args.putInt("hint", hint);
+        args.putInt("hint", hint);        
         diag.setArguments(args);
         
-        diag.listener = l;
-                
+        InputDialogFragment.listener = l;                
         return diag;
 	}
 	
@@ -43,8 +42,11 @@ public class InputDialogFragment extends DialogFragment{
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            	listener.onDialogTextEntered(etInput.getText().toString());
-            	dismiss();
+            	if(listener != null)
+            		listener.onDialogTextEntered(etInput.getText().toString());
+            	
+            	listener = null;
+            	dismiss();            	
             }
         });        
         
@@ -79,8 +81,7 @@ public class InputDialogFragment extends DialogFragment{
         show(ft, "input-dialog");
     }	
 	
-	public static interface OnTextEnteredListener{
+	public static interface OnTextEnteredListener {
 		public void onDialogTextEntered(String text);
-	}
-	
+	}	
 }
