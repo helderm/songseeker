@@ -342,7 +342,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 
 	private void getNewPlaylist(String artistName) {
 		
-		if(UserProfile.getInstance(getActivity()).isEmpty()){
+		if(artistName == null && UserProfile.getInstance(getActivity()).isEmpty()){
 			Toast.makeText(getActivity().getApplicationContext(), R.string.req_add_artists_profile, Toast.LENGTH_LONG).show();
 			
 			//WARNING! Hardcoded the profile tab here, need to update when its index change
