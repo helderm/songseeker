@@ -5,17 +5,25 @@ import com.actionbarsherlock.view.Menu;
 import com.seekermob.songseeker.R;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 public class PlaylistsFragment extends SherlockListFragment {
-
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
 	
-	    setHasOptionsMenu(true);
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		setHasOptionsMenu(true);
 	}
 
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+
+		return inflater.inflate(R.layout.listview_progress, null);		
+	}
+	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, com.actionbarsherlock.view.MenuInflater inflater) {
 		inflater.inflate(R.menu.playlists_menu, menu);		

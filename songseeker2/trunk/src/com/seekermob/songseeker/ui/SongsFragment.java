@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -31,7 +32,6 @@ import com.seekermob.songseeker.util.MediaPlayerController.MediaStatus;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -39,8 +39,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
-import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -68,23 +66,27 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		//set adapter
 		mAdapter = new SongsAdapter();
 		setListAdapter(mAdapter);
-
+		
 		//register a listener for playlist data changes
 		RecSongsPlaylist.getInstance().registerListener(this);
 
 		//check if we are recovering the state
 		restoreLocalState(savedInstanceState);
 
-		//set main onClick on emptyView that fetches data from EN
-		setEmptyText(getString(R.string.songs_frag_empty_list));	    
+		//set main onClick on emptyView that fetches data from EN		
+		((TextView)(getListView().getEmptyView())).setText(R.string.songs_frag_empty_list);
 		getListView().getEmptyView().setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				getNewPlaylist(null);
 			}
-		});
-		
-		//set listview selector
-		getListView().setSelector(R.drawable.list_selector_holo_dark);
+		});		
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+
+		return inflater.inflate(R.layout.listview_progress, null);		
 	}
 
 	@Override
@@ -341,6 +343,13 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		
 		if(UserProfile.getInstance(getActivity()).isEmpty()){
 			Toast.makeText(getActivity().getApplicationContext(), R.string.req_add_artists_profile, Toast.LENGTH_LONG).show();
+			
+			//WARNING! Hardcoded the profile tab here, need to update when its index change
+			try{
+				((SherlockFragmentActivity)getActivity()).getSupportActionBar().setSelectedNavigationItem(2);
+			}catch(IndexOutOfBoundsException e){
+				Log.d(Util.APP, ">>> Hey Dev, update the goddamn Profile tab index!<<<");
+			}
 			return;
 		}
 		
@@ -408,12 +417,10 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 				moods = null;
 			}
 		}
-
-		//ODO: FIX! ArrayList<ArtistInfo> artists = UserProfile.getInstance(getActivity()).getRandomArtists(5);	    	    
+	    	    
 	    for(ArtistInfo artist : artists){
 	    	plp.addArtist(artist.name);	
 	    }
-		//plp.addArtist("Eric Clapton");
 
 		return plp;
 	}
@@ -471,11 +478,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		protected void onPreExecute() {
 
             // see if we already inflated the progress overlay
-            mProgressOverlay = getActivity().findViewById(R.id.overlay_update);
-            if (mProgressOverlay == null) {
-                mProgressOverlay = ((ViewStub) getActivity().findViewById(R.id.stub_update)).inflate();
-            }                        
-            showOverlay(mProgressOverlay);
+            mProgressOverlay = Util.setProgressShown(SongsFragment.this, true);
             
             // setup the progress overlay
             TextView mUpdateStatus = (TextView) mProgressOverlay
@@ -571,7 +574,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		@Override
 		protected void onPostExecute(int[] ids) {
 
-			hideOverlay(mProgressOverlay);
+			Util.setProgressShown(SongsFragment.this, false);
 			
 			if(err != null){
 				Toast.makeText(getActivity(), err, Toast.LENGTH_SHORT).show();
@@ -591,26 +594,9 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		
         @Override
         protected void onCancelled() {
-        	hideOverlay(mProgressOverlay);
+        	Util.setProgressShown(SongsFragment.this, false);
         }
 	}
-
-    private void showOverlay(View overlay) {
-        overlay.startAnimation(AnimationUtils.loadAnimation(getActivity().getApplicationContext(),
-        		R.anim.fade_in));
-        overlay.setVisibility(View.VISIBLE);
-    }
-
-    private void hideOverlay(View overlay) {
-        
-    	//this occurs when changing orientation
-    	if(getActivity() == null)
-        	return;
-    	
-    	overlay.startAnimation(AnimationUtils.loadAnimation(getActivity().getApplicationContext(),
-                R.anim.fade_out));
-        overlay.setVisibility(View.GONE);
-    }	
     
     private void onCancelTasks() {
         if (mPlaySongsTask != null && mPlaySongsTask.getStatus() == AsyncTask.Status.RUNNING) {

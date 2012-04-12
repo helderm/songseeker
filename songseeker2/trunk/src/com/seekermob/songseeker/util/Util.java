@@ -11,13 +11,19 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import com.seekermob.songseeker.R;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewStub;
+import android.view.animation.AnimationUtils;
 
 public class Util {
 
@@ -154,5 +160,70 @@ public class Util {
     	}
 
         return app_installed ;
+    }
+    
+    /** Set the list view in and out of visibility graciously. The list fragment must contain
+     * id's 'list_container' and 'progress_container' that points to the list and the progress
+     * bar, respectively*/
+    public static void setListShown(Fragment fragment, boolean isShown){
+    	Context context;
+    	View v, fragmentView;
+    	
+    	fragmentView = fragment.getView();    	
+    	context = fragment.getActivity().getApplicationContext();
+    	
+    	if(isShown){			
+			v = fragmentView.findViewById(R.id.progress_container);
+			v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
+			v.setVisibility(View.GONE);
+			
+			v = fragmentView.findViewById(R.id.list_container);
+			v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
+			v.setVisibility(View.VISIBLE);	
+			
+    	}else{			
+			v = fragmentView.findViewById(R.id.list_container);
+			v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
+			v.setVisibility(View.GONE);			
+			
+			v = fragmentView.findViewById(R.id.progress_container);
+			v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
+			v.setVisibility(View.VISIBLE);			
+    	}
+    	
+    	v = null; fragmentView = null; context = null;   	
+    }
+    
+    /** Fades the progress overlay in and out of view graciously. The fragment must
+     * contain the overlay viewstub with id's overlay_update and stub_update
+     * Returns the progressOverlay view*/
+    public static View setProgressShown(Fragment fragment, boolean isShown){
+    	View fragmentView, progressOverlay;
+    	Context context;
+    	
+    	fragmentView = fragment.getView();    	   	
+    	
+        // see if we already inflated the progress overlay
+        progressOverlay = fragmentView.findViewById(R.id.overlay_update);
+        if (progressOverlay == null) {
+        	progressOverlay = ((ViewStub) fragmentView.findViewById(R.id.stub_update)).inflate();
+        }     
+    	    	
+       	//TODO: Check again!!! This occurs when changing orientation
+    	if(fragment.getActivity() == null)
+        	return progressOverlay;
+        
+        context = fragment.getActivity().getApplicationContext();
+        
+        if(isShown){
+        	progressOverlay.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
+        	progressOverlay.setVisibility(View.VISIBLE);
+        }else{
+        	progressOverlay.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
+        	progressOverlay.setVisibility(View.GONE);
+        }  
+        
+        fragmentView = null; context = null;
+        return progressOverlay; 
     }
 }

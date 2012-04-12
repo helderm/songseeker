@@ -29,8 +29,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
-import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -44,7 +42,7 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
+		super.onActivityCreated(savedInstanceState);
 	
 	    //populate the optionsMenu
 	    setHasOptionsMenu(true);
@@ -53,12 +51,17 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 	    mAdapter = new ArtistsAdapter();
 	    setListAdapter(mAdapter);
 	    
-	    //set listview selector
-	    getListView().setSelector(R.drawable.list_selector_holo_dark);
-	    
-	    setEmptyText(getString(R.string.profile_frag_empty_list));	 
+	    //set empty view text
+	    ((TextView)(getListView().getEmptyView())).setText(R.string.profile_frag_empty_list);
 	}
 
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+
+		return inflater.inflate(R.layout.listview_progress, null);		
+	}	
+	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, com.actionbarsherlock.view.MenuInflater inflater) {
 		inflater.inflate(R.menu.profile_menu, menu);		
@@ -194,11 +197,7 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 		protected void onPreExecute() {
 
             // see if we already inflated the progress overlay
-            mProgressOverlay = getActivity().findViewById(R.id.overlay_update);
-            if (mProgressOverlay == null) {
-                mProgressOverlay = ((ViewStub) getActivity().findViewById(R.id.stub_update)).inflate();
-            }                        
-            showOverlay(mProgressOverlay);
+            mProgressOverlay = Util.setProgressShown(ProfileFragment.this, true);
             
             // setup the progress overlay
             TextView mUpdateStatus = (TextView) mProgressOverlay
@@ -303,7 +302,7 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 		
 		@Override
 		protected void onPostExecute(Void artistsProfile) {
-			hideOverlay(mProgressOverlay);
+			Util.setProgressShown(ProfileFragment.this, false);
 			
 			if(err != null){
 				Toast.makeText(getActivity(), err, Toast.LENGTH_SHORT).show();
@@ -317,23 +316,11 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 		
         @Override
         protected void onCancelled() {
-        	hideOverlay(mProgressOverlay);
+        	Util.setProgressShown(ProfileFragment.this, false);
         }
 	}
-	
-    private void showOverlay(View overlay) {
-        overlay.startAnimation(AnimationUtils.loadAnimation(getActivity().getApplicationContext(),
-        		R.anim.fade_in));
-        overlay.setVisibility(View.VISIBLE);
-    }
 
-    private void hideOverlay(View overlay) {
-    	overlay.startAnimation(AnimationUtils.loadAnimation(getActivity().getApplicationContext(),
-                R.anim.fade_out));
-        overlay.setVisibility(View.GONE);
-    }	
-    
-    private void onCancelTasks() {
+	private void onCancelTasks() {
         if (mProfileTask != null && mProfileTask.getStatus() == AsyncTask.Status.RUNNING) {
         	mProfileTask.cancel(true);
         	mProfileTask = null;

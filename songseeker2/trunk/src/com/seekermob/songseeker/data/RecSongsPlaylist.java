@@ -3,6 +3,7 @@ package com.seekermob.songseeker.data;
 import java.util.ArrayList;
 
 import com.seekermob.songseeker.R;
+
 import android.app.ListActivity;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -70,7 +71,7 @@ public class RecSongsPlaylist {
 
 		@Override
 		protected void onPreExecute() {
-			listFragment.setListShown(false);
+			Util.setListShown(listFragment, false);
 		}
 
 		@Override
@@ -138,9 +139,8 @@ public class RecSongsPlaylist {
 
 		@Override
 		protected void onPostExecute(Void result) {
-
-			listFragment.setListShown(true);
-
+			Util.setListShown(listFragment, true);
+			
 			//notify listeners that the data changed
 			notifyListeners();
 			
