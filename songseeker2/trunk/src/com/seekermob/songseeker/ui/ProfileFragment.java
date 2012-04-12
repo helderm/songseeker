@@ -18,9 +18,7 @@ import com.seekermob.songseeker.util.ImageLoader;
 import com.seekermob.songseeker.util.Util;
 import com.seekermob.songseeker.util.ImageLoader.ImageSize;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -351,16 +349,27 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 		
 	    @Override
 	    public Dialog onCreateDialog(Bundle savedInstanceState) {
-	    	return new AlertDialog.Builder(getActivity())
-	    			.setTitle(R.string.import_from)
-	    			.setSingleChoiceItems(getResources().getStringArray(R.array.import_from_options), -1, 
-		    			new DialogInterface.OnClickListener() {
-	    					public void onClick(DialogInterface dialog, int item) {
-	    						Log.d(Util.APP, ">>>item = "+item);
-	    						dismiss();
-	    					}
-	    				})
-	    			.create();
+	    	View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_import, null, false);
+	    	
+	    	v.findViewById(R.id.import_from_device).setOnClickListener(new View.OnClickListener() {
+	    		@Override
+	    		public void onClick(View v) {
+	    			Log.d(Util.APP, "DEVICE");
+	    			dismiss();            	
+	    		}
+	    	});
+	    	
+	    	v.findViewById(R.id.import_from_lastfm).setOnClickListener(new View.OnClickListener() {
+	    		@Override
+	    		public void onClick(View v) {
+	    			Log.d(Util.APP, "LASTFM");
+	    			dismiss();            	
+	    		}
+	    	});    	
+	    	
+	    	Dialog dialog = new Dialog(getActivity(), R.style.DialogThemeNoTitle);
+	    	dialog.setContentView(v);
+	    	return dialog;
 	    }
 	}	
 }

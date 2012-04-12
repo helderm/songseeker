@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"    
+    android:padding="@dimen/layout_padding"
+    android:orientation="vertical" >
+
+    <RadioButton
+        android:id="@+id/import_from_device"
+        style="@style/pl_options_labels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/btn_radio"
+        android:text="@string/import_from_device" />
+
+    <RadioButton
+        android:id="@+id/import_from_lastfm"
+        style="@style/pl_options_labels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/btn_radio"
+        android:text="@string/import_from_lastfm" />
+
+</RadioGroup>

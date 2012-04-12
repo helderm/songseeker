@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   	<dimen name="layout_padding">50dp</dimen>
+   	<dimen name="layout_padding">25dp</dimen>
    	<dimen name="text_size_medium">18sp</dimen> 
    	<dimen name="text_size_large">22sp</dimen> 
    	<dimen name="image_list_item">80dp</dimen>
