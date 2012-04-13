@@ -169,6 +169,10 @@ public class Util {
     	Context context;
     	View v, fragmentView;
     	
+    	//TODO: Check again!!! This occurs when changing orientation
+    	if(fragment.getActivity() == null)
+    		return;
+    	
     	fragmentView = fragment.getView();    	
     	context = fragment.getActivity().getApplicationContext();
     	
@@ -201,6 +205,10 @@ public class Util {
     	View fragmentView, progressOverlay;
     	Context context;
     	
+    	//TODO: Check again!!! This occurs when changing orientation
+    	if(fragment.getActivity() == null)
+        	return null;
+    	
     	fragmentView = fragment.getView();    	   	
     	
         // see if we already inflated the progress overlay
@@ -208,11 +216,7 @@ public class Util {
         if (progressOverlay == null) {
         	progressOverlay = ((ViewStub) fragmentView.findViewById(R.id.stub_update)).inflate();
         }     
-    	    	
-       	//TODO: Check again!!! This occurs when changing orientation
-    	if(fragment.getActivity() == null)
-        	return progressOverlay;
-        
+    	       	        
         context = fragment.getActivity().getApplicationContext();
         
         if(isShown){

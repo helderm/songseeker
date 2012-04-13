@@ -56,5 +56,8 @@
     <string name="artist_name">artist name</string>
     <string name="import_from_device">Import artists from device</string>
     <string name="import_from_lastfm">Import artists from Last.fm</string>
+    <string name="import_profile_failed">Failed to import the profile!</string>
+    <string name="import_no_artist_found">No artist to import was found!</string>
+    <string name="lastfm_username">last.fm username</string>
     
 </resources>

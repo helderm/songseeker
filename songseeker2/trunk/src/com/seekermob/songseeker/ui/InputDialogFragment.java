@@ -17,10 +17,11 @@ import android.widget.EditText;
 public class InputDialogFragment extends DialogFragment{
 	private static OnTextEnteredListener listener; //should be static because i cant put this on the bundle 
 	
-	public static InputDialogFragment newInstance(int hint, OnTextEnteredListener l){
+	public static InputDialogFragment newInstance(int hint, String tag, OnTextEnteredListener l){
 		InputDialogFragment diag = new InputDialogFragment();
         Bundle args = new Bundle();
         args.putInt("hint", hint);        
+        args.putString("tag", tag);
         diag.setArguments(args);
         
         InputDialogFragment.listener = l;                
@@ -30,7 +31,8 @@ public class InputDialogFragment extends DialogFragment{
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		
-        int hint = getArguments().getInt("hint");
+        final int hint = getArguments().getInt("hint");
+        final String tag = getArguments().getString("tag");
         
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_input, null, false);
         
@@ -43,7 +45,7 @@ public class InputDialogFragment extends DialogFragment{
             @Override
             public void onClick(View v) {
             	if(listener != null)
-            		listener.onDialogTextEntered(etInput.getText().toString());
+            		listener.onDialogTextEntered(etInput.getText().toString(), tag);
             	
             	listener = null;
             	dismiss();            	
@@ -82,6 +84,6 @@ public class InputDialogFragment extends DialogFragment{
     }	
 	
 	public static interface OnTextEnteredListener {
-		public void onDialogTextEntered(String text);
+		public void onDialogTextEntered(String text, String tag);
 	}	
 }

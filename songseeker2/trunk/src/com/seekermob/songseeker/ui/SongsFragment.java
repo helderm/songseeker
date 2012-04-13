@@ -204,7 +204,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			return true;
 		case R.id.menu_search_artist:
 			InputDialogFragment newFragment = InputDialogFragment
-				.newInstance(R.string.artist_name, this);
+				.newInstance(R.string.artist_name, "artist-search", this);
 			
 			newFragment.showDialog(getActivity());	
 			return true;
@@ -615,7 +615,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
     }
 
 	@Override
-	public void onDialogTextEntered(String artistName) {
+	public void onDialogTextEntered(String artistName, String tag) {
 		getNewPlaylist(artistName);		
 	}
 }
