@@ -53,10 +53,11 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	private Bundle mSavedState;
 	
 	private static final String STATE_PLAYLIST = "playlist";
+	private static final String STATE_GET_PLAYLIST_RUNNING = "playlistRunning";
 	private static final String STATE_PLAY_SONGS_IDS = "playSongsIds";
 	private static final String STATE_PLAY_SONGS_INDEX = "playSongsIndex";
 	private static final String STATE_PLAY_SONGS_RUNNING = "playSongsRunning";
-	
+		
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -93,14 +94,17 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	@Override
 	public void onDestroy() {
 
+		//cancel the playlist task
+		RecSongsPlaylist.getInstance().cancelTask();		
+		
 		//clears the data from the playlist
 		RecSongsPlaylist.getInstance().clearPlaylist();
 
 		//unregister the listener
 		RecSongsPlaylist.getInstance().unregisterListener(this);
 
-		//cancel the task
-		if(mPlaySongsTask != null)
+		//cancel the play songs task
+		if(mPlaySongsTask != null && mPlaySongsTask.getStatus() != AsyncTask.Status.FINISHED)
 			mPlaySongsTask.cancel(true);
 		
 		super.onDestroy();
@@ -123,6 +127,13 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			outState.putParcelableArrayList(STATE_PLAYLIST, new ArrayList<Parcelable>(mAdapter.playlist));			
 		}
 
+		//save if the playlist task was running or not
+		if(RecSongsPlaylist.getInstance().isTaskRunning()){
+			RecSongsPlaylist.getInstance().cancelTask();
+			
+			outState.putBoolean(STATE_GET_PLAYLIST_RUNNING, true);
+		}
+		
 		//save the progress of the 'Play Songs' dialog
         final PlaySongsTask task = mPlaySongsTask;
         if (task != null && task.getStatus() != AsyncTask.Status.FINISHED) {
@@ -133,8 +144,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
             outState.putInt(STATE_PLAY_SONGS_INDEX, task.mFetchCount.get());
 
             mPlaySongsTask = null;
-        }
-        
+        }        
         
         mSavedState = outState;
 		
@@ -150,7 +160,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		
 		//restore the playlist
 		ArrayList<SongInfo> savedPlaylist = null;
-		if(savedInstanceState != null && (savedPlaylist = savedInstanceState.getParcelableArrayList(STATE_PLAYLIST)) != null){
+		if((savedPlaylist = savedInstanceState.getParcelableArrayList(STATE_PLAYLIST)) != null){
 			if(RecSongsPlaylist.getInstance().isEmpty()){
 				RecSongsPlaylist.getInstance().setSongs(savedPlaylist);
 			}
@@ -158,6 +168,11 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 
 			mAdapter.setPlaylist(RecSongsPlaylist.getInstance().getPlaylist());			
 		}	
+		
+		//restore the playlist task
+		if(savedInstanceState.getBoolean(STATE_GET_PLAYLIST_RUNNING)) {
+			getNewPlaylist(null); //FIXME: im not restoring the artist name from the input here
+		}
 		
 		//restore the playsongs task
 		if(savedInstanceState.getBoolean(STATE_PLAY_SONGS_RUNNING)) {
@@ -342,6 +357,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 
 	private void getNewPlaylist(String artistName) {
 		
+		//cancel if the profile is empty
 		if(artistName == null && UserProfile.getInstance(getActivity()).isEmpty()){
 			Toast.makeText(getActivity().getApplicationContext(), R.string.req_add_artists_profile, Toast.LENGTH_LONG).show();
 			
@@ -354,9 +370,16 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			return;
 		}
 		
+		//cancel if the task is already running
+		if(RecSongsPlaylist.getInstance().isTaskRunning()){
+			Toast.makeText(getActivity().getApplicationContext(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
 		//cancel the media player
 		MediaPlayerController.getCon().release();
 		
+		//clears the playlist				
 		RecSongsPlaylist.getInstance().clearPlaylist();
 		
 		//get the playlist
@@ -600,14 +623,15 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	}
     
     private void onCancelTasks() {
-        if (mPlaySongsTask != null && mPlaySongsTask.getStatus() == AsyncTask.Status.RUNNING) {
-        	mPlaySongsTask.cancel(true);
-        	mPlaySongsTask = null;
-        }
+        if(!isPlaySongsTaskRunning())
+        	return;
+    	    	
+        mPlaySongsTask.cancel(true);
+        mPlaySongsTask = null;        
     }
     
     private boolean isPlaySongsTaskRunning() {
-        if (mPlaySongsTask != null && mPlaySongsTask.getStatus() == AsyncTask.Status.RUNNING) {
+        if (mPlaySongsTask != null && mPlaySongsTask.getStatus() != AsyncTask.Status.FINISHED) {
             return true;
         } else {
             return false;

@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 import com.seekermob.songseeker.R;
+import com.seekermob.songseeker.data.ArtistInfo;
 
 import android.app.Activity;
 import android.content.Context;
@@ -37,8 +38,8 @@ public class Util {
 	public static final String YOUTUBE_URL = "http://www.youtube.com/";
 	public static final String LASTFM_URL = "http://www.lastfm.com/";
 	
-	public static ArrayList<String> getArtistsFromDevice(Activity a) throws Exception{
-		ArrayList<String> artists = new ArrayList<String>();
+	public static ArrayList<ArtistInfo> getArtistsFromDevice(Activity a) throws Exception{
+		ArrayList<ArtistInfo> artists = new ArrayList<ArtistInfo>();
 
 		String[] projection = new String[] {
 				MediaStore.Audio.ArtistColumns.ARTIST,
@@ -52,9 +53,12 @@ public class Util {
 
 		for(int i=0; i<cursor.getCount(); i++){
 			cursor.moveToPosition(i);
-			String artist = cursor.getString(music_column_index);	
-			if(artist != null)
+			String artistName = cursor.getString(music_column_index);	
+			if(artistName != null){
+				ArtistInfo artist = new ArtistInfo();
+				artist.name = artistName;
 				artists.add(artist);
+			}
 			
 			if(i == 50)
 				break;

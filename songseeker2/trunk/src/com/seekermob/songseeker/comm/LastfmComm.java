@@ -1,5 +1,6 @@
 package com.seekermob.songseeker.comm;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import android.content.SharedPreferences;
@@ -8,6 +9,7 @@ import android.util.Log;
 
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
+import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.util.Util;
 
 import de.umass.lastfm.Artist;
@@ -135,12 +137,19 @@ public class LastfmComm {
 		}
 	}
 	
-	public Collection<Artist> getTopArtists(String user) throws ServiceCommException{
+	public ArrayList<ArtistInfo> getTopArtists(String user) throws ServiceCommException{
 		try{
-			Collection<Artist> topArtists = User.getTopArtists(user, KEY);
+			Collection<Artist> artists = User.getTopArtists(user, KEY);
 			
-			if(topArtists.isEmpty())
+			if(artists.isEmpty())
 				throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.USER_NOT_FOUND);
+			
+			ArrayList<ArtistInfo> topArtists = new ArrayList<ArtistInfo>();
+			for(Artist a : artists){
+				ArtistInfo artist = new ArtistInfo();
+				artist.name = a.getName();
+				topArtists.add(artist);
+			}
 			
 			return topArtists;
 		}catch(RuntimeException e){

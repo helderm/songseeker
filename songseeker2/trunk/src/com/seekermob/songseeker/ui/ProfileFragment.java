@@ -1,7 +1,6 @@
 package com.seekermob.songseeker.ui;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -19,8 +18,6 @@ import com.seekermob.songseeker.ui.InputDialogFragment.OnTextEnteredListener;
 import com.seekermob.songseeker.util.ImageLoader;
 import com.seekermob.songseeker.util.Util;
 import com.seekermob.songseeker.util.ImageLoader.ImageSize;
-
-import de.umass.lastfm.Artist;
 
 import android.app.Dialog;
 import android.os.AsyncTask;
@@ -40,7 +37,11 @@ import android.widget.Toast;
 public class ProfileFragment extends SherlockListFragment implements OnTextEnteredListener {
 
 	private ArtistsAdapter mAdapter;
-	private AddArtistsProfileTask mProfileTask;
+	private ProfileTask mProfileTask;
+	
+	private static final String STATE_PROFILE_ARTIST_NAMES = "profileArtistNames";
+	private static final String STATE_PROFILE_INDEX = "profileIndex";
+	private static final String STATE_PROFILE_RUNNING = "profileRunning";	
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -52,6 +53,9 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 	    //set adapter
 	    mAdapter = new ArtistsAdapter();
 	    setListAdapter(mAdapter);
+		
+	    //check if we are recovering the state	    
+	    restoreLocalState(savedInstanceState);
 	    
 	    //set empty view text
 	    ((TextView)(getListView().getEmptyView())).setText(R.string.profile_frag_empty_list);
@@ -63,7 +67,54 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 
 		return inflater.inflate(R.layout.listview_progress, null);		
 	}	
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		
+		//cancel the profile task
+		if(mProfileTask != null && mProfileTask.getStatus() != AsyncTask.Status.FINISHED)
+			mProfileTask.cancel(true);
+	}
 	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+	
+		//save the profile task if it is running
+		final ProfileTask task = mProfileTask;
+		if(task != null && task.getStatus() != AsyncTask.Status.FINISHED){
+			task.cancel(true);
+			
+			outState.putBoolean(STATE_PROFILE_RUNNING, true);
+            outState.putParcelableArrayList(STATE_PROFILE_ARTIST_NAMES, task.mArtists);
+            outState.putInt(STATE_PROFILE_INDEX, task.mFetchCount.get());
+            
+            //save what we already fetched of the profile into the device
+            task.mUserProfile.syncAddArtistsToProfile(task.mArtistsProfile, getActivity());
+            
+            mProfileTask = null;
+		}
+		
+		super.onSaveInstanceState(outState);
+	}
+	
+	/** Restores the saved instance of this fragment*/
+	private void restoreLocalState(Bundle savedInstanceState){		
+
+		if(savedInstanceState == null){
+			return;
+		}
+		
+		//recover the profile task
+		if(savedInstanceState.getBoolean(STATE_PROFILE_RUNNING)){
+			ArrayList<ArtistInfo> artists = savedInstanceState.getParcelableArrayList(STATE_PROFILE_ARTIST_NAMES);
+			int index = savedInstanceState.getInt(STATE_PROFILE_INDEX);
+			
+			if(artists != null)
+				mProfileTask = (ProfileTask) new ProfileTask(index, artists).execute();
+		}
+	}
+			
 	@Override
 	public void onCreateOptionsMenu(Menu menu, com.actionbarsherlock.view.MenuInflater inflater) {
 		inflater.inflate(R.menu.profile_menu, menu);		
@@ -158,11 +209,6 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 
 			return convertView;
 		}
-
-		public void addArtistsProfile(ArrayList<ArtistProfile> artists){
-			prof.getProfile().artists.addAll(artists);
-			notifyDataSetChanged();
-		}
 		
 		private class ViewHolder{
 			public TextView line;
@@ -170,10 +216,12 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 		}
 	}	
 	
-	private class AddArtistsProfileTask extends AsyncTask<Void, Integer, Void>{
+	private class ProfileTask extends AsyncTask<Void, Integer, Void>{
 		private UserProfile mUserProfile = mAdapter.prof;
-		private ArrayList<String> mArtistsNames;
+		private ArrayList<ArtistInfo> mArtists;		
 		private String mUsername; //used by Last.fm import
+		
+		private ArrayList<ArtistProfile> mArtistsProfile = new ArrayList<ArtistProfile>();
 		private AtomicInteger mFetchCount = new AtomicInteger();
 		
 		private int mTaskType; //0 -> user added an artist, 1 -> import from device, 2 -> import from last.fm
@@ -187,15 +235,16 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 		//protected AddArtistsProfileTask() {
         //}
 
-        protected AddArtistsProfileTask(String input, int taskType) {
+        protected ProfileTask(String input, int taskType) {
         	mFetchCount.set(0);
         	
         	mTaskType = taskType;
         	switch(mTaskType){
         	case 0:
             	//when the user added an artist manually
-            	mArtistsNames = new ArrayList<String>();
-            	mArtistsNames.add(input);
+            	mArtists = new ArrayList<ArtistInfo>();
+            	mArtists.add(new ArtistInfo());
+            	mArtists.get(0).name = input;
         		break;
         	case 1:
         		//import from device
@@ -207,16 +256,21 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
         	}
         }
 
+		public ProfileTask(int index, ArrayList<ArtistInfo> artists) {
+			mArtists = artists;
+			mFetchCount.set(index);
+		}
+
 		@Override
 		protected void onProgressUpdate(Integer... progress) {			
 			if(progress[0] == -1){
 				mUpdateProgress.setIndeterminate(false);
-				mUpdateProgress.setMax(mArtistsNames.size());
+				mUpdateProgress.setMax(mArtists.size());
 	    		mUpdateProgress.setProgress(mFetchCount.get());
 	    		return;
 			}
 			
-			if(mArtistsNames.size() > 1)
+			if(mArtists.size() > 1)
 				mUpdateProgress.setProgress(progress[0]);
 		}        
 
@@ -248,69 +302,64 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 		@Override
 		protected Void doInBackground(Void... params) {
 			ArtistInfo artist;
-			ArrayList<ArtistProfile> artistsProfile = new ArrayList<ArtistProfile>();
 			int alreadyProfileCount = 0;
 			
 			//fetch the artists from the device or last.fm
-			switch(mTaskType){
-			case 1:	//device
-				try {
-					mArtistsNames = Util.getArtistsFromDevice(getActivity());
-				} catch (Exception e) {
-					Log.e(Util.APP, "Failed to import artists from device", e);
-					err = getString(R.string.import_profile_failed);
-					return null;
+			if(mArtists == null || mArtists.size() == 0){
+				switch(mTaskType){
+				case 1:	//device
+					try {
+						mArtists = Util.getArtistsFromDevice(getActivity());
+					} catch (Exception e) {
+						Log.e(Util.APP, "Failed to import artists from device", e);
+						err = getString(R.string.import_profile_failed);
+						return null;
+					}
+					
+					if(mArtists.isEmpty()){
+						err = getString(R.string.import_no_artist_found);
+						return null;
+					}	
+					break;
+				case 2: //last.fm
+					try {
+						mArtists = LastfmComm.getComm().getTopArtists(mUsername);
+					} catch (ServiceCommException e) {
+						//err = e.getMessage();
+						err = getString(R.string.import_profile_failed);
+						return null;
+					}
+					
+					break;				
 				}
-				
-				if(mArtistsNames.isEmpty()){
-					err = getString(R.string.import_no_artist_found);
-					return null;
-				}	
-				break;
-			case 2: //last.fm
-				Collection<Artist> topArtists;
-				try {
-					topArtists = LastfmComm.getComm().getTopArtists(mUsername);
-				} catch (ServiceCommException e) {
-					//err = e.getMessage();
-					err = getString(R.string.import_profile_failed);
-					return null;
-				}
-				
-				mArtistsNames = new ArrayList<String>();
-				for(Artist a : topArtists){
-					mArtistsNames.add(a.getName());
-				}
-				
-				break;				
 			}
 			
 			//set a limit to the progress bar if there is more than one artist to import
-			if(mArtistsNames.size() > 1){
+			if(mArtists.size() > 1){
 				publishProgress(-1);
 			}
 			
 			//import the artists to the profile
 			final AtomicInteger fetchCount = mFetchCount;
-			for(String artistName : mArtistsNames){
+			for(ArtistInfo a : mArtists){
 				
 				if(isCancelled()){
 					return null;
 				}
 				
-				if(mUserProfile.isAlreadyInProfile(artistName)){
+				if(mUserProfile.isAlreadyInProfile(a.name)){
 					alreadyProfileCount++;
 					continue;
 				}
 					
 				try{
-					artist = SevenDigitalComm.getComm().queryArtistSearch(artistName);
+					artist = SevenDigitalComm.getComm().queryArtistSearch(a.name);
 				}catch(ServiceCommException e) {
 					if(e.getErr() == ServiceErr.IO || e.getErr() == ServiceErr.TRY_LATER){
 						break;
 					}
 					
-					Log.i(Util.APP, "Unable to add artist ["+artistName+"] to profile, skipping...");
+					Log.i(Util.APP, "Unable to add artist ["+a.name+"] to profile, skipping...");
 					publishProgress(fetchCount.incrementAndGet());
 					continue;
 				}
@@ -329,7 +378,7 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 				
 				//check if the artist was already added to the list
 				boolean isAlreadyAdd = false;
-				for(ArtistProfile aux : artistsProfile){
+				for(ArtistProfile aux : mArtistsProfile){
 					if(aux.id.equalsIgnoreCase(artistProfile.id)){
 						isAlreadyAdd = true;
 						break;
@@ -340,7 +389,7 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 					continue;
 				}
 			
-				artistsProfile.add(artistProfile);
+				mArtistsProfile.add(artistProfile);
 				
 				publishProgress(fetchCount.incrementAndGet());
 			}
@@ -348,18 +397,18 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 			if(isCancelled())
 				return null;
 			
-			if(mArtistsNames.size() == alreadyProfileCount || (artistsProfile.size() == 0 && alreadyProfileCount > 0)){
+			if(mArtists.size() == alreadyProfileCount || (mArtistsProfile.size() == 0 && alreadyProfileCount > 0)){
 				msg = getString(R.string.artists_already_profile);
 				return null;
-			}else if(artistsProfile.size() == 0){
+			}else if(mArtistsProfile.size() == 0){
 				err = getString(R.string.err_add_artists_profile);
 				return null;
-			}else if(artistsProfile.size() < mArtistsNames.size()){
+			}else if(mArtistsProfile.size() < mArtists.size()){
 				msg = getString(R.string.some_artists_added_profile);
 			}else
 				msg = getString(R.string.success_add_artists_profile);				
 			
-			mUserProfile.syncAddArtistsToProfile(artistsProfile, getActivity());
+			mUserProfile.syncAddArtistsToProfile(mArtistsProfile, getActivity());
 			
 			return null;
 		}
@@ -386,14 +435,15 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 	}
 
 	private void onCancelTasks() {
-        if (mProfileTask != null && mProfileTask.getStatus() == AsyncTask.Status.RUNNING) {
-        	mProfileTask.cancel(true);
-        	mProfileTask = null;
-        }
+        if(!isProfileTaskRunning())
+        	return;		
+		
+        mProfileTask.cancel(true);
+        mProfileTask = null;        
     }    
     
     private boolean isProfileTaskRunning() {
-        if(mProfileTask != null && mProfileTask.getStatus() == AsyncTask.Status.RUNNING) {
+        if(mProfileTask != null && mProfileTask.getStatus() != AsyncTask.Status.FINISHED) {
             return true;
         } else {
             return false;
@@ -404,11 +454,11 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 	public void onDialogTextEntered(String text, String tag) {
 		//callback when the user inputs some text at the 'add artist' action
 		if(tag.equalsIgnoreCase("artist-name")){
-			mProfileTask = (AddArtistsProfileTask) new AddArtistsProfileTask(text, 0).execute();
+			mProfileTask = (ProfileTask) new ProfileTask(text, 0).execute();
 		}
 		
 		if(tag.equalsIgnoreCase("lastfm-username")){
-			mProfileTask = (AddArtistsProfileTask) new AddArtistsProfileTask(text, 2).execute();
+			mProfileTask = (ProfileTask) new ProfileTask(text, 2).execute();
 		}
 	}    
 	
@@ -421,7 +471,7 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 	    	v.findViewById(R.id.import_from_device).setOnClickListener(new View.OnClickListener() {
 	    		@Override
 	    		public void onClick(View v) {
-	    			mProfileTask = (AddArtistsProfileTask) new AddArtistsProfileTask(null, 1).execute();
+	    			mProfileTask = (ProfileTask) new ProfileTask(null, 1).execute();
 	    			dismiss();            	
 	    		}
 	    	});

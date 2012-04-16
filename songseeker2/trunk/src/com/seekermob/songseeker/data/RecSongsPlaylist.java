@@ -22,8 +22,9 @@ import com.seekermob.songseeker.util.Util;
 public class RecSongsPlaylist {
 	private static RecSongsPlaylist obj = new RecSongsPlaylist();
 
-	private static ArrayList<SongInfo> songs = null;
-	private static ArrayList<PlaylistListener> listeners = null;
+	private ArrayList<SongInfo> songs;
+	private ArrayList<PlaylistListener> listeners;
+	private GetPlaylistTask task;
 
 	private static final int MAX_QUERY_RETRIES = 10;
 	
@@ -56,7 +57,9 @@ public class RecSongsPlaylist {
 
 	/** Get a new playlist methods*/
 	public void getPlaylist(PlaylistParams plp, ListFragment lf){
-		new GetPlaylistTask(plp, lf).execute();		
+		cancelTask();
+		
+		task = (GetPlaylistTask) new GetPlaylistTask(plp, lf).execute();		
 	}
 
 	private class GetPlaylistTask extends AsyncTask<Void, Void, Void>{
@@ -86,10 +89,16 @@ public class RecSongsPlaylist {
 				return null;
 			}
 
+			if(isCancelled())
+				return null;
+			
 			//convert the songs from EN to the parcel format
 			//release and artist info will be almost empty until we query 7digital
 			ArrayList<SongInfo> songsInfo = new ArrayList<SongInfo>();			
 			for(Song song : pl.getSongs()){
+				
+				if(isCancelled())
+					return null;
 				
 				SongInfo songInfo = new SongInfo();
 				
@@ -132,6 +141,9 @@ public class RecSongsPlaylist {
 				}
 			}
 			
+			if(isCancelled())
+				return null;
+			
 			syncAddSongsToPlaylist(songsInfo);
 
 			return null;
@@ -160,6 +172,22 @@ public class RecSongsPlaylist {
 		}		
 	}	
 
+	public boolean isTaskRunning(){
+		if(task != null && task.getStatus() != AsyncTask.Status.FINISHED){
+			return true;			
+		}
+		
+		return false;
+	}
+	
+	public void cancelTask(){
+		if(!isTaskRunning())
+			return;
+		
+		task.cancel(true);
+		task = null;
+	}
+	
 	/** Add songs to the playlist methods*/
 	@SuppressWarnings("unchecked")
 	public void addSongsToPlaylist(ArrayList<SongInfo> songsInfo, ListActivity a){		

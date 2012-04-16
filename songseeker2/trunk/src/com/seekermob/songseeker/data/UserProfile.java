@@ -4,28 +4,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.seekermob.songseeker.R;
 import android.app.Activity;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.BaseAdapter;
-import android.widget.Toast;
 
-import com.seekermob.songseeker.comm.ServiceCommException;
-import com.seekermob.songseeker.comm.SevenDigitalComm;
-import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.util.Util;
 
-public class UserProfile implements Serializable, OnCancelListener{
+public class UserProfile implements Serializable{
 
 	private static UserProfile obj = new UserProfile();
 	private static Profile profile = null;	
 	
-	private static AddToProfileTask addTask = null;
+	//private static AddToProfileTask addTask = null;
 
 	public static final String PROFILE_FILENAME = "profile";
 	private static final long serialVersionUID = 1L;
@@ -48,6 +38,7 @@ public class UserProfile implements Serializable, OnCancelListener{
 		return profile;
 	}
 	
+	/*
 	public void addToProfile(ArrayList<String> names, Activity a, BaseAdapter ad){
 		addTask = (AddToProfileTask) new AddToProfileTask(names, a, ad, true, null).execute();
 	}
@@ -200,7 +191,15 @@ public class UserProfile implements Serializable, OnCancelListener{
 			adapter = null;
 			dialog = null;
 		}		
+	}
+	
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		if(addTask != null){
+			addTask.isCancel = true;
+		}
 	}	
+	*/	
 	
 	public synchronized void syncAddArtistsToProfile(ArrayList<ArtistProfile> artists, Activity activity){
 		profile.artists.addAll(artists);		
@@ -286,12 +285,5 @@ public class UserProfile implements Serializable, OnCancelListener{
 		public String buyUrl;
 		
 		private static final long serialVersionUID = 1L;		
-	}
-	
-	@Override
-	public void onCancel(DialogInterface dialog) {
-		if(addTask != null){
-			addTask.isCancel = true;
-		}
-	}	
+	}		
 }
