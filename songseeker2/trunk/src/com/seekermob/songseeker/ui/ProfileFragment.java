@@ -12,7 +12,6 @@ import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.SevenDigitalComm;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.data.ArtistInfo;
-import com.seekermob.songseeker.data.RecSongsPlaylist;
 import com.seekermob.songseeker.data.UserProfile;
 import com.seekermob.songseeker.data.UserProfile.ArtistProfile;
 import com.seekermob.songseeker.ui.InputDialogFragment.OnTextEnteredListener;
