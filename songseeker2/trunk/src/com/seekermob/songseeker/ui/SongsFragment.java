@@ -37,15 +37,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class SongsFragment extends SherlockListFragment implements PlaylistListener, OnTextEnteredListener{
 	private SongsAdapter mAdapter;
@@ -57,6 +60,8 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	private static final String STATE_PLAY_SONGS_IDS = "playSongsIds";
 	private static final String STATE_PLAY_SONGS_INDEX = "playSongsIndex";
 	private static final String STATE_PLAY_SONGS_RUNNING = "playSongsRunning";
+	
+	private static final int MENU_REMOVE_SONG = 1;
 		
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -81,7 +86,10 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			public void onClick(View v) {
 				getNewPlaylist(null);
 			}
-		});		
+		});	
+		
+		//context menu
+		registerForContextMenu(getListView());
 	}
 
 	@Override
@@ -234,6 +242,28 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		}		
 	}
 
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {	
+		super.onCreateContextMenu(menu, v, menuInfo);
+		
+		menu.add(ContextMenu.NONE, MENU_REMOVE_SONG, ContextMenu.NONE, R.string.remove_song);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(android.view.MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		
+		switch (item.getItemId()) {
+		case MENU_REMOVE_SONG:
+			RecSongsPlaylist.getInstance().removeSongFromPlaylist(info.position);
+			break;
+		default:
+			break;
+		}
+		return super.onContextItemSelected(item);
+	}	
+	
 	public class SongsAdapter extends BaseAdapter {
 
 		private ArrayList<SongInfo> playlist;

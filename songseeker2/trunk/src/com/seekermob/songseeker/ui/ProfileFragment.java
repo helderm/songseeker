@@ -12,6 +12,7 @@ import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.SevenDigitalComm;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.data.ArtistInfo;
+import com.seekermob.songseeker.data.RecSongsPlaylist;
 import com.seekermob.songseeker.data.UserProfile;
 import com.seekermob.songseeker.data.UserProfile.ArtistProfile;
 import com.seekermob.songseeker.ui.InputDialogFragment.OnTextEnteredListener;
@@ -25,14 +26,17 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class ProfileFragment extends SherlockListFragment implements OnTextEnteredListener {
 
@@ -42,6 +46,8 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 	private static final String STATE_PROFILE_ARTIST_NAMES = "profileArtistNames";
 	private static final String STATE_PROFILE_INDEX = "profileIndex";
 	private static final String STATE_PROFILE_RUNNING = "profileRunning";	
+	
+	private static final int MENU_REMOVE_ARTIST = 1;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -59,6 +65,9 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 	    
 	    //set empty view text
 	    ((TextView)(getListView().getEmptyView())).setText(R.string.profile_frag_empty_list);
+	    
+	    //context menu
+	    registerForContextMenu(getListView());	    
 	}
 
 	@Override
@@ -160,6 +169,28 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 		}
 	}		
 
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {	
+		super.onCreateContextMenu(menu, v, menuInfo);
+		
+		menu.add(ContextMenu.NONE, MENU_REMOVE_ARTIST, ContextMenu.NONE, R.string.remove_artist);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(android.view.MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		
+		switch (item.getItemId()) {
+		case MENU_REMOVE_ARTIST:
+			UserProfile.getInstance(getActivity()).removeArtistFromProfile(info.position, this);
+			break;
+		default:
+			break;
+		}
+		return super.onContextItemSelected(item);
+	}
+	
 	public class ArtistsAdapter extends BaseAdapter {
 
 		private UserProfile prof;	 
@@ -462,7 +493,11 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 		}
 	}    
 	
-	public class ImportDialogFragment extends DialogFragment{
+	public static class ImportDialogFragment extends DialogFragment{
+		
+		public static ImportDialogFragment newInstance(){
+			return new ImportDialogFragment();
+		}
 		
 	    @Override
 	    public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -471,7 +506,11 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 	    	v.findViewById(R.id.import_from_device).setOnClickListener(new View.OnClickListener() {
 	    		@Override
 	    		public void onClick(View v) {
-	    			mProfileTask = (ProfileTask) new ProfileTask(null, 1).execute();
+	    			int index = ((MainActivity)getActivity()).mViewPager.getCurrentItem();
+	    			ProfileFragment f = (ProfileFragment) getFragmentManager().findFragmentByTag(
+	                        "android:switcher:"+R.id.pager+":"+index); //that is the tag the ViewPager sets to the fragment
+
+	    			f.mProfileTask = (ProfileTask) f.new ProfileTask(null, 1).execute();
 	    			dismiss();            	
 	    		}
 	    	});
@@ -480,9 +519,14 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 	    		@Override
 	    		public void onClick(View v) {
 	    			dismiss();	    			
+	    			
+	    			int index = ((MainActivity)getActivity()).mViewPager.getCurrentItem();
+	    			ProfileFragment f = (ProfileFragment) getFragmentManager().findFragmentByTag(
+	                        "android:switcher:"+R.id.pager+":"+index); //that is the tag the ViewPager sets to the fragment
+	    			
 	    			InputDialogFragment dialog = InputDialogFragment
-	    					.newInstance(R.string.lastfm_username, "lastfm-username", ProfileFragment.this);
-	    			dialog.showDialog(getActivity());	    			            	
+	    	    			.newInstance(R.string.lastfm_username, "lastfm-username", f);
+	    	    	dialog.showDialog(getActivity());
 	    		}
 	    	});    	
 	    	
@@ -490,5 +534,5 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 	    	dialog.setContentView(v);
 	    	return dialog;
 	    }
-	}	
+	}
 }

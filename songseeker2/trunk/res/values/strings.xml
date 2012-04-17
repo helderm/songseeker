@@ -59,5 +59,7 @@
     <string name="import_profile_failed">Failed to import the profile!</string>
     <string name="import_no_artist_found">No artist to import was found!</string>
     <string name="lastfm_username">last.fm username</string>
+    <string name="remove_artist">Remove Artist</string>
+    <string name="remove_song">Remove Song</string>
     
 </resources>

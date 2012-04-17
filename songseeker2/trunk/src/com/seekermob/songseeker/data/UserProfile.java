@@ -6,6 +6,7 @@ import java.util.Random;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.support.v4.app.ListFragment;
 import android.widget.BaseAdapter;
 
 import com.seekermob.songseeker.util.Util;
@@ -208,11 +209,11 @@ public class UserProfile implements Serializable{
 	
 	/** Removes an artist from the profile
 	 * Is not sync because it is called from the UI thread. Shouldn't be a problem while the addToProfile task has a ProgressDialog*/
-	public void removeArtistFromProfile(int position, ListActivity activity){
+	public void removeArtistFromProfile(int position, ListFragment frag){
 		profile.artists.remove(position);
-		Util.writeObjectToDevice(activity, profile, PROFILE_FILENAME);	
+		Util.writeObjectToDevice(frag.getActivity(), profile, PROFILE_FILENAME);	
 		
-		((BaseAdapter)activity.getListAdapter()).notifyDataSetChanged();
+		((BaseAdapter)frag.getListAdapter()).notifyDataSetChanged();
 	}
 	
 	public boolean isAlreadyInProfile(String artist){
