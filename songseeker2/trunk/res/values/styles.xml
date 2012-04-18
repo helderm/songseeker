@@ -13,7 +13,7 @@
         <item name="android:singleLine">true</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/light_blue</item>
-        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
     </style>
 
     <style name="list_view_second_line">
@@ -21,7 +21,7 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:singleLine">true</item>
         <item name="android:textColor">@color/light_grey</item>
-        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
     </style>
 
     <style name="list_view_third_line">
@@ -30,9 +30,29 @@
         <item name="android:singleLine">true</item>
         <item name="android:textColor">@color/light_grey</item>
         <item name="android:textStyle">italic</item>
-        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
     </style>
 
+    <style name="music_info_title">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textColor">@color/light_blue</item>
+    </style>
+
+    <style name="music_info_subtitle">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light_grey</item>
+    </style>  
+    
+    <style name="music_info_details">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor">@color/light_grey</item>
+    </style>    
+    
     <style name="seekbar">
         <item name="android:thumb">@drawable/seekbar_thumb</item>
         <item name="android:progressDrawable">@drawable/seekbar_progress</item>
@@ -40,7 +60,7 @@
 
     <style name="pl_options_labels">
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/light_grey</item>
     </style>

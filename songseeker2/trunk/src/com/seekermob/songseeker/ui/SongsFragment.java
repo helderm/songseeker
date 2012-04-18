@@ -29,6 +29,7 @@ import com.seekermob.songseeker.util.ImageLoader.ImageSize;
 import com.seekermob.songseeker.util.MediaPlayerController;
 import com.seekermob.songseeker.util.MediaPlayerController.MediaStatus;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,6 +37,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -224,6 +227,10 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
             startActivity(i);	
 			return true;
 		case R.id.menu_export_playlist:
+			ExportDialogFragment exportDiag = ExportDialogFragment.newInstance();
+	    	FragmentTransaction ft = getFragmentManager().beginTransaction();
+	    	exportDiag.show(ft, "export-dialog");
+			
 			return true;
 		case R.id.menu_search_artist:
 			InputDialogFragment newFragment = InputDialogFragment
@@ -672,4 +679,52 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	public void onDialogTextEntered(String artistName, String tag) {
 		getNewPlaylist(artistName);		
 	}
+	
+	public static class ExportDialogFragment extends DialogFragment{
+		
+		public static ExportDialogFragment newInstance(){
+			return new ExportDialogFragment();
+		}
+		
+	    @Override
+	    public Dialog onCreateDialog(Bundle savedInstanceState) {
+	    	View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_export, null, false);
+	    	
+	    	v.findViewById(R.id.export_to_grooveshark).setOnClickListener(new View.OnClickListener() {
+	    		@Override
+	    		public void onClick(View v) {
+
+	    			dismiss();            	
+	    		}
+	    	});
+	    	
+	    	v.findViewById(R.id.export_to_youtube).setOnClickListener(new View.OnClickListener() {
+	    		@Override
+	    		public void onClick(View v) {
+	    			dismiss();	  			
+		            	
+	    		}
+	    	});  
+	    	
+	    	v.findViewById(R.id.export_to_rdio).setOnClickListener(new View.OnClickListener() {
+	    		@Override
+	    		public void onClick(View v) {
+
+	    			dismiss();            	
+	    		}
+	    	});
+	    	
+	    	v.findViewById(R.id.export_to_lastfm).setOnClickListener(new View.OnClickListener() {
+	    		@Override
+	    		public void onClick(View v) {
+	    			dismiss();	  			
+		            	
+	    		}
+	    	});   	    	
+	    	
+	    	Dialog dialog = new Dialog(getActivity(), R.style.DialogThemeNoTitle);
+	    	dialog.setContentView(v);
+	    	return dialog;
+	    }
+	}	
 }

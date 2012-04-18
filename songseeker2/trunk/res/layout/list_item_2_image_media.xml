@@ -48,16 +48,16 @@
 
         <ImageView
             android:id="@+id/playpause"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center" 
             android:contentDescription="@string/play_pause_preview"/>
 
         <ProgressBar
             android:id="@+id/loading"
-            style="@android:style/Widget.ProgressBar.Large"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:indeterminateDrawable="@drawable/progress_large_holo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:visibility="gone" />
     </FrameLayout>
 
