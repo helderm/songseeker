@@ -15,6 +15,7 @@ import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.EchoNestComm;
 import com.seekermob.songseeker.comm.GroovesharkComm;
 import com.seekermob.songseeker.comm.ServiceCommException;
+import com.seekermob.songseeker.comm.SevenDigitalComm;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.data.PlaylistOptions;
@@ -48,6 +49,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +58,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 public class SongsFragment extends SherlockListFragment implements PlaylistListener, OnTextEnteredListener{
 	private SongsAdapter mAdapter;
 	private PlaySongsTask mPlaySongsTask;
+	private SongDetailsTask mSongDetailsTask;
 	private Bundle mSavedState;
 	
 	private static final String STATE_PLAYLIST = "playlist";
@@ -63,6 +66,8 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	private static final String STATE_PLAY_SONGS_IDS = "playSongsIds";
 	private static final String STATE_PLAY_SONGS_INDEX = "playSongsIndex";
 	private static final String STATE_PLAY_SONGS_RUNNING = "playSongsRunning";
+	private static final String STATE_SONG_DETAILS_RUNNING = "songDetailsRunning";
+	private static final String STATE_SONG_DETAILS_SONG = "songDetailsSong";
 	
 	private static final int MENU_REMOVE_SONG = 10;
 		
@@ -118,6 +123,10 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		if(mPlaySongsTask != null && mPlaySongsTask.getStatus() != AsyncTask.Status.FINISHED)
 			mPlaySongsTask.cancel(true);
 		
+		//cancel the song details task
+		if(mSongDetailsTask != null && mSongDetailsTask.getStatus() != AsyncTask.Status.FINISHED)
+			mSongDetailsTask.cancel(true);		
+		
 		super.onDestroy();
 	}		
 	
@@ -157,6 +166,16 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
             mPlaySongsTask = null;
         }        
         
+		//save the progress of the SongDetails task
+        final SongDetailsTask songTask = mSongDetailsTask;
+        if (songTask != null && songTask.getStatus() != AsyncTask.Status.FINISHED) {
+        	songTask.cancel(true);
+
+            outState.putBoolean(STATE_SONG_DETAILS_RUNNING, true);
+            outState.putParcelable(STATE_SONG_DETAILS_SONG, songTask.mSelectedSong);
+            mSongDetailsTask = null;
+        }        
+        
         mSavedState = outState;
 		
 		super.onSaveInstanceState(outState);
@@ -194,6 +213,12 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 				mPlaySongsTask = (PlaySongsTask) new PlaySongsTask(ids, index).execute();
 			}
 		}
+		
+		//restore the song details task
+		if(savedInstanceState.getBoolean(STATE_SONG_DETAILS_RUNNING)) {
+			SongInfo song = savedInstanceState.getParcelable(STATE_SONG_DETAILS_SONG);
+			mSongDetailsTask = (SongDetailsTask) new SongDetailsTask(song).execute();			
+		}		
 		
 		mSavedState = null;
 	}	
@@ -392,6 +417,69 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		}
 	}
 
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		SongInfo song = mAdapter.getItem(position);
+		
+		//check if we have enough info of the song to show the tabs
+		if(song.buyUrl == null || song.artist.buyUrl == null || song.artist.id == null ||
+			song.release.artist == null || song.release.buyUrl == null || song.release.id == null || 
+			song.release.image == null || song.release.name == null){
+
+			mSongDetailsTask = (SongDetailsTask) new SongDetailsTask(song).execute();
+			return;
+		}
+
+		Intent i = new Intent(getActivity(), MusicInfoActivity.class);		
+		i.putExtra("song", song); 		
+		startActivity(i);		
+	}
+	
+	/** Fetches the full SongInfo from 7digital and call the MusicInfoActivity*/
+	private class SongDetailsTask extends AsyncTask<Void, Void, SongInfo>{
+		String err = null;
+		SongInfo mSelectedSong;
+		
+		public SongDetailsTask(SongInfo s) {
+			mSelectedSong = s;
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			Util.setListShown(SongsFragment.this, false);
+		}
+
+		@Override
+		protected SongInfo doInBackground(Void... args) {						
+			SongInfo song;
+			
+			try{
+				song = SevenDigitalComm.getComm().querySongDetails(mSelectedSong.id, 
+						mSelectedSong.name, mSelectedSong.artist.name, getActivity());				
+			}catch(ServiceCommException e){
+				err = e.getMessage();		
+				return null;
+			}
+
+			return song;
+		}
+
+		@Override
+		protected void onPostExecute(SongInfo song) {
+			Util.setListShown(SongsFragment.this, true);
+			
+			if(err != null){
+				Toast.makeText(getActivity(), err, Toast.LENGTH_SHORT).show();				
+				return;
+			}
+	
+			Intent i = new Intent(getActivity(), MusicInfoActivity.class);		
+			i.putExtra("song", song); 		
+			startActivity(i);
+		}
+	}	
+	
+	/** Gets a new playlist from Echo Nest*/
 	private void getNewPlaylist(String artistName) {
 		
 		//cancel if the profile is empty

@@ -67,5 +67,8 @@
     <string name="remove_song">Remove Song</string>
     <string name="by">by</string>
     <string name="on">on</string>
+    <string name="song">Song</string>
+    <string name="album">Album</string>
+    <string name="artist">Artist</string>    
     
 </resources>

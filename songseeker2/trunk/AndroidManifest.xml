@@ -27,7 +27,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.PlaylistOptionsActivity"></activity>
+        <activity android:name=".ui.PlaylistOptionsActivity" >
+        </activity>
+        <activity
+            android:name=".ui.MusicInfoActivity"
+            android:uiOptions="splitActionBarWhenNarrow" >
+        </activity>
     </application>
 
 </manifest>

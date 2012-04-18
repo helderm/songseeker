@@ -41,6 +41,7 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 
 	private ArtistsAdapter mAdapter;
 	private ProfileTask mProfileTask;
+	private Bundle mSavedState;
 	
 	private static final String STATE_PROFILE_ARTIST_NAMES = "profileArtistNames";
 	private static final String STATE_PROFILE_INDEX = "profileIndex";
@@ -86,6 +87,15 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 	}
 	
 	@Override
+	public void onResume() {
+		super.onResume();
+		
+        if (mSavedState != null) {
+            restoreLocalState(mSavedState);
+        }
+	}	
+	
+	@Override
 	public void onSaveInstanceState(Bundle outState) {
 	
 		//save the profile task if it is running
@@ -102,6 +112,8 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
             
             mProfileTask = null;
 		}
+		
+		mSavedState = outState;
 		
 		super.onSaveInstanceState(outState);
 	}
@@ -121,6 +133,8 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 			if(artists != null)
 				mProfileTask = (ProfileTask) new ProfileTask(index, artists).execute();
 		}
+		
+		mSavedState = null;
 	}
 			
 	@Override
