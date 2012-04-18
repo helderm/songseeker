@@ -64,7 +64,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	private static final String STATE_PLAY_SONGS_INDEX = "playSongsIndex";
 	private static final String STATE_PLAY_SONGS_RUNNING = "playSongsRunning";
 	
-	private static final int MENU_REMOVE_SONG = 1;
+	private static final int MENU_REMOVE_SONG = 10;
 		
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {

@@ -46,7 +46,7 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 	private static final String STATE_PROFILE_INDEX = "profileIndex";
 	private static final String STATE_PROFILE_RUNNING = "profileRunning";	
 	
-	private static final int MENU_REMOVE_ARTIST = 1;
+	private static final int MENU_REMOVE_ARTIST = 20;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
