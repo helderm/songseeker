@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.SevenDigitalComm;
@@ -53,7 +55,7 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 		restoreLocalState(savedInstanceState);
 
 		//set adapter				
-		//setListHeader();
+		setListHeader();
 		setListAdapter(mAdapter);
 		
 		//if the adapter wasnt restored, fetch the adapter
@@ -127,6 +129,38 @@ public class ReleaseInfoFragment extends SherlockListFragment{
             restoreLocalState(mSavedState);
         }
 	}	
+		
+	@Override
+	public void onCreateOptionsMenu(Menu menu, com.actionbarsherlock.view.MenuInflater inflater) {
+		inflater.inflate(R.menu.releaseinfo_menu, menu);		
+		super.onCreateOptionsMenu(menu, inflater);
+	}	
+	
+	private void setListHeader(){
+		
+		//set transparent background to show album image
+		//getListView().setBackgroundColor(0);
+		
+		//set album info header
+		LayoutInflater inflater = getActivity().getLayoutInflater();
+		LinearLayout header = (LinearLayout)inflater.inflate(R.layout.release_info, null);
+		
+		TextView releaseName = (TextView) header.findViewById(R.id.releaseinfo_releaseName);
+		releaseName.setText(mRelease.name);
+
+		TextView releaseArtist = (TextView) header.findViewById(R.id.releaseinfo_artistName);
+		releaseArtist.setText(mRelease.artist.name);
+		
+		//set image
+		ImageView coverart = (ImageView) header.findViewById(R.id.releaseinfo_image);
+		ImageLoader.getLoader().DisplayImage(mRelease.image, coverart, R.drawable.ic_disc_stub, ImageSize.MEDIUM);
+		
+		//ImageView bkg = (ImageView) findViewById(R.id.listview_bkg);
+		//ImageLoader.getLoader().DisplayImage(mRelease.image, getListView(), bkg, ImageSize.LARGE);
+		
+		getListView().addHeaderView(header);
+
+	}
 	
 	private class ReleaseSongsAdapter extends BaseAdapter {
 

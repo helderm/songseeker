@@ -70,5 +70,12 @@
     <string name="song">Song</string>
     <string name="album">Album</string>
     <string name="artist">Artist</string>    
+    <string name="watch_on">Watch on YouTube</string>
+    <string name="add_to_playlist">Add to Playlist</string>
+    <string name="share_with">Share with Friends</string>
+    <string name="buy_on">Buy on 7digital</string>
+    <string name="add_to_profile">Add to Profile</string>
+    <string name="artist_top_songs">Artist\&apos;s Top Songs</string>
+    <string name="song_list">Song List</string>
     
 </resources>

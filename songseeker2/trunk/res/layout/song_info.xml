@@ -1,129 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/songinfo_image"
-        android:layout_width="@dimen/image_music_info"
-        android:layout_height="@dimen/image_music_info"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:contentDescription="@string/album_image"       
-        android:layout_marginTop="@dimen/layout_padding"
-        android:paddingLeft="@dimen/layout_padding" >
-    </ImageView>
-
-    <TextView
-        android:id="@+id/songinfo_songName"
-        style="@style/music_info_title"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/songinfo_image"
-        android:layout_toRightOf="@+id/songinfo_image"
-        android:paddingLeft="@dimen/layout_padding"
-        android:paddingRight="@dimen/layout_padding"
-        android:text="Song Name" >
-    </TextView>
-
-    <TextView
-        android:id="@+id/songinfo_songVersion"
-        style="@style/music_info_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/songinfo_songName"
-        android:layout_below="@+id/songinfo_songName"
-        android:layout_marginTop="5dip"
-        android:text="version" >
-    </TextView>
-
-    <include
-        android:id="@+id/divider1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/songinfo_songName"
-        android:layout_below="@+id/songinfo_songVersion"
-        android:layout_marginTop="5dip"
-        layout="@layout/holodivider" />
-
-    <TextView
-        android:id="@+id/by"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/songinfo_songName"
-        android:layout_below="@+id/divider1"
-        android:layout_marginTop="5dip"
-        android:text="@string/by"
-        android:textSize="@dimen/text_size_small" >
-    </TextView>
-
-    <TextView
-        android:id="@+id/songinfo_artistName"
-        style="@style/music_info_subtitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/divider1"
-        android:layout_toRightOf="@+id/by"
-        android:paddingLeft="@dimen/layout_padding"
-        android:paddingRight="@dimen/layout_padding"
-        android:text="Artist Name" >
-    </TextView>
-
-    <include
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/songinfo_songName"
-        android:layout_below="@+id/songinfo_artistName"
-        android:layout_marginTop="5dip"
-        layout="@layout/holodivider" />    
-        
-    <TextView
-        android:id="@+id/on"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/songinfo_songName"
-        android:layout_below="@+id/divider2"
-        android:layout_marginTop="5dip"
-        android:text="@string/on"
-        android:textSize="@dimen/text_size_small" >
-    </TextView>   
-    
-    <TextView
-        android:id="@+id/songinfo_albumName"
-        style="@style/music_info_subtitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/songinfo_songName"
-        android:layout_below="@+id/divider2"
-        android:paddingLeft="@dimen/layout_padding"
-        android:paddingRight="@dimen/layout_padding"
-        android:layout_toRightOf="@+id/on"
-        android:text="Release Name" >
-    </TextView>    
-    
-    <FrameLayout
-        android:id="@+id/songinfo_media_btns"
-        android:layout_width="@dimen/mediabtns_list_item"
-        android:layout_height="@dimen/mediabtns_list_item"
-        android:layout_alignLeft="@+id/songinfo_image"
-        android:layout_alignRight="@+id/songinfo_image"
-        android:layout_below="@+id/songinfo_image" >
+        android:layout_height="wrap_content" >
 
         <ImageView
-            android:id="@+id/songinfo_playpause"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center" 
-            android:src="@drawable/ic_image_play"/>
+            android:id="@+id/songinfo_image"
+            android:layout_width="@dimen/image_music_info"
+            android:layout_height="@dimen/image_music_info"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/layout_padding"
+            android:contentDescription="@string/album_image" >
+        </ImageView>
 
-        <ProgressBar
-            android:id="@+id/songinfo_loading"
-            android:indeterminateDrawable="@drawable/progress_large_holo"
+        <TextView
+            android:id="@+id/songinfo_songName"
+            style="@style/music_info_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:visibility="gone" />
-    </FrameLayout>
- 
-</RelativeLayout>
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/songinfo_image"
+            android:layout_marginRight="@dimen/layout_padding"
+            android:layout_toRightOf="@+id/songinfo_image" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/songinfo_songVersion"
+            style="@style/music_info_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/songinfo_songName"
+            android:layout_alignRight="@+id/songinfo_songName"
+            android:layout_below="@+id/songinfo_songName"
+            android:layout_marginTop="5dip" >
+        </TextView>
+
+        <include
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/songinfo_songName"
+            android:layout_alignRight="@+id/songinfo_songName"
+            android:layout_below="@+id/songinfo_songVersion"
+            android:layout_marginTop="5dip"
+            layout="@layout/holodivider" />
+
+        <TextView
+            android:id="@+id/by"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/songinfo_songName"
+            android:layout_below="@+id/divider1"
+            android:layout_marginRight="5dip"
+            android:layout_marginTop="5dip"
+            android:text="@string/by"
+            android:textSize="@dimen/text_size_small" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/songinfo_artistName"
+            style="@style/music_info_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/songinfo_songName"
+            android:layout_alignTop="@+id/by"
+            android:layout_below="@+id/divider1"
+            android:layout_toRightOf="@+id/by" >
+        </TextView>
+
+        <include
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/songinfo_songName"
+            android:layout_alignRight="@+id/songinfo_songName"
+            android:layout_below="@+id/songinfo_artistName"
+            android:layout_marginTop="5dip"
+            layout="@layout/holodivider" />
+
+        <TextView
+            android:id="@+id/on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/songinfo_songName"
+            android:layout_below="@+id/divider2"
+            android:layout_marginRight="5dip"
+            android:layout_marginTop="5dip"
+            android:text="@string/on"
+            android:textSize="@dimen/text_size_small" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/songinfo_albumName"
+            style="@style/music_info_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/songinfo_songName"
+            android:layout_alignTop="@+id/on"
+            android:layout_below="@+id/divider2"
+            android:layout_toRightOf="@+id/on" >
+        </TextView>
+
+        <FrameLayout
+            android:id="@+id/songinfo_media_btns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/songinfo_image"
+            android:layout_alignRight="@+id/songinfo_image"
+            android:layout_below="@+id/songinfo_image" >
+
+            <ImageView
+                android:id="@+id/songinfo_playpause"
+                android:layout_width="@dimen/mediabtns_list_item"
+                android:layout_height="@dimen/mediabtns_list_item"
+                android:layout_gravity="center"
+                android:contentDescription="@string/play_pause_preview"
+                android:src="@drawable/ic_image_play" />
+
+            <ProgressBar
+                android:id="@+id/songinfo_loading"
+                android:layout_width="@dimen/mediabtns_list_item"
+                android:layout_height="@dimen/mediabtns_list_item"
+                android:layout_gravity="center"
+                android:contentDescription="@string/play_pause_preview"
+                android:indeterminateDrawable="@drawable/progress_large_holo"
+                android:visibility="gone" />
+        </FrameLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/songinfo_topTrackTitle"
+        style="@style/music_info_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/layout_padding"
+        android:gravity="center|top"
+        android:text="@string/artist_top_songs" >
+    </TextView>
+
+</LinearLayout>

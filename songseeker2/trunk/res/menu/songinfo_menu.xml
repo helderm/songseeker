@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_watch"
+        android:icon="@drawable/ic_action_watch"
+        android:showAsAction="ifRoom"
+        android:title="@string/watch_on"/>
+    <item
+        android:id="@+id/menu_add_to_playlist"
+        android:icon="@drawable/ic_action_add"
+        android:showAsAction="ifRoom"
+        android:title="@string/add_to_playlist"/>
+    <item
+        android:id="@+id/menu_share_song"
+        android:icon="@drawable/ic_action_share"
+        android:showAsAction="ifRoom"
+        android:title="@string/share_with"/>
+    <item
+        android:id="@+id/menu_buy_song"
+        android:icon="@drawable/ic_action_buy"
+        android:showAsAction="ifRoom"
+        android:title="@string/buy_on"/>
+
+</menu>

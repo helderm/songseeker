@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.SevenDigitalComm;
@@ -134,6 +135,12 @@ public class ArtistInfoFragment extends SherlockListFragment{
             restoreLocalState(mSavedState);
         }
 	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, com.actionbarsherlock.view.MenuInflater inflater) {
+		inflater.inflate(R.menu.artistinfo_menu, menu);		
+		super.onCreateOptionsMenu(menu, inflater);
+	}	
 	
 	private class ArtistReleasesAdapter extends BaseAdapter {
 

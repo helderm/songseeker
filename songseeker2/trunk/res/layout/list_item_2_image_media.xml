@@ -50,14 +50,15 @@
             android:id="@+id/playpause"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center" 
-            android:contentDescription="@string/play_pause_preview"/>
+            android:layout_gravity="center"
+            android:contentDescription="@string/play_pause_preview" />
 
         <ProgressBar
             android:id="@+id/loading"
-            android:indeterminateDrawable="@drawable/progress_large_holo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/play_pause_preview"
+            android:indeterminateDrawable="@drawable/progress_large_holo"
             android:visibility="gone" />
     </FrameLayout>
 

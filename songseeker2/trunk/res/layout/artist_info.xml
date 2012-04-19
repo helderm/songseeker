@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/artistinfo_info"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/artistinfo_image"
+            android:layout_width="@dimen/image_music_info"
+            android:layout_height="@dimen/image_music_info"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/layout_padding"
+            android:contentDescription="@string/artist_image" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/artistinfo_artistName"
+            style="@style/music_info_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/artistinfo_image"
+            android:layout_marginRight="@dimen/layout_padding"
+            android:layout_toRightOf="@+id/artistinfo_image" >
+        </TextView>
+
+        <include
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/songinfo_songName"
+            android:layout_alignRight="@+id/songinfo_songName"
+            android:layout_below="@+id/songinfo_songVersion"
+            android:layout_marginTop="5dip"
+            layout="@layout/holodivider" />
+
+        <TextView
+            android:id="@+id/artistinfo_biography"
+            style="@style/music_info_subtitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/artistinfo_artistName"
+            android:layout_alignRight="@+id/artistinfo_artistName"
+            android:layout_below="@+id/horizontal_bar1"
+            android:layout_marginTop="5dip"
+            android:gravity="right"
+            android:text="Biography >>" >
+        </TextView>
+
+        <View
+            android:id="@+id/horizontal_bar2"
+            style="@style/horizontal_bars"
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:layout_alignLeft="@+id/artistinfo_artistName"
+            android:layout_alignRight="@+id/artistinfo_artistName"
+            android:layout_below="@+id/artistinfo_biography"
+            android:layout_marginTop="5dip" >
+        </View>
+
+        <TextView
+            android:id="@+id/artistinfo_news"
+            style="@style/music_info_subtitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/artistinfo_artistName"
+            android:layout_alignRight="@+id/artistinfo_artistName"
+            android:layout_below="@+id/horizontal_bar2"
+            android:layout_marginTop="5dip"
+            android:gravity="right"
+            android:text="News >>" >
+        </TextView>
+
+        <View
+            android:id="@+id/horizontal_bar3"
+            style="@style/horizontal_bars"
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:layout_alignLeft="@+id/artistinfo_artistName"
+            android:layout_alignRight="@+id/artistinfo_artistName"
+            android:layout_below="@+id/artistinfo_news"
+            android:layout_marginTop="5dip" >
+        </View>
+
+        <TextView
+            android:id="@+id/artistinfo_similar"
+            style="@style/music_info_subtitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/artistinfo_artistName"
+            android:layout_alignRight="@+id/artistinfo_artistName"
+            android:layout_below="@+id/horizontal_bar3"
+            android:layout_marginTop="5dip"
+            android:gravity="right"
+            android:text="Similar Artists >>" >
+        </TextView>
+    </RelativeLayout>
+
+</LinearLayout>

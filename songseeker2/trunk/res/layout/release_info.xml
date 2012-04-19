@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/releaseinfo_info"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/releaseinfo_image"
+            android:layout_width="@dimen/image_music_info"
+            android:layout_height="@dimen/image_music_info"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/layout_padding"
+            android:contentDescription="@string/album_image" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/releaseinfo_releaseName"
+            style="@style/music_info_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/releaseinfo_image"
+            android:layout_marginRight="@dimen/layout_padding"
+            android:layout_toRightOf="@+id/releaseinfo_image" >
+        </TextView>
+
+        <include
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/releaseinfo_releaseName"
+            android:layout_alignRight="@+id/releaseinfo_releaseName"
+            android:layout_below="@+id/releaseinfo_releaseName"
+            android:layout_marginRight="5dip"
+            android:layout_marginTop="5dip"
+            layout="@layout/holodivider" />
+
+        <TextView
+            android:id="@+id/by"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/releaseinfo_releaseName"
+            android:layout_below="@+id/divider1"
+            android:layout_marginRight="5dip"
+            android:layout_marginTop="5dip"
+            android:text="@string/by"
+            android:textSize="@dimen/text_size_small" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/releaseinfo_artistName"
+            style="@style/music_info_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/releaseinfo_releaseName"
+            android:layout_alignTop="@+id/by"
+            android:layout_below="@+id/divider1"
+            android:layout_toRightOf="@+id/by" >
+        </TextView>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/songinfo_topTrackTitle"
+        style="@style/music_info_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/layout_padding"
+        android:gravity="center|top"
+        android:text="@string/song_list" >
+    </TextView>
+
+</LinearLayout>

@@ -11,12 +11,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.SevenDigitalComm;
@@ -119,6 +120,12 @@ public class SongInfoFragment extends SherlockListFragment{
 	}
 	
 	@Override
+	public void onPause() {
+		super.onPause();
+		MediaPlayerController.getCon().release();
+	}
+	
+	@Override
 	public void onResume() {
 		super.onResume();
 		
@@ -127,13 +134,19 @@ public class SongInfoFragment extends SherlockListFragment{
         }
 	}	
 	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, com.actionbarsherlock.view.MenuInflater inflater) {
+		inflater.inflate(R.menu.songinfo_menu, menu);		
+		super.onCreateOptionsMenu(menu, inflater);
+	}	
+	
 	private void setListHeader(){
 		//set transparent background to show album image
 		//getListView().setBackgroundColor(0);
 
 		//set song info header
 		LayoutInflater inflater = getActivity().getLayoutInflater();
-		RelativeLayout header = (RelativeLayout)inflater.inflate(R.layout.song_info, null);
+		LinearLayout header = (LinearLayout)inflater.inflate(R.layout.song_info, null);
 
 		TextView tvSongName = (TextView) header.findViewById(R.id.songinfo_songName);
 		tvSongName.setText(mSong.name);
@@ -167,7 +180,7 @@ public class SongInfoFragment extends SherlockListFragment{
 			public void onClick(View v) {
 				FrameLayout header = (FrameLayout) v.getParent();					
 				MediaPlayerController.getCon().startStopMedia(mSong.previewUrl, mSong.id, 
-						(ImageView)v, (ProgressBar) header.findViewById(R.id.songinfo_loading));	
+						(ImageView) header.findViewById(R.id.songinfo_playpause), (ProgressBar)v );	
 			}
 		});
 		
