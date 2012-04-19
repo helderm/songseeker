@@ -77,5 +77,9 @@
     <string name="add_to_profile">Add to Profile</string>
     <string name="artist_top_songs">Artist\&apos;s Top Songs</string>
     <string name="song_list">Song List</string>
+    <string name="artist_albums">Artist\&apos;s Albums</string>
+    <string name="artistinfo_bio">Biography >></string>
+    <string name="artistinfo_news">News >></string>
+    <string name="artistinfo_similar">Similar Artists >></string>
     
 </resources>

@@ -33,35 +33,34 @@
             android:id="@+id/divider1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/songinfo_songName"
-            android:layout_alignRight="@+id/songinfo_songName"
-            android:layout_below="@+id/songinfo_songVersion"
+            android:layout_alignLeft="@+id/artistinfo_artistName"
+            android:layout_alignRight="@+id/artistinfo_artistName"
+            android:layout_below="@+id/artistinfo_artistName"
             android:layout_marginTop="5dip"
             layout="@layout/holodivider" />
 
         <TextView
             android:id="@+id/artistinfo_biography"
             style="@style/music_info_subtitle"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/artistinfo_artistName"
             android:layout_alignRight="@+id/artistinfo_artistName"
-            android:layout_below="@+id/horizontal_bar1"
+            android:layout_below="@+id/divider1"
             android:layout_marginTop="5dip"
             android:gravity="right"
-            android:text="Biography >>" >
+            android:text="@string/artistinfo_bio" >
         </TextView>
 
-        <View
-            android:id="@+id/horizontal_bar2"
-            style="@style/horizontal_bars"
-            android:layout_width="fill_parent"
-            android:layout_height="2dip"
+        <include
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/artistinfo_artistName"
             android:layout_alignRight="@+id/artistinfo_artistName"
             android:layout_below="@+id/artistinfo_biography"
-            android:layout_marginTop="5dip" >
-        </View>
+            android:layout_marginTop="5dip"
+            layout="@layout/holodivider" />
 
         <TextView
             android:id="@+id/artistinfo_news"
@@ -70,22 +69,21 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/artistinfo_artistName"
             android:layout_alignRight="@+id/artistinfo_artistName"
-            android:layout_below="@+id/horizontal_bar2"
+            android:layout_below="@+id/divider2"
             android:layout_marginTop="5dip"
             android:gravity="right"
-            android:text="News >>" >
+            android:text="@string/artistinfo_news" >
         </TextView>
 
-        <View
-            android:id="@+id/horizontal_bar3"
-            style="@style/horizontal_bars"
-            android:layout_width="fill_parent"
-            android:layout_height="2dip"
+        <include
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/artistinfo_artistName"
             android:layout_alignRight="@+id/artistinfo_artistName"
             android:layout_below="@+id/artistinfo_news"
-            android:layout_marginTop="5dip" >
-        </View>
+            android:layout_marginTop="5dip"
+            layout="@layout/holodivider" />
 
         <TextView
             android:id="@+id/artistinfo_similar"
@@ -94,11 +92,21 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/artistinfo_artistName"
             android:layout_alignRight="@+id/artistinfo_artistName"
-            android:layout_below="@+id/horizontal_bar3"
+            android:layout_below="@+id/divider3"
             android:layout_marginTop="5dip"
             android:gravity="right"
-            android:text="Similar Artists >>" >
+            android:text="@string/artistinfo_similar" >
         </TextView>
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/songinfo_topTrackTitle"
+        style="@style/music_info_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/layout_padding"
+        android:gravity="center|top"
+        android:text="@string/artist_albums" >
+    </TextView>
 
 </LinearLayout>
