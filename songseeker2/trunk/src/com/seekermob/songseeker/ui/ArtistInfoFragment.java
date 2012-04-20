@@ -51,17 +51,19 @@ public class ArtistInfoFragment extends SherlockListFragment{
 		//fetch the selected song
 		mArtist = getArguments().getParcelable(BUNDLE_ARTIST);
 		ArrayList<ReleaseInfo> artistReleases = getArguments().getParcelableArrayList(BUNDLE_ARTIST_RELEASES);
-		
+
+		//set adapter		
 		mAdapter = new ArtistReleasesAdapter(artistReleases);
-		restoreLocalState(savedInstanceState);
+		setListHeader();
+		setListAdapter(mAdapter);
 		
+		//restore state
+		restoreLocalState(savedInstanceState);
+			
 		//if the adapter wasnt restored, fetch the adapter
-		if(mAdapter.mReleases == null || mArtist.image == null){
+		//but only if the task wasnt restored on restoreLocalState
+		if((mAdapter.mReleases == null || mArtist.image == null) && !isTaskRunning()){			
 			mArtistDetailsTask = (ArtistDetailsTask) new ArtistDetailsTask(mAdapter.mReleases).execute();
-		}else{
-			//set adapter				
-			setListHeader();
-			setListAdapter(mAdapter);
 		}
 	}
 	
@@ -106,6 +108,7 @@ public class ArtistInfoFragment extends SherlockListFragment{
 		}
 		
 		//restore the adapter
+		//but the one restored from the bundle has priority over this
 		ArrayList<ReleaseInfo> adapterData = null;
 		if(mAdapter.mReleases == null && (adapterData = savedInstanceState.getParcelableArrayList(STATE_ADAPTER_DATA)) != null){
 			mAdapter.setArtistReleases(adapterData);			
@@ -129,7 +132,7 @@ public class ArtistInfoFragment extends SherlockListFragment{
 	public void onDestroy() {
 		super.onDestroy();
 		
-		if(mArtistDetailsTask != null && mArtistDetailsTask.getStatus() != AsyncTask.Status.FINISHED)
+		if(mArtistDetailsTask != null)
 			mArtistDetailsTask.cancel(true);
 	}
 	
@@ -151,8 +154,6 @@ public class ArtistInfoFragment extends SherlockListFragment{
 	private void setListHeader(){				
 		//set transparent background to show album image
 		//getListView().setBackgroundColor(0);
-		
-		if(getActivity() == null) return; //occurs sometimes when changin orientation
 		
 		//set album info header
 		LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -199,7 +200,7 @@ public class ArtistInfoFragment extends SherlockListFragment{
 			//ImageLoader.getLoader().DisplayImage(artist.image, getListView(), bkg, ImageSize.LARGE);
 		}	
 		
-		getListView().addHeaderView(header);
+		getListView().addHeaderView(header, null, false);
 	}
 	
 	private class ArtistReleasesAdapter extends BaseAdapter {
@@ -325,16 +326,28 @@ public class ArtistInfoFragment extends SherlockListFragment{
 			Util.setListShown(ArtistInfoFragment.this, true);
 
 			//set adapter				
-			setListHeader();
-			setListAdapter(mAdapter);
+			//setListHeader();
+			//setListAdapter(mAdapter);
 			
 			if(err != null){
 				Toast.makeText(getActivity(), err, Toast.LENGTH_SHORT).show();
 				return;
 			}
+						
+			mAdapter.setArtistReleases(releases);
 			
-			mAdapter.setArtistReleases(releases);	
-			
+			if(mArtist.image != null){
+				ImageView coverart = (ImageView) getListView().findViewById(R.id.artistinfo_image);
+				ImageLoader.getLoader().DisplayImage(mArtist.image, coverart, R.drawable.ic_disc_stub, ImageSize.MEDIUM);
+			}
 		}		
-	}		
+	}	
+	
+	private boolean isTaskRunning(){				
+		if(mArtistDetailsTask != null && mArtistDetailsTask.getStatus() != AsyncTask.Status.FINISHED){
+			return true;
+		}
+		
+		return false;
+	}
 }

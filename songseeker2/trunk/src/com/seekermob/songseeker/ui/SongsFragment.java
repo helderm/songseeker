@@ -120,11 +120,11 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		RecSongsPlaylist.getInstance().unregisterListener(this);
 
 		//cancel the play songs task
-		if(mPlaySongsTask != null && mPlaySongsTask.getStatus() != AsyncTask.Status.FINISHED)
+		if(mPlaySongsTask != null)
 			mPlaySongsTask.cancel(true);
 		
 		//cancel the song details task
-		if(mSongDetailsTask != null && mSongDetailsTask.getStatus() != AsyncTask.Status.FINISHED)
+		if(mSongDetailsTask != null)
 			mSongDetailsTask.cancel(true);		
 		
 		super.onDestroy();
@@ -510,14 +510,14 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		//get the playlist
 		if(artistName == null){
 			RecSongsPlaylist.getInstance()
-				.getPlaylist(buildPlaylistParams(UserProfile.getInstance(getActivity()).getRandomArtists(5)), 
+				.getNewPlaylist(buildPlaylistParams(UserProfile.getInstance(getActivity()).getRandomArtists(5)), 
 													SongsFragment.this);
 		}else{
 			ArtistInfo artist = new ArtistInfo();
 			artist.name = artistName;
 			ArrayList<ArtistInfo> artists = new ArrayList<ArtistInfo>();
 			artists.add(artist);
-			RecSongsPlaylist.getInstance().getPlaylist(buildPlaylistParams(artists),SongsFragment.this);
+			RecSongsPlaylist.getInstance().getNewPlaylist(buildPlaylistParams(artists),SongsFragment.this);
 		}		
 	}	
 	

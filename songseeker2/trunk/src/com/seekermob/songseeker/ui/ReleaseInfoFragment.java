@@ -64,7 +64,7 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 		setListAdapter(mAdapter);
 		
 		//if the adapter wasnt restored, fetch the adapter
-		if(mAdapter.mReleaseSongs == null){
+		if(mAdapter.mReleaseSongs == null && !isTaskRunning()){
 			mReleaseDetailsTask = (ReleaseDetailsTask) new ReleaseDetailsTask().execute();
 		}
 	}
@@ -105,6 +105,7 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 		}
 		
 		//restore the adapter
+		//but the one restored from the bundle has priority over this
 		ArrayList<SongInfo> adapterData = null;
 		if(mAdapter.mReleaseSongs == null && (adapterData = savedInstanceState.getParcelableArrayList(STATE_ADAPTER_DATA)) != null){
 			mAdapter.setSongList(adapterData);			
@@ -163,7 +164,7 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 		//ImageView bkg = (ImageView) findViewById(R.id.listview_bkg);
 		//ImageLoader.getLoader().DisplayImage(mRelease.image, getListView(), bkg, ImageSize.LARGE);
 		
-		getListView().addHeaderView(header);
+		getListView().addHeaderView(header, null, false);
 
 	}
 	
@@ -329,5 +330,13 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 
 			mAdapter.setSongList(songList);
 		}		
-	}	
+	}
+	
+	private boolean isTaskRunning(){				
+		if(mReleaseDetailsTask != null && mReleaseDetailsTask.getStatus() != AsyncTask.Status.FINISHED){
+			return true;
+		}
+		
+		return false;
+	}
 }

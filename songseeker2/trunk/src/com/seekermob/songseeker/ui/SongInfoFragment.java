@@ -63,7 +63,7 @@ public class SongInfoFragment extends SherlockListFragment{
 		setListAdapter(mAdapter);
 		
 		//if the adapter wasnt restored, fetch the top tracks
-		if(mAdapter.mTopTracks == null){
+		if(mAdapter.mTopTracks == null && !isTaskRunning()){
 			mTopTracksTask = (TopTracksTask) new TopTracksTask().execute();
 		}
 	}
@@ -104,6 +104,7 @@ public class SongInfoFragment extends SherlockListFragment{
 		}
 		
 		//restore the adapter
+		//but the one restored from the bundle has priority over this
 		ArrayList<SongInfo> adapterData;
 		if(mAdapter.mTopTracks == null && (adapterData = savedInstanceState.getParcelableArrayList(STATE_ADAPTER_DATA)) != null){			
 			mAdapter.setTopTracks(adapterData);			
@@ -197,7 +198,7 @@ public class SongInfoFragment extends SherlockListFragment{
 		//ImageView bkg = (ImageView) findViewById(R.id.listview_bkg);
 		//ImageLoader.getLoader().DisplayImage(mSong.release.image, getListView(), bkg, ImageSize.LARGE);
 		
-		getListView().addHeaderView(header);		
+		getListView().addHeaderView(header, null, false);		
 	}
 	
 	private class TopTracksAdapter extends BaseAdapter {
@@ -374,4 +375,12 @@ public class SongInfoFragment extends SherlockListFragment{
 			mAdapter.setTopTracks(topTracks);
 		}		
 	}	
+	
+	private boolean isTaskRunning(){				
+		if(mTopTracksTask != null && mTopTracksTask.getStatus() != AsyncTask.Status.FINISHED){
+			return true;
+		}
+		
+		return false;
+	}
 }

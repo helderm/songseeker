@@ -56,7 +56,7 @@ public class RecSongsPlaylist {
 	}
 
 	/** Get a new playlist methods*/
-	public void getPlaylist(PlaylistParams plp, ListFragment lf){
+	public void getNewPlaylist(PlaylistParams plp, ListFragment lf){
 		cancelTask();
 		
 		task = (GetPlaylistTask) new GetPlaylistTask(plp, lf).execute();		
