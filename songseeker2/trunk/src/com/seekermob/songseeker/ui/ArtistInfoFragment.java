@@ -2,6 +2,7 @@ package com.seekermob.songseeker.ui;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +37,9 @@ public class ArtistInfoFragment extends SherlockListFragment{
 	
 	private static final String STATE_ADAPTER_DATA = "adapterData";
 	private static final String STATE_ARTIST_DETAILS_RUNNING = "artistDetailsRunning";
-	private static final String STATE_ARTIST_IMAGE = "artistImage";
+	private static final String STATE_ARTIST_IMAGE = "artistImage";	
+	public static final String BUNDLE_ARTIST = "artist"; 
+	public static final String BUNDLE_ARTIST_RELEASES = "artistReleases"; 
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -44,18 +49,19 @@ public class ArtistInfoFragment extends SherlockListFragment{
 		setHasOptionsMenu(true);
 			
 		//fetch the selected song
-		mArtist = getArguments().getParcelable("artist");
+		mArtist = getArguments().getParcelable(BUNDLE_ARTIST);
+		ArrayList<ReleaseInfo> artistReleases = getArguments().getParcelableArrayList(BUNDLE_ARTIST_RELEASES);
 		
-		mAdapter = new ArtistReleasesAdapter();
+		mAdapter = new ArtistReleasesAdapter(artistReleases);
 		restoreLocalState(savedInstanceState);
-
-		//set adapter				
-		//setListHeader();
-		setListAdapter(mAdapter);
 		
 		//if the adapter wasnt restored, fetch the adapter
 		if(mAdapter.mReleases == null || mArtist.image == null){
 			mArtistDetailsTask = (ArtistDetailsTask) new ArtistDetailsTask(mAdapter.mReleases).execute();
+		}else{
+			//set adapter				
+			setListHeader();
+			setListAdapter(mAdapter);
 		}
 	}
 	
@@ -101,7 +107,7 @@ public class ArtistInfoFragment extends SherlockListFragment{
 		
 		//restore the adapter
 		ArrayList<ReleaseInfo> adapterData = null;
-		if((adapterData = savedInstanceState.getParcelableArrayList(STATE_ADAPTER_DATA)) != null){
+		if(mAdapter.mReleases == null && (adapterData = savedInstanceState.getParcelableArrayList(STATE_ADAPTER_DATA)) != null){
 			mAdapter.setArtistReleases(adapterData);			
 		}
 		
@@ -142,13 +148,67 @@ public class ArtistInfoFragment extends SherlockListFragment{
 		super.onCreateOptionsMenu(menu, inflater);
 	}	
 	
+	private void setListHeader(){				
+		//set transparent background to show album image
+		//getListView().setBackgroundColor(0);
+		
+		if(getActivity() == null) return; //occurs sometimes when changin orientation
+		
+		//set album info header
+		LayoutInflater inflater = getActivity().getLayoutInflater();
+		LinearLayout header = (LinearLayout)inflater.inflate(R.layout.artist_info, null);
+		
+		TextView artistName = (TextView) header.findViewById(R.id.artistinfo_artistName);
+		artistName.setText(mArtist.name);
+		
+		TextView tvBio = (TextView)header.findViewById(R.id.artistinfo_biography);
+		tvBio.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+			
+				//Intent i = new Intent(ArtistInfoActivity.this, ArtistBioActivity.class);
+				//i.putExtra("artistParcel", artist);
+				//startActivity(i);
+			}
+		});
+
+		TextView tvNews = (TextView)header.findViewById(R.id.artistinfo_news);
+		tvNews.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+			
+				//Intent i = new Intent(ArtistInfoActivity.this, ArtistNewsActivity.class);
+				//i.putExtra("artistParcel", artist);
+				//startActivity(i);
+			}
+		});	
+		
+		TextView tvSimilar = (TextView)header.findViewById(R.id.artistinfo_similar);
+		tvSimilar.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+			
+				//Intent i = new Intent(ArtistInfoActivity.this, SimilarArtistsActivity.class);
+				//i.putExtra("artistParcel", artist);
+				//startActivity(i);
+			}
+		});		
+		
+		//set image
+		if(mArtist.image != null){
+			ImageView coverart = (ImageView) header.findViewById(R.id.artistinfo_image);
+			ImageLoader.getLoader().DisplayImage(mArtist.image, coverart, R.drawable.ic_disc_stub, ImageSize.MEDIUM);
+			//ImageView bkg = (ImageView) findViewById(R.id.listview_bkg);
+			//ImageLoader.getLoader().DisplayImage(artist.image, getListView(), bkg, ImageSize.LARGE);
+		}	
+		
+		getListView().addHeaderView(header);
+	}
+	
 	private class ArtistReleasesAdapter extends BaseAdapter {
 
 		private ArrayList<ReleaseInfo> mReleases;    
 		private LayoutInflater inflater;
 		
-		public ArtistReleasesAdapter() {    
-			mReleases = null;
+		public ArtistReleasesAdapter(ArrayList<ReleaseInfo> r) {    
+			mReleases = r;
 			inflater = getActivity().getLayoutInflater();
 		}
 
@@ -208,6 +268,15 @@ public class ArtistInfoFragment extends SherlockListFragment{
 	    }
 	}	
 	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		ReleaseInfo ri = mAdapter.getItem(position-1);
+		Intent i = new Intent(getActivity(), MusicInfoActivity.class);
+		i.putExtra(ReleaseInfoFragment.BUNDLE_RELEASE, ri);
+		i.putParcelableArrayListExtra(BUNDLE_ARTIST_RELEASES, mAdapter.mReleases);
+		startActivity(i);
+	}
+	
 	private class ArtistDetailsTask extends AsyncTask<Void, Void, ArrayList<ReleaseInfo>>{
 		ArrayList<ReleaseInfo> mReleases;
 		String err = null;		
@@ -255,12 +324,17 @@ public class ArtistInfoFragment extends SherlockListFragment{
 		protected void onPostExecute(ArrayList<ReleaseInfo> releases) {
 			Util.setListShown(ArtistInfoFragment.this, true);
 
+			//set adapter				
+			setListHeader();
+			setListAdapter(mAdapter);
+			
 			if(err != null){
 				Toast.makeText(getActivity(), err, Toast.LENGTH_SHORT).show();
 				return;
 			}
 			
-			mAdapter.setArtistReleases(releases);
+			mAdapter.setArtistReleases(releases);	
+			
 		}		
 	}		
 }

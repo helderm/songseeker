@@ -2,6 +2,7 @@ package com.seekermob.songseeker.ui;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -12,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +42,8 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 	
 	private static final String STATE_ADAPTER_DATA = "adapterData";
 	private static final String STATE_RELEASE_SONGS_RUNNING = "releaseSongsRunning";
+	public static final String BUNDLE_RELEASE = "release";
+	public static final String BUNDLE_RELEASE_SONGS = "releaseSongs";
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -49,9 +53,10 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 		setHasOptionsMenu(true);
 			
 		//fetch the selected song
-		mRelease = getArguments().getParcelable("release");
+		mRelease = getArguments().getParcelable(BUNDLE_RELEASE);
+		ArrayList<SongInfo> releaseSongs = getArguments().getParcelableArrayList(BUNDLE_RELEASE_SONGS);
 		
-		mAdapter = new ReleaseSongsAdapter();
+		mAdapter = new ReleaseSongsAdapter(releaseSongs);
 		restoreLocalState(savedInstanceState);
 
 		//set adapter				
@@ -101,7 +106,7 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 		
 		//restore the adapter
 		ArrayList<SongInfo> adapterData = null;
-		if((adapterData = savedInstanceState.getParcelableArrayList(STATE_ADAPTER_DATA)) != null){
+		if(mAdapter.mReleaseSongs == null && (adapterData = savedInstanceState.getParcelableArrayList(STATE_ADAPTER_DATA)) != null){
 			mAdapter.setSongList(adapterData);			
 		}
 		
@@ -167,8 +172,8 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 		private ArrayList<SongInfo> mReleaseSongs;
 		private LayoutInflater inflater;    
 
-		public ReleaseSongsAdapter() {    
-			mReleaseSongs = null;
+		public ReleaseSongsAdapter(ArrayList<SongInfo> s) {    
+			mReleaseSongs = s;
 			inflater = getActivity().getLayoutInflater();
 		}
 
@@ -280,6 +285,15 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 			this.mReleaseSongs = tp;
 			notifyDataSetChanged();
 		}
+	}
+	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		SongInfo si = mAdapter.getItem(position-1);
+		Intent i = new Intent(getActivity(), MusicInfoActivity.class);
+		i.putExtra(SongInfoFragment.BUNDLE_SONG, si);
+		i.putParcelableArrayListExtra(BUNDLE_RELEASE_SONGS, mAdapter.mReleaseSongs);
+		startActivity(i);
 	}
 	
 	private class ReleaseDetailsTask extends AsyncTask<Void, Void, ArrayList<SongInfo>>{

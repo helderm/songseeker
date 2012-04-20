@@ -431,7 +431,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		}
 
 		Intent i = new Intent(getActivity(), MusicInfoActivity.class);		
-		i.putExtra("song", song); 		
+		i.putExtra(SongInfoFragment.BUNDLE_SONG, song); 		
 		startActivity(i);		
 	}
 	

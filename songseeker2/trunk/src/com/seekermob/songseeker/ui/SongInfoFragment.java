@@ -2,6 +2,7 @@ package com.seekermob.songseeker.ui;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -12,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +40,8 @@ public class SongInfoFragment extends SherlockListFragment{
 	
 	private static final String STATE_ADAPTER_DATA = "adapterData";
 	private static final String STATE_TOP_TRACKS_RUNNING = "topTracksRunning";
+	public static final String BUNDLE_TOP_SONGS = "artistTopSongs";
+	public static final String BUNDLE_SONG = "song";
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -47,9 +51,11 @@ public class SongInfoFragment extends SherlockListFragment{
 		setHasOptionsMenu(true);
 		
 		//fetch the selected song
-		mSong = getArguments().getParcelable("song");
+		mSong = getArguments().getParcelable(BUNDLE_SONG);		
+		ArrayList<SongInfo> topTracks = getArguments().getParcelableArrayList(BUNDLE_TOP_SONGS);
 		
-		mAdapter = new TopTracksAdapter();
+		//create adapter and restore state
+		mAdapter = new TopTracksAdapter(topTracks);
 		restoreLocalState(savedInstanceState);
 
 		//set adapter				
@@ -98,8 +104,8 @@ public class SongInfoFragment extends SherlockListFragment{
 		}
 		
 		//restore the adapter
-		ArrayList<SongInfo> adapterData = null;
-		if((adapterData = savedInstanceState.getParcelableArrayList(STATE_ADAPTER_DATA)) != null){
+		ArrayList<SongInfo> adapterData;
+		if(mAdapter.mTopTracks == null && (adapterData = savedInstanceState.getParcelableArrayList(STATE_ADAPTER_DATA)) != null){			
 			mAdapter.setTopTracks(adapterData);			
 		}
 		
@@ -199,11 +205,11 @@ public class SongInfoFragment extends SherlockListFragment{
 		private ArrayList<SongInfo> mTopTracks;   
 		private LayoutInflater inflater;
 
-		public TopTracksAdapter() {    
-			mTopTracks = null;
+		public TopTracksAdapter(ArrayList<SongInfo> s){
+			mTopTracks = s;
 			inflater = getActivity().getLayoutInflater();
 		}
-
+		
 		public int getCount() {
 			if(mTopTracks == null)
 				return 0;
@@ -318,6 +324,15 @@ public class SongInfoFragment extends SherlockListFragment{
 	    	public ProgressBar loading;
 	    	public FrameLayout mediaBtns;
 	    }
+	}
+	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		SongInfo si = mAdapter.getItem(position-1);
+		Intent i = new Intent(getActivity(), MusicInfoActivity.class);
+		i.putExtra(BUNDLE_SONG, si);
+		i.putParcelableArrayListExtra(BUNDLE_TOP_SONGS, mAdapter.mTopTracks);
+		startActivity(i);
 	}
 	
 	private class TopTracksTask extends AsyncTask<Void, Void, ArrayList<SongInfo>>{

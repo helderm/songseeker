@@ -1,5 +1,7 @@
 package com.seekermob.songseeker.data;
 
+import com.seekermob.songseeker.data.UserProfile.ArtistProfile;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -31,6 +33,13 @@ public class ArtistInfo implements Parcelable{
 		image = artist.image;	
 	}*/
  
+	public ArtistInfo(ArtistProfile artist){
+		name = artist.name;
+		buyUrl = artist.buyUrl;
+		id = artist.id;
+		image = artist.image;
+	}
+	
 	public ArtistInfo(Parcel in) {
 		readFromParcel(in);
 	} 

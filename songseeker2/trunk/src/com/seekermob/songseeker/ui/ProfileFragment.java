@@ -20,6 +20,7 @@ import com.seekermob.songseeker.util.Util;
 import com.seekermob.songseeker.util.ImageLoader.ImageSize;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -32,6 +33,7 @@ import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -259,6 +261,14 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 			public ImageView image;
 		}
 	}	
+	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		ArtistInfo ai = new ArtistInfo(mAdapter.getItem(position));
+		Intent i = new Intent(getActivity(), MusicInfoActivity.class);
+		i.putExtra(ArtistInfoFragment.BUNDLE_ARTIST, ai);		
+		startActivity(i);
+	}
 	
 	private class ProfileTask extends AsyncTask<Void, Integer, Void>{
 		private UserProfile mUserProfile = mAdapter.prof;
