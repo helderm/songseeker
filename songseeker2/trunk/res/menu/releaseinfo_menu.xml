@@ -7,14 +7,14 @@
         android:showAsAction="ifRoom"
         android:title="@string/add_to_playlist"/>
     <item
-        android:id="@+id/menu_share_release"
+        android:id="@+id/menu_share"
         android:icon="@drawable/ic_action_share"
         android:showAsAction="ifRoom"
         android:title="@string/share_with"/>
     <item
-        android:id="@+id/menu_buy_song"
+        android:id="@+id/menu_buy"
         android:icon="@drawable/ic_action_buy"
         android:showAsAction="ifRoom"
-        android:title="@string/buy_on"/>
+        android:title="@string/buy_at"/>
 
 </menu>

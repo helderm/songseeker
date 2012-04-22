@@ -3,6 +3,7 @@ package com.seekermob.songseeker.ui;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -20,9 +21,11 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.SevenDigitalComm;
+import com.seekermob.songseeker.data.RecSongsPlaylist;
 import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.util.ImageLoader;
 import com.seekermob.songseeker.util.MediaPlayerController;
@@ -54,14 +57,14 @@ public class SongInfoFragment extends SherlockListFragment{
 		mSong = getArguments().getParcelable(BUNDLE_SONG);		
 		ArrayList<SongInfo> topTracks = getArguments().getParcelableArrayList(BUNDLE_TOP_SONGS);
 		
-		//create adapter and restore state
+		//restore adapter 
 		mAdapter = new TopTracksAdapter(topTracks);
-		restoreLocalState(savedInstanceState);
-
-		//set adapter				
 		setListHeader();
 		setListAdapter(mAdapter);
 		
+		//restore state
+		restoreLocalState(savedInstanceState);
+
 		//if the adapter wasnt restored, fetch the top tracks
 		if(mAdapter.mTopTracks == null && !isTaskRunning()){
 			mTopTracksTask = (TopTracksTask) new TopTracksTask().execute();
@@ -146,6 +149,35 @@ public class SongInfoFragment extends SherlockListFragment{
 		inflater.inflate(R.menu.songinfo_menu, menu);		
 		super.onCreateOptionsMenu(menu, inflater);
 	}	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		final Intent intent;
+		
+		switch(item.getItemId()) {
+		case R.id.menu_buy:
+			intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mSong.buyUrl));
+			intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			return true;
+
+		case R.id.menu_share:
+			intent = new Intent(Intent.ACTION_SEND);					 
+			intent.setType("text/plain");
+			intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_song_text) + " [" + mSong.name +" - "+ mSong.artist.name +
+					"] ("+ mSong.buyUrl +")");
+			startActivity(Intent.createChooser(intent, getString(R.string.share_using)));
+			return true;
+		case R.id.menu_add_to_playlist:
+			ArrayList<SongInfo> songs = new ArrayList<SongInfo>();
+			songs.add(mSong);
+			RecSongsPlaylist.getInstance().addSongsToPlaylist(songs, getActivity().getApplicationContext());
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+
+	}
 	
 	private void setListHeader(){
 		//set transparent background to show album image

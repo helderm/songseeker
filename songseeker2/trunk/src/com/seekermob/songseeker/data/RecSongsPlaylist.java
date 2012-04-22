@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.seekermob.songseeker.R;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.app.ListFragment;
@@ -190,24 +189,24 @@ public class RecSongsPlaylist {
 	
 	/** Add songs to the playlist methods*/
 	@SuppressWarnings("unchecked")
-	public void addSongsToPlaylist(ArrayList<SongInfo> songsInfo, ListActivity a){		
-		new GetSongInfoTask(a).execute(songsInfo);
+	public void addSongsToPlaylist(ArrayList<SongInfo> songsInfo, Context c){		
+		new AddToPlaylistTask(c).execute(songsInfo);
 	}
 
-	private class GetSongInfoTask extends AsyncTask<ArrayList<SongInfo>, Void, Void>{
+	private class AddToPlaylistTask extends AsyncTask<ArrayList<SongInfo>, Void, Void>{
 
-		private String msg = null;
-		private String err = null;
-		private Context context = null;
+		private String msg;
+		private String err;
+		private Context context;
 
-		public GetSongInfoTask(Context c) {
+		public AddToPlaylistTask(Context c) {
 			context = c;
 		}
 
 		@Override
 		protected void onPreExecute() {
-			Toast.makeText(context, R.string.adding_songs_playlist, 
-					Toast.LENGTH_SHORT).show();
+			//Toast.makeText(context, R.string.adding_songs_playlist, 
+			//		Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
@@ -222,13 +221,13 @@ public class RecSongsPlaylist {
 					continue;
 				}
 				
-				if(song.previewUrl == null){
+				/*if(song.previewUrl == null){
 					try{
 						song.previewUrl = SevenDigitalComm.getComm().getPreviewUrl(song.id);
 					} catch(Exception e){
 						continue;
 					} 
-				}
+				}*/
 				
 				songs.add(song);
 			}				

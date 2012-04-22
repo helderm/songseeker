@@ -23,8 +23,7 @@
     <string name="adding_songs_playlist">Adding songs to the playlist, please wait.</string>
     <string name="err_add_songs_playlist">Failed to add songs to the playlist!</string>
     <string name="some_songs_added_playlist">Some songs were successfully added to the playlist!</string>
-    <string name="success_add_songs_playlist">Songs successfully added to the playlist!</string>
-    <string name="adding_artists_profile">Adding artists to your profile, please wait.</string>
+    <string name="success_add_songs_playlist">Songs added to the playlist!</string>
     <string name="artists_already_profile">Artists already in your profile!</string>
     <string name="err_add_artists_profile">Failed to add the artists to your profile!</string>
     <string name="some_artists_added_profile">Some artists were successfully added to your profile!</string>
@@ -33,7 +32,6 @@
     <string name="install_dms">Install Dood\'s Music Streamer to enable this feature!</string>
     <string name="no_song_found">No song found!</string>
     <string name="loading">Loading…</string>
-    <string name="shuffle_str">Shuffle</string>
     <string name="mood_str">Mood</string>
     <string name="tempo_str">Tempo</string>
     <string name="danceability_str">Danceability</string>
@@ -52,7 +50,6 @@
     <string name="profile_frag_empty_list">Your profile is empty! Add some artists to it or import them from Last.fm or from your device.</string>
     <string name="clear_profile">Clear Profile</string>
     <string name="operation_in_progress">Operation in progress, please wait…</string>
-    <string name="artist_search">Artist Search</string>
     <string name="artist_name">artist name</string>
     <string name="import_from_device">Import artists from device</string>
     <string name="import_from_lastfm">Import artists from Last.fm</string>
@@ -73,7 +70,7 @@
     <string name="watch_on">Watch on YouTube</string>
     <string name="add_to_playlist">Add to Playlist</string>
     <string name="share_with">Share with Friends</string>
-    <string name="buy_on">Buy on 7digital</string>
+    <string name="buy_at">Buy at 7digital</string>
     <string name="add_to_profile">Add to Profile</string>
     <string name="artist_top_songs">Artist\&apos;s Top Songs</string>
     <string name="song_list">Song List</string>
@@ -81,5 +78,8 @@
     <string name="artistinfo_bio">Biography >></string>
     <string name="artistinfo_news">News >></string>
     <string name="artistinfo_similar">Similar Artists >></string>
-    
+    <string name="share_using">Share using…</string>
+    <string name="share_song_text">I discovered a new song using the Song Seeker app for Android! Check it out!</string>
+    <string name="share_album_text">I discovered a new album using the Song Seeker app for Android! Check it out!</string>
+    <string name="share_artist_text">I discovered a new artist using the Song Seeker app for Android! Check it out!</string>    
 </resources>

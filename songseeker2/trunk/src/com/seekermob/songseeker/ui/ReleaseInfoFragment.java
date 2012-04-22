@@ -3,6 +3,7 @@ package com.seekermob.songseeker.ui;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -20,9 +21,11 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.SevenDigitalComm;
+import com.seekermob.songseeker.data.RecSongsPlaylist;
 import com.seekermob.songseeker.data.ReleaseInfo;
 import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.util.ImageLoader;
@@ -56,12 +59,13 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 		mRelease = getArguments().getParcelable(BUNDLE_RELEASE);
 		ArrayList<SongInfo> releaseSongs = getArguments().getParcelableArrayList(BUNDLE_RELEASE_SONGS);
 		
-		mAdapter = new ReleaseSongsAdapter(releaseSongs);
-		restoreLocalState(savedInstanceState);
-
 		//set adapter				
+		mAdapter = new ReleaseSongsAdapter(releaseSongs);
 		setListHeader();
 		setListAdapter(mAdapter);
+		
+		//restore state
+		restoreLocalState(savedInstanceState);
 		
 		//if the adapter wasnt restored, fetch the adapter
 		if(mAdapter.mReleaseSongs == null && !isTaskRunning()){
@@ -141,6 +145,32 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 		inflater.inflate(R.menu.releaseinfo_menu, menu);		
 		super.onCreateOptionsMenu(menu, inflater);
 	}	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		final Intent intent;
+		
+		switch(item.getItemId()) {
+		case R.id.menu_buy:
+			intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mRelease.buyUrl));
+			intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			return true;
+
+		case R.id.menu_share:
+			intent = new Intent(Intent.ACTION_SEND);					 
+			intent.setType("text/plain");
+			intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_album_text) + " [" + mRelease.name +" - "+ mRelease.artist.name +
+					"] ("+ mRelease.buyUrl +")");
+			startActivity(Intent.createChooser(intent, getString(R.string.share_using)));
+			return true;
+		case R.id.menu_add_to_playlist:
+			RecSongsPlaylist.getInstance().addSongsToPlaylist(mAdapter.mReleaseSongs, getActivity().getApplicationContext());
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 	
 	private void setListHeader(){
 		
