@@ -111,11 +111,11 @@ public class Util {
 	}
 	
 	/** Restore the object written on disk, if it exists */
-	public static Object readObjectFromDevice(Activity activity, String filename){
+	public static Object readObjectFromDevice(Context context, String filename){
 		Object object = null;
 		ObjectInputStream in = null;
 		try{			
-			in = new ObjectInputStream(activity.openFileInput(filename));
+			in = new ObjectInputStream(context.openFileInput(filename));
 			object = in.readObject();			
 		}catch(FileNotFoundException e){   
 			return null;
@@ -134,11 +134,11 @@ public class Util {
 	}	
 	
 	/** Restore the object written on the cache, if it exists */
-	public static Object readObjectFromCache(Activity activity, String filename){
+	public static Object readObjectFromCache(Context context, String filename){
 		Object object = null;
 		ObjectInputStream in = null;
 		
-		File f = new File(activity.getCacheDir(), filename);
+		File f = new File(context.getCacheDir(), filename);
 		
 		try{			
 			in = new ObjectInputStream(new FileInputStream(f));

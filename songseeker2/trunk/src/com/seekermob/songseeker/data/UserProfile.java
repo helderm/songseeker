@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.v4.app.ListFragment;
 import android.widget.BaseAdapter;
 
@@ -22,11 +23,10 @@ public class UserProfile implements Serializable{
 	
 	private UserProfile(){}
 	
-	public static UserProfile getInstance(Activity activity){
-
+	public static UserProfile getInstance(Context context){
 		//check if we have a profile written in the disk		
 		if(profile == null){
-			if((profile = (Profile)Util.readObjectFromDevice(activity, PROFILE_FILENAME)) == null){
+			if((profile = (Profile)Util.readObjectFromDevice(context, PROFILE_FILENAME)) == null){
 				profile = new Profile();
 			}
 		}
@@ -34,172 +34,9 @@ public class UserProfile implements Serializable{
 		return obj;
 	}
 	
-	public Profile getProfile(){
+	public Profile getProfile(){	
 		return profile;
 	}
-	
-	/*
-	public void addToProfile(ArrayList<String> names, Activity a, BaseAdapter ad){
-		addTask = (AddToProfileTask) new AddToProfileTask(names, a, ad, true, null).execute();
-	}
-	
-	public void addToProfile(ArrayList<String> names, Activity a, BaseAdapter ad, ProgressDialog d){
-		addTask = (AddToProfileTask) new AddToProfileTask(names, a, ad, true, d).execute();
-	}
-	
-	public void addIdToProfile(ArrayList<String> ids, Activity a, BaseAdapter ad){
-		addTask = (AddToProfileTask) new AddToProfileTask(ids, a, ad, false, null).execute();
-	}	
-	
-	private class AddToProfileTask extends AsyncTask<Void, Integer, Void>{
-
-		private String msg = null;
-		private String err = null;
-		private Activity activity = null;
-		private BaseAdapter adapter = null;
-		private ProgressDialog dialog = null;
-		private ArrayList<String> artistsList = null;
-		
-		private boolean isSearch; //true if we have a list of names, false if we have a list of ID's
-		private boolean isCancel = false; //true when the user cancel the import
-		
-		public AddToProfileTask(ArrayList<String> al, Activity a, BaseAdapter ad, boolean is, ProgressDialog d) {
-			artistsList = al;
-			activity = a;
-			adapter = ad;
-			isSearch = is;
-			dialog = d;
-		}
-		
-		@Override
-		protected void onPreExecute() {
-			if(dialog != null){				
-				dialog.setOnCancelListener(UserProfile.this);
-				dialog.show();
-				dialog.setMax(artistsList.size());
-			}else	
-				Toast.makeText(activity.getApplicationContext(), R.string.adding_artists_profile, 
-								Toast.LENGTH_LONG).show();
-		}
-		
-		@Override
-		protected void onProgressUpdate(Integer... value) {
-			if(dialog == null)
-				return;
-			
-			dialog.setProgress(value[0]);
-		}
-		
-		@Override
-		protected Void doInBackground(Void... params) {
-			
-			ArrayList<ArtistProfile> artists = new ArrayList<ArtistProfile>();
-			ArtistInfo artist = null;
-			int alreadyProfileCount = 0;
-			int artistsImported = 0;
-			
-			for(String artistNameID : artistsList){
-
-				if(isCancel)
-					break;
-				
-				if(isSearch && isAlreadyInProfile(artistNameID)){
-					alreadyProfileCount++;
-					publishProgress(++artistsImported);
-					continue;
-				}
-				
-				try{
-					if(isSearch)
-						artist = SevenDigitalComm.getComm().queryArtistSearch(artistNameID);
-					else
-						artist = SevenDigitalComm.getComm().queryArtistDetails(artistNameID, activity.getApplicationContext());
-						
-				}catch(ServiceCommException e) {
-					if(e.getErr() == ServiceErr.IO || e.getErr() == ServiceErr.TRY_LATER){
-						break;
-					}
-					
-					Log.i(Util.APP, "Unable to add artist ["+artistNameID+"] to profile, skipping...");
-					publishProgress(++artistsImported);
-					continue;
-				} 
-				
-				//the string passed by the user may be diff from what is stored at the profile
-				if(isAlreadyInProfile(artist.name)){
-					alreadyProfileCount++;
-					publishProgress(++artistsImported);
-					continue;
-				}
-				
-				ArtistProfile ap = new ArtistProfile();
-				ap.name = artist.name;
-				ap.image = artist.image;
-				ap.id = artist.id;
-				ap.buyUrl = artist.buyUrl;
-				
-				//check if the artist was already added to the list
-				boolean isAlreadyAdd = false;
-				for(ArtistProfile aux : artists){
-					if(aux.id.equalsIgnoreCase(ap.id)){
-						isAlreadyAdd = true;
-						break;
-					}
-				}
-				if(isAlreadyAdd){
-					publishProgress(++artistsImported);
-					continue;
-				}
-		
-				artists.add(ap);
-				
-				publishProgress(++artistsImported);
-			}				
-
-			if(artistsList.size() == alreadyProfileCount || (artists.size() == 0 && alreadyProfileCount > 0)){
-				msg = activity.getString(R.string.artists_already_profile);
-				return null;
-			}else if(artists.size() == 0){
-				err = activity.getString(R.string.err_add_artists_profile);
-				return null;
-			}else if(artists.size() < artistsList.size()){
-				msg = activity.getString(R.string.some_artists_added_profile);
-			}else
-				msg = activity.getString(R.string.success_add_artists_profile);				
-			
-			syncAddArtistsToProfile(artists, activity);
-			
-			return null;
-		}
-		
-		@Override
-		protected void onPostExecute(Void result) {
-			if(dialog != null)
-				dialog.dismiss();
-			
-			if(err != null){
-				Toast.makeText(activity.getApplicationContext(), err, Toast.LENGTH_SHORT).show();
-				return;
-			}
-
-			if(adapter != null)
-				adapter.notifyDataSetChanged();		
-			
-			Toast.makeText(activity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-			
-			activity = null;
-			adapter = null;
-			dialog = null;
-		}		
-	}
-	
-	@Override
-	public void onCancel(DialogInterface dialog) {
-		if(addTask != null){
-			addTask.isCancel = true;
-		}
-	}	
-	*/	
 	
 	public synchronized void syncAddArtistsToProfile(ArrayList<ArtistProfile> artists, Activity activity){
 		profile.artists.addAll(artists);		
@@ -215,11 +52,21 @@ public class UserProfile implements Serializable{
 		((BaseAdapter)frag.getListAdapter()).notifyDataSetChanged();
 	}
 	
-	public boolean isAlreadyInProfile(String artist){
-		for(ArtistProfile a : profile.artists){
-			if(a.name.equalsIgnoreCase(artist))
-				return true;
+	public boolean isAlreadyInProfile(String id, String name){
+		
+		if(id != null){
+			for(ArtistProfile a : profile.artists){
+				if(a.id.equalsIgnoreCase(id))
+					return true;
+			}
 		}
+		
+		if(name != null){
+			for(ArtistProfile a : profile.artists){
+				if(a.name.equalsIgnoreCase(name))
+					return true;
+			}
+		}		
 		
 		return false;
 	}
@@ -284,6 +131,15 @@ public class UserProfile implements Serializable{
 		public String id;
 		public String buyUrl;
 		
-		private static final long serialVersionUID = 1L;		
+		private static final long serialVersionUID = 1L;
+		
+		public ArtistProfile() {}
+		
+		public ArtistProfile(ArtistInfo artist){
+			name = artist.name;
+			image = artist.image;
+			id = artist.id;
+			buyUrl = artist.buyUrl;	
+		}
 	}		
 }

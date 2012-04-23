@@ -285,9 +285,6 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 		
 		private String err;
 		private String msg;
-       
-		//protected AddArtistsProfileTask() {
-        //}
 
         protected ProfileTask(String input, int taskType) {
         	mFetchCount.set(0);
@@ -401,7 +398,7 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 					return null;
 				}
 				
-				if(mUserProfile.isAlreadyInProfile(a.name)){
+				if(mUserProfile.isAlreadyInProfile(null, a.name)){
 					alreadyProfileCount++;
 					continue;
 				}
@@ -419,16 +416,12 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 				}
 				
 				//the string passed by the user may be diff from what is stored at the profile
-				if(mUserProfile.isAlreadyInProfile(artist.name)){
+				if(mUserProfile.isAlreadyInProfile(null, artist.name)){
 					alreadyProfileCount++;
 					continue;
 				}
 				
-				ArtistProfile artistProfile = new ArtistProfile();
-				artistProfile.name = artist.name;
-				artistProfile.image = artist.image;
-				artistProfile.id = artist.id;
-				artistProfile.buyUrl = artist.buyUrl;	
+				ArtistProfile artistProfile = new ArtistProfile(artist);
 				
 				//check if the artist was already added to the list
 				boolean isAlreadyAdd = false;
@@ -468,7 +461,7 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 		}
 		
 		@Override
-		protected void onPostExecute(Void artistsProfile) {
+		protected void onPostExecute(Void arg) {
 			Util.setProgressShown(ProfileFragment.this, false);
 			
 			if(err != null){

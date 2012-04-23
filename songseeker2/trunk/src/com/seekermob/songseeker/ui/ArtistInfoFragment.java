@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,8 @@ import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.SevenDigitalComm;
 import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.data.ReleaseInfo;
+import com.seekermob.songseeker.data.UserProfile;
+import com.seekermob.songseeker.data.UserProfile.ArtistProfile;
 import com.seekermob.songseeker.util.ImageLoader;
 import com.seekermob.songseeker.util.ImageLoader.ImageSize;
 import com.seekermob.songseeker.util.Util;
@@ -34,12 +37,14 @@ public class ArtistInfoFragment extends SherlockListFragment{
 	private ArtistReleasesAdapter mAdapter;
 	private ArtistInfo mArtist;
 	private ArtistDetailsTask mArtistDetailsTask;
+	private ProfileTask mProfileTask;
 	
 	private Bundle mSavedState;
 	
 	private static final String STATE_ADAPTER_DATA = "adapterData";
 	private static final String STATE_ARTIST_DETAILS_RUNNING = "artistDetailsRunning";
 	private static final String STATE_ARTIST_IMAGE = "artistImage";	
+	private static final String STATE_PROFILE_RUNNING = "profileRunning";
 	public static final String BUNDLE_ARTIST = "artist"; 
 	public static final String BUNDLE_ARTIST_RELEASES = "artistReleases"; 
 	
@@ -62,6 +67,12 @@ public class ArtistInfoFragment extends SherlockListFragment{
 		//restore state
 		restoreLocalState(savedInstanceState);
 			
+		//set background image
+		if(mArtist.image != null){
+			ImageView bkg = (ImageView) getView().findViewById(R.id.background);
+			ImageLoader.getLoader().DisplayImage(mArtist.image, getListView(), bkg, ImageSize.LARGE);
+		}
+		
 		//if the adapter wasnt restored, fetch the adapter
 		//but only if the task wasnt restored on restoreLocalState
 		if((mAdapter.mReleases == null || mArtist.image == null) && !isTaskRunning()){			
@@ -92,6 +103,15 @@ public class ArtistInfoFragment extends SherlockListFragment{
         	outState.putBoolean(STATE_ARTIST_DETAILS_RUNNING, true);
         	mArtistDetailsTask = null;
         }
+        
+        //save the profile task state
+		final ProfileTask profileTask = mProfileTask;
+        if(profileTask != null && profileTask.getStatus() != AsyncTask.Status.FINISHED) {
+        	profileTask.cancel(true);
+        	
+        	outState.putBoolean(STATE_PROFILE_RUNNING, true);
+        	mProfileTask = null;
+        }        
         
         //save the image
         if(mArtist.image != null){
@@ -126,6 +146,11 @@ public class ArtistInfoFragment extends SherlockListFragment{
 		if(savedInstanceState.getBoolean(STATE_ARTIST_DETAILS_RUNNING)){
 			mArtistDetailsTask = (ArtistDetailsTask) new ArtistDetailsTask(mAdapter.mReleases).execute();
 		}
+		
+		//restore the profile task
+		if(savedInstanceState.getBoolean(STATE_PROFILE_RUNNING) && !isTaskRunning()){
+			mProfileTask = (ProfileTask) new ProfileTask(mArtist).execute();
+		}		
 		
 		mSavedState = null;
 	}		
@@ -170,6 +195,13 @@ public class ArtistInfoFragment extends SherlockListFragment{
 			intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_artist_text) + " [" + mArtist.name +
 					"] ("+ mArtist.buyUrl +")");
 			startActivity(Intent.createChooser(intent, getString(R.string.share_using)));
+			return true;
+		case R.id.menu_add_to_profile:
+			if(isTaskRunning()){
+				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
+				return true;
+			}
+			mProfileTask = (ProfileTask) new ProfileTask(mArtist).execute();
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -348,10 +380,6 @@ public class ArtistInfoFragment extends SherlockListFragment{
 		@Override
 		protected void onPostExecute(ArrayList<ReleaseInfo> releases) {
 			Util.setListShown(ArtistInfoFragment.this, true);
-
-			//set adapter				
-			//setListHeader();
-			//setListAdapter(mAdapter);
 			
 			if(err != null){
 				Toast.makeText(getActivity(), err, Toast.LENGTH_SHORT).show();
@@ -361,8 +389,15 @@ public class ArtistInfoFragment extends SherlockListFragment{
 			mAdapter.setArtistReleases(releases);
 			
 			if(mArtist.image != null){
+				//set list header image
 				ImageView coverart = (ImageView) getListView().findViewById(R.id.artistinfo_image);
 				ImageLoader.getLoader().DisplayImage(mArtist.image, coverart, R.drawable.ic_disc_stub, ImageSize.MEDIUM);
+				
+				//set background image
+				if(mArtist.image != null){
+					ImageView bkg = (ImageView) getView().findViewById(R.id.background);
+					ImageLoader.getLoader().DisplayImage(mArtist.image, getListView(), bkg, ImageSize.LARGE);
+				}
 			}
 		}		
 	}	
@@ -374,4 +409,64 @@ public class ArtistInfoFragment extends SherlockListFragment{
 		
 		return false;
 	}
+	
+	private class ProfileTask extends AsyncTask<Void, Void, Void>{
+		private ArtistInfo mArtist;
+		private UserProfile mUserProfile;
+		
+		private String err;
+		private String msg;
+		
+		protected ProfileTask(ArtistInfo a) {
+			mArtist = a;
+			mUserProfile = UserProfile.getInstance(getActivity());
+		}
+		
+		@Override
+		protected Void doInBackground(Void... params) {
+			ArrayList<ArtistProfile> artistsProfile = new ArrayList<ArtistProfile>();
+			ArtistProfile artistProfile;
+			
+			//check if the artist is already present at the list
+			if(mUserProfile.isAlreadyInProfile(mArtist.id, null)){
+				msg = getString(R.string.artists_already_profile);
+				return null;
+			}
+			
+			//all artist data is fetched, no need to call the webservice
+			if(mArtist.name != null && mArtist.image != null && mArtist.buyUrl != null){
+				artistProfile = new ArtistProfile(mArtist);
+				artistsProfile.add(artistProfile);
+				mUserProfile.syncAddArtistsToProfile(artistsProfile, getActivity());
+				msg = getString(R.string.success_add_artists_profile);
+				return null;
+			}
+			
+			//data missing, call the webservice before adding
+			try {
+				mArtist = SevenDigitalComm.getComm().queryArtistDetails(mArtist.id, getActivity());
+			} catch (ServiceCommException e) {
+				Log.w(Util.APP, "Failed to add artist to profile!", e);
+				err = getString(R.string.err_add_artists_profile);
+				return null;
+			}
+			
+			artistProfile = new ArtistProfile(mArtist);
+			artistsProfile.add(artistProfile);
+			mUserProfile.syncAddArtistsToProfile(artistsProfile, getActivity());
+			msg = getString(R.string.success_add_artists_profile);
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			if(err != null){
+				Toast.makeText(getActivity(), err, Toast.LENGTH_SHORT).show();
+				return;
+			}			
+			
+			Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();	
+		}
+	}
+	
 }

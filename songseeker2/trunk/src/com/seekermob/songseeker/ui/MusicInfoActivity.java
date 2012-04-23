@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.data.ReleaseInfo;
 import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.util.Util.TabsAdapter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
@@ -26,8 +28,9 @@ public class MusicInfoActivity extends SherlockFragmentActivity {
 		//prepare action bar
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setTitle(R.string.music_info_tab_title);
 		
 		//prepare viewpager
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -108,4 +111,20 @@ public class MusicInfoActivity extends SherlockFragmentActivity {
         outState.putInt("index", getSupportActionBar().getSelectedNavigationIndex());        
     }	
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch(item.getItemId()) {
+		case android.R.id.home:
+            final Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                    Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);			
+		}
+    }
+    
 }

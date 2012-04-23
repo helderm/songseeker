@@ -65,6 +65,10 @@ public class SongInfoFragment extends SherlockListFragment{
 		//restore state
 		restoreLocalState(savedInstanceState);
 
+		//fetch background image
+		ImageView bkg = (ImageView) getView().findViewById(R.id.background);
+		ImageLoader.getLoader().DisplayImage(mSong.release.image, getListView(), bkg, ImageSize.LARGE);		
+				
 		//if the adapter wasnt restored, fetch the top tracks
 		if(mAdapter.mTopTracks == null && !isTaskRunning()){
 			mTopTracksTask = (TopTracksTask) new TopTracksTask().execute();
@@ -226,9 +230,6 @@ public class SongInfoFragment extends SherlockListFragment{
 		//set image
 		ImageView coverart = (ImageView) header.findViewById(R.id.songinfo_image);
 		ImageLoader.getLoader().DisplayImage(mSong.release.image, coverart, R.drawable.ic_disc_stub, ImageSize.MEDIUM);
-		
-		//ImageView bkg = (ImageView) findViewById(R.id.listview_bkg);
-		//ImageLoader.getLoader().DisplayImage(mSong.release.image, getListView(), bkg, ImageSize.LARGE);
 		
 		getListView().addHeaderView(header, null, false);		
 	}

@@ -67,6 +67,10 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 		//restore state
 		restoreLocalState(savedInstanceState);
 		
+		//fetch background image
+		ImageView bkg = (ImageView) getView().findViewById(R.id.background);
+		ImageLoader.getLoader().DisplayImage(mRelease.image, getListView(), bkg, ImageSize.LARGE);
+		
 		//if the adapter wasnt restored, fetch the adapter
 		if(mAdapter.mReleaseSongs == null && !isTaskRunning()){
 			mReleaseDetailsTask = (ReleaseDetailsTask) new ReleaseDetailsTask().execute();
@@ -191,11 +195,7 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 		ImageView coverart = (ImageView) header.findViewById(R.id.releaseinfo_image);
 		ImageLoader.getLoader().DisplayImage(mRelease.image, coverart, R.drawable.ic_disc_stub, ImageSize.MEDIUM);
 		
-		//ImageView bkg = (ImageView) findViewById(R.id.listview_bkg);
-		//ImageLoader.getLoader().DisplayImage(mRelease.image, getListView(), bkg, ImageSize.LARGE);
-		
 		getListView().addHeaderView(header, null, false);
-
 	}
 	
 	private class ReleaseSongsAdapter extends BaseAdapter {

@@ -78,13 +78,13 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		//populate the optionsMenu 
 		setHasOptionsMenu(true);
 
+		//register a listener for playlist data changes
+		RecSongsPlaylist.getInstance().registerListener(this);
+		
 		//set adapter
 		mAdapter = new SongsAdapter();
 		setListAdapter(mAdapter);
 		
-		//register a listener for playlist data changes
-		RecSongsPlaylist.getInstance().registerListener(this);
-
 		//check if we are recovering the state
 		restoreLocalState(savedInstanceState);
 
