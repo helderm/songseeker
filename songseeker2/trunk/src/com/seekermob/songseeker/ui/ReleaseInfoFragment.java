@@ -72,6 +72,7 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 		ImageLoader.getLoader().DisplayImage(mRelease.image, getListView(), bkg, ImageSize.LARGE);
 		
 		//if the adapter wasnt restored, fetch the adapter
+		//but only if the task wasnt restored on restoreLocalState
 		if(mAdapter.mReleaseSongs == null && !isTaskRunning()){
 			mReleaseDetailsTask = (ReleaseDetailsTask) new ReleaseDetailsTask().execute();
 		}
@@ -303,6 +304,17 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 			return convertView;
 		}
 
+		public void setSongList(ArrayList<SongInfo> tp){
+			this.mReleaseSongs = tp;
+			notifyDataSetChanged();
+		}		
+		
+		@Override
+		public boolean isEmpty() {		
+			//overriding this so it always shows th header view, even when the adapter is empty
+			return false;
+		}		
+		
 	    private class ViewHolder{
 	    	public TextView topText;
 	    	public TextView botText;
@@ -311,11 +323,6 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 	    	public ProgressBar loading;
 	    	public FrameLayout mediaBtns;
 	    }
-		
-		public void setSongList(ArrayList<SongInfo> tp){
-			this.mReleaseSongs = tp;
-			notifyDataSetChanged();
-		}
 	}
 	
 	@Override

@@ -202,6 +202,11 @@ public class ArtistInfoFragment extends SherlockListFragment{
 				return true;
 			}
 			mProfileTask = (ProfileTask) new ProfileTask(mArtist).execute();
+		case R.id.menu_watch:
+			intent = new Intent(getActivity(), YouTubeVideosActivity.class);
+			intent.putExtra(BUNDLE_ARTIST, mArtist);
+			startActivity(intent);
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -317,6 +322,12 @@ public class ArtistInfoFragment extends SherlockListFragment{
 			this.mReleases = tp;
 			notifyDataSetChanged();
 		}
+		
+		@Override
+		public boolean isEmpty() {		
+			//overriding this so it always shows th header view, even when the adapter is empty
+			return false;
+		}		
 		
 	    public class ViewHolder{
 	    	public TextView topText;

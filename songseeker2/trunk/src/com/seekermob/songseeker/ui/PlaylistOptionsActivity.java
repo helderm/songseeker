@@ -47,7 +47,6 @@ public class PlaylistOptionsActivity extends SherlockFragmentActivity implements
 		//set action bar
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setDisplayShowHomeEnabled(true);	
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setTitle(R.string.playlist_options);
 

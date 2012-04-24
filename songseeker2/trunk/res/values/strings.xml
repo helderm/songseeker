@@ -81,5 +81,7 @@
     <string name="share_using">Share using…</string>
     <string name="share_song_text">I discovered a new song using the Song Seeker app for Android! Check it out!</string>
     <string name="share_album_text">I discovered a new album using the Song Seeker app for Android! Check it out!</string>
-    <string name="share_artist_text">I discovered a new artist using the Song Seeker app for Android! Check it out!</string> 
+    <string name="share_artist_text">I discovered a new artist using the Song Seeker app for Android! Check it out!</string>
+    <string name="youtube_videos_title">YouTube Videos</string>
+    <string name="youtube_videos_frag_empty">No videos found!</string>
 </resources>

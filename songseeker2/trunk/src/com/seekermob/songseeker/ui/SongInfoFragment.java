@@ -70,6 +70,7 @@ public class SongInfoFragment extends SherlockListFragment{
 		ImageLoader.getLoader().DisplayImage(mSong.release.image, getListView(), bkg, ImageSize.LARGE);		
 				
 		//if the adapter wasnt restored, fetch the top tracks
+		//but only if the task wasnt restored on restoreLocalState
 		if(mAdapter.mTopTracks == null && !isTaskRunning()){
 			mTopTracksTask = (TopTracksTask) new TopTracksTask().execute();
 		}
@@ -176,6 +177,11 @@ public class SongInfoFragment extends SherlockListFragment{
 			ArrayList<SongInfo> songs = new ArrayList<SongInfo>();
 			songs.add(mSong);
 			RecSongsPlaylist.getInstance().addSongsToPlaylist(songs, getActivity().getApplicationContext());
+			return true;
+		case R.id.menu_watch:
+			intent = new Intent(getActivity(), YouTubeVideosActivity.class);
+			intent.putExtra(BUNDLE_SONG, mSong);
+			startActivity(intent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
