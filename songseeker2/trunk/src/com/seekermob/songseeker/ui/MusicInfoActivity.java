@@ -9,6 +9,7 @@ import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.data.ReleaseInfo;
 import com.seekermob.songseeker.data.SongInfo;
+import com.seekermob.songseeker.util.FileCache;
 import com.seekermob.songseeker.util.Util.TabsAdapter;
 
 import android.content.Intent;
@@ -25,12 +26,14 @@ public class MusicInfoActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);	    
 		setContentView(R.layout.pager);
 		
+		//set cache dirs
+        FileCache.setCacheDirs(getApplicationContext());
+		
 		//prepare action bar
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setTitle(R.string.music_info_tab_title);
+		actionBar.setDisplayShowTitleEnabled(false);
 		
 		//prepare viewpager
         mViewPager = (ViewPager) findViewById(R.id.pager);

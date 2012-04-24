@@ -421,6 +421,9 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		SongInfo song = mAdapter.getItem(position);
 		
+		if(mSongDetailsTask != null && mSongDetailsTask.getStatus() != AsyncTask.Status.FINISHED)
+			mSongDetailsTask.cancel(true);			
+		
 		//check if we have enough info of the song to show the tabs
 		if(song.buyUrl == null || song.artist.buyUrl == null || song.artist.id == null ||
 			song.release.artist == null || song.release.buyUrl == null || song.release.id == null || 
@@ -439,6 +442,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	private class SongDetailsTask extends AsyncTask<Void, Void, SongInfo>{
 		String err = null;
 		SongInfo mSelectedSong;
+		private View mProgressOverlay;
 		
 		public SongDetailsTask(SongInfo s) {
 			mSelectedSong = s;
@@ -446,12 +450,30 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		
 		@Override
 		protected void onPreExecute() {
-			Util.setListShown(SongsFragment.this, false);
+			// see if we already inflated the progress overlay
+            mProgressOverlay = Util.setProgressShown(SongsFragment.this, true);
+            
+            // setup the progress overlay
+            ((ProgressBar) mProgressOverlay.findViewById(R.id.ProgressBarShowListDet)).setIndeterminate(true);
+            
+            TextView mUpdateStatus = (TextView) mProgressOverlay
+                    .findViewById(R.id.textViewUpdateStatus);
+            mUpdateStatus.setText(R.string.loading);
+
+            View cancelButton = mProgressOverlay.findViewById(R.id.overlayCancel);
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    onCancelTasks();
+                }
+            });
 		}
 
 		@Override
 		protected SongInfo doInBackground(Void... args) {						
 			SongInfo song;
+			
+			if(isCancelled())
+				return null;
 			
 			try{
 				song = SevenDigitalComm.getComm().querySongDetails(mSelectedSong.id, 
@@ -466,7 +488,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 
 		@Override
 		protected void onPostExecute(SongInfo song) {
-			Util.setListShown(SongsFragment.this, true);
+			Util.setProgressShown(SongsFragment.this, false);
 			
 			if(err != null){
 				Toast.makeText(getActivity(), err, Toast.LENGTH_SHORT).show();				
@@ -477,6 +499,11 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			i.putExtra("song", song); 		
 			startActivity(i);
 		}
+		
+        @Override
+        protected void onCancelled() {
+        	Util.setProgressShown(SongsFragment.this, false);
+        }
 	}	
 	
 	/** Gets a new playlist from Echo Nest*/
@@ -748,17 +775,22 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	}
     
     private void onCancelTasks() {
-        if(!isPlaySongsTaskRunning())
-        	return;
-    	    	
-        mPlaySongsTask.cancel(true);
-        mPlaySongsTask = null;        
+        if(isPlaySongsTaskRunning()){
+        	mPlaySongsTask.cancel(true);
+            mPlaySongsTask = null;
+        }  
+        
+        if(mSongDetailsTask != null && mSongDetailsTask.getStatus() != AsyncTask.Status.FINISHED) {
+        	mSongDetailsTask.cancel(true);
+        	mSongDetailsTask = null;
+        }
+                
     }
     
     private boolean isPlaySongsTaskRunning() {
-        if (mPlaySongsTask != null && mPlaySongsTask.getStatus() != AsyncTask.Status.FINISHED) {
+        if(mPlaySongsTask != null && mPlaySongsTask.getStatus() != AsyncTask.Status.FINISHED) {
             return true;
-        } else {
+        }else {
             return false;
         }
     }

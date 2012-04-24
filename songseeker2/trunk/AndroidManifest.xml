@@ -30,8 +30,7 @@
         <activity android:name=".ui.PlaylistOptionsActivity" >
         </activity>
         <activity
-            android:name=".ui.MusicInfoActivity"
-            android:uiOptions="splitActionBarWhenNarrow" >
+            android:name=".ui.MusicInfoActivity">
         </activity>
     </application>
 
