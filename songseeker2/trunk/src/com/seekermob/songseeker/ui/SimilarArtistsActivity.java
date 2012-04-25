@@ -8,9 +8,8 @@ import com.seekermob.songseeker.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+public class SimilarArtistsActivity extends SherlockFragmentActivity {
 
-public class YouTubeVideosActivity extends SherlockFragmentActivity {
-	
 	private Fragment mFragment;
 	
 	@Override
@@ -23,10 +22,10 @@ public class YouTubeVideosActivity extends SherlockFragmentActivity {
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setTitle(R.string.youtube_videos_title);	
+		actionBar.setTitle(R.string.similar_artists_title);	
 		
         if(savedInstanceState == null) {
-            mFragment = new YouTubeVideosFragment();
+            mFragment = new SimilarArtistsFragment();
             mFragment.setArguments(getIntent().getExtras());
 
             getSupportFragmentManager().beginTransaction().replace(R.id.root_container, mFragment)

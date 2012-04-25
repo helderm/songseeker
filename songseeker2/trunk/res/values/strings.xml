@@ -84,4 +84,6 @@
     <string name="share_artist_text">I discovered a new artist using the Song Seeker app for Android! Check it out!</string>
     <string name="youtube_videos_title">YouTube Videos</string>
     <string name="youtube_videos_frag_empty">No videos found!</string>
+    <string name="similar_artists_title">Similar Artists</string>
+    <string name="similar_artists_frag_empty">No similar artists found!</string>
 </resources>

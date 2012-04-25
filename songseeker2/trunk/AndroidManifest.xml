@@ -33,6 +33,7 @@
             android:name=".ui.MusicInfoActivity">
         </activity>
         <activity android:name=".ui.YouTubeVideosActivity"></activity>
+        <activity android:name=".ui.SimilarArtistsActivity"></activity>
     </application>
 
 </manifest>

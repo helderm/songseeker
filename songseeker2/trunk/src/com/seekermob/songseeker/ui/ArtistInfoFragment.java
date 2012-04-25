@@ -246,10 +246,9 @@ public class ArtistInfoFragment extends SherlockListFragment{
 		TextView tvSimilar = (TextView)header.findViewById(R.id.artistinfo_similar);
 		tvSimilar.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-			
-				//Intent i = new Intent(ArtistInfoActivity.this, SimilarArtistsActivity.class);
-				//i.putExtra("artistParcel", artist);
-				//startActivity(i);
+				Intent i = new Intent(getActivity(), SimilarArtistsActivity.class);
+				i.putExtra(BUNDLE_ARTIST, mArtist);
+				startActivity(i);
 			}
 		});		
 		
@@ -257,8 +256,6 @@ public class ArtistInfoFragment extends SherlockListFragment{
 		if(mArtist.image != null){
 			ImageView coverart = (ImageView) header.findViewById(R.id.artistinfo_image);
 			ImageLoader.getLoader().DisplayImage(mArtist.image, coverart, R.drawable.ic_disc_stub, ImageSize.MEDIUM);
-			//ImageView bkg = (ImageView) findViewById(R.id.listview_bkg);
-			//ImageLoader.getLoader().DisplayImage(artist.image, getListView(), bkg, ImageSize.LARGE);
 		}	
 		
 		getListView().addHeaderView(header, null, false);
