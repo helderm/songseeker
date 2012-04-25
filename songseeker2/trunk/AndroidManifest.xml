@@ -34,6 +34,8 @@
         </activity>
         <activity android:name=".ui.YouTubeVideosActivity"></activity>
         <activity android:name=".ui.SimilarArtistsActivity"></activity>
+        <activity android:name=".ui.ArtistNewsActivity"></activity>
+        <activity android:name=".ui.ArtistBioActivity"></activity>
     </application>
 
 </manifest>

@@ -86,4 +86,8 @@
     <string name="youtube_videos_frag_empty">No videos found!</string>
     <string name="similar_artists_title">Similar Artists</string>
     <string name="similar_artists_frag_empty">No similar artists found!</string>
+    <string name="artist_news_title">News</string>
+    <string name="artist_news_frag_empty">No news found!</string>
+    <string name="artist_bio_title">Biography</string>
+    <string name="artist_bio_frag_empty">No biography found!</string>
 </resources>

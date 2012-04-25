@@ -225,21 +225,19 @@ public class ArtistInfoFragment extends SherlockListFragment{
 		
 		TextView tvBio = (TextView)header.findViewById(R.id.artistinfo_biography);
 		tvBio.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-			
-				//Intent i = new Intent(ArtistInfoActivity.this, ArtistBioActivity.class);
-				//i.putExtra("artistParcel", artist);
-				//startActivity(i);
+			public void onClick(View v) {			
+				Intent i = new Intent(getActivity(), ArtistBioActivity.class);
+				i.putExtra(BUNDLE_ARTIST, mArtist);
+				startActivity(i);
 			}
 		});
 
 		TextView tvNews = (TextView)header.findViewById(R.id.artistinfo_news);
 		tvNews.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-			
-				//Intent i = new Intent(ArtistInfoActivity.this, ArtistNewsActivity.class);
-				//i.putExtra("artistParcel", artist);
-				//startActivity(i);
+			public void onClick(View v) {			
+				Intent i = new Intent(getActivity(), ArtistNewsActivity.class);
+				i.putExtra(BUNDLE_ARTIST, mArtist);
+				startActivity(i);
 			}
 		});	
 		

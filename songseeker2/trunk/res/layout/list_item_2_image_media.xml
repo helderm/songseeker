@@ -16,8 +16,7 @@
     <TextView
         android:id="@+id/firstLine"
         style="@style/list_view_first_line"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"        
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
         android:layout_toLeftOf="@+id/media_btns"
@@ -27,8 +26,7 @@
     <TextView
         android:id="@+id/secondLine"
         style="@style/list_view_second_line"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"        
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/firstLine"
         android:layout_alignWithParentIfMissing="true"

@@ -8,6 +8,7 @@
     </style>
 
     <style name="list_view_first_line">
+        <item name="android:layout_height">@dimen/line_height_list_item</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:singleLine">true</item>
@@ -17,6 +18,7 @@
     </style>
 
     <style name="list_view_second_line">
+        <item name="android:layout_height">@dimen/line_height_list_item</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:singleLine">true</item>
@@ -25,6 +27,7 @@
     </style>
 
     <style name="list_view_third_line">
+        <item name="android:layout_height">@dimen/line_height_list_item</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:singleLine">true</item>
@@ -74,5 +77,11 @@
         <item name="android:textColor">@color/light_grey</item>
         <item name="android:background">@drawable/btn_default_holo_dark</item>
     </style>
+    
+    <style name="artist_bio">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/light_grey</item>
+        <item name="android:gravity">center</item>
+    </style>    
 
 </resources>

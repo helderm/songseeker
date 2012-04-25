@@ -153,7 +153,7 @@ public class YouTubeVideosFragment extends SherlockListFragment{
 			ViewHolder holder;
 
 			if(convertView == null) {
-				convertView = mInflater.inflate(R.layout.list_item_2_image, null);
+				convertView = mInflater.inflate(R.layout.list_item_2_image_media, null);
 
 				holder = new ViewHolder();
 				holder.topText = (TextView) convertView.findViewById(R.id.firstLine);

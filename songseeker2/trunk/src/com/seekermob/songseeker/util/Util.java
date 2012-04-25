@@ -173,8 +173,8 @@ public class Util {
         return app_installed ;
     }
     
-    /** Set the list view in and out of visibility graciously. The list fragment must contain
-     * id's 'list_container' and 'progress_container' that points to the list and the progress
+    /** Sets the view in and out of visibility graciously. The fragment must contain
+     * id's 'data_container' and 'progress_container' that points to the list and the progress
      * bar, respectively*/
     public static void setListShown(Fragment fragment, boolean isShown){
     	Context context;
@@ -192,12 +192,12 @@ public class Util {
 			v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
 			v.setVisibility(View.GONE);
 			
-			v = fragmentView.findViewById(R.id.list_container);
+			v = fragmentView.findViewById(R.id.data_container);
 			v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
 			v.setVisibility(View.VISIBLE);	
 			
     	}else{			
-			v = fragmentView.findViewById(R.id.list_container);
+			v = fragmentView.findViewById(R.id.data_container);
 			v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
 			v.setVisibility(View.GONE);			
 			
