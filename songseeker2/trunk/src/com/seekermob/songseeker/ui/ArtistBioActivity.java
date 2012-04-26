@@ -169,7 +169,7 @@ public class ArtistBioActivity extends SherlockFragmentActivity {
 			mBiography = bio.getText();
 			mBioUrl = bio.getURL();
 			
-			tvText.setText(mBiography + (mBioUrl!=null? (" (" + mBioUrl + ")") : ""));
+			tvText.setText(mBiography + (mBioUrl!=null? (" (" + mBioUrl + " )") : ""));
 		}
 	}
 	

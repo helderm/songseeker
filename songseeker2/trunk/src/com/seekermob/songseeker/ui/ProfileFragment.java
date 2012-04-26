@@ -14,7 +14,6 @@ import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.data.UserProfile;
 import com.seekermob.songseeker.data.UserProfile.ArtistProfile;
-import com.seekermob.songseeker.ui.InputDialogFragment.OnTextEnteredListener;
 import com.seekermob.songseeker.util.ImageLoader;
 import com.seekermob.songseeker.util.Util;
 import com.seekermob.songseeker.util.ImageLoader.ImageSize;
@@ -39,7 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class ProfileFragment extends SherlockListFragment implements OnTextEnteredListener {
+public class ProfileFragment extends SherlockListFragment {
 
 	private ArtistsAdapter mAdapter;
 	private ProfileTask mProfileTask;
@@ -153,11 +152,16 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
 				return true;
 			}
-			
-			InputDialogFragment dialog = InputDialogFragment
-					.newInstance(R.string.artist_name, "artist-name", this);
-			dialog.showDialog(getActivity());			
 
+			InputDialogFragment dialog = InputDialogFragment
+				.newInstance(R.string.artist_name,	new InputDialogFragment.OnTextEnteredListener() {
+					@Override
+					public void onDialogTextEntered(String text) {
+						mProfileTask = (ProfileTask) new ProfileTask(text, 0).execute();
+					}
+				});
+			
+			dialog.showDialog(getActivity());
 			return true;
 		case R.id.menu_import_artists:
 			if(isProfileTaskRunning()){
@@ -497,18 +501,6 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
         }
     }
 
-	@Override
-	public void onDialogTextEntered(String text, String tag) {
-		//callback when the user inputs some text at the 'add artist' action
-		if(tag.equalsIgnoreCase("artist-name")){
-			mProfileTask = (ProfileTask) new ProfileTask(text, 0).execute();
-		}
-		
-		if(tag.equalsIgnoreCase("lastfm-username")){
-			mProfileTask = (ProfileTask) new ProfileTask(text, 2).execute();
-		}
-	}    
-	
 	public static class ImportDialogFragment extends DialogFragment{
 		
 		public static ImportDialogFragment newInstance(){
@@ -537,11 +529,18 @@ public class ProfileFragment extends SherlockListFragment implements OnTextEnter
 	    			dismiss();	    			
 	    			
 	    			int index = ((MainActivity)getActivity()).mViewPager.getCurrentItem();
-	    			ProfileFragment f = (ProfileFragment) getFragmentManager().findFragmentByTag(
+	    			final ProfileFragment f = (ProfileFragment) getFragmentManager().findFragmentByTag(
 	                        "android:switcher:"+R.id.pager+":"+index); //that is the tag the ViewPager sets to the fragment
 	    			
 	    			InputDialogFragment dialog = InputDialogFragment
-	    	    			.newInstance(R.string.lastfm_username, "lastfm-username", f);
+	    	    		.newInstance(R.string.lastfm_username, new InputDialogFragment.OnTextEnteredListener() {
+							
+							@Override
+							public void onDialogTextEntered(String text) {
+								f.mProfileTask = (ProfileTask) f.new ProfileTask(text, 2).execute();
+								
+							}
+						});
 	    	    	dialog.showDialog(getActivity());
 	    		}
 	    	});    	

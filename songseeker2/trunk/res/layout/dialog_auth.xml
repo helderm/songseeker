@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <EditText
+        android:id="@+id/username_input"
+        style="@style/edit_text_holo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"         
+        android:ems="10"
+        android:inputType="text" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/password_input"
+        style="@style/edit_text_holo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/username_input"
+        android:layout_below="@+id/username_input"                
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="@string/password">        
+    </EditText>
+
+    <Button
+        android:id="@+id/btn_ok"
+        style="@style/button_holo"        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/password_input"
+        android:layout_alignTop="@+id/username_input"
+        android:layout_toRightOf="@+id/username_input"
+        android:background="@drawable/btn_default_holo_dark"
+        android:text="@android:string/ok" />
+
+</RelativeLayout>

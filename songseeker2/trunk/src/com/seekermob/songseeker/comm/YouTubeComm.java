@@ -22,6 +22,7 @@ import android.accounts.AccountManagerCallback;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.api.client.googleapis.auth.oauth2.draft10.GoogleAccessProtectedResource;
@@ -54,11 +55,12 @@ public class YouTubeComm {
 	
 	private YouTubeComm(){}
 
-	public static YouTubeComm getComm(Context c, SharedPreferences settings){
+	public static YouTubeComm getComm(Context c){
 		if(accountManager == null)
 			accountManager = new GoogleAccountManager(c);
 
 		if(accessProtectedResource == null){
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);
 			accessProtectedResource = new GoogleAccessProtectedResource(settings.getString(PREF_ACCESSTOKEN, null));
 		}
 

@@ -28,8 +28,10 @@ import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
 //import com.seekermob.songseeker.data.UserPlaylistsData;
 import com.seekermob.songseeker.util.Util;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class GroovesharkComm {
@@ -43,18 +45,17 @@ public class GroovesharkComm {
 	private static final String HTTPS = "https://";
 	
 	private static final String PREF_SESSIONID = "prefs.grooveshark.sessionid";	
-	private static final String CRYPT_ALG = "HmacMD5";
-		
-	public static final String WIDGET_URL = "http://grooveshark.com/widget.swf?songIDs=";
+	private static final String CRYPT_ALG = "HmacMD5";	
 	
 	public static final int RATE_LIMIT = 126; //actually 128, but I'm leaving a margin here
 	
 	private static String sessionID = null;
 
-	public static GroovesharkComm getComm(SharedPreferences settings){
+	public static GroovesharkComm getComm(Context c){
 		if(sessionID != null)
 			return comm;
 		
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);		
 		sessionID = settings.getString(PREF_SESSIONID, null);		
 		return comm;
 	}

@@ -14,6 +14,7 @@ import com.echonest.api.v4.PlaylistParams.PlaylistType;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.EchoNestComm;
 import com.seekermob.songseeker.comm.GroovesharkComm;
+import com.seekermob.songseeker.comm.LastfmComm;
 import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.SevenDigitalComm;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
@@ -23,7 +24,6 @@ import com.seekermob.songseeker.data.RecSongsPlaylist;
 import com.seekermob.songseeker.data.RecSongsPlaylist.PlaylistListener;
 import com.seekermob.songseeker.data.SongInfo;
 import com.seekermob.songseeker.data.UserProfile;
-import com.seekermob.songseeker.ui.InputDialogFragment.OnTextEnteredListener;
 import com.seekermob.songseeker.util.ImageLoader;
 import com.seekermob.songseeker.util.Util;
 import com.seekermob.songseeker.util.ImageLoader.ImageSize;
@@ -55,7 +55,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class SongsFragment extends SherlockListFragment implements PlaylistListener, OnTextEnteredListener{
+public class SongsFragment extends SherlockListFragment implements PlaylistListener{
 	private SongsAdapter mAdapter;
 	private PlaySongsTask mPlaySongsTask;
 	private SongDetailsTask mSongDetailsTask;
@@ -259,8 +259,15 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			return true;
 		case R.id.menu_search_artist:
 			InputDialogFragment newFragment = InputDialogFragment
-				.newInstance(R.string.artist_name, "artist-search", this);
-			
+			.newInstance(R.string.artist_name,  
+					new InputDialogFragment.OnTextEnteredListener() {
+
+				@Override
+				public void onDialogTextEntered(String artistName) {
+					getNewPlaylist(artistName);
+				}
+			});
+
 			newFragment.showDialog(getActivity());	
 			return true;
 		case R.id.menu_settings:
@@ -794,11 +801,6 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
             return false;
         }
     }
-
-	@Override
-	public void onDialogTextEntered(String artistName, String tag) {
-		getNewPlaylist(artistName);		
-	}
 	
 	public static class ExportDialogFragment extends DialogFragment{
 		
@@ -808,29 +810,44 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		
 	    @Override
 	    public Dialog onCreateDialog(Bundle savedInstanceState) {
-	    	View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_export, null, false);
-	    	
+	    	View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_export, null, false);	    	
+	    		    	
 	    	v.findViewById(R.id.export_to_grooveshark).setOnClickListener(new View.OnClickListener() {
 	    		@Override
 	    		public void onClick(View v) {
+	    			dismiss();
+	    			
+					if(GroovesharkComm.getComm(getActivity()).isAuthorized()){
+						//start activity
+						return;
+					}
+	    			
+					//not authorized
+	    			AuthDialogFragment dialog = AuthDialogFragment
+	    				.newInstance(R.string.grooveshark_username, new AuthDialogFragment.OnUserPassEnteredListener() {
 
-	    			dismiss();            	
+	    					@Override
+	    					public void onUserPassEntered(String user, String pass) {
+	    						//add user/pass to the bundle
+	    						//start activity					
+	    					}
+	    				});
+
+	    			dialog.showDialog(getActivity());
 	    		}
 	    	});
 	    	
 	    	v.findViewById(R.id.export_to_youtube).setOnClickListener(new View.OnClickListener() {
 	    		@Override
 	    		public void onClick(View v) {
-	    			dismiss();	  			
-		            	
+	    			dismiss();	
 	    		}
 	    	});  
 	    	
 	    	v.findViewById(R.id.export_to_rdio).setOnClickListener(new View.OnClickListener() {
 	    		@Override
 	    		public void onClick(View v) {
-
-	    			dismiss();            	
+	    			dismiss();   
 	    		}
 	    	});
 	    	
@@ -839,6 +856,23 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	    		public void onClick(View v) {
 	    			dismiss();	  			
 		            	
+					if(LastfmComm.getComm(getActivity()).isAuthorized()){
+						//start activity
+						return;
+					}
+	    			
+					//not authorized
+	    			AuthDialogFragment dialog = AuthDialogFragment
+	    				.newInstance(R.string.lastfm_username, new AuthDialogFragment.OnUserPassEnteredListener() {
+
+	    					@Override
+	    					public void onUserPassEntered(String user, String pass) {
+	    						//add user/pass to the bundle
+	    						//start activity					
+	    					}
+	    				});
+
+	    			dialog.showDialog(getActivity());		    			
 	    		}
 	    	});   	    	
 	    	

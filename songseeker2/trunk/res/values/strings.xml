@@ -19,8 +19,7 @@
     <string name="donate">Donate</string>
     <string name="songs_frag_empty_list"> Tap here to get some SONGS!</string>
     <string name="req_add_artists_profile">Please add at least one artist to your profile.</string>
-    <string name="playlist_empty">Your playlist is empty! Try changing your playlist options.</string>
-    <string name="adding_songs_playlist">Adding songs to the playlist, please wait.</string>
+    <string name="playlist_empty">Your playlist is empty! Try changing your playlist options.</string>    
     <string name="err_add_songs_playlist">Failed to add songs to the playlist!</string>
     <string name="some_songs_added_playlist">Some songs were successfully added to the playlist!</string>
     <string name="success_add_songs_playlist">Songs added to the playlist!</string>
@@ -55,11 +54,12 @@
     <string name="import_from_lastfm">Import artists from Last.fm</string>
     <string name="import_profile_failed">Failed to import the profile!</string>
     <string name="import_no_artist_found">No artist to import was found!</string>
-    <string name="lastfm_username">last.fm username</string>
     <string name="export_to_grooveshark">Export to Grooveshark</string>
+    <string name="grooveshark_username">grooveshark username</string>
     <string name="export_to_youtube">Export to YouTube</string>
     <string name="export_to_rdio">Export to Rdio</string>
     <string name="export_to_lastfm">Export to Last.fm</string>
+    <string name="lastfm_username">last.fm username</string>
     <string name="remove_artist">Remove Artist</string>
     <string name="remove_song">Remove Song</string>
     <string name="by">by</string>
@@ -90,4 +90,5 @@
     <string name="artist_news_frag_empty">No news found!</string>
     <string name="artist_bio_title">Biography</string>
     <string name="artist_bio_frag_empty">No biography found!</string>
+    <string name="password">password</string>
 </resources>

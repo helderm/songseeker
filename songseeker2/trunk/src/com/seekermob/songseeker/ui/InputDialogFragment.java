@@ -17,11 +17,12 @@ import android.widget.EditText;
 public class InputDialogFragment extends DialogFragment{
 	private static OnTextEnteredListener listener; //should be static because i cant put this on the bundle 
 	
-	public static InputDialogFragment newInstance(int hint, String tag, OnTextEnteredListener l){
+	private static final String TAG = "input-dialog";
+	
+	public static InputDialogFragment newInstance(int hint, OnTextEnteredListener l){
 		InputDialogFragment diag = new InputDialogFragment();
         Bundle args = new Bundle();
         args.putInt("hint", hint);        
-        args.putString("tag", tag);
         diag.setArguments(args);
         
         InputDialogFragment.listener = l;                
@@ -32,7 +33,6 @@ public class InputDialogFragment extends DialogFragment{
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		
         final int hint = getArguments().getInt("hint");
-        final String tag = getArguments().getString("tag");
         
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_input, null, false);
         
@@ -45,7 +45,7 @@ public class InputDialogFragment extends DialogFragment{
             @Override
             public void onClick(View v) {
             	if(listener != null)
-            		listener.onDialogTextEntered(etInput.getText().toString(), tag);
+            		listener.onDialogTextEntered(etInput.getText().toString());
             	
             	listener = null;
             	dismiss();            	
@@ -73,17 +73,17 @@ public class InputDialogFragment extends DialogFragment{
     public void showDialog(FragmentActivity activity) {
         // show dialog
         FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
-        Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("input-dialog");
+        Fragment prev = activity.getSupportFragmentManager().findFragmentByTag(TAG);
         if (prev != null) {
             ft.remove(prev);
         }
         ft.addToBackStack(null);
 
         // Create and show the dialog.        
-        show(ft, "input-dialog");
+        show(ft, TAG);
     }	
 	
 	public static interface OnTextEnteredListener {
-		public void onDialogTextEntered(String text, String tag);
+		public void onDialogTextEntered(String text);
 	}	
 }

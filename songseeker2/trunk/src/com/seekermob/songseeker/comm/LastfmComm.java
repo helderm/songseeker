@@ -3,8 +3,10 @@ package com.seekermob.songseeker.comm;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
@@ -35,11 +37,12 @@ public class LastfmComm {
 	
 	private LastfmComm(){}
 	
-	public static LastfmComm getComm(SharedPreferences settings){
+	public static LastfmComm getComm(Context c){
 		
 		if(sessionKey != null)
 			return comm;
 		
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);
 		sessionKey = settings.getString(PREF_SESSIONKEY, null);
 		username = settings.getString(PREF_USERNAME, null);		
 		
