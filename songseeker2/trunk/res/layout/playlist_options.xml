@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    style="@style/scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
         android:orientation="vertical" >
@@ -12,7 +13,7 @@
         <TextView
             android:id="@+id/label_mood"
             style="@style/pl_options_labels"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/layout_padding"
@@ -33,7 +34,7 @@
         <TextView
             android:id="@+id/label_tempo"
             style="@style/pl_options_labels"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -53,7 +54,7 @@
         <TextView
             android:id="@+id/label_danceability"
             style="@style/pl_options_labels"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -73,7 +74,7 @@
         <TextView
             android:id="@+id/label_energy"
             style="@style/pl_options_labels"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -93,7 +94,7 @@
         <TextView
             android:id="@+id/label_hotness"
             style="@style/pl_options_labels"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -113,7 +114,7 @@
         <TextView
             android:id="@+id/label_variety"
             style="@style/pl_options_labels"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -133,7 +134,7 @@
         <TextView
             android:id="@+id/label_max_results"
             style="@style/pl_options_labels"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"

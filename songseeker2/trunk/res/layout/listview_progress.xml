@@ -7,8 +7,8 @@
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:contentDescription="@string/album_image" >
+        android:contentDescription="@string/album_image"
+        android:scaleType="centerCrop" >
     </ImageView>
 
     <LinearLayout
@@ -55,11 +55,9 @@
 
                 <ListView
                     android:id="@android:id/list"
+                    style="@style/listview"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:divider="@drawable/divider_horizontal_holo_dark"
-                    android:drawSelectorOnTop="false"
-                    android:listSelector="@drawable/list_selector_holo_dark" />
+                    android:layout_height="match_parent" />
 
                 <TextView
                     android:id="@id/android:empty"

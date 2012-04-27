@@ -31,7 +31,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		//create tabs
 		ActionBar.Tab songsTab = actionBar.newTab().setText(R.string.songs);
-		ActionBar.Tab playlistsTab = actionBar.newTab().setText(R.string.playlists);
+		//ActionBar.Tab playlistsTab = actionBar.newTab().setText(R.string.playlists);
 		ActionBar.Tab profileTab = actionBar.newTab().setText(R.string.profile);
 		
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -40,7 +40,7 @@ public class MainActivity extends SherlockFragmentActivity {
         
         //add tabs
         mTabsAdapter.addTab(songsTab, SongsFragment.class);        
-        mTabsAdapter.addTab(playlistsTab, PlaylistsFragment.class);
+        //mTabsAdapter.addTab(playlistsTab, PlaylistsFragment.class);
         mTabsAdapter.addTab(profileTab, ProfileFragment.class);
         
         if (savedInstanceState != null) {
