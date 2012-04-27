@@ -3,6 +3,8 @@ package com.seekermob.songseeker.ui;
 import java.text.DateFormat;
 import java.util.ArrayList;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -184,6 +187,18 @@ public class ArtistNewsFragment extends SherlockListFragment {
 	    	public TextView secondLine;
 	    	public TextView thirdLine;
 		}
+	}
+	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		NewsInfo news = mAdapter.getItem(position);
+		
+		if(news.url == null)
+			return;
+		
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(news.url));
+		intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
 	}
 	
 	private class NewsTask extends AsyncTask<Void, Void, ArrayList<NewsInfo>>{
