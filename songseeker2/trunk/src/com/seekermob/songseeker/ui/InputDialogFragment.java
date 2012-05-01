@@ -2,6 +2,7 @@ package com.seekermob.songseeker.ui;
 
 import com.seekermob.songseeker.R;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -15,17 +16,16 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class InputDialogFragment extends DialogFragment{
-	private static OnTextEnteredListener listener; //should be static because i cant put this on the bundle 
+	private OnTextEnteredListener mListener;  
 	
 	private static final String TAG = "input-dialog";
 	
-	public static InputDialogFragment newInstance(int hint, OnTextEnteredListener l){
+	public static InputDialogFragment newInstance(int hint, String tag){
 		InputDialogFragment diag = new InputDialogFragment();
         Bundle args = new Bundle();
-        args.putInt("hint", hint);        
-        diag.setArguments(args);
-        
-        InputDialogFragment.listener = l;                
+        args.putInt("hint", hint);
+        args.putString("tag", tag);
+        diag.setArguments(args);           
         return diag;
 	}
 	
@@ -33,6 +33,7 @@ public class InputDialogFragment extends DialogFragment{
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		
         final int hint = getArguments().getInt("hint");
+        final String tag = getArguments().getString("tag");
         
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_input, null, false);
         
@@ -44,10 +45,7 @@ public class InputDialogFragment extends DialogFragment{
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            	if(listener != null)
-            		listener.onDialogTextEntered(etInput.getText().toString());
-            	
-            	listener = null;
+           		mListener.onDialogTextEntered(etInput.getText().toString(), tag);
             	dismiss();            	
             }
         });        
@@ -82,8 +80,18 @@ public class InputDialogFragment extends DialogFragment{
         // Create and show the dialog.        
         show(ft, TAG);
     }	
+    
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnTextEnteredListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnTextEnteredListener");
+        }
+    }
 	
 	public static interface OnTextEnteredListener {
-		public void onDialogTextEntered(String text);
+		public void onDialogTextEntered(String text, String tag);
 	}	
 }

@@ -91,4 +91,14 @@
     <string name="artist_bio_title">Biography</string>
     <string name="artist_bio_frag_empty">No biography found!</string>
     <string name="password">password</string>
+    <string name="export_grooveshark_title">Grooveshark Playlists</string>
+    <string name="not_authorized">Not Authorized!</string>
+    <string name="new_playlist">New Playlist</string>
+    <string name="log_in">Log in</string>
+    <string name="user_playlists_frag_empty">No playlists found!</string>
+    <string name="choose_playlist_export_tip">Choose a playlist to export your songs to.</string>
+    <string name="exporting">Exporting…</string>
+    <string name="playlist_created">Playlist created!</string>
+    <string name="playlist_name">playlist name</string>
+    <string name="importing">Importing…</string>
 </resources>

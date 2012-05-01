@@ -202,6 +202,7 @@ public class ArtistInfoFragment extends SherlockListFragment{
 				return true;
 			}
 			mProfileTask = (ProfileTask) new ProfileTask(mArtist).execute();
+			return true;
 		case R.id.menu_watch:
 			intent = new Intent(getActivity(), YouTubeVideosActivity.class);
 			intent.putExtra(BUNDLE_ARTIST, mArtist);

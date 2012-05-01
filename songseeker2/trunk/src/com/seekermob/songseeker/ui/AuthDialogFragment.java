@@ -2,6 +2,7 @@ package com.seekermob.songseeker.ui;
 
 import com.seekermob.songseeker.R;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -15,16 +16,15 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class AuthDialogFragment extends DialogFragment {
-	private static OnUserPassEnteredListener listener;
+	private OnUserPassEnteredListener mListener;
 	private static final String TAG = "auth-dialog";
 	
-	public static AuthDialogFragment newInstance(int hint, OnUserPassEnteredListener l){
+	public static AuthDialogFragment newInstance(int hint){
 		AuthDialogFragment diag = new AuthDialogFragment();
         Bundle args = new Bundle();
         args.putInt("hint", hint);
         
         diag.setArguments(args);
-        listener = l;
         return diag;
 	}
 	
@@ -42,10 +42,7 @@ public class AuthDialogFragment extends DialogFragment {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            	if(listener != null)
-            		listener.onUserPassEntered(etUser.getText().toString(), etPass.getText().toString());
-            	
-            	listener = null;
+            	mListener.onUserPassEntered(etUser.getText().toString(), etPass.getText().toString());
             	dismiss();            	
             }
         });  
@@ -87,11 +84,21 @@ public class AuthDialogFragment extends DialogFragment {
         if (prev != null) {
             ft.remove(prev);
         }
-        ft.addToBackStack(null);
+        //ft.addToBackStack(null);
 
         // Create and show the dialog.        
         show(ft, TAG);
     }	
+    
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnUserPassEnteredListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnUserPassEnteredListener");
+        }
+    }    
     
 	public static interface OnUserPassEnteredListener {
 		public void onUserPassEntered(String user, String pass);

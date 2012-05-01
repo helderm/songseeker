@@ -14,7 +14,6 @@ import com.echonest.api.v4.PlaylistParams.PlaylistType;
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.EchoNestComm;
 import com.seekermob.songseeker.comm.GroovesharkComm;
-import com.seekermob.songseeker.comm.LastfmComm;
 import com.seekermob.songseeker.comm.ServiceCommException;
 import com.seekermob.songseeker.comm.SevenDigitalComm;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
@@ -31,9 +30,7 @@ import com.seekermob.songseeker.util.MediaPlayerController;
 import com.seekermob.songseeker.util.MediaPlayerController.MediaStatus;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -56,7 +53,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class SongsFragment extends SherlockListFragment implements PlaylistListener{
-	private SongsAdapter mAdapter;
+	protected SongsAdapter mAdapter;
 	private PlaySongsTask mPlaySongsTask;
 	private SongDetailsTask mSongDetailsTask;
 	private Bundle mSavedState;
@@ -70,6 +67,8 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	private static final String STATE_SONG_DETAILS_SONG = "songDetailsSong";
 	
 	private static final int MENU_REMOVE_SONG = 10;
+	
+	public static final String DIALOG_ARTIST_NAME = "songsArtistName";
 		
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -235,15 +234,10 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.menu_play_songs:
-			if(isPlaySongsTaskRunning()){
-				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
-				return true;
-			}
-			
 			playSongsIntoDoodsMusic();            	
 			return true;
-		case R.id.menu_save_playlist:
-			return true;
+		//case R.id.menu_save_playlist:
+			//return true;
 		case R.id.menu_refresh_songs:
 			getNewPlaylist(null);
 			return true;
@@ -252,22 +246,18 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
             startActivity(i);	
 			return true;
 		case R.id.menu_export_playlist:
-			ExportDialogFragment exportDiag = ExportDialogFragment.newInstance();
+			if(mAdapter == null || mAdapter.playlist == null || mAdapter.playlist.size() == 0){
+				Toast.makeText(getActivity().getBaseContext(), R.string.no_song_found, Toast.LENGTH_SHORT).show();			
+				return true;
+			}
+			
+			ExportDialogFragment exportDiag = ExportDialogFragment.newInstance(mAdapter.playlist);
 	    	FragmentTransaction ft = getFragmentManager().beginTransaction();
 	    	exportDiag.show(ft, "export-dialog");
 			
 			return true;
 		case R.id.menu_search_artist:
-			InputDialogFragment newFragment = InputDialogFragment
-			.newInstance(R.string.artist_name,  
-					new InputDialogFragment.OnTextEnteredListener() {
-
-				@Override
-				public void onDialogTextEntered(String artistName) {
-					getNewPlaylist(artistName);
-				}
-			});
-
+			InputDialogFragment newFragment = InputDialogFragment.newInstance(R.string.artist_name, DIALOG_ARTIST_NAME);
 			newFragment.showDialog(getActivity());	
 			return true;
 		case R.id.menu_settings:
@@ -514,15 +504,15 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	}	
 	
 	/** Gets a new playlist from Echo Nest*/
-	private void getNewPlaylist(String artistName) {
+	public void getNewPlaylist(String artistName) {
 		
 		//cancel if the profile is empty
 		if(artistName == null && UserProfile.getInstance(getActivity()).isEmpty()){
 			Toast.makeText(getActivity().getApplicationContext(), R.string.req_add_artists_profile, Toast.LENGTH_LONG).show();
 			
-			//WARNING! Hardcoded the profile tab here, need to update when its index change
+			//TODO: HARDCODED the profile tab index here, need to update when its index change
 			try{
-				((SherlockFragmentActivity)getActivity()).getSupportActionBar().setSelectedNavigationItem(2);
+				((SherlockFragmentActivity)getActivity()).getSupportActionBar().setSelectedNavigationItem(1);
 			}catch(IndexOutOfBoundsException e){
 				Log.d(Util.APP, ">>> Hey Dev, update the goddamn Profile tab index!<<<");
 			}
@@ -618,6 +608,11 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	/** play the playlist into Dood's Music*/
 	private void playSongsIntoDoodsMusic(){
 
+		if(isPlaySongsTaskRunning()){
+			Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
 		if(mAdapter == null || mAdapter.playlist == null || mAdapter.playlist.size() == 0){
 			Toast.makeText(getActivity().getBaseContext(), R.string.no_song_found, Toast.LENGTH_SHORT).show();			
 			return;
@@ -697,8 +692,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		}		
 
 		@Override
-		protected int[] doInBackground(Void... params) {
-			SharedPreferences settings = getActivity().getSharedPreferences(Util.APP, Context.MODE_PRIVATE);
+		protected int[] doInBackground(Void... params) {			
 			int i = 0;
 			int ids[];
 
@@ -713,7 +707,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 				}
 
 				try {					
-					String gsID = GroovesharkComm.getComm().getSongID(song.name, song.artist.name, settings);					
+					String gsID = GroovesharkComm.getComm().getSongID(song.name, song.artist.name, getActivity());					
 					mSongIds.add(gsID);
 				}catch (ServiceCommException e) {
 					if(e.getErr() == ServiceErr.SONG_NOT_FOUND){
@@ -804,43 +798,39 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	
 	public static class ExportDialogFragment extends DialogFragment{
 		
-		public static ExportDialogFragment newInstance(){
-			return new ExportDialogFragment();
+		private static final String PLAYLIST_TAG = "playlist";
+		
+		public static ExportDialogFragment newInstance(ArrayList<SongInfo> playlist){
+			ExportDialogFragment diag = new ExportDialogFragment();
+			Bundle args = new Bundle();
+			args.putParcelableArrayList(PLAYLIST_TAG, playlist);
+			diag.setArguments(args);
+			return diag;
 		}
 		
 	    @Override
 	    public Dialog onCreateDialog(Bundle savedInstanceState) {
-	    	View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_export, null, false);	    	
-	    		    	
+	    	final ArrayList<SongInfo> playlist = getArguments().getParcelableArrayList(PLAYLIST_TAG);
+	    	
+	    	View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_export, null, false);
+	    	
 	    	v.findViewById(R.id.export_to_grooveshark).setOnClickListener(new View.OnClickListener() {
 	    		@Override
 	    		public void onClick(View v) {
-	    			dismiss();
-	    			
-					if(GroovesharkComm.getComm(getActivity()).isAuthorized()){
-						//start activity
-						return;
-					}
-	    			
-					//not authorized
-	    			AuthDialogFragment dialog = AuthDialogFragment
-	    				.newInstance(R.string.grooveshark_username, new AuthDialogFragment.OnUserPassEnteredListener() {
-
-	    					@Override
-	    					public void onUserPassEntered(String user, String pass) {
-	    						//add user/pass to the bundle
-	    						//start activity					
-	    					}
-	    				});
-
-	    			dialog.showDialog(getActivity());
+					Intent intent = new Intent(getActivity(), ExportPlaylistGroovesharkActivity.class);
+					intent.putExtra(ExportPlaylistGroovesharkFragment.BUNDLE_PLAYLIST, playlist);
+					startActivity(intent);	    			
+	    			dismiss();	    			
 	    		}
 	    	});
 	    	
 	    	v.findViewById(R.id.export_to_youtube).setOnClickListener(new View.OnClickListener() {
 	    		@Override
 	    		public void onClick(View v) {
-	    			dismiss();	
+					Intent intent = new Intent(getActivity(), ExportPlaylistYouTubeActivity.class);
+					intent.putExtra(ExportPlaylistYouTubeFragment.BUNDLE_PLAYLIST, playlist);
+					startActivity(intent);	    			
+	    			dismiss();
 	    		}
 	    	});  
 	    	
@@ -854,25 +844,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	    	v.findViewById(R.id.export_to_lastfm).setOnClickListener(new View.OnClickListener() {
 	    		@Override
 	    		public void onClick(View v) {
-	    			dismiss();	  			
-		            	
-					if(LastfmComm.getComm(getActivity()).isAuthorized()){
-						//start activity
-						return;
-					}
-	    			
-					//not authorized
-	    			AuthDialogFragment dialog = AuthDialogFragment
-	    				.newInstance(R.string.lastfm_username, new AuthDialogFragment.OnUserPassEnteredListener() {
-
-	    					@Override
-	    					public void onUserPassEntered(String user, String pass) {
-	    						//add user/pass to the bundle
-	    						//start activity					
-	    					}
-	    				});
-
-	    			dialog.showDialog(getActivity());		    			
+	    			dismiss();	    					    			
 	    		}
 	    	});   	    	
 	    	
@@ -880,5 +852,10 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	    	dialog.setContentView(v);
 	    	return dialog;
 	    }
-	}	
+	}
+
+	/*@Override
+	public void onDialogTextEntered(String text, String tag) {
+		getNewPlaylist(text);		
+	}*/	
 }

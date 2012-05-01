@@ -38,10 +38,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class ProfileFragment extends SherlockListFragment {
+public class ProfileFragment extends SherlockListFragment{
 
-	private ArtistsAdapter mAdapter;
-	private ProfileTask mProfileTask;
+	protected ArtistsAdapter mAdapter;
+	protected ProfileTask mProfileTask;
 	private Bundle mSavedState;
 	
 	private static final String STATE_PROFILE_ARTIST_NAMES = "profileArtistNames";
@@ -49,6 +49,13 @@ public class ProfileFragment extends SherlockListFragment {
 	private static final String STATE_PROFILE_RUNNING = "profileRunning";	
 	
 	private static final int MENU_REMOVE_ARTIST = 20;
+	
+	public static final String DIALOG_ARTIST_NAME = "profileArtistName";
+	public static final String DIALOG_LASTFM_USERNAME = "profileLastfmUsername";
+	
+	public static final int IMPORT_TYPE_USER = 0;
+	public static final int IMPORT_TYPE_DEVICE = 1;
+	public static final int IMPORT_TYPE_LASTFM = 2;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -153,14 +160,7 @@ public class ProfileFragment extends SherlockListFragment {
 				return true;
 			}
 
-			InputDialogFragment dialog = InputDialogFragment
-				.newInstance(R.string.artist_name,	new InputDialogFragment.OnTextEnteredListener() {
-					@Override
-					public void onDialogTextEntered(String text) {
-						mProfileTask = (ProfileTask) new ProfileTask(text, 0).execute();
-					}
-				});
-			
+			InputDialogFragment dialog = InputDialogFragment.newInstance(R.string.artist_name, DIALOG_ARTIST_NAME);			
 			dialog.showDialog(getActivity());
 			return true;
 		case R.id.menu_import_artists:
@@ -295,16 +295,16 @@ public class ProfileFragment extends SherlockListFragment {
         	
         	mTaskType = taskType;
         	switch(mTaskType){
-        	case 0:
+        	case IMPORT_TYPE_USER:
             	//when the user added an artist manually
             	mArtists = new ArrayList<ArtistInfo>();
             	mArtists.add(new ArtistInfo());
             	mArtists.get(0).name = input;
         		break;
-        	case 1:
+        	case IMPORT_TYPE_DEVICE:
         		//import from device
         		break;
-        	case 2:
+        	case IMPORT_TYPE_LASTFM:
         		//import from last.fm	
         		mUsername = input;
         		break;
@@ -337,7 +337,7 @@ public class ProfileFragment extends SherlockListFragment {
             // setup the progress overlay
             TextView mUpdateStatus = (TextView) mProgressOverlay
                     .findViewById(R.id.textViewUpdateStatus);
-            mUpdateStatus.setText(R.string.loading);
+            mUpdateStatus.setText(R.string.importing);
            
             mUpdateProgress = (ProgressBar) mProgressOverlay
                     .findViewById(R.id.ProgressBarShowListDet);
@@ -362,7 +362,7 @@ public class ProfileFragment extends SherlockListFragment {
 			//fetch the artists from the device or last.fm
 			if(mArtists == null || mArtists.size() == 0){
 				switch(mTaskType){
-				case 1:	//device
+				case IMPORT_TYPE_DEVICE:	//device
 					try {
 						mArtists = Util.getArtistsFromDevice(getActivity());
 					} catch (Exception e) {
@@ -376,7 +376,7 @@ public class ProfileFragment extends SherlockListFragment {
 						return null;
 					}	
 					break;
-				case 2: //last.fm
+				case IMPORT_TYPE_LASTFM: //last.fm
 					try {
 						mArtists = LastfmComm.getComm().getTopArtists(mUsername);
 					} catch (ServiceCommException e) {
@@ -518,7 +518,7 @@ public class ProfileFragment extends SherlockListFragment {
 	    			ProfileFragment f = (ProfileFragment) getFragmentManager().findFragmentByTag(
 	                        "android:switcher:"+R.id.pager+":"+index); //that is the tag the ViewPager sets to the fragment
 
-	    			f.mProfileTask = (ProfileTask) f.new ProfileTask(null, 1).execute();
+	    			f.mProfileTask = (ProfileTask) f.new ProfileTask(null, IMPORT_TYPE_DEVICE).execute();
 	    			dismiss();            	
 	    		}
 	    	});
@@ -528,19 +528,7 @@ public class ProfileFragment extends SherlockListFragment {
 	    		public void onClick(View v) {
 	    			dismiss();	    			
 	    			
-	    			int index = ((MainActivity)getActivity()).mViewPager.getCurrentItem();
-	    			final ProfileFragment f = (ProfileFragment) getFragmentManager().findFragmentByTag(
-	                        "android:switcher:"+R.id.pager+":"+index); //that is the tag the ViewPager sets to the fragment
-	    			
-	    			InputDialogFragment dialog = InputDialogFragment
-	    	    		.newInstance(R.string.lastfm_username, new InputDialogFragment.OnTextEnteredListener() {
-							
-							@Override
-							public void onDialogTextEntered(String text) {
-								f.mProfileTask = (ProfileTask) f.new ProfileTask(text, 2).execute();
-								
-							}
-						});
+	    			InputDialogFragment dialog = InputDialogFragment.newInstance(R.string.lastfm_username, DIALOG_LASTFM_USERNAME);
 	    	    	dialog.showDialog(getActivity());
 	    		}
 	    	});    	
@@ -549,5 +537,9 @@ public class ProfileFragment extends SherlockListFragment {
 	    	dialog.setContentView(v);
 	    	return dialog;
 	    }
+	}
+	
+	public void importProfile(String text, int type){
+		mProfileTask = (ProfileTask) new ProfileTask(text, type).execute();
 	}
 }

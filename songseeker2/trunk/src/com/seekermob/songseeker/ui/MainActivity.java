@@ -4,6 +4,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import com.seekermob.songseeker.R;
+import com.seekermob.songseeker.ui.InputDialogFragment.OnTextEnteredListener;
 import com.seekermob.songseeker.util.FileCache;
 import com.seekermob.songseeker.util.MediaPlayerController;
 import com.seekermob.songseeker.util.Util.TabsAdapter;
@@ -11,7 +12,7 @@ import com.seekermob.songseeker.util.Util.TabsAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
-public class MainActivity extends SherlockFragmentActivity {
+public class MainActivity extends SherlockFragmentActivity implements OnTextEnteredListener{
 
 	TabsAdapter mTabsAdapter;
 	ViewPager mViewPager;
@@ -59,4 +60,25 @@ public class MainActivity extends SherlockFragmentActivity {
         super.onSaveInstanceState(outState);
         outState.putInt("index", getSupportActionBar().getSelectedNavigationIndex());
     }
+
+	@Override
+	public void onDialogTextEntered(String text, String tag) {
+		SongsFragment songsFragment; 
+		ProfileFragment profileFragment;
+		
+		//TODO HARDCODED the tabs index here, NEED TO CHANGE THIS when I modify the number of tabs!
+		if(tag.equalsIgnoreCase(SongsFragment.DIALOG_ARTIST_NAME)){
+			songsFragment = (SongsFragment) getSupportFragmentManager().findFragmentByTag(
+	                "android:switcher:"+R.id.pager+":0"/*0 = tab index*/); //that is the tag the ViewPager sets to the fragment
+			songsFragment.getNewPlaylist(text);
+		}else if(tag.equalsIgnoreCase(ProfileFragment.DIALOG_ARTIST_NAME)){
+			profileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(
+	                "android:switcher:"+R.id.pager+":1"); //that is the tag the ViewPager sets to the fragment
+			profileFragment.importProfile(text, ProfileFragment.IMPORT_TYPE_USER);
+		}else if(tag.equalsIgnoreCase(ProfileFragment.DIALOG_LASTFM_USERNAME)){
+			profileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(
+	                "android:switcher:"+R.id.pager+":1"); //that is the tag the ViewPager sets to the fragment
+			profileFragment.importProfile(text, ProfileFragment.IMPORT_TYPE_LASTFM);
+		}
+	}
 }

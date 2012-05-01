@@ -25,6 +25,7 @@ import org.json.simple.parser.JSONParser;
 
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
+import com.seekermob.songseeker.data.PlaylistInfo;
 //import com.seekermob.songseeker.data.UserPlaylistsData;
 import com.seekermob.songseeker.util.Util;
 
@@ -71,8 +72,9 @@ public class GroovesharkComm {
 		return false;
 	}
 	
-	public void requestAuthorize(String username, String password, SharedPreferences settings) throws ServiceCommException{
+	public void requestAuthorize(String username, String password, Context c) throws ServiceCommException{
 		String unauthSession = null;
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);
 		
 		try{
 		
@@ -123,7 +125,7 @@ public class GroovesharkComm {
 		
 		} catch(ServiceCommException e){
  			if(e.getErr() == ServiceErr.NOT_AUTH)
- 				cleanAuth(settings);
+ 				cleanAuth(c);
  			
 			throw e;		
 		} catch (IOException e){
@@ -202,8 +204,8 @@ public class GroovesharkComm {
 		}
 	}
 
- 	/*public UserPlaylistsData getUserPlaylists(SharedPreferences settings) throws ServiceCommException{
- 		UserPlaylistsData data = new UserPlaylistsData();
+ 	public ArrayList<PlaylistInfo> getUserPlaylists(Context c) throws ServiceCommException{
+ 		ArrayList<PlaylistInfo> data = new ArrayList<PlaylistInfo>();
  		HttpResponse response;
  		
  		try{	
@@ -248,12 +250,14 @@ public class GroovesharkComm {
 				String id = Long.toString((Long) pl.get("PlaylistID"));
 				String name = (String) pl.get("PlaylistName");
 				
-				data.addPlaylist(name, -1, id);
-				
+				PlaylistInfo pi = new PlaylistInfo();
+				pi.id = id;
+				pi.name = name;
+				data.add(pi);				
 			} 
  		} catch(ServiceCommException e){
  			if(e.getErr() == ServiceErr.NOT_AUTH)
- 				cleanAuth(settings); 			
+ 				cleanAuth(c); 			
  			
  			throw e;		
  		} catch (IOException ex){
@@ -264,9 +268,9 @@ public class GroovesharkComm {
  		}
  		
  		return data;
- 	}*/
+ 	}
  	
- 	public String getSongID(String songName, String artistName, SharedPreferences settings) throws ServiceCommException{		
+ 	public String getSongID(String songName, String artistName, Context c) throws ServiceCommException{		
  		
  		try{	
  			LinkedHashMap<String, Object> args = new LinkedHashMap<String, Object>();
@@ -328,7 +332,7 @@ public class GroovesharkComm {
  
  		} catch(ServiceCommException e){ 			
  			if(e.getErr() == ServiceErr.NOT_AUTH)
- 				cleanAuth(settings);
+ 				cleanAuth(c);
  			
  			throw e;		
  		} catch (IOException ex){
@@ -339,7 +343,7 @@ public class GroovesharkComm {
  		}
  	}
  	
- 	public void createPlaylist(String name, ArrayList<String> songIDs, SharedPreferences settings) throws ServiceCommException{
+ 	public void createPlaylist(String name, ArrayList<String> songIDs, Context c) throws ServiceCommException{
  		
  		try{	
  			LinkedHashMap<String, Object> args = new LinkedHashMap<String, Object>();
@@ -388,7 +392,7 @@ public class GroovesharkComm {
  
  		} catch(ServiceCommException e){
  			if(e.getErr() == ServiceErr.NOT_AUTH)
- 				cleanAuth(settings); 	
+ 				cleanAuth(c); 	
  			
  			throw e;		
  		} catch (IOException ex){
@@ -399,7 +403,7 @@ public class GroovesharkComm {
  		}
  	}
  	
- 	public ArrayList<String> getPlaylistSongs(String playlistID, SharedPreferences settings) throws ServiceCommException{
+ 	public ArrayList<String> getPlaylistSongs(String playlistID, Context c) throws ServiceCommException{
  		ArrayList<String> plSongs = new ArrayList<String>();
  		
  		try{	
@@ -453,7 +457,7 @@ public class GroovesharkComm {
  	 		
  		} catch(ServiceCommException e){ 			
  			if(e.getErr() == ServiceErr.NOT_AUTH)
- 				cleanAuth(settings);
+ 				cleanAuth(c);
  			
  			throw e;		
  		} catch (IOException ex){
@@ -464,7 +468,7 @@ public class GroovesharkComm {
  		} 		
  	}
  	
- 	public void setPlaylistSongs(String playlistID, ArrayList<String> songIDs, SharedPreferences settings) throws ServiceCommException{
+ 	public void setPlaylistSongs(String playlistID, ArrayList<String> songIDs, Context c) throws ServiceCommException{
  		
  		try{	
  			LinkedHashMap<String, Object> args = new LinkedHashMap<String, Object>();
@@ -513,7 +517,7 @@ public class GroovesharkComm {
  
  		} catch(ServiceCommException e){
  			if(e.getErr() == ServiceErr.NOT_AUTH)
- 				cleanAuth(settings); 	
+ 				cleanAuth(c); 	
  			
  			throw e;		
  		} catch (IOException ex){
@@ -589,7 +593,8 @@ public class GroovesharkComm {
 		}		
 	}
 	
-	public void cleanAuth(SharedPreferences settings){
+	public void cleanAuth(Context c){
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);
 		Editor editor = settings.edit();
 		editor.putString(PREF_SESSIONID, null);
 		editor.commit();
