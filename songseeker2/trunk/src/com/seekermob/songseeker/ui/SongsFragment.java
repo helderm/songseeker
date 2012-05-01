@@ -827,9 +827,9 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	    	v.findViewById(R.id.export_to_youtube).setOnClickListener(new View.OnClickListener() {
 	    		@Override
 	    		public void onClick(View v) {
-					Intent intent = new Intent(getActivity(), ExportPlaylistYouTubeActivity.class);
-					intent.putExtra(ExportPlaylistYouTubeFragment.BUNDLE_PLAYLIST, playlist);
-					startActivity(intent);	    			
+					//Intent intent = new Intent(getActivity(), ExportPlaylistYouTubeActivity.class);
+					//intent.putExtra(ExportPlaylistYouTubeFragment.BUNDLE_PLAYLIST, playlist);
+					//startActivity(intent);	    			
 	    			dismiss();
 	    		}
 	    	});  
