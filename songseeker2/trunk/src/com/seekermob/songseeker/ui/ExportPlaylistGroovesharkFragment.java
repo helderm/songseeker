@@ -43,7 +43,7 @@ public class ExportPlaylistGroovesharkFragment extends SherlockListFragment {
 	private static final String STATE_AUTH_TASK_RUNNING = "authTaskRunning";
 	private static final String STATE_AUTH_USERNAME = "authUsername";
 	private static final String STATE_AUTH_PASSWORD = "authPassword";
-	private static final String STATE_PLAYLISTS_TASK_RUNNING = "playlistsTaskRunning";
+	private static final String STATE_USER_PLAYLISTS_TASK_RUNNING = "playlistsTaskRunning";
 	private static final String STATE_CREATE_PLAYLIST_TASK_RUNNING = "createPlaylistTaskRunning";
 	private static final String STATE_CREATE_PLAYLIST_IDS = "createPlaylistTaskIds";
 	private static final String STATE_CREATE_PLAYLIST_INDEX = "createPlaylistTaskIndex";
@@ -103,7 +103,7 @@ public class ExportPlaylistGroovesharkFragment extends SherlockListFragment {
         if(userPlsTask != null && userPlsTask.getStatus() != AsyncTask.Status.FINISHED) {
         	userPlsTask.cancel(true);
         	
-        	outState.putBoolean(STATE_PLAYLISTS_TASK_RUNNING, true);
+        	outState.putBoolean(STATE_USER_PLAYLISTS_TASK_RUNNING, true);
         	mUserPlaylistsTask = null;
         }
 		
@@ -142,11 +142,10 @@ public class ExportPlaylistGroovesharkFragment extends SherlockListFragment {
 			(username = savedInstanceState.getString(STATE_AUTH_USERNAME)) != null &&
 			(password = savedInstanceState.getString(STATE_AUTH_PASSWORD)) != null){
 			
-			//mAuthorizeTask = (AuthorizeTask) new AuthorizeTask(username, password).execute();
 			authorize(username, password);
 		}
 		
-		if(savedInstanceState.getBoolean(STATE_PLAYLISTS_TASK_RUNNING)){
+		if(savedInstanceState.getBoolean(STATE_USER_PLAYLISTS_TASK_RUNNING)){
 			mUserPlaylistsTask = (UserPlaylistsTask) new UserPlaylistsTask().execute();
 		}		
 		
@@ -306,7 +305,7 @@ public class ExportPlaylistGroovesharkFragment extends SherlockListFragment {
 		@Override
 		protected void onPreExecute() {
 			Util.setListShown(ExportPlaylistGroovesharkFragment.this, false);
-		    //((TextView)(getListView().getEmptyView())).setText(R.string.not_authorized);
+		    ((TextView)(getListView().getEmptyView())).setText(R.string.not_authorized);
 		}
 		
 		@Override
@@ -334,7 +333,7 @@ public class ExportPlaylistGroovesharkFragment extends SherlockListFragment {
 				return;
 			}
 			
-			new UserPlaylistsTask().execute();
+			mUserPlaylistsTask = (UserPlaylistsTask) new UserPlaylistsTask().execute();
 		}		
 	}
 	
@@ -466,8 +465,7 @@ public class ExportPlaylistGroovesharkFragment extends SherlockListFragment {
 			mUpdateProgress.setIndeterminate(false);
 			mUpdateProgress.setMax(mPlaylist.size());
 			mUpdateProgress.setProgress(mFetchCount.get());
-		}
-	
+		}	
 		
 		@Override
 		protected Void doInBackground(Void... params) {
@@ -576,7 +574,7 @@ public class ExportPlaylistGroovesharkFragment extends SherlockListFragment {
 	}
 	
 	private boolean isAnyTaskRunning(){
-		if(isAuthTaskRunning() || isCreatePlaylistTaskRunning() || isCreatePlaylistTaskRunning())
+		if(isAuthTaskRunning() || isUserPlaylistsTaskRunning() || isCreatePlaylistTaskRunning())
 			return true;
 		
 		return false;

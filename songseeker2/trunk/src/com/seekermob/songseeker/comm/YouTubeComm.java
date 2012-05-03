@@ -27,8 +27,10 @@ import android.util.Log;
 
 import com.google.api.client.googleapis.auth.oauth2.draft10.GoogleAccessProtectedResource;
 import com.google.api.client.googleapis.extensions.android2.auth.GoogleAccountManager;
+import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
+import com.seekermob.songseeker.data.PlaylistInfo;
 import com.seekermob.songseeker.data.UserPlaylistsData;
 import com.seekermob.songseeker.data.VideoInfo;
 import com.seekermob.songseeker.util.Util;
@@ -46,7 +48,7 @@ public class YouTubeComm {
 	private static final String GET_VIDEOS_ENDPOINT = "http://gdata.youtube.com/feeds/api/videos?alt=jsonc&v=2";
 
 	//login
-	private static GoogleAccountManager accountManager = null;
+	//private static GoogleAccountManager accountManager = null;
 	private static GoogleAccessProtectedResource accessProtectedResource = null;
 	
 	//auth token
@@ -56,9 +58,7 @@ public class YouTubeComm {
 	private YouTubeComm(){}
 
 	public static YouTubeComm getComm(Context c){
-		if(accountManager == null)
-			accountManager = new GoogleAccountManager(c);
-
+		
 		if(accessProtectedResource == null){
 			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);
 			accessProtectedResource = new GoogleAccessProtectedResource(settings.getString(PREF_ACCESSTOKEN, null));
@@ -77,8 +77,9 @@ public class YouTubeComm {
 		return false;		 
 	}
 
-	public String[] getAccountsNames(){
+	public String[] getAccountsNames(Context c){
 
+		GoogleAccountManager accountManager = new GoogleAccountManager(c);
 		final Account[] accounts = accountManager.getAccounts();
 		final int size = accounts.length;
 
@@ -90,9 +91,9 @@ public class YouTubeComm {
 		return names;
 	}
 
-	public void requestAuthorize(String accountName, AccountManagerCallback<Bundle> callback, 
-			SharedPreferences settings){
+	public void requestAuthorize(String accountName, AccountManagerCallback<Bundle> callback, Context c){
 
+		GoogleAccountManager accountManager = new GoogleAccountManager(c);	
 		Account account = accountManager.getAccountByName(accountName);		
 
 		//TODO Debug
@@ -102,22 +103,23 @@ public class YouTubeComm {
 		accountManager.manager.getAuthToken(account, AUTH_TOKEN_TYPE, true, callback, null);
 	}
 
-	public void setAccessToken(String token, SharedPreferences settings){
+	public void setAccessToken(String token, Context c){
 		accessProtectedResource.setAccessToken(token);
 
-		SharedPreferences.Editor editor = settings.edit();
+		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
 		editor.putString(PREF_ACCESSTOKEN, token);
 		editor.commit();
 	}
 
-	public void unauthorizeUser(SharedPreferences settings){
+	public void unauthorizeUser(Context c){
 		if(!isAuthorized())
 			return;
 
+		GoogleAccountManager accountManager = new GoogleAccountManager(c);		
 		accountManager.invalidateAuthToken(accessProtectedResource.getAccessToken());
 		accessProtectedResource.setAccessToken(null);
 
-		SharedPreferences.Editor editor = settings.edit();
+		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
 		editor.putString(PREF_ACCESSTOKEN, null);
 		editor.commit();
 	}
@@ -126,9 +128,9 @@ public class YouTubeComm {
 		return comm;
 	}
 
-	public UserPlaylistsData getUserPlaylists(SharedPreferences settings) throws ServiceCommException{
+	public ArrayList<PlaylistInfo> getUserPlaylists(Context c) throws ServiceCommException{
 
-		UserPlaylistsData data = new UserPlaylistsData();		
+		ArrayList<PlaylistInfo> playlists = new ArrayList<PlaylistInfo>();		
 
 		try{
 			HttpGet request = new HttpGet(GET_PLAYLISTS_ENDPOINT);
@@ -139,7 +141,7 @@ public class YouTubeComm {
 			HttpResponse response = httpClient.execute(request);
 
 			//check for errors
-			treatHttpError(response, settings);
+			treatHttpError(response, c);
 			
 			String jsonString = EntityUtils.toString(response.getEntity());	
 			JSONParser parser = new JSONParser();
@@ -148,7 +150,7 @@ public class YouTubeComm {
 			JSONObject result = (JSONObject)((JSONObject)parser.parse(jsonString)).get("data");
 			Long totalItems = (Long)result.get("totalItems");
 			if(totalItems <= 0)
-				return data;
+				return playlists;
 			
 			JSONArray array = (JSONArray) result.get("items");		
 
@@ -159,29 +161,33 @@ public class YouTubeComm {
 				String name = (String) pl.get("title");
 				Long numSongs = (Long) pl.get("size");
 
-				data.addPlaylist(name, numSongs.intValue(), id);				
+				PlaylistInfo playlist = new PlaylistInfo();
+				playlist.id = id;
+				playlist.name = name;
+				playlist.numSongs = Long.toString(numSongs);
+				playlists.add(playlist);								
 			} 			
 
-			return data;
+			return playlists;
 
 		}catch (IOException ex){
 			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.IO);
 		}catch (ServiceCommException e){
 			throw e;
 		}catch (Exception e){
-			Log.w(Util.APP, "Unknown error while trying to get the user's playlist on YouTube!", e);
+			Log.w(Util.APP, "Unknown error while trying to get the user's playlists on YouTube!", e);
 			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.UNKNOWN);
 		}	
 	}
 
-	public String createPlaylist(String name, SharedPreferences settings) throws ServiceCommException{
+	public String createPlaylist(String name, Context c) throws ServiceCommException{
 
 		try{
 			LinkedHashMap<String, Object> args = new LinkedHashMap<String, Object>();
 
 			LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
 			data.put("title", name);
-			data.put("description", "Playlist created by Song Seeker app for Android");
+			data.put("description", c.getString(R.string.playlist_created_by));
 			args.put("data", data);	
 
 			HttpPost request = new HttpPost(CREATE_PLAYLIST_ENDPOINT);
@@ -197,7 +203,7 @@ public class YouTubeComm {
 			HttpResponse response = httpClient.execute(request);
 			
 			//check for errors
-			treatHttpError(response, settings);
+			treatHttpError(response, c);
 
 			String jsonString = EntityUtils.toString(response.getEntity());	
 			JSONParser parser = new JSONParser();
@@ -270,7 +276,7 @@ public class YouTubeComm {
 		}	
 	}		
 	
-	public void addVideosToPlaylist(String playlistID, String videoID, SharedPreferences settings) throws ServiceCommException{
+	public void addVideosToPlaylist(String playlistID, String videoID, Context c) throws ServiceCommException{
 		
 		try{
 			LinkedHashMap<String, Object> args = new LinkedHashMap<String, Object>();
@@ -294,7 +300,7 @@ public class YouTubeComm {
 			HttpResponse response = httpClient.execute(request);
 			
 			//check for errors
-			treatHttpError(response, settings);
+			treatHttpError(response, c);
 
 		}catch (IOException ex){
 			throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.IO);
@@ -307,7 +313,7 @@ public class YouTubeComm {
 		
 	}
 	
-	private void treatHttpError(HttpResponse response, SharedPreferences settings) throws ServiceCommException{
+	private void treatHttpError(HttpResponse response, Context c) throws ServiceCommException{
 		int code = response.getStatusLine().getStatusCode();
 		
 		if(code != 200 && code != 201 ) {
@@ -317,11 +323,11 @@ public class YouTubeComm {
 			case 401:
 			case 403:
 				//unauthorized
-				unauthorizeUser(settings);
+				unauthorizeUser(c);
 				throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.NOT_AUTH);
 				
 			default:
-				Log.w(Util.APP, "HTTP client returned code different from 200 or 201! code: "+ code+ " - "+ response.getStatusLine().getReasonPhrase());
+				Log.w(Util.APP, "HTTP client returned code different from 400 or 403! code: "+ code+ " - "+ response.getStatusLine().getReasonPhrase());
 				throw new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.REQ_FAILED);
 			}
 		} 

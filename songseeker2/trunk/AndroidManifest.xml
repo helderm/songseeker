@@ -37,6 +37,7 @@
         <activity android:name=".ui.ArtistNewsActivity"></activity>
         <activity android:name=".ui.ArtistBioActivity"></activity>
         <activity android:name=".ui.ExportPlaylistGroovesharkActivity"></activity>
+        <activity android:name=".ui.ExportPlaylistYouTubeActivity"></activity>
     </application>
 
 </manifest>
