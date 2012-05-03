@@ -31,7 +31,6 @@ import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
 import com.seekermob.songseeker.data.PlaylistInfo;
-import com.seekermob.songseeker.data.UserPlaylistsData;
 import com.seekermob.songseeker.data.VideoInfo;
 import com.seekermob.songseeker.util.Util;
 
@@ -186,6 +185,7 @@ public class YouTubeComm {
 			LinkedHashMap<String, Object> args = new LinkedHashMap<String, Object>();
 
 			LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
+			
 			data.put("title", name);
 			data.put("description", c.getString(R.string.playlist_created_by));
 			args.put("data", data);	
@@ -229,8 +229,11 @@ public class YouTubeComm {
 		ArrayList<VideoInfo> videos = new ArrayList<VideoInfo>();
 		
 		try{
-			String query = songName + "+" + artistName;			
-			HttpGet request = new HttpGet(GET_VIDEOS_ENDPOINT+ "&q="+ query.replace(' ', '+')+ "&max-results="+maxResults);
+			String query = songName + "+" + artistName;	
+			
+			query = query.replace(' ', '+');
+			query = query.replaceAll("[^a-zA-Z0-9+]+", "");
+			HttpGet request = new HttpGet(GET_VIDEOS_ENDPOINT+ "&q="+ query + "&max-results="+maxResults);
 	
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpResponse response = httpClient.execute(request);

@@ -9,9 +9,11 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
 import com.seekermob.songseeker.data.ArtistInfo;
+import com.seekermob.songseeker.data.PlaylistInfo;
 import com.seekermob.songseeker.util.Util;
 
 import de.umass.lastfm.Artist;
@@ -33,8 +35,6 @@ public class LastfmComm {
 	private static final String PREF_SESSIONKEY = "prefs.lastfm.sessionkey";
 	private static final String PREF_USERNAME = "pref.lastfm.username";
 	
-	//private static final String ENDPOINT = "http://ws.audioscrobbler.com/2.0/?";
-	
 	private LastfmComm(){}
 	
 	public static LastfmComm getComm(Context c){
@@ -46,6 +46,7 @@ public class LastfmComm {
 		sessionKey = settings.getString(PREF_SESSIONKEY, null);
 		username = settings.getString(PREF_USERNAME, null);		
 		
+		Caller.getInstance().setCache(null);
 		return comm;
 	}
 	
@@ -54,7 +55,7 @@ public class LastfmComm {
 		return comm;
 	}
 	
-	public void requestAuthorize(String user, String pwd, SharedPreferences settings) throws ServiceCommException{
+	public void requestAuthorize(String user, String pwd, Context c) throws ServiceCommException{
 		
 		try{
 			session = Authenticator.getMobileSession(user, pwd, KEY, SECRET);			
@@ -65,16 +66,17 @@ public class LastfmComm {
 		if(session == null)
 			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.NOT_AUTH);
 		
-		Editor editor = settings.edit();
+		Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
 		editor.putString(PREF_SESSIONKEY, session.getKey());
 		editor.putString(PREF_USERNAME, session.getUsername());
 		editor.commit();		
 	}
 	
-	public Collection<Playlist> getUserPlaylists() throws ServiceCommException{
+	public ArrayList<PlaylistInfo> getUserPlaylists() throws ServiceCommException{
 		if(session == null)
 			return null;
 		
+		ArrayList<PlaylistInfo> playlists = new ArrayList<PlaylistInfo>();
 		Collection<Playlist> pls;
 		
 		try{
@@ -83,37 +85,59 @@ public class LastfmComm {
 			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.IO);			
 		}
 		
-		return pls;
+		for(Playlist pl : pls){
+			PlaylistInfo playlist = new PlaylistInfo();
+			playlist.id = Integer.toString(pl.getId());
+			playlist.name = pl.getTitle();
+			playlist.numSongs = Integer.toString(pl.getSize());
+			playlists.add(playlist);
+		}
+		
+		return playlists;
 	}
 	
-	public Playlist createPlaylist(String title, SharedPreferences settings) throws ServiceCommException{
+	public String createPlaylist(String title, Context c) throws ServiceCommException{
 		if(session == null)
 			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.NOT_AUTH);
 		
-		Playlist pl = null;
+		Playlist playlist = null;
 		
 		try{
-			pl = Playlist.create(title, "Playlist created by the Song Seeker Android app.", session);
+			playlist = Playlist.create(title, c.getString(R.string.playlist_created_by), session);
+		}catch(NullPointerException e){
+			//jar error, trying here to recover from it
+			ArrayList<PlaylistInfo> pls = getUserPlaylists();
+			
+			//will return the first playlist with the same name, but since lastf allows playlists with the same name,
+			//it may not be the same
+			for(PlaylistInfo pl : pls){
+				if(!pl.name.equalsIgnoreCase(title))
+					continue;
+				
+				return pl.id;
+			}
+			
 		}catch(RuntimeException e){
+			Log.i(Util.APP, e.getMessage(), e);
 			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.IO);			
 		}	
 		
-		if(pl == null){
+		if(playlist == null){
 			Log.w(Util.APP, "Error while trying to create playlist on Last.fm!");
-			cleanAuth(settings);
+			cleanAuth(c);
 			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.REQ_FAILED);
 		}
 		
-		return pl;	
+		return Integer.toString(playlist.getId());	
 	}
 	
-	public void addToPlaylist(int playlistId, String artist, String track, SharedPreferences settings) throws ServiceCommException{
+	public void addToPlaylist(String playlistId, String artist, String track, Context c) throws ServiceCommException{
 		if(session == null)
 			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.NOT_AUTH);
 		
 		Result res = null;
 		try{
-			res = Playlist.addTrack(playlistId, artist, track, session);
+			res = Playlist.addTrack(Integer.parseInt(playlistId), artist, track, session);
 		}catch(RuntimeException e){
 			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.IO);			
 		}			
@@ -123,7 +147,7 @@ public class LastfmComm {
 			case 4:
 			case 9:
 			case 14:
-				cleanAuth(settings);
+				cleanAuth(c);
 				throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.NOT_AUTH);
 			case 6:
 				Log.w(Util.APP, "Song ["+track+" - "+artist+"] not found on Last.fm!");
@@ -177,8 +201,8 @@ public class LastfmComm {
 		return true;
 	}
 	
-	public void cleanAuth(SharedPreferences settings){
-		Editor editor = settings.edit();
+	public void cleanAuth(Context c){
+		Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
 		editor.putString(PREF_SESSIONKEY, null);
 		editor.putString(PREF_USERNAME, null);
 		editor.commit();

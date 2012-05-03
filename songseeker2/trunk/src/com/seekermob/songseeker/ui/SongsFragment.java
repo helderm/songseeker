@@ -844,7 +844,10 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	    	v.findViewById(R.id.export_to_lastfm).setOnClickListener(new View.OnClickListener() {
 	    		@Override
 	    		public void onClick(View v) {
-	    			dismiss();	    					    			
+					Intent intent = new Intent(getActivity(), ExportPlaylistLastfmActivity.class);
+					intent.putExtra(ExportPlaylistLastfmFragment.BUNDLE_PLAYLIST, playlist);
+					startActivity(intent);	    			
+	    			dismiss();	    	    					    			
 	    		}
 	    	});   	    	
 	    	

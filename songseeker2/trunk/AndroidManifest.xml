@@ -29,15 +29,22 @@
         </activity>
         <activity android:name=".ui.PlaylistOptionsActivity" >
         </activity>
-        <activity
-            android:name=".ui.MusicInfoActivity">
+        <activity android:name=".ui.MusicInfoActivity" >
         </activity>
-        <activity android:name=".ui.YouTubeVideosActivity"></activity>
-        <activity android:name=".ui.SimilarArtistsActivity"></activity>
-        <activity android:name=".ui.ArtistNewsActivity"></activity>
-        <activity android:name=".ui.ArtistBioActivity"></activity>
-        <activity android:name=".ui.ExportPlaylistGroovesharkActivity"></activity>
-        <activity android:name=".ui.ExportPlaylistYouTubeActivity"></activity>
+        <activity android:name=".ui.YouTubeVideosActivity" >
+        </activity>
+        <activity android:name=".ui.SimilarArtistsActivity" >
+        </activity>
+        <activity android:name=".ui.ArtistNewsActivity" >
+        </activity>
+        <activity android:name=".ui.ArtistBioActivity" >
+        </activity>
+        <activity android:name=".ui.ExportPlaylistGroovesharkActivity" >
+        </activity>
+        <activity android:name=".ui.ExportPlaylistYouTubeActivity" >
+        </activity>
+        <activity android:name=".ui.ExportPlaylistLastfmActivity" >
+        </activity>
     </application>
 
 </manifest>
