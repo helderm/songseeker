@@ -672,6 +672,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 				mSongs = mSongs.subList(0, GroovesharkComm.RATE_LIMIT);				
 			}
 
+			mUpdateProgress.setIndeterminate(false);
 			mUpdateProgress.setMax(mSongs.size());
 			mUpdateProgress.setProgress(mFetchCount.get());
 		}
