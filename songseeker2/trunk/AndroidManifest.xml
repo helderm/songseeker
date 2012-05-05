@@ -59,8 +59,10 @@
                     android:scheme="oauth" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.PreferencesActivity"></activity>
-        <activity android:name=".ui.AboutActivity"></activity>
+        <activity android:name=".ui.PreferencesActivity" >
+        </activity>
+        <activity android:name=".ui.AboutActivity" >
+        </activity>
     </application>
 
 </manifest>

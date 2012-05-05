@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Song Seeker</string>
+    <string name="songs">Músicas</string>
+    <string name="playlists">Listas</string>
+    <string name="profile">Perfil</string>
+    <string name="play_songs">Tocar Músicas</string>
+    <string name="save_playlist">Salvar Lista</string>
+    <string name="refresh_songs">Recarregar Músicas</string>
+    <string name="playlist_options">Opções de Lista</string>
+    <string name="export_playlist">Exportar Lista</string>
+    <string name="search_artist">Buscar Artista</string>
+    <string name="clear_playlists">Limpar Listas</string>
+    <string name="add_artist">Adicionar Artista</string>
+    <string name="import_artists">Importar Artistas</string>
+    <string name="settings">Preferências</string>
+    <string name="about">Sobre</string>
+    <string name="donate">Doar</string>
+    <string name="songs_frag_empty_list"> Clique aqui para buscar algumas MÚSICAS!</string>
+    <string name="req_add_artists_profile">Por favor adicione pelo menos um artista no seu perfil.</string>
+    <string name="playlist_empty">Sua lista está vazia! Tente mudar suas opções de lista.</string>
+    <string name="err_add_songs_playlist">Não foi possível adicionar músicas à sua lista!</string>
+    <string name="some_songs_added_playlist">Algumas músicas foram adicionas com sucesso à sua lista!</string>
+    <string name="success_add_songs_playlist">Músicas adicionadas à lista!</string>
+    <string name="artists_already_profile">Artistas já estão no seu perfil!</string>
+    <string name="err_add_artists_profile">Não foi possível adicionar artistas ao seu perfil!</string>
+    <string name="some_artists_added_profile">Alguns artistas foram adicionados com sucesso ao seu perfil!</string>
+    <string name="success_add_artists_profile">Artistas adicionados ao seu perfil!</string>
+    <string name="check_dms_setting_on">Garanta que a opção \'Settings > Share Requests\' está ligada em Dood\'s Music!</string>
+    <string name="install_dms">Instale Dood\'s Music Streamer para habilitar essa função!</string>
+    <string name="no_song_found">Nenhuma música encontrada!</string>
+    <string name="loading">Carregando…</string>
+    <string name="mood_str">Humor</string>
+    <string name="tempo_str">Tempo</string>
+    <string name="danceability_str">Danceability</string>
+    <string name="hotness_str">Hotness</string>
+    <string name="energy_str">Energia</string>
+    <string name="variety_str">Variedade</string>
+    <string name="max_results_str">Max Resultados</string>
+    <string name="playlist_type">Tipo de Lista</string>
+    <string name="known_artists">Apenas artistas conhecidos</string>
+    <string name="similar_artists">Artistas conhecidos e similares</string>
+    <string name="shuffle">Embaralhar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="album_image">Imagem de Album</string>
+    <string name="artist_image">Imagem de Artista</string>
+    <string name="play_pause_preview">Tocar Pausar Música</string>
+    <string name="profile_frag_empty_list">Seu perfil está vazio! Adicione alguns artistas à ele ou importe-os do Last.fm ou de seu aparelho.</string>
+    <string name="clear_profile">Limpar Perfil</string>
+    <string name="operation_in_progress">Operação em andamento, por favor espere…</string>
+    <string name="artist_name">nome do artista</string>
+    <string name="import_from_device">Importar artistas do aparelho</string>
+    <string name="import_from_lastfm">Importa artistas do Last.fm</string>
+    <string name="import_profile_failed">Não foi possível importar o perfil!</string>
+    <string name="import_no_artist_found">Nenhum artista para importar foi encontrado!</string>
+    <string name="export_to_grooveshark">Exportar para Grooveshark</string>
+    <string name="grooveshark_username">grooveshark username</string>
+    <string name="export_to_youtube">Exportar para YouTube</string>
+    <string name="export_to_rdio">Exportar para Rdio</string>
+    <string name="export_to_lastfm">Exportar para Last.fm</string>
+    <string name="lastfm_username">last.fm username</string>
+    <string name="remove_artist">Remover Artista</string>
+    <string name="remove_song">Remover Música</string>
+    <string name="by">por</string>
+    <string name="on">em</string>
+    <string name="song">Música</string>
+    <string name="album">Album</string>
+    <string name="artist">Artista</string>
+    <string name="watch_on">Ver no YouTube</string>
+    <string name="add_to_playlist">Adicionar à Lista</string>
+    <string name="share_with">Compartilhar</string>
+    <string name="buy_at">Comprar no 7digital</string>
+    <string name="add_to_profile">Adicionar ao Perfil</string>
+    <string name="artist_top_songs">Top Músicas do Artista</string>
+    <string name="song_list">Lista de Músicas</string>
+    <string name="artist_albums">Albums do Artista</string>
+    <string name="artistinfo_bio">Biografia >></string>
+    <string name="artistinfo_news">Notícias >></string>
+    <string name="artistinfo_similar">Artistas Similares >></string>
+    <string name="share_using">Compartilhar usando…</string>
+    <string name="share_song_text">Eu descobri uma nova música usando o app Song Seeker para Android! Confira lá!</string>
+    <string name="share_album_text">Eu descobri um novo album usando o app Song Seeker para Android! Confira lá!</string>
+    <string name="share_artist_text">Eu descobri um novo artista usando o app Song Seeker para Android! Confira lá!</string>
+    <string name="youtube_videos_title">Videos do YouTube</string>
+    <string name="youtube_videos_frag_empty">Nnenhum video encontrado!</string>
+    <string name="similar_artists_title">Artistas Similares</string>
+    <string name="similar_artists_frag_empty">Nenhum artista similar encontrado!</string>
+    <string name="artist_news_title">Notícias</string>
+    <string name="artist_news_frag_empty">Nenhuma notícia encontrada!</string>
+    <string name="artist_bio_title">Biografia</string>
+    <string name="artist_bio_frag_empty">Nenhuma biografia encontrada!</string>
+    <string name="password">senha</string>
+    <string name="export_grooveshark_title">Listas do Grooveshark</string>
+    <string name="not_authorized">Não Autorizado!</string>
+    <string name="new_playlist">Nova Lista</string>
+    <string name="log_in">Logar-se</string>
+    <string name="user_playlists_frag_empty">Nenhuma lista encontrada!</string>
+    <string name="choose_playlist_export_tip">Escolha uma lista para exportar suas músicas, ou crie uma nova.</string>
+    <string name="exporting">Exportando…</string>
+    <string name="playlist_created">Lista exportada!</string>
+    <string name="playlist_name">nome da lista</string>
+    <string name="importing">Importando…</string>
+    <string name="export_youtube_title">Listas do YouTube</string>
+    <string name="select_google_account">Selecione uma conta Google</string>
+    <string name="no_google_account_found">Nenhuma conta Google encontrada configurada no seu aparelho!</string>
+    <string name="videos">videos</string>
+    <string name="playlist_created_by">Lista criada pelo app Song Seeker para Android</string>
+    <string name="export_lastfm_title">Listas do Last.fm</string>
+    <string name="export_rdio_title">Listas do Rdio</string>
+    <string name="clear_auth_title_str">Limpar Autenticações</string>
+    <string name="clear_auth_summ_str">Limpa as autenticações de todos os serviços logados</string>
+    <string name="clear_cache_title_str">Limpar Cache</string>
+    <string name="clear_cache_summ_str">Remove dados de cache armazenados no seu aparelho</string>
+    <string name="general_preferences">Preferencias Gerais</string>
+    <string name="cache_preferences">Preferencias de Cache</string>
+    <string name="auto_clear_cache_title_str">Auto Limpar Cache</string>
+    <string name="auto_clear_cache_summ_str">Automaticamente limpa os dados de cache quando chegam no tamanho especificado</string>
+    <string name="auth_cleared">Autenticações limpasd!</string>
+    <string name="clearing_cache">Limpando a cache, por favor aguarde…</string>
+    <string name="cache_cleared">Cache limpa!</string>
+    <string name="cache_auto_cleared">Cache auto limpa!</string>
+    <string name="app_description">Song Seeker é uma nova forma de descobrir música que corresponda ao seu gosto! Encontre milhões de músicas com um único clique, ouça músicas completas ou amostras de 30s, e muito mais! Você também pode configurar a sua lista com várias opções, exportá-la para outros serviços como o YouTube e Grooveshark, e até mesmo comprar as músicas que você gosta! Algumas das características são:</string>
+    <string name="feature_description_playlist">* Criar uma lista personalizada: Com um único clique, você receberá automaticamente as músicas que correspondem ao seu gosto!</string>
+    <string name="feature_description_play">* Reproduza as músicas da sua lista: Toque músicas COMPLETAS de sua lista de GRAÇA no Dood\'s Music Streamer! (Ação \'Tocar Músicas \' na aba \'Músicas\')</string>
+    <string name="feature_description_profile">* Construa um perfil musical: Adicione artistas para seu perfil musical ou importe-os do Last.fm ou de seu aparelho! (Ações \'Adicionar/Importar Artistas\' na aba \'Perfil\')</string>
+    <string name="feature_description_export">* Exporte sua lista: Exporte a lista criada para outros serviços como YouTube e Grooveshark! (Ação \'Exportar Lista\' na aba \'Músicas\')</string>
+    <string name="feature_description_configure">* Configure sua lista: Nós temos diversas opções para personalizar sua lista, como Humor, Tempo, e Danceability! Você pode também filtar para músicas apenas de artistas que você conhece ou similares! (Ação \'Opções de Lista\' na aba \'Músicas\')</string>
+    <string name="feature_description_more">* E muito mais! Busco informações de um artisa, músicas em um album, veja músicas no YouTube, compre-as no 7digital…</string>
+	<string name="disclaimer_echonest">Recomendações de músicas, notícias de artista, biografia fornecidos por The Echo Nest.</string>
+	<string name="disclaimer_sevendigital">Informações de música, album e artista, amostras de música e links para compra fornecidos por 7digital.</string>
+	<string name="disclaimer_designer">Ícones do app fornceidos por Lucas Sanchez.</string>
+	<string name="disclaimer_rdio">Busca e exportação de listas fornecido por Rdio.</string>
+	<string name="disclaimer_grooveshark">Busca e exportação de listas fornecido por Grooveshark.</string>
+	<string name="disclaimer_lastfm">Top artistas do usuário, busca e exportação de listas fornecido por Last.fm.</string>
+    <string name="disclaimer_youtube">Busca de video, busca e exportação de lista fornecido por YouTube.</string>
+    <string name="disclaimer_app">Esse produto usa The Echo Nest API, 7digital API, Last.fm API, Grooveshark API, Rdio API e YouTube API, mas não é recomendado, certificado, aprovado de forma alguma pelos serviços mencionados.</string>
+    <string name="clear_profile_warn_msg">Todos os artistas de seu perfil serão deletados. Tem certeza?</string>
+    <string name="exception_io">Não foi possível contactar o provedor do serviço. Cheque sua conexão com a internet!</string>
+    <string name="exception_artist_not_found">Artista não encontrado!</string>
+    <string name="exception_song_not_found">Música não encontrada!</string>
+    <string name="exception_user_not_found">Usuário não encontrado!</string>
+    <string name="exception_try_later">Serviço indisponível. Tente mais tarde!</string>
+    <string name="exception_not_auth">Nao autorizado!</string>
+    <string name="exception_req_failed">O serviço informou que a operação falhou. Tente mais tarde!</string>
+    <string name="exception_unknown">Erro desconhecido!</string>
+    
+    <string-array name="auto_clear_cache_entries_preference">
+        <item>Off</item>
+        <item>2 Mb</item>
+        <item>5 Mb</item>
+        <item>10 Mb</item>
+    </string-array>
+    <string-array name="auto_clear_cache_values_preference">
+        <item>0</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+
+</resources>

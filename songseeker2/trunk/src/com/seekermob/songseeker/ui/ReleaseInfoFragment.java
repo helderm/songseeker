@@ -155,24 +155,22 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		final Intent intent;
 		
-		switch(item.getItemId()) {
-		case R.id.menu_buy:
+		if (item.getItemId() == R.id.menu_buy) {
 			intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mRelease.buyUrl));
 			intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
 			return true;
-
-		case R.id.menu_share:
-			intent = new Intent(Intent.ACTION_SEND);					 
+		} else if (item.getItemId() == R.id.menu_share) {
+			intent = new Intent(Intent.ACTION_SEND);
 			intent.setType("text/plain");
 			intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_album_text) + " [" + mRelease.name +" - "+ mRelease.artist.name +
 					"] ("+ mRelease.buyUrl +")");
 			startActivity(Intent.createChooser(intent, getString(R.string.share_using)));
 			return true;
-		case R.id.menu_add_to_playlist:
+		} else if (item.getItemId() == R.id.menu_add_to_playlist) {
 			RecSongsPlaylist.getInstance().addSongsToPlaylist(mAdapter.mReleaseSongs, getActivity().getApplicationContext());
 			return true;
-		default:
+		} else {
 			return super.onOptionsItemSelected(item);
 		}
 	}

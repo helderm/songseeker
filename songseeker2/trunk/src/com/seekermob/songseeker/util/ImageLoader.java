@@ -65,11 +65,12 @@ public class ImageLoader {
     }
     
     //called when we need to set the bkg image for the InfoScreens
-    public void DisplayImage(String url, ListView list, ImageView image, ImageSize imageSize){
+    @SuppressWarnings("deprecation")
+	public void DisplayImage(String url, ListView list, ImageView image, ImageSize imageSize){
     	views.put(image, url);
         Bitmap bitmap=memoryCache.get(url);
         
-        list.setCacheColorHint(0);     
+        //list.setCacheColorHint(0);
         
         if(bitmap != null && bitmap.getWidth() >= imageSize.size && bitmap.getHeight() >= imageSize.size){
         	BitmapDrawable drawable = new BitmapDrawable(bitmap);
@@ -237,7 +238,8 @@ public class ImageLoader {
     	boolean isBkg;
     	
     	public BitmapDisplayer(Bitmap b, View i, boolean o){bitmap=b; view=i; isBkg = o;}
-    	public void run(){
+    	@SuppressWarnings("deprecation")
+		public void run(){
 
     		if(bitmap!=null){
    				if(!isBkg)

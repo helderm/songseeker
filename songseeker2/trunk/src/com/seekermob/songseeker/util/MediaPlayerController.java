@@ -96,7 +96,7 @@ public class MediaPlayerController implements OnCompletionListener {
 	}
 	
 	public void startStopMedia(String source, String songId, ImageView icon, ProgressBar loading){
-		if(media == null || !media.source.equalsIgnoreCase(source) || media.status == MediaStatus.STOPPED){
+		if(media == null || media.adapter != null || media.status == MediaStatus.STOPPED){
 			
 			if(media != null){
 				media.position = -1;

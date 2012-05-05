@@ -233,36 +233,30 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent i;
 		
-		// Handle item selection
-		switch (item.getItemId()) {
-		case R.id.menu_play_songs:
-			playSongsIntoDoodsMusic();            	
+		if (item.getItemId() == R.id.menu_play_songs) {
+			playSongsIntoDoodsMusic();
 			return true;
-		//case R.id.menu_save_playlist:
-			//return true;
-		case R.id.menu_refresh_songs:
+		} else if (item.getItemId() == R.id.menu_refresh_songs) {
 			getNewPlaylist(null);
 			return true;
-		case R.id.menu_playlist_options:
-        	i = new Intent(getActivity(), PlaylistOptionsActivity.class);
-            startActivity(i);	
+		} else if (item.getItemId() == R.id.menu_playlist_options) {
+			i = new Intent(getActivity(), PlaylistOptionsActivity.class);
+			startActivity(i);
 			return true;
-		case R.id.menu_export_playlist:
+		} else if (item.getItemId() == R.id.menu_export_playlist) {
 			if(mAdapter == null || mAdapter.playlist == null || mAdapter.playlist.size() == 0){
 				Toast.makeText(getActivity().getBaseContext(), R.string.no_song_found, Toast.LENGTH_SHORT).show();			
 				return true;
 			}
-			
 			ExportDialogFragment exportDiag = ExportDialogFragment.newInstance(mAdapter.playlist);
-	    	FragmentTransaction ft = getFragmentManager().beginTransaction();
-	    	exportDiag.show(ft, "export-dialog");
-			
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			exportDiag.show(ft, "export-dialog");
 			return true;
-		case R.id.menu_search_artist:
+		} else if (item.getItemId() == R.id.menu_search_artist) {
 			InputDialogFragment newFragment = InputDialogFragment.newInstance(R.string.artist_name, DIALOG_ARTIST_NAME);
-			newFragment.showDialog(getActivity());	
+			newFragment.showDialog(getActivity());
 			return true;
-		default:
+		} else {
 			return super.onOptionsItemSelected(item);
 		}		
 	}

@@ -159,31 +159,29 @@ public class SongInfoFragment extends SherlockListFragment{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		final Intent intent;
 		
-		switch(item.getItemId()) {
-		case R.id.menu_buy:
+		if (item.getItemId() == R.id.menu_buy) {
 			intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mSong.buyUrl));
 			intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
 			return true;
-
-		case R.id.menu_share:
-			intent = new Intent(Intent.ACTION_SEND);					 
+		} else if (item.getItemId() == R.id.menu_share) {
+			intent = new Intent(Intent.ACTION_SEND);
 			intent.setType("text/plain");
 			intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_song_text) + " [" + mSong.name +" - "+ mSong.artist.name +
 					"] ("+ mSong.buyUrl +")");
 			startActivity(Intent.createChooser(intent, getString(R.string.share_using)));
 			return true;
-		case R.id.menu_add_to_playlist:
+		} else if (item.getItemId() == R.id.menu_add_to_playlist) {
 			ArrayList<SongInfo> songs = new ArrayList<SongInfo>();
 			songs.add(mSong);
 			RecSongsPlaylist.getInstance().addSongsToPlaylist(songs, getActivity().getApplicationContext());
 			return true;
-		case R.id.menu_watch:
+		} else if (item.getItemId() == R.id.menu_watch) {
 			intent = new Intent(getActivity(), YouTubeVideosActivity.class);
 			intent.putExtra(BUNDLE_SONG, mSong);
 			startActivity(intent);
 			return true;
-		default:
+		} else {
 			return super.onOptionsItemSelected(item);
 		}
 

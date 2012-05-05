@@ -157,38 +157,33 @@ public class ProfileFragment extends SherlockListFragment{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		FragmentTransaction ft;
 		
-		switch (item.getItemId()) {
-		case R.id.menu_add_artist:	
+		if (item.getItemId() == R.id.menu_add_artist) {
 			if(isProfileTaskRunning()){
 				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
 				return true;
 			}
-
-			InputDialogFragment dialog = InputDialogFragment.newInstance(R.string.artist_name, DIALOG_ARTIST_NAME);			
+			InputDialogFragment dialog = InputDialogFragment.newInstance(R.string.artist_name, DIALOG_ARTIST_NAME);
 			dialog.showDialog(getActivity());
 			return true;
-		case R.id.menu_import_artists:
+		} else if (item.getItemId() == R.id.menu_import_artists) {
 			if(isProfileTaskRunning()){
 				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
 				return true;
 			}
-			
 			ImportDialogFragment importDiag = new ImportDialogFragment();
-	    	ft = getFragmentManager().beginTransaction();
-	    	importDiag.show(ft, "import-dialog");
-			
+			ft = getFragmentManager().beginTransaction();
+			importDiag.show(ft, "import-dialog");
 			return true;
-		case R.id.menu_clear_profile:
+		} else if (item.getItemId() == R.id.menu_clear_profile) {
 			if(isProfileTaskRunning()){
 				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
 				return true;
 			}
-			
 			ConfirmDialogFragment confirmDialog = ConfirmDialogFragment.newInstance();
 			ft = getFragmentManager().beginTransaction();
 			confirmDialog.show(ft, "confirm-dialog");
 			return true;
-		default:
+		} else {
 			return super.onOptionsItemSelected(item);
 		}
 	}		

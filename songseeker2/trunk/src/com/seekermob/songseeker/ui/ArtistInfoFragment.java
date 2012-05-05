@@ -184,33 +184,31 @@ public class ArtistInfoFragment extends SherlockListFragment{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		final Intent intent;
 		
-		switch(item.getItemId()) {
-		case R.id.menu_buy:
+		if (item.getItemId() == R.id.menu_buy) {
 			intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mArtist.buyUrl));
 			intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
 			return true;
-
-		case R.id.menu_share:
-			intent = new Intent(Intent.ACTION_SEND);					 
+		} else if (item.getItemId() == R.id.menu_share) {
+			intent = new Intent(Intent.ACTION_SEND);
 			intent.setType("text/plain");
 			intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_artist_text) + " [" + mArtist.name +
 					"] ("+ mArtist.buyUrl +")");
 			startActivity(Intent.createChooser(intent, getString(R.string.share_using)));
 			return true;
-		case R.id.menu_add_to_profile:
+		} else if (item.getItemId() == R.id.menu_add_to_profile) {
 			if(isTaskRunning()){
 				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
 				return true;
 			}
 			mProfileTask = (ProfileTask) new ProfileTask(mArtist).execute();
 			return true;
-		case R.id.menu_watch:
+		} else if (item.getItemId() == R.id.menu_watch) {
 			intent = new Intent(getActivity(), YouTubeVideosActivity.class);
 			intent.putExtra(BUNDLE_ARTIST, mArtist);
 			startActivity(intent);
 			return true;
-		default:
+		} else {
 			return super.onOptionsItemSelected(item);
 		}
 	}	

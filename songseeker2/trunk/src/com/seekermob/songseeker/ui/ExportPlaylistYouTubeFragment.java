@@ -204,8 +204,7 @@ public class ExportPlaylistYouTubeFragment extends SherlockListFragment implemen
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menu_new_playlist:
+		if (item.getItemId() == R.id.menu_new_playlist) {
 			if(!YouTubeComm.getComm(getActivity()).isAuthorized()){
 				Toast.makeText(getActivity(), R.string.not_authorized, Toast.LENGTH_SHORT).show();
 				return true;
@@ -214,19 +213,17 @@ public class ExportPlaylistYouTubeFragment extends SherlockListFragment implemen
 				Toast.makeText(getActivity().getApplicationContext(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
 				return true;
 			}
-			
 			InputDialogFragment dialog = InputDialogFragment.newInstance(R.string.playlist_name, "playlistName");
-			dialog.showDialog(getActivity());			
-			return true;			
-		case R.id.menu_login:
+			dialog.showDialog(getActivity());
+			return true;
+		} else if (item.getItemId() == R.id.menu_login) {
 			if(isAnyTaskRunning()){
 				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
 				return true;
 			}
-			
-			login();			
+			login();
 			return true;
-		default:
+		} else {
 			return super.onOptionsItemSelected(item);
 		}
 	}				

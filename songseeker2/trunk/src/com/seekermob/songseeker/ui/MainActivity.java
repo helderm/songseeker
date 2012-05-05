@@ -81,17 +81,15 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent i;
 		
-		// Handle item selection
-		switch (item.getItemId()) {  
-		case R.id.menu_settings:
+		if (item.getItemId() == R.id.menu_settings) {
 			i = new Intent(this, PreferencesActivity.class);
 			startActivity(i);
 			return true;
-		case R.id.menu_about:
+		} else if (item.getItemId() == R.id.menu_about) {
 			i = new Intent(this, AboutActivity.class);
 			startActivity(i);
 			return true;
-		default:
+		} else {
 			return super.onOptionsItemSelected(item);
 		}
 	}

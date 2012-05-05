@@ -27,7 +27,7 @@
     <string name="err_add_artists_profile">Failed to add the artists to your profile!</string>
     <string name="some_artists_added_profile">Some artists were successfully added to your profile!</string>
     <string name="success_add_artists_profile">Artists successfully added to your profile!</string>
-    <string name="check_dms_setting_on">Be sure that \'Settings > Share Requests\' is turned on at Dood\'s Music!</string>
+    <string name="check_dms_setting_on">Be sure that the option \'Settings > Share Requests\' is turned on at Dood\'s Music!</string>
     <string name="install_dms">Install Dood\'s Music Streamer to enable this feature!</string>
     <string name="no_song_found">No song found!</string>
     <string name="loading">Loading…</string>
@@ -98,7 +98,7 @@
     <string name="user_playlists_frag_empty">No playlists found!</string>
     <string name="choose_playlist_export_tip">Choose a playlist to export your songs to, or create a new one.</string>
     <string name="exporting">Exporting…</string>
-    <string name="playlist_created">Playlist created!</string>
+    <string name="playlist_created">Playlist exported!</string>
     <string name="playlist_name">playlist name</string>
     <string name="importing">Importing…</string>
     <string name="export_youtube_title">YouTube Playlists</string>
@@ -120,9 +120,9 @@
     <string name="clearing_cache">Clearing cache, please wait…</string>
     <string name="cache_cleared">Cache cleared!</string>
     <string name="cache_auto_cleared">Cache auto cleared!</string>
-    <string name="app_description">Song Seeker is a new way of discovering music that matches to your taste! Find millions of songs with a single click, listen to full lenght songs or 30s samples, and much more! You can also configure your playlist with several options, export it to other services like YouTube and Grooveshark, and even buy songs that you like! Some of the features are:</string>
+    <string name="app_description">Song Seeker is a new way of discovering music that matches to your taste! Find millions of songs with a single click, listen to full length songs or 30s samples, and much more! You can also configure your playlist with several options, export it to other services like YouTube and Grooveshark, and even buy songs that you like! Some of the features are:</string>
     <string name="feature_description_playlist">* Create a personalized playlist: With a single click, you will automatically receive songs that matches your taste!</string>
-    <string name="feature_description_play">* Play the songs of your playlist: Play FULL lenght songs of your playlist for FREE on Dood\'s Music Streamer! (\'Play Songs\' action on \'Songs\' tab)</string>
+    <string name="feature_description_play">* Play the songs of your playlist: Play FULL length songs of your playlist for FREE on Dood\'s Music Streamer! (\'Play Songs\' action on \'Songs\' tab)</string>
     <string name="feature_description_profile">* Build a musical taste profile: Add artists to your taste profile or import them from Last.fm or from your device top artists! (\'Add/Import Artists\' actions on \'Profile\' tab)</string>
     <string name="feature_description_export">* Export your playlist: Export the playlist created to other services like YouTube and Grooveshark! (\'Export Playlist\' action on \'Songs\' tab)</string>
     <string name="feature_description_configure">* Configure your playlist: We provide several options to personalize your playlist, like Mood, Tempo and Danceability! You can also filter to songs from artists that you know or similar ones! (\'Playlist Options\' action on \'Songs\' tab)</string>

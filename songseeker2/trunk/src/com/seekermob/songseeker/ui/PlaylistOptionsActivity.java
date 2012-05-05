@@ -124,22 +124,20 @@ public class PlaylistOptionsActivity extends SherlockFragmentActivity implements
 
 	public boolean onOptionsItemSelected(MenuItem item)	{
 
-		switch (item.getItemId()){
-		case android.R.id.home:
+		if (item.getItemId() == android.R.id.home) {
 			finish();
 			return true;
-		case R.id.menu_shuffle_options:
-        	//shuffle the playlist options
+		} else if (item.getItemId() == R.id.menu_shuffle_options) {
+			//shuffle the playlist options
         	Random rand = new Random();
-        	
-        	mood.setProgress(rand.nextInt(100));
-        	energy.setProgress(rand.nextInt(100));
-        	danceability.setProgress(rand.nextInt(100));
-        	hotness.setProgress(rand.nextInt(100));
-        	tempo.setProgress(rand.nextInt(100));
-        	variety.setProgress(rand.nextInt(100));  
+			mood.setProgress(rand.nextInt(100));
+			energy.setProgress(rand.nextInt(100));
+			danceability.setProgress(rand.nextInt(100));
+			hotness.setProgress(rand.nextInt(100));
+			tempo.setProgress(rand.nextInt(100));
+			variety.setProgress(rand.nextInt(100));
 			return true;
-		default:
+		} else {
 			return super.onOptionsItemSelected(item);
 		}
 	}
