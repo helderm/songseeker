@@ -2,6 +2,8 @@ package com.seekermob.songseeker.ui;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.ui.InputDialogFragment.OnTextEnteredListener;
@@ -9,8 +11,13 @@ import com.seekermob.songseeker.util.FileCache;
 import com.seekermob.songseeker.util.MediaPlayerController;
 import com.seekermob.songseeker.util.Util.TabsAdapter;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
 public class MainActivity extends SherlockFragmentActivity implements OnTextEnteredListener{
 
@@ -44,9 +51,12 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
         //mTabsAdapter.addTab(playlistsTab, PlaylistsFragment.class);
         mTabsAdapter.addTab(profileTab, ProfileFragment.class);
         
-        if (savedInstanceState != null) {
+        if(savedInstanceState != null) {
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("index"));
         }
+        
+        //checks if we need to clear the cache 
+        new AutoClearCacheTask().execute();
 	}
 
 	@Override
@@ -61,6 +71,31 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
         outState.putInt("index", getSupportActionBar().getSelectedNavigationIndex());
     }
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.main_menu, menu);		
+		return super.onCreateOptionsMenu(menu);
+	};
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent i;
+		
+		// Handle item selection
+		switch (item.getItemId()) {  
+		case R.id.menu_settings:
+			i = new Intent(this, PreferencesActivity.class);
+			startActivity(i);
+			return true;
+		case R.id.menu_about:
+			i = new Intent(this, AboutActivity.class);
+			startActivity(i);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+    
 	@Override
 	public void onDialogTextEntered(String text, String tag) {
 		SongsFragment songsFragment; 
@@ -79,6 +114,35 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
 			profileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(
 	                "android:switcher:"+R.id.pager+":1"); //that is the tag the ViewPager sets to the fragment
 			profileFragment.importProfile(text, ProfileFragment.IMPORT_TYPE_LASTFM);
+		}
+	}
+	
+	public class AutoClearCacheTask extends AsyncTask<Void, Void, Boolean>{
+		
+		@Override
+		protected Boolean doInBackground(Void... params) {			
+			
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+			String aux = prefs.getString("auto_clear_cache", "10");			
+			int maxCache = Integer.parseInt(aux);
+			
+			if(maxCache == 0){
+				return false;
+			}
+			
+			long cacheSize = FileCache.getCache(MainActivity.this).getCacheSize();		
+			if(cacheSize > (maxCache * 1048576)){ //bytes in a Mb
+				FileCache.getCache(MainActivity.this).clear();
+				return true;
+			}					
+		
+			return false;
+		}		
+
+		@Override
+		protected void onPostExecute(Boolean isCleared) {
+			if(isCleared == true)
+				Toast.makeText(MainActivity.this, R.string.cache_auto_cleared, Toast.LENGTH_SHORT).show();
 		}
 	}
 }

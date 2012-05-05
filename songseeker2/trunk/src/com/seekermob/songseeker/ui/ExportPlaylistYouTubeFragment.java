@@ -361,7 +361,7 @@ public class ExportPlaylistYouTubeFragment extends SherlockListFragment implemen
 				//user denied our app
 				YouTubeComm.getComm(getActivity()).unauthorizeUser(getActivity());
 				ServiceCommException e = new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.NOT_AUTH);
-				Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), e.getMessage(getActivity()), Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -376,12 +376,12 @@ public class ExportPlaylistYouTubeFragment extends SherlockListFragment implemen
 				YouTubeComm.getComm().unauthorizeUser(getActivity());
 				
 				ServiceCommException ex = new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.NOT_AUTH);
-				Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), ex.getMessage(getActivity()), Toast.LENGTH_SHORT).show();
 				return;
 			}
 			
 			ServiceCommException ex = new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.UNKNOWN);
-			Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT).show();			
+			Toast.makeText(getActivity(), ex.getMessage(getActivity()), Toast.LENGTH_SHORT).show();			
 		}
 		
 		Log.e(Util.APP, "YouTube auth failed!", e);
@@ -402,7 +402,7 @@ public class ExportPlaylistYouTubeFragment extends SherlockListFragment implemen
 			try{
 				playlists = YouTubeComm.getComm().getUserPlaylists(getActivity());
 			} catch(ServiceCommException e){
-				err = e.getMessage();
+				err = e.getMessage(getActivity());
 				return null;
 			}
 			
@@ -529,7 +529,7 @@ public class ExportPlaylistYouTubeFragment extends SherlockListFragment implemen
 					mAddCount.incrementAndGet();
 				}		
 			}catch (ServiceCommException e){
-				err = e.getMessage();
+				err = e.getMessage(getActivity());
 				return null;
 			}
 			

@@ -17,7 +17,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
-import com.seekermob.songseeker.data.UserPlaylistsData;
+import com.seekermob.songseeker.data.PlaylistInfo;
 import com.seekermob.songseeker.util.Util;
 
 import android.app.Activity;
@@ -59,8 +59,8 @@ public class RdioComm {
 				
 		if(accessToken != null && accessTokenSecret != null)
 			return comm;
-			
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);	
+				
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);
 		accessToken = settings.getString(PREF_ACCESSTOKEN, null);
 		accessTokenSecret = settings.getString(PREF_ACCESSTOKENSECRET, null);
 		
@@ -78,7 +78,7 @@ public class RdioComm {
 		return true;
 	}
 	
-	public void requestAuthorize(Activity a) throws ServiceCommException{
+	public void retrieveRequestToken(Activity a) throws ServiceCommException{
 		String authUrl = null;
 
 		try {
@@ -99,36 +99,36 @@ public class RdioComm {
 		a.startActivity(i);		
 	}
 	
-	public void retrieveAccessTokens(Uri uri, SharedPreferences settings) throws ServiceCommException{
+	public void retrieveAccessTokens(String verifier, Context c) throws ServiceCommException{
 		
-		String verifier = uri.getQueryParameter(oauth.signpost.OAuth.OAUTH_VERIFIER);
+		//String verifier = uri.getQueryParameter(oauth.signpost.OAuth.OAUTH_VERIFIER);
 		if(verifier == null){
-			cleanAuthTokens(settings);			
+			cleanAuthTokens(c);			
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.NOT_AUTH);
 		}
 		
 		try {
 			provider.retrieveAccessToken(consumer, verifier);
 		} catch (OAuthCommunicationException e) {
-			cleanAuthTokens(settings);			
+			cleanAuthTokens(c);			
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.IO);
 		} catch (Exception e){
 			Log.w(Util.APP, "Error while trying to retrieve access tokens from Rdio!", e);
-			cleanAuthTokens(settings);			
+			cleanAuthTokens(c);			
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.UNKNOWN);
 		}
 
 		accessToken = consumer.getToken();
 		accessTokenSecret = consumer.getTokenSecret();
 		
-		Editor editor = settings.edit();
+		Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
 		editor.putString(PREF_ACCESSTOKEN, accessToken);
 		editor.putString(PREF_ACCESSTOKENSECRET, accessTokenSecret);
 		editor.commit();
 	}
 	
-	public void cleanAuthTokens(SharedPreferences settings){
-		Editor editor = settings.edit();
+	public void cleanAuthTokens(Context c){
+		Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
 		editor.putString(PREF_ACCESSTOKEN, null);
 		editor.putString(PREF_ACCESSTOKENSECRET, null);
 		editor.commit();
@@ -137,7 +137,7 @@ public class RdioComm {
 		accessTokenSecret = null;
 	}
 	
-	public void createPlaylist(String playlistName, List<String> songIDs, SharedPreferences settings) throws ServiceCommException{
+	public void createPlaylist(String playlistName, List<String> songIDs, Context c) throws ServiceCommException{
 
 		StringBuilder sb = new StringBuilder();
 		
@@ -180,7 +180,7 @@ public class RdioComm {
         	
         	//unauthorized
         	if(response.getStatusLine().getStatusCode() == 401){
-        		cleanAuthTokens(settings);
+        		cleanAuthTokens(c);
         		throw new ServiceCommException(ServiceID.RDIO, ServiceErr.NOT_AUTH);
         	}
         	
@@ -191,7 +191,7 @@ public class RdioComm {
         //TODO check 'status'
 	}
 	
-	public void addToPlaylist(String playlistID, List<String> songIDs, SharedPreferences settings) throws ServiceCommException{
+	public void addToPlaylist(String playlistID, List<String> songIDs, Context c) throws ServiceCommException{
 
 		StringBuilder sb = new StringBuilder();
 		
@@ -234,7 +234,7 @@ public class RdioComm {
         	
         	//unauthorized
         	if(response.getStatusLine().getStatusCode() == 401){
-        		cleanAuthTokens(settings);
+        		cleanAuthTokens(c);
         		throw new ServiceCommException(ServiceID.RDIO, ServiceErr.NOT_AUTH);
         	}
         	
@@ -349,8 +349,8 @@ public class RdioComm {
 		}
 	}
 	
-	public UserPlaylistsData getUserPlaylists() throws ServiceCommException{
-		UserPlaylistsData data = new UserPlaylistsData();
+	public ArrayList<PlaylistInfo> getUserPlaylists() throws ServiceCommException{
+		ArrayList<PlaylistInfo> playlists = new ArrayList<PlaylistInfo>();
 	
 		HttpPost request = new HttpPost(ENDPOINT);
 		HttpResponse response;
@@ -399,7 +399,7 @@ public class RdioComm {
 		    	start_index += 10; 
 		    	end_index = line.indexOf(']', start_index);
 		    	if(end_index == start_index){
-		    		return data;
+		    		return playlists;
 		    	}
 	    	
 		    	String bufStrPls = line.substring(start_index, end_index);
@@ -433,7 +433,12 @@ public class RdioComm {
 		    		String bufImage = bufStrPls.substring(start_index, end_index);		    	
 		    		
 		    		//add playlist
-		    		data.addPlaylist(bufName, bufLenght, bufImage, bufId);
+		    		PlaylistInfo playlist = new PlaylistInfo();
+		    		playlist.id = bufId;
+		    		playlist.name = bufName;
+		    		playlist.numSongs = bufLenght;
+		    		playlist.imageUrl = bufImage;
+		    		playlists.add(playlist);
 		    		
 		    		start_index = aux_ind + 1;
 		    		aux_ind = bufStrPls.indexOf("{", start_index);
@@ -442,8 +447,7 @@ public class RdioComm {
 		    			break;
 		    		}
 		    		
-		    		bufName=bufLenght=bufImage=bufId=null; 		
-		    		
+		    		bufName=bufLenght=bufImage=bufId=null; 		    		
 		    	}
 		    	
 	        }	        
@@ -456,7 +460,7 @@ public class RdioComm {
 			throw new ServiceCommException(ServiceID.RDIO, ServiceErr.UNKNOWN);
 		}
 				
-		return data;
+		return playlists;
 		
 	}
 	

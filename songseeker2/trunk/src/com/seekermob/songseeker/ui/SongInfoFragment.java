@@ -394,7 +394,7 @@ public class SongInfoFragment extends SherlockListFragment{
 				topTracks = SevenDigitalComm.getComm().queryArtistTopTracks(mSong.artist.id);
 				
 			}catch(ServiceCommException e){
-				err = e.getMessage();		
+				err = e.getMessage(getActivity());		
 				return null;
 			}
 			

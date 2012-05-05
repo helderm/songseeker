@@ -141,7 +141,7 @@ public class ArtistBioActivity extends SherlockFragmentActivity {
 			try {	
 				bio = EchoNestComm.getComm().getArtistBioFromBucket(artist.id);
 			} catch (ServiceCommException e) {
-				err = e.getMessage();
+				err = e.getMessage(ArtistBioActivity.this);
 				return null;
 			}
 

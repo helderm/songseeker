@@ -12,7 +12,6 @@ import java.io.Serializable;
 import android.content.Context;
 import android.util.Log;
 
-
 public class FileCache {
 	private static FileCache obj = new FileCache();
 

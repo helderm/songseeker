@@ -90,12 +90,31 @@
         <item name="android:drawSelectorOnTop">false</item>
         <item name="android:scrollbarTrackVertical">@drawable/fastscroll_track_holo_dark</item>
         <item name="android:scrollbarThumbVertical">@drawable/fastscroll_thumb_holo</item>
-        <item name="android:fastScrollEnabled">false</item>        
+        <item name="android:fastScrollEnabled">false</item>
     </style>
 
     <style name="scrollview">
         <item name="android:scrollbarTrackVertical">@drawable/fastscroll_track_holo_dark</item>
         <item name="android:scrollbarThumbVertical">@drawable/fastscroll_thumb_holo</item>
+    </style>
+
+    <style name="about_description">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light_blue</item>
+    </style>
+
+    <style name="about_features">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/light_grey</item>
+    </style>
+
+    <style name="about_disclaimers">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/light_grey</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_gravity">center</item>
     </style>
 
 </resources>

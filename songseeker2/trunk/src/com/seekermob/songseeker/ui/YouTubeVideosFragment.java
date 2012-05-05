@@ -225,7 +225,7 @@ public class YouTubeVideosFragment extends SherlockListFragment{
 				return videos;
 
 			} catch (ServiceCommException e) {
-				err = e.getMessage();
+				err = e.getMessage(getActivity());
 				return null;
 			}
 		}

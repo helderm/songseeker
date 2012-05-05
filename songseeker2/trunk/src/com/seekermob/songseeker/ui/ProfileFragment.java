@@ -18,7 +18,9 @@ import com.seekermob.songseeker.util.ImageLoader;
 import com.seekermob.songseeker.util.Util;
 import com.seekermob.songseeker.util.ImageLoader.ImageSize;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -153,6 +155,8 @@ public class ProfileFragment extends SherlockListFragment{
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		FragmentTransaction ft;
+		
 		switch (item.getItemId()) {
 		case R.id.menu_add_artist:	
 			if(isProfileTaskRunning()){
@@ -170,18 +174,19 @@ public class ProfileFragment extends SherlockListFragment{
 			}
 			
 			ImportDialogFragment importDiag = new ImportDialogFragment();
-	    	FragmentTransaction ft = getFragmentManager().beginTransaction();
+	    	ft = getFragmentManager().beginTransaction();
 	    	importDiag.show(ft, "import-dialog");
 			
 			return true;
 		case R.id.menu_clear_profile:
 			if(isProfileTaskRunning()){
-				onCancelTasks();
+				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
+				return true;
 			}
 			
-			mAdapter.prof.clearProfile(getActivity());
-			mAdapter.notifyDataSetChanged();
-			
+			ConfirmDialogFragment confirmDialog = ConfirmDialogFragment.newInstance();
+			ft = getFragmentManager().beginTransaction();
+			confirmDialog.show(ft, "confirm-dialog");
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -380,7 +385,6 @@ public class ProfileFragment extends SherlockListFragment{
 					try {
 						mArtists = LastfmComm.getComm().getTopArtists(mUsername);
 					} catch (ServiceCommException e) {
-						//err = e.getMessage();
 						err = getString(R.string.import_profile_failed);
 						return null;
 					}
@@ -541,5 +545,32 @@ public class ProfileFragment extends SherlockListFragment{
 	
 	public void importProfile(String text, int type){
 		mProfileTask = (ProfileTask) new ProfileTask(text, type).execute();
+	}
+	
+	public static class ConfirmDialogFragment extends DialogFragment{
+		
+		public static ConfirmDialogFragment newInstance(){
+			return new ConfirmDialogFragment();
+		}
+		
+	    @Override
+	    public Dialog onCreateDialog(Bundle savedInstanceState) {	        
+
+	        return new AlertDialog.Builder(getActivity()).setTitle(R.string.clear_profile)
+	                .setMessage(R.string.clear_profile_warn_msg)
+	                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+	                    public void onClick(DialogInterface dialog, int whichButton) {
+	                    	int index = ((MainActivity)getActivity()).mViewPager.getCurrentItem();
+	    	    			ProfileFragment f = (ProfileFragment) getFragmentManager().findFragmentByTag(
+	    	                        "android:switcher:"+R.id.pager+":"+index); //that is the tag the ViewPager sets to the fragment
+	                    	
+	                    	f.mAdapter.prof.clearProfile(getActivity());
+	            			f.mAdapter.notifyDataSetChanged();
+	                    }
+	                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+	                    public void onClick(DialogInterface dialog, int whichButton) {
+	                    }
+	                }).create();
+	    }
 	}
 }

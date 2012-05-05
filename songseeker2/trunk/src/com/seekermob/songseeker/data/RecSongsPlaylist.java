@@ -84,7 +84,7 @@ public class RecSongsPlaylist {
 			try {
 				pl = EchoNestComm.getComm().createStaticPlaylist(playlistParams);
 			} catch (ServiceCommException e) {
-				err = e.getMessage();
+				err = e.getMessage(listFragment.getActivity());
 				return null;
 			}
 

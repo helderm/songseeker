@@ -1,5 +1,9 @@
 package com.seekermob.songseeker.comm;
 
+import com.seekermob.songseeker.R;
+
+import android.content.Context;
+
 public class ServiceCommException extends Exception {
 
 	private static final long serialVersionUID = 1L;
@@ -11,9 +15,8 @@ public class ServiceCommException extends Exception {
 		err = e;
 	}
 	
-	@Override
-	public String getMessage(){
-		return serv.getName() +": " + err.getMsg();
+	public String getMessage(Context c){
+		return serv.getName() +": " + err.getMsg(c);
 	}
 	
 	public ServiceErr getErr() {
@@ -40,23 +43,23 @@ public class ServiceCommException extends Exception {
 	}
 	
 	public enum ServiceErr{
-		IO ("Unable to reach the service provider. Check your internet connection!"),
-		ARTIST_NOT_FOUND ("Artist not found!"),
-		SONG_NOT_FOUND ("Song not found!"),
-		USER_NOT_FOUND ("User not found!"),
-		TRY_LATER ("Service unavailable. Try later!"),
-		NOT_AUTH ("Not authorized!"),
-		REQ_FAILED ("The service informed that the requested operation failed. Try later!"),
-		UNKNOWN ("Unknown error!");
+		IO (R.string.exception_io),
+		ARTIST_NOT_FOUND (R.string.exception_artist_not_found),
+		SONG_NOT_FOUND (R.string.exception_song_not_found),
+		USER_NOT_FOUND (R.string.exception_user_not_found),
+		TRY_LATER (R.string.exception_try_later),
+		NOT_AUTH (R.string.exception_not_auth),
+		REQ_FAILED (R.string.exception_req_failed),
+		UNKNOWN (R.string.exception_unknown);
 		
-		private final String msg;
+		private final int msg;
 		
-		ServiceErr(String msg){
+		ServiceErr(int msg){
 			this.msg = msg;
 		}	
 		
-		public String getMsg(){
-			return this.msg;
+		public String getMsg(Context c){
+			return c.getString(this.msg);
 		}		
 	}
 	

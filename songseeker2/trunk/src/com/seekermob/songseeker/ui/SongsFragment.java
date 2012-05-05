@@ -82,6 +82,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		
 		//set adapter
 		mAdapter = new SongsAdapter();
+		//setLogoFooter();
 		setListAdapter(mAdapter);
 		
 		//check if we are recovering the state
@@ -230,7 +231,8 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
+		Intent i;
+		
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.menu_play_songs:
@@ -242,7 +244,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			getNewPlaylist(null);
 			return true;
 		case R.id.menu_playlist_options:
-        	Intent i = new Intent(getActivity(), PlaylistOptionsActivity.class);
+        	i = new Intent(getActivity(), PlaylistOptionsActivity.class);
             startActivity(i);	
 			return true;
 		case R.id.menu_export_playlist:
@@ -259,12 +261,6 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		case R.id.menu_search_artist:
 			InputDialogFragment newFragment = InputDialogFragment.newInstance(R.string.artist_name, DIALOG_ARTIST_NAME);
 			newFragment.showDialog(getActivity());	
-			return true;
-		case R.id.menu_settings:
-			return true;
-		case R.id.menu_about:
-			return true;
-		case R.id.menu_donate:
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -476,7 +472,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 				song = SevenDigitalComm.getComm().querySongDetails(mSelectedSong.id, 
 						mSelectedSong.name, mSelectedSong.artist.name, getActivity());				
 			}catch(ServiceCommException e){
-				err = e.getMessage();		
+				err = e.getMessage(getActivity());		
 				return null;
 			}
 
@@ -725,7 +721,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 						ids[i++] = Integer.parseInt(id);
 					}					
 
-					err = e.getMessage();
+					err = e.getMessage(getActivity());
 					return ids;
 				} 
 
@@ -837,6 +833,9 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	    	v.findViewById(R.id.export_to_rdio).setOnClickListener(new View.OnClickListener() {
 	    		@Override
 	    		public void onClick(View v) {
+					Intent intent = new Intent(getActivity(), ExportPlaylistRdioActivity.class);
+					intent.putExtra(ExportPlaylistRdioFragment.BUNDLE_PLAYLIST, playlist);
+					startActivity(intent);
 	    			dismiss();   
 	    		}
 	    	});
@@ -856,4 +855,23 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	    	return dialog;
 	    }
 	}
+	
+	/*private void setLogoFooter() {		
+		
+		//set logo footer		
+		LinearLayout footer = (LinearLayout)getActivity().getLayoutInflater().inflate(R.layout.logo, null);
+		
+		ImageView logo = (ImageView)footer.findViewById(R.id.logo);
+		//logo.setImageResource(R.drawable.echonest_logo_pwd);
+		
+		logo.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Util.ECHONEST_URL));
+				intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
+			}
+		});
+		
+		getListView().addFooterView(footer, null, false);		
+	}*/
 }

@@ -19,7 +19,7 @@
     <string name="donate">Donate</string>
     <string name="songs_frag_empty_list"> Tap here to get some SONGS!</string>
     <string name="req_add_artists_profile">Please add at least one artist to your profile.</string>
-    <string name="playlist_empty">Your playlist is empty! Try changing your playlist options.</string>    
+    <string name="playlist_empty">Your playlist is empty! Try changing your playlist options.</string>
     <string name="err_add_songs_playlist">Failed to add songs to the playlist!</string>
     <string name="some_songs_added_playlist">Some songs were successfully added to the playlist!</string>
     <string name="success_add_songs_playlist">Songs added to the playlist!</string>
@@ -66,15 +66,15 @@
     <string name="on">on</string>
     <string name="song">Song</string>
     <string name="album">Album</string>
-    <string name="artist">Artist</string>    
+    <string name="artist">Artist</string>
     <string name="watch_on">Watch on YouTube</string>
     <string name="add_to_playlist">Add to Playlist</string>
     <string name="share_with">Share with Friends</string>
     <string name="buy_at">Buy at 7digital</string>
     <string name="add_to_profile">Add to Profile</string>
-    <string name="artist_top_songs">Artist\&apos;s Top Songs</string>
+    <string name="artist_top_songs">Artist\'s Top Songs</string>
     <string name="song_list">Song List</string>
-    <string name="artist_albums">Artist\&apos;s Albums</string>
+    <string name="artist_albums">Artist\'s Albums</string>
     <string name="artistinfo_bio">Biography >></string>
     <string name="artistinfo_news">News >></string>
     <string name="artistinfo_similar">Similar Artists >></string>
@@ -96,15 +96,66 @@
     <string name="new_playlist">New Playlist</string>
     <string name="log_in">Log in</string>
     <string name="user_playlists_frag_empty">No playlists found!</string>
-    <string name="choose_playlist_export_tip">Choose a playlist to export your songs to.</string>
+    <string name="choose_playlist_export_tip">Choose a playlist to export your songs to, or create a new one.</string>
     <string name="exporting">Exporting…</string>
     <string name="playlist_created">Playlist created!</string>
     <string name="playlist_name">playlist name</string>
-    <string name="importing">Importing…</string>    
+    <string name="importing">Importing…</string>
     <string name="export_youtube_title">YouTube Playlists</string>
     <string name="select_google_account">Select a Google account</string>
     <string name="no_google_account_found">No Google account was found configured in your device!</string>
     <string name="videos">videos</string>
     <string name="playlist_created_by">Playlist created by the Song Seeker app for Android</string>
-    <string name="export_lastfm_title">Last.fm Playlists</string>    
+    <string name="export_lastfm_title">Last.fm Playlists</string>
+    <string name="export_rdio_title">Rdio Playlists</string>
+    <string name="clear_auth_title_str">Clear Authentications</string>
+    <string name="clear_auth_summ_str">Resets authentication from all logged in services</string>
+    <string name="clear_cache_title_str">Clear Cache</string>
+    <string name="clear_cache_summ_str">Removes cached data stored in your device</string>
+    <string name="general_preferences">General Preferences</string>
+    <string name="cache_preferences">Cache Preferences</string>
+    <string name="auto_clear_cache_title_str">Auto Clear Cache</string>
+    <string name="auto_clear_cache_summ_str">Auto clears the cache when it reachs the specified size</string>
+    <string name="auth_cleared">Authentications cleared!</string>
+    <string name="clearing_cache">Clearing cache, please wait…</string>
+    <string name="cache_cleared">Cache cleared!</string>
+    <string name="cache_auto_cleared">Cache auto cleared!</string>
+    <string name="app_description">Song Seeker is a new way of discovering music that matches to your taste! Find millions of songs with a single click, listen to full lenght songs or 30s samples, and much more! You can also configure your playlist with several options, export it to other services like YouTube and Grooveshark, and even buy songs that you like! Some of the features are:</string>
+    <string name="feature_description_playlist">* Create a personalized playlist: With a single click, you will automatically receive songs that matches your taste!</string>
+    <string name="feature_description_play">* Play the songs of your playlist: Play FULL lenght songs of your playlist for FREE on Dood\'s Music Streamer! (\'Play Songs\' action on \'Songs\' tab)</string>
+    <string name="feature_description_profile">* Build a musical taste profile: Add artists to your taste profile or import them from Last.fm or from your device top artists! (\'Add/Import Artists\' actions on \'Profile\' tab)</string>
+    <string name="feature_description_export">* Export your playlist: Export the playlist created to other services like YouTube and Grooveshark! (\'Export Playlist\' action on \'Songs\' tab)</string>
+    <string name="feature_description_configure">* Configure your playlist: We provide several options to personalize your playlist, like Mood, Tempo and Danceability! You can also filter to songs from artists that you know or similar ones! (\'Playlist Options\' action on \'Songs\' tab)</string>
+    <string name="feature_description_more">* And much more! Get information from an artist, songs in an album, watch songs on YouTube, buy them at 7digital…</string>
+	<string name="disclaimer_echonest">Music recommendation, artist news, biography provided by The Echo Nest.</string>
+	<string name="disclaimer_sevendigital">Song, album, artist information, song samples and buy links provided by 7digital.</string>
+	<string name="disclaimer_designer">Launcher icons provided by Lucas Sanchez.</string>
+	<string name="disclaimer_rdio">Playlist fetch and export provided by Rdio.</string>
+	<string name="disclaimer_grooveshark">Playlist fetch and export provided by Grooveshark.</string>
+	<string name="disclaimer_lastfm">User top artists, playlist fetch and export provided by Last.fm.</string>
+    <string name="disclaimer_youtube">Video fetch, playlist fetch and export provided by YouTube.</string>
+    <string name="disclaimer_app">This product uses The Echo Nest API, 7digital API, Last.fm API, Grooveshark API, Rdio API and YouTube API, but it is not endorsed, certified, approved in any way by the mentioned services.</string>
+    <string name="clear_profile_warn_msg">All artists of your profile will be deleted. Are you sure?</string>
+    <string name="exception_io">Unable to reach the service provider. Check your internet connection!</string>
+    <string name="exception_artist_not_found">Artist not found!</string>
+    <string name="exception_song_not_found">Song not found!</string>
+    <string name="exception_user_not_found">User not found!</string>
+    <string name="exception_try_later">Service unavailable. Try later!</string>
+    <string name="exception_not_auth">Not authorized!</string>
+    <string name="exception_req_failed">The service informed that the requested operation failed. Try later!</string>
+    <string name="exception_unknown">Unknown error!</string>
+    
+    <string-array name="auto_clear_cache_entries_preference">
+        <item>Off</item>
+        <item>2 Mb</item>
+        <item>5 Mb</item>
+        <item>10 Mb</item>
+    </string-array>
+    <string-array name="auto_clear_cache_values_preference">
+        <item>0</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+
 </resources>

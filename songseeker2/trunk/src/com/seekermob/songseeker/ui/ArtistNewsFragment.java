@@ -225,7 +225,7 @@ public class ArtistNewsFragment extends SherlockListFragment {
 					newsList = EchoNestComm.getComm().getArtistNewsFromBucket(artist.id, MAX_NUM_NEWS, false);
 				}
 			} catch (ServiceCommException e) {
-				err = e.getMessage();
+				err = e.getMessage(getActivity());
 				return null;
 			}
 			

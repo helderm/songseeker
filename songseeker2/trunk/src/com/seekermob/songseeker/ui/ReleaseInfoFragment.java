@@ -349,7 +349,7 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 			try{
 				songList = SevenDigitalComm.getComm().queryReleaseSongList(mRelease.id);
 			}catch(ServiceCommException e){
-				err = e.getMessage();		
+				err = e.getMessage(getActivity());		
 				return null;
 			}			
 

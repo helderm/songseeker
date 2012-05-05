@@ -320,7 +320,7 @@ public class ExportPlaylistLastfmFragment extends SherlockListFragment {
 			try {				
 				LastfmComm.getComm().requestAuthorize(mUsername, mPassword, getActivity());
 			} catch (ServiceCommException e) {
-				err = e.getMessage();
+				err = e.getMessage(getActivity());
 				return null;
 			}
 			
@@ -370,7 +370,7 @@ public class ExportPlaylistLastfmFragment extends SherlockListFragment {
 			try{
 				playlists = LastfmComm.getComm().getUserPlaylists();
 			} catch(ServiceCommException e) {
-				err = e.getMessage();
+				err = e.getMessage(getActivity());
 				return null;
 			}
 			
@@ -462,7 +462,7 @@ public class ExportPlaylistLastfmFragment extends SherlockListFragment {
 			
 			if(!LastfmComm.getComm().isAuthorized()){
 				ServiceCommException e = new ServiceCommException(ServiceID.LASTFM, ServiceErr.NOT_AUTH);
-				err = e.getMessage();
+				err = e.getMessage(getActivity());
 				return null;
 			}
 			
@@ -488,7 +488,7 @@ public class ExportPlaylistLastfmFragment extends SherlockListFragment {
 					publishProgress(fetchCount.incrementAndGet());
 				}				
 			}catch (ServiceCommException e){
-				err = e.getMessage();
+				err = e.getMessage(getActivity());
 				return null;
 			}
 			

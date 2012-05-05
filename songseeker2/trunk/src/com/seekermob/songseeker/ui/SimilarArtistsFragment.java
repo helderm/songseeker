@@ -232,7 +232,7 @@ public class SimilarArtistsFragment extends SherlockListFragment {
 				}
 
 			} catch (ServiceCommException e) {
-				err = e.getMessage();
+				err = e.getMessage(getActivity());
 				return null;
 			} catch (EchoNestException e) {
 				err = e.getMessage();

@@ -61,12 +61,14 @@ public class ArtistInfoFragment extends SherlockListFragment{
 
 		//set adapter		
 		mAdapter = new ArtistReleasesAdapter(artistReleases);
-		setListHeader();
-		setListAdapter(mAdapter);
 		
 		//restore state
 		restoreLocalState(savedInstanceState);
-			
+		
+		//set header & adapter
+		setListHeader();
+		setListAdapter(mAdapter);		
+					
 		//set background image
 		if(mArtist.image != null){
 			ImageView bkg = (ImageView) getView().findViewById(R.id.background);
@@ -377,7 +379,7 @@ public class ArtistInfoFragment extends SherlockListFragment{
 				}		
 				
 			}catch(ServiceCommException e){
-				err = e.getMessage();		
+				err = e.getMessage(getActivity());		
 				return null;
 			}			
 			
