@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.seekermob.songseekerfree"
-    android:versionCode="14"
-    android:versionName="2.7.5" >
+    android:versionCode="15"
+    android:versionName="3.0.0" >
 
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="8" 
+        android:targetSdkVersion="15" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -27,31 +28,37 @@
 
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+        android:theme="@style/SongSeekerTheme" >
         <activity
-            android:name="com.seekermob.songseeker.activity.SongSeekerActivity"
-            android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan" >
+            android:name="com.seekermob.songseeker.ui.MainActivity"
+            android:uiOptions="splitActionBarWhenNarrow" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.seekermob.songseeker.activity.PlaylistOptionsActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="Playlist Options" >
+        <activity android:name="com.seekermob.songseeker.ui.PlaylistOptionsActivity" >
+        </activity>
+        <activity android:name="com.seekermob.songseeker.ui.MusicInfoActivity" >
+        </activity>
+        <activity android:name="com.seekermob.songseeker.ui.YouTubeVideosActivity" >
+        </activity>
+        <activity android:name="com.seekermob.songseeker.ui.SimilarArtistsActivity" >
+        </activity>
+        <activity android:name="com.seekermob.songseeker.ui.ArtistNewsActivity" >
+        </activity>
+        <activity android:name="com.seekermob.songseeker.ui.ArtistBioActivity" >
+        </activity>
+        <activity android:name="com.seekermob.songseeker.ui.ExportPlaylistGroovesharkActivity" >
+        </activity>
+        <activity android:name="com.seekermob.songseeker.ui.ExportPlaylistYouTubeActivity" >
+        </activity>
+        <activity android:name="com.seekermob.songseeker.ui.ExportPlaylistLastfmActivity" >
         </activity>
         <activity
-            android:name="com.seekermob.songseeker.activity.RecSongsActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="Playlist" >
-        </activity>
-        <activity
-            android:name="com.seekermob.songseeker.activity.CreatePlaylistRdioActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="Export to Rdio"
+            android:name="com.seekermob.songseeker.ui.ExportPlaylistRdioActivity"
             android:launchMode="singleInstance" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -64,70 +71,9 @@
                     android:scheme="oauth" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.seekermob.songseeker.activity.CreatePlaylistLastfmActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="Export to Last.fm" >
+        <activity android:name="com.seekermob.songseeker.ui.PreferencesActivity" >
         </activity>
-        <activity
-            android:name="com.seekermob.songseeker.activity.CreatePlaylistYoutubeActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="Export to YouTube" >
-        </activity>
-        <activity android:name="com.seekermob.songseeker.activity.SongInfoActivity" >
-        </activity>
-        <activity android:name="com.seekermob.songseeker.activity.ReleaseInfoActivity" >
-        </activity>
-        <activity android:name="com.seekermob.songseeker.activity.ArtistInfoActivity" >
-        </activity>
-        <activity
-            android:name="com.seekermob.songseeker.activity.ArtistBioActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="Artist Biography" >
-        </activity>
-        <activity
-            android:name="com.seekermob.songseeker.activity.ArtistNewsActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="Artist News" >
-        </activity>
-        <activity
-            android:name="com.seekermob.songseeker.activity.SimilarArtistsActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="Similar Artists" >
-        </activity>
-        <activity
-            android:name="com.seekermob.songseeker.activity.MusicInfoTab"
-            android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>
-        <activity
-            android:name="com.seekermob.songseeker.activity.CreatePlaylistGroovesharkActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="Export to Grooveshark" >
-        </activity>
-        <activity
-            android:name="com.seekermob.songseeker.activity.WatchSongVideoActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="Watch on YouTube" >
-        </activity>
-        <activity
-            android:name="com.seekermob.songseeker.activity.ProfileActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="Profile" >
-        </activity>
-        <activity
-            android:name="com.seekermob.songseeker.activity.SettingsActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="Settings" >
-        </activity>
-        <activity
-            android:name="com.seekermob.songseeker.activity.AboutActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="About" >
-        </activity>
-        <activity
-            android:name="com.seekermob.songseeker.activity.PlayPlaylistActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="Play on Dood's Music" >
+        <activity android:name="com.seekermob.songseeker.ui.AboutActivity" >
         </activity>
         <activity
             android:name="com.google.ads.AdActivity"
