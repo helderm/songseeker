@@ -90,6 +90,7 @@ public class YouTubeComm {
 		return names;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void requestAuthorize(String accountName, AccountManagerCallback<Bundle> callback, Context c){
 
 		GoogleAccountManager accountManager = new GoogleAccountManager(c);	

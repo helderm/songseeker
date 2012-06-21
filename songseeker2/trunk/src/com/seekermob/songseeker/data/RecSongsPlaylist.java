@@ -190,6 +190,11 @@ public class RecSongsPlaylist {
 	/** Add songs to the playlist methods*/
 	@SuppressWarnings("unchecked")
 	public void addSongsToPlaylist(ArrayList<SongInfo> songsInfo, Context c){		
+		if(songsInfo == null){
+			Toast.makeText(c, R.string.no_song_found, Toast.LENGTH_SHORT).show();			
+			return;
+		}
+		
 		new AddToPlaylistTask(c).execute(songsInfo);
 	}
 
@@ -220,14 +225,6 @@ public class RecSongsPlaylist {
 				if(song.id == null || song.name == null || song.artist.name == null || song.release.image == null){
 					continue;
 				}
-				
-				/*if(song.previewUrl == null){
-					try{
-						song.previewUrl = SevenDigitalComm.getComm().getPreviewUrl(song.id);
-					} catch(Exception e){
-						continue;
-					} 
-				}*/
 				
 				songs.add(song);
 			}				
