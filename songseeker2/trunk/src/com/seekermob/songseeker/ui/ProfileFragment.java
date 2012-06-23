@@ -43,7 +43,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 public class ProfileFragment extends SherlockListFragment{
 
 	protected ArtistsAdapter mAdapter;
-	protected ProfileTask mProfileTask;
+	protected ImportProfileTask mImportProfileTask;
 	private Bundle mSavedState;
 	
 	private static final String STATE_PROFILE_ARTIST_NAMES = "profileArtistNames";
@@ -92,8 +92,8 @@ public class ProfileFragment extends SherlockListFragment{
 		super.onDestroy();
 		
 		//cancel the profile task
-		if(mProfileTask != null && mProfileTask.getStatus() != AsyncTask.Status.FINISHED)
-			mProfileTask.cancel(true);
+		if(mImportProfileTask != null && mImportProfileTask.getStatus() != AsyncTask.Status.FINISHED)
+			mImportProfileTask.cancel(true);
 	}
 	
 	@Override
@@ -109,7 +109,7 @@ public class ProfileFragment extends SherlockListFragment{
 	public void onSaveInstanceState(Bundle outState) {
 	
 		//save the profile task if it is running
-		final ProfileTask task = mProfileTask;
+		final ImportProfileTask task = mImportProfileTask;
 		if(task != null && task.getStatus() != AsyncTask.Status.FINISHED){
 			task.cancel(true);
 			
@@ -120,7 +120,7 @@ public class ProfileFragment extends SherlockListFragment{
             //save what we already fetched of the profile into the device
             task.mUserProfile.syncAddArtistsToProfile(task.mArtistsProfile, getActivity());
             
-            mProfileTask = null;
+            mImportProfileTask = null;
 		}
 		
 		mSavedState = outState;
@@ -141,7 +141,7 @@ public class ProfileFragment extends SherlockListFragment{
 			int index = savedInstanceState.getInt(STATE_PROFILE_INDEX);
 			
 			if(artists != null)
-				mProfileTask = (ProfileTask) new ProfileTask(index, artists).execute();
+				mImportProfileTask = (ImportProfileTask) new ImportProfileTask(index, artists).execute();
 		}
 		
 		mSavedState = null;
@@ -158,7 +158,7 @@ public class ProfileFragment extends SherlockListFragment{
 		FragmentTransaction ft;
 		
 		if (item.getItemId() == R.id.menu_add_artist) {
-			if(isProfileTaskRunning()){
+			if(isTaskRunning()){
 				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
 				return true;
 			}
@@ -166,7 +166,7 @@ public class ProfileFragment extends SherlockListFragment{
 			dialog.showDialog(getActivity());
 			return true;
 		} else if (item.getItemId() == R.id.menu_import_artists) {
-			if(isProfileTaskRunning()){
+			if(isTaskRunning()){
 				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
 				return true;
 			}
@@ -175,7 +175,7 @@ public class ProfileFragment extends SherlockListFragment{
 			importDiag.show(ft, "import-dialog");
 			return true;
 		} else if (item.getItemId() == R.id.menu_clear_profile) {
-			if(isProfileTaskRunning()){
+			if(isTaskRunning()){
 				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
 				return true;
 			}
@@ -274,7 +274,7 @@ public class ProfileFragment extends SherlockListFragment{
 		startActivity(i);
 	}
 	
-	private class ProfileTask extends AsyncTask<Void, Integer, Void>{
+	private class ImportProfileTask extends AsyncTask<Void, Integer, Void>{
 		private UserProfile mUserProfile = mAdapter.prof;
 		private ArrayList<ArtistInfo> mArtists;		
 		private String mUsername; //used by Last.fm import
@@ -290,7 +290,7 @@ public class ProfileFragment extends SherlockListFragment{
 		private String err;
 		private String msg;
 
-        protected ProfileTask(String input, int taskType) {
+        protected ImportProfileTask(String input, int taskType) {
         	mFetchCount.set(0);
         	
         	mTaskType = taskType;
@@ -311,7 +311,7 @@ public class ProfileFragment extends SherlockListFragment{
         	}
         }
 
-		public ProfileTask(int index, ArrayList<ArtistInfo> artists) {
+		public ImportProfileTask(int index, ArrayList<ArtistInfo> artists) {
 			mArtists = artists;
 			mFetchCount.set(index);
 		}
@@ -485,15 +485,15 @@ public class ProfileFragment extends SherlockListFragment{
 	}
 
 	private void onCancelTasks() {
-        if(!isProfileTaskRunning())
+        if(!isTaskRunning())
         	return;		
 		
-        mProfileTask.cancel(true);
-        mProfileTask = null;        
+        mImportProfileTask.cancel(true);
+        mImportProfileTask = null;        
     }    
     
-    private boolean isProfileTaskRunning() {
-        if(mProfileTask != null && mProfileTask.getStatus() != AsyncTask.Status.FINISHED) {
+    private boolean isTaskRunning() {
+        if(mImportProfileTask != null && mImportProfileTask.getStatus() != AsyncTask.Status.FINISHED) {
             return true;
         } else {
             return false;
@@ -517,7 +517,7 @@ public class ProfileFragment extends SherlockListFragment{
 	    			ProfileFragment f = (ProfileFragment) getFragmentManager().findFragmentByTag(
 	                        "android:switcher:"+R.id.pager+":"+index); //that is the tag the ViewPager sets to the fragment
 
-	    			f.mProfileTask = (ProfileTask) f.new ProfileTask(null, IMPORT_TYPE_DEVICE).execute();
+	    			f.mImportProfileTask = (ImportProfileTask) f.new ImportProfileTask(null, IMPORT_TYPE_DEVICE).execute();
 	    			dismiss();            	
 	    		}
 	    	});
@@ -539,7 +539,7 @@ public class ProfileFragment extends SherlockListFragment{
 	}
 	
 	public void importProfile(String text, int type){
-		mProfileTask = (ProfileTask) new ProfileTask(text, type).execute();
+		mImportProfileTask = (ImportProfileTask) new ImportProfileTask(text, type).execute();
 	}
 	
 	public static class ConfirmDialogFragment extends DialogFragment{

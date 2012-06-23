@@ -237,6 +237,11 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			playSongsIntoDoodsMusic();
 			return true;
 		} else if (item.getItemId() == R.id.menu_refresh_songs) {
+			if(isAnyTaskRunning()){
+				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
+				return true;
+			}
+			
 			getNewPlaylist(null);
 			return true;
 		} else if (item.getItemId() == R.id.menu_playlist_options) {
@@ -244,6 +249,11 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			startActivity(i);
 			return true;
 		} else if (item.getItemId() == R.id.menu_export_playlist) {
+			if(isAnyTaskRunning()){
+				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
+				return true;
+			}
+			
 			if(mAdapter == null || mAdapter.playlist == null || mAdapter.playlist.size() == 0){
 				Toast.makeText(getActivity().getBaseContext(), R.string.no_song_found, Toast.LENGTH_SHORT).show();			
 				return true;
@@ -253,6 +263,11 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			exportDiag.show(ft, "export-dialog");
 			return true;
 		} else if (item.getItemId() == R.id.menu_search_artist) {
+			if(isAnyTaskRunning()){
+				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
+				return true;
+			}
+			
 			InputDialogFragment newFragment = InputDialogFragment.newInstance(R.string.artist_name, DIALOG_ARTIST_NAME);
 			newFragment.showDialog(getActivity());
 			return true;
@@ -408,8 +423,10 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		SongInfo song = mAdapter.getItem(position);
 		
-		if(mSongDetailsTask != null && mSongDetailsTask.getStatus() != AsyncTask.Status.FINISHED)
-			mSongDetailsTask.cancel(true);			
+		if(isAnyTaskRunning()){
+			Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
+			return;
+		}		
 		
 		//check if we have enough info of the song to show the tabs
 		if(song.buyUrl == null || song.artist.buyUrl == null || song.artist.id == null ||
@@ -598,7 +615,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	/** play the playlist into Dood's Music*/
 	private void playSongsIntoDoodsMusic(){
 
-		if(isPlaySongsTaskRunning()){
+		if(isAnyTaskRunning()){
 			Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -767,7 +784,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	}
     
     private void onCancelTasks() {
-        if(isPlaySongsTaskRunning()){
+    	if(mPlaySongsTask != null && mPlaySongsTask.getStatus() != AsyncTask.Status.FINISHED) {
         	mPlaySongsTask.cancel(true);
             mPlaySongsTask = null;
         }  
@@ -779,12 +796,16 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
                 
     }
     
-    private boolean isPlaySongsTaskRunning() {
+    private boolean isAnyTaskRunning() {
         if(mPlaySongsTask != null && mPlaySongsTask.getStatus() != AsyncTask.Status.FINISHED) {
             return true;
-        }else {
-            return false;
         }
+        
+        if(mSongDetailsTask != null && mSongDetailsTask.getStatus() != AsyncTask.Status.FINISHED) {
+            return true;
+        }
+        
+        return false;
     }
 	
 	public static class ExportDialogFragment extends DialogFragment{

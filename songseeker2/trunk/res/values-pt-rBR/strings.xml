@@ -83,7 +83,7 @@
     <string name="share_album_text">Eu descobri um novo album usando o app Song Seeker para Android! Confira lá!</string>
     <string name="share_artist_text">Eu descobri um novo artista usando o app Song Seeker para Android! Confira lá!</string>
     <string name="youtube_videos_title">Videos do YouTube</string>
-    <string name="youtube_videos_frag_empty">Nnenhum video encontrado!</string>
+    <string name="youtube_videos_frag_empty">Nenhum video encontrado!</string>
     <string name="similar_artists_title">Artistas Similares</string>
     <string name="similar_artists_frag_empty">Nenhum artista similar encontrado!</string>
     <string name="artist_news_title">Notícias</string>
@@ -116,7 +116,7 @@
     <string name="cache_preferences">Preferencias de Cache</string>
     <string name="auto_clear_cache_title_str">Auto Limpar Cache</string>
     <string name="auto_clear_cache_summ_str">Automaticamente limpa os dados de cache quando chegam no tamanho especificado</string>
-    <string name="auth_cleared">Autenticações limpasd!</string>
+    <string name="auth_cleared">Autenticações limpas!</string>
     <string name="clearing_cache">Limpando a cache, por favor aguarde…</string>
     <string name="cache_cleared">Cache limpa!</string>
     <string name="cache_auto_cleared">Cache auto limpa!</string>
