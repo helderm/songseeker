@@ -74,14 +74,14 @@
     <string name="add_to_profile">Adicionar ao Perfil</string>
     <string name="artist_top_songs">Top Músicas do Artista</string>
     <string name="song_list">Lista de Músicas</string>
-    <string name="artist_albums">Albums do Artista</string>
+    <string name="artist_albums">Álbuns do Artista</string>
     <string name="artistinfo_bio">Biografia >></string>
     <string name="artistinfo_news">Notícias >></string>
     <string name="artistinfo_similar">Artistas Similares >></string>
     <string name="share_using">Compartilhar usando…</string>
-    <string name="share_song_text">Eu descobri uma nova música usando o app Song Seeker para Android! Confira lá!</string>
-    <string name="share_album_text">Eu descobri um novo album usando o app Song Seeker para Android! Confira lá!</string>
-    <string name="share_artist_text">Eu descobri um novo artista usando o app Song Seeker para Android! Confira lá!</string>
+    <string name="share_song_text">Eu descobri uma nova música usando o app Song Seeker para Android! Confira!</string>
+    <string name="share_album_text">Eu descobri um novo album usando o app Song Seeker para Android! Confira!</string>
+    <string name="share_artist_text">Eu descobri um novo artista usando o app Song Seeker para Android! Confira!</string>
     <string name="youtube_videos_title">Videos do YouTube</string>
     <string name="youtube_videos_frag_empty">Nenhum video encontrado!</string>
     <string name="similar_artists_title">Artistas Similares</string>
@@ -144,6 +144,10 @@
     <string name="exception_not_auth">Nao autorizado!</string>
     <string name="exception_req_failed">O serviço informou que a operação falhou. Tente mais tarde!</string>
     <string name="exception_unknown">Erro desconhecido!</string>
+    <string name="playlists_frag_empty_list">Nenhuma lista salva.</string>
+    <string name="play_in_dms">Tocar no Dood\'s Music</string>
+    <string name="play_in_grooveshark">Tocar no Grooveshark Web</string>
+    <string name="requires_flash">Essa funcionalidade requer que Flash Player esteja instalado.</string>
     
     <string-array name="auto_clear_cache_entries_preference">
         <item>Off</item>

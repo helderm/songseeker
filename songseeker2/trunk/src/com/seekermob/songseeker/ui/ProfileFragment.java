@@ -58,6 +58,8 @@ public class ProfileFragment extends SherlockListFragment{
 	public static final int IMPORT_TYPE_USER = 0;
 	public static final int IMPORT_TYPE_DEVICE = 1;
 	public static final int IMPORT_TYPE_LASTFM = 2;
+	
+	public static final int TAB_ID = 1;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -210,7 +212,7 @@ public class ProfileFragment extends SherlockListFragment{
 		return super.onContextItemSelected(item);
 	}
 	
-	public class ArtistsAdapter extends BaseAdapter {
+	private class ArtistsAdapter extends BaseAdapter {
 
 		private UserProfile prof;	 
 		private LayoutInflater inflater;

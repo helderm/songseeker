@@ -144,6 +144,10 @@
     <string name="exception_not_auth">Not authorized!</string>
     <string name="exception_req_failed">The service informed that the requested operation failed. Try later!</string>
     <string name="exception_unknown">Unknown error!</string>
+    <string name="playlists_frag_empty_list">No saved playlists.</string>
+    <string name="play_in_dms">Play in Dood\'s Music</string>
+    <string name="play_in_grooveshark">Play in Grooveshark Web</string>
+    <string name="requires_flash">This feature requires the Flash Player installed.</string>
     
     <string-array name="auto_clear_cache_entries_preference">
         <item>Off</item>

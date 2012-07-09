@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/menu_save_playlist"
+        android:icon="@drawable/ic_action_save_playlist"
+        android:showAsAction="ifRoom"
+        android:title="@string/save_playlist"/>
+    <item
         android:id="@+id/menu_clear_playlists"
         android:icon="@drawable/ic_action_clear"
         android:showAsAction="ifRoom"
