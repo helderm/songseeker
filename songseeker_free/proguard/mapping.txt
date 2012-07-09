@@ -1,5 +1,9 @@
+android.support.v4.app.ActivityCompat -> android.support.v4.app.ActivityCompat:
+    boolean invalidateOptionsMenu(android.app.Activity) -> invalidateOptionsMenu
+    boolean startActivities(android.app.Activity,android.content.Intent[]) -> startActivities
 android.support.v4.app.ActivityCompatHoneycomb -> android.support.v4.app.ActivityCompatHoneycomb:
     void invalidateOptionsMenu(android.app.Activity) -> invalidateOptionsMenu
+    void startActivities(android.app.Activity,android.content.Intent[]) -> startActivities
     void dump(android.app.Activity,java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> dump
 android.support.v4.app.BackStackRecord -> android.support.v4.app.BackStackRecord:
     java.lang.String TAG -> TAG
@@ -721,13 +725,183 @@ android.support.v4.app.LoaderManagerImpl$LoaderInfo -> android.support.v4.app.Lo
     void callOnLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> callOnLoadFinished
     java.lang.String toString() -> toString
     void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> dump
+android.support.v4.app.NavUtils -> android.support.v4.app.NavUtils:
+    java.lang.String TAG -> TAG
+    java.lang.String PARENT_ACTIVITY -> PARENT_ACTIVITY
+    boolean shouldUpRecreateTask(android.app.Activity,android.content.Intent) -> shouldUpRecreateTask
+    void navigateUpFromSameTask(android.app.Activity) -> navigateUpFromSameTask
+    void navigateUpTo(android.app.Activity,android.content.Intent) -> navigateUpTo
+    android.content.Intent getParentActivityIntent(android.app.Activity) -> getParentActivityIntent
+    android.content.Intent getParentActivityIntent(android.content.Context,java.lang.Class) -> getParentActivityIntent
+    android.content.Intent getParentActivityIntent(android.content.Context,android.content.ComponentName) -> getParentActivityIntent
+    java.lang.String getParentActivityName(android.app.Activity) -> getParentActivityName
+    java.lang.String getParentActivityName(android.content.Context,android.content.ComponentName) -> getParentActivityName
 android.support.v4.app.NoSaveStateFrameLayout -> android.support.v4.app.NoSaveStateFrameLayout:
     android.view.ViewGroup wrap(android.view.View) -> wrap
     void dispatchSaveInstanceState(android.util.SparseArray) -> dispatchSaveInstanceState
     void dispatchRestoreInstanceState(android.util.SparseArray) -> dispatchRestoreInstanceState
+android.support.v4.app.NotificationCompat -> android.support.v4.app.NotificationCompat:
+    int FLAG_HIGH_PRIORITY -> FLAG_HIGH_PRIORITY
+    android.support.v4.app.NotificationCompat$NotificationCompatImpl IMPL -> IMPL
+    android.support.v4.app.NotificationCompat$NotificationCompatImpl access$000() -> access$000
+android.support.v4.app.NotificationCompat$Builder -> android.support.v4.app.NotificationCompat$Builder:
+    android.content.Context mContext -> mContext
+    java.lang.CharSequence mContentTitle -> mContentTitle
+    java.lang.CharSequence mContentText -> mContentText
+    android.app.PendingIntent mContentIntent -> mContentIntent
+    android.app.PendingIntent mFullScreenIntent -> mFullScreenIntent
+    android.widget.RemoteViews mTickerView -> mTickerView
+    android.graphics.Bitmap mLargeIcon -> mLargeIcon
+    java.lang.CharSequence mContentInfo -> mContentInfo
+    int mNumber -> mNumber
+    android.app.Notification mNotification -> mNotification
+    android.support.v4.app.NotificationCompat$Builder setWhen(long) -> setWhen
+    android.support.v4.app.NotificationCompat$Builder setSmallIcon(int) -> setSmallIcon
+    android.support.v4.app.NotificationCompat$Builder setSmallIcon(int,int) -> setSmallIcon
+    android.support.v4.app.NotificationCompat$Builder setContentTitle(java.lang.CharSequence) -> setContentTitle
+    android.support.v4.app.NotificationCompat$Builder setContentText(java.lang.CharSequence) -> setContentText
+    android.support.v4.app.NotificationCompat$Builder setNumber(int) -> setNumber
+    android.support.v4.app.NotificationCompat$Builder setContentInfo(java.lang.CharSequence) -> setContentInfo
+    android.support.v4.app.NotificationCompat$Builder setContent(android.widget.RemoteViews) -> setContent
+    android.support.v4.app.NotificationCompat$Builder setContentIntent(android.app.PendingIntent) -> setContentIntent
+    android.support.v4.app.NotificationCompat$Builder setDeleteIntent(android.app.PendingIntent) -> setDeleteIntent
+    android.support.v4.app.NotificationCompat$Builder setFullScreenIntent(android.app.PendingIntent,boolean) -> setFullScreenIntent
+    android.support.v4.app.NotificationCompat$Builder setTicker(java.lang.CharSequence) -> setTicker
+    android.support.v4.app.NotificationCompat$Builder setTicker(java.lang.CharSequence,android.widget.RemoteViews) -> setTicker
+    android.support.v4.app.NotificationCompat$Builder setLargeIcon(android.graphics.Bitmap) -> setLargeIcon
+    android.support.v4.app.NotificationCompat$Builder setSound(android.net.Uri) -> setSound
+    android.support.v4.app.NotificationCompat$Builder setSound(android.net.Uri,int) -> setSound
+    android.support.v4.app.NotificationCompat$Builder setVibrate(long[]) -> setVibrate
+    android.support.v4.app.NotificationCompat$Builder setLights(int,int,int) -> setLights
+    android.support.v4.app.NotificationCompat$Builder setOngoing(boolean) -> setOngoing
+    android.support.v4.app.NotificationCompat$Builder setOnlyAlertOnce(boolean) -> setOnlyAlertOnce
+    android.support.v4.app.NotificationCompat$Builder setAutoCancel(boolean) -> setAutoCancel
+    android.support.v4.app.NotificationCompat$Builder setDefaults(int) -> setDefaults
+    void setFlag(int,boolean) -> setFlag
+    android.app.Notification getNotification() -> getNotification
+android.support.v4.app.NotificationCompat$NotificationCompatImpl -> android.support.v4.app.NotificationCompat$NotificationCompatImpl:
+    android.app.Notification getNotification(android.support.v4.app.NotificationCompat$Builder) -> getNotification
+android.support.v4.app.NotificationCompat$NotificationCompatImplBase -> android.support.v4.app.NotificationCompat$NotificationCompatImplBase:
+    android.app.Notification getNotification(android.support.v4.app.NotificationCompat$Builder) -> getNotification
+android.support.v4.app.NotificationCompat$NotificationCompatImplHoneycomb -> android.support.v4.app.NotificationCompat$NotificationCompatImplHoneycomb:
+    android.app.Notification getNotification(android.support.v4.app.NotificationCompat$Builder) -> getNotification
+android.support.v4.app.NotificationCompatHoneycomb -> android.support.v4.app.NotificationCompatHoneycomb:
+    android.app.Notification add(android.content.Context,android.app.Notification,java.lang.CharSequence,java.lang.CharSequence,java.lang.CharSequence,android.widget.RemoteViews,int,android.app.PendingIntent,android.app.PendingIntent,android.graphics.Bitmap) -> add
 android.support.v4.app.ServiceCompat -> android.support.v4.app.ServiceCompat:
     int START_STICKY -> START_STICKY
+android.support.v4.app.ShareCompat -> android.support.v4.app.ShareCompat:
+    java.lang.String EXTRA_CALLING_PACKAGE -> EXTRA_CALLING_PACKAGE
+    java.lang.String EXTRA_CALLING_ACTIVITY -> EXTRA_CALLING_ACTIVITY
+    android.support.v4.app.ShareCompat$ShareCompatImpl IMPL -> IMPL
+    java.lang.String getCallingPackage(android.app.Activity) -> getCallingPackage
+    android.content.ComponentName getCallingActivity(android.app.Activity) -> getCallingActivity
+    void configureMenuItem(android.view.MenuItem,android.support.v4.app.ShareCompat$IntentBuilder) -> configureMenuItem
+    void configureMenuItem(android.view.Menu,int,android.support.v4.app.ShareCompat$IntentBuilder) -> configureMenuItem
+android.support.v4.app.ShareCompat$IntentBuilder -> android.support.v4.app.ShareCompat$IntentBuilder:
+    android.app.Activity mActivity -> mActivity
+    android.content.Intent mIntent -> mIntent
+    java.lang.CharSequence mChooserTitle -> mChooserTitle
+    java.util.ArrayList mToAddresses -> mToAddresses
+    java.util.ArrayList mCcAddresses -> mCcAddresses
+    java.util.ArrayList mBccAddresses -> mBccAddresses
+    java.util.ArrayList mStreams -> mStreams
+    android.support.v4.app.ShareCompat$IntentBuilder from(android.app.Activity) -> from
+    android.content.Intent getIntent() -> getIntent
+    android.app.Activity getActivity() -> getActivity
+    void combineArrayExtra(java.lang.String,java.util.ArrayList) -> combineArrayExtra
+    void combineArrayExtra(java.lang.String,java.lang.String[]) -> combineArrayExtra
+    android.content.Intent createChooserIntent() -> createChooserIntent
+    void startChooser() -> startChooser
+    android.support.v4.app.ShareCompat$IntentBuilder setChooserTitle(java.lang.CharSequence) -> setChooserTitle
+    android.support.v4.app.ShareCompat$IntentBuilder setChooserTitle(int) -> setChooserTitle
+    android.support.v4.app.ShareCompat$IntentBuilder setType(java.lang.String) -> setType
+    android.support.v4.app.ShareCompat$IntentBuilder setText(java.lang.CharSequence) -> setText
+    android.support.v4.app.ShareCompat$IntentBuilder setStream(android.net.Uri) -> setStream
+    android.support.v4.app.ShareCompat$IntentBuilder addStream(android.net.Uri) -> addStream
+    android.support.v4.app.ShareCompat$IntentBuilder setEmailTo(java.lang.String[]) -> setEmailTo
+    android.support.v4.app.ShareCompat$IntentBuilder addEmailTo(java.lang.String) -> addEmailTo
+    android.support.v4.app.ShareCompat$IntentBuilder addEmailTo(java.lang.String[]) -> addEmailTo
+    android.support.v4.app.ShareCompat$IntentBuilder setEmailCc(java.lang.String[]) -> setEmailCc
+    android.support.v4.app.ShareCompat$IntentBuilder addEmailCc(java.lang.String) -> addEmailCc
+    android.support.v4.app.ShareCompat$IntentBuilder addEmailCc(java.lang.String[]) -> addEmailCc
+    android.support.v4.app.ShareCompat$IntentBuilder setEmailBcc(java.lang.String[]) -> setEmailBcc
+    android.support.v4.app.ShareCompat$IntentBuilder addEmailBcc(java.lang.String) -> addEmailBcc
+    android.support.v4.app.ShareCompat$IntentBuilder addEmailBcc(java.lang.String[]) -> addEmailBcc
+    android.support.v4.app.ShareCompat$IntentBuilder setSubject(java.lang.String) -> setSubject
+android.support.v4.app.ShareCompat$IntentReader -> android.support.v4.app.ShareCompat$IntentReader:
+    java.lang.String TAG -> TAG
+    android.app.Activity mActivity -> mActivity
+    android.content.Intent mIntent -> mIntent
+    java.lang.String mCallingPackage -> mCallingPackage
+    android.content.ComponentName mCallingActivity -> mCallingActivity
+    java.util.ArrayList mStreams -> mStreams
+    android.support.v4.app.ShareCompat$IntentReader from(android.app.Activity) -> from
+    boolean isShareIntent() -> isShareIntent
+    boolean isSingleShare() -> isSingleShare
+    boolean isMultipleShare() -> isMultipleShare
+    java.lang.String getType() -> getType
+    java.lang.CharSequence getText() -> getText
+    android.net.Uri getStream() -> getStream
+    android.net.Uri getStream(int) -> getStream
+    int getStreamCount() -> getStreamCount
+    java.lang.String[] getEmailTo() -> getEmailTo
+    java.lang.String[] getEmailCc() -> getEmailCc
+    java.lang.String[] getEmailBcc() -> getEmailBcc
+    java.lang.String getSubject() -> getSubject
+    java.lang.String getCallingPackage() -> getCallingPackage
+    android.content.ComponentName getCallingActivity() -> getCallingActivity
+    android.graphics.drawable.Drawable getCallingActivityIcon() -> getCallingActivityIcon
+    android.graphics.drawable.Drawable getCallingApplicationIcon() -> getCallingApplicationIcon
+    java.lang.CharSequence getCallingApplicationLabel() -> getCallingApplicationLabel
+android.support.v4.app.ShareCompat$ShareCompatImpl -> android.support.v4.app.ShareCompat$ShareCompatImpl:
+    void configureMenuItem(android.view.MenuItem,android.support.v4.app.ShareCompat$IntentBuilder) -> configureMenuItem
+android.support.v4.app.ShareCompat$ShareCompatImplBase -> android.support.v4.app.ShareCompat$ShareCompatImplBase:
+    void configureMenuItem(android.view.MenuItem,android.support.v4.app.ShareCompat$IntentBuilder) -> configureMenuItem
+android.support.v4.app.ShareCompat$ShareCompatImplICS -> android.support.v4.app.ShareCompat$ShareCompatImplICS:
+    void configureMenuItem(android.view.MenuItem,android.support.v4.app.ShareCompat$IntentBuilder) -> configureMenuItem
+android.support.v4.app.ShareCompatICS -> android.support.v4.app.ShareCompatICS:
+    java.lang.String HISTORY_FILENAME_PREFIX -> HISTORY_FILENAME_PREFIX
+    void configureMenuItem(android.view.MenuItem,android.app.Activity,android.content.Intent) -> configureMenuItem
 android.support.v4.app.SuperNotCalledException -> android.support.v4.app.SuperNotCalledException:
+android.support.v4.app.TaskStackBuilder -> android.support.v4.app.TaskStackBuilder:
+    java.lang.String TAG -> TAG
+    android.support.v4.app.TaskStackBuilder$TaskStackBuilderImpl IMPL -> IMPL
+    java.util.ArrayList mIntents -> mIntents
+    android.content.Context mSourceContext -> mSourceContext
+    android.support.v4.app.TaskStackBuilder from(android.content.Context) -> from
+    android.support.v4.app.TaskStackBuilder addNextIntent(android.content.Intent) -> addNextIntent
+    android.support.v4.app.TaskStackBuilder addParentStack(android.app.Activity) -> addParentStack
+    android.support.v4.app.TaskStackBuilder addParentStack(java.lang.Class) -> addParentStack
+    int getIntentCount() -> getIntentCount
+    android.content.Intent getIntent(int) -> getIntent
+    java.util.Iterator iterator() -> iterator
+    void startActivities() -> startActivities
+    android.app.PendingIntent getPendingIntent(int,int) -> getPendingIntent
+android.support.v4.app.TaskStackBuilder$TaskStackBuilderImpl -> android.support.v4.app.TaskStackBuilder$TaskStackBuilderImpl:
+    android.app.PendingIntent getPendingIntent(android.content.Context,android.content.Intent[],int,int) -> getPendingIntent
+android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplBase -> android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplBase:
+    android.app.PendingIntent getPendingIntent(android.content.Context,android.content.Intent[],int,int) -> getPendingIntent
+android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplHoneycomb -> android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplHoneycomb:
+    android.app.PendingIntent getPendingIntent(android.content.Context,android.content.Intent[],int,int) -> getPendingIntent
+android.support.v4.app.TaskStackBuilderHoneycomb -> android.support.v4.app.TaskStackBuilderHoneycomb:
+    android.app.PendingIntent getActivitiesPendingIntent(android.content.Context,int,android.content.Intent[],int) -> getActivitiesPendingIntent
+android.support.v4.app._ActionBarSherlockTrojanHorse -> android.support.v4.app._ActionBarSherlockTrojanHorse:
+    boolean DEBUG -> DEBUG
+    java.lang.String TAG -> TAG
+    java.util.ArrayList mCreatedMenus -> mCreatedMenus
+    boolean onCreatePanelMenu(int,com.actionbarsherlock.view.Menu) -> onCreatePanelMenu
+    boolean onPreparePanel(int,android.view.View,com.actionbarsherlock.view.Menu) -> onPreparePanel
+    boolean onMenuItemSelected(int,com.actionbarsherlock.view.MenuItem) -> onMenuItemSelected
+    boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu) -> onCreateOptionsMenu
+    boolean onPrepareOptionsMenu(com.actionbarsherlock.view.Menu) -> onPrepareOptionsMenu
+    boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
+    com.actionbarsherlock.view.MenuInflater getSupportMenuInflater() -> getSupportMenuInflater
+android.support.v4.app._ActionBarSherlockTrojanHorse$OnCreateOptionsMenuListener -> android.support.v4.app._ActionBarSherlockTrojanHorse$OnCreateOptionsMenuListener:
+    void onCreateOptionsMenu(com.actionbarsherlock.view.Menu,com.actionbarsherlock.view.MenuInflater) -> onCreateOptionsMenu
+android.support.v4.app._ActionBarSherlockTrojanHorse$OnOptionsItemSelectedListener -> android.support.v4.app._ActionBarSherlockTrojanHorse$OnOptionsItemSelectedListener:
+    boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
+android.support.v4.app._ActionBarSherlockTrojanHorse$OnPrepareOptionsMenuListener -> android.support.v4.app._ActionBarSherlockTrojanHorse$OnPrepareOptionsMenuListener:
+    void onPrepareOptionsMenu(com.actionbarsherlock.view.Menu) -> onPrepareOptionsMenu
 android.support.v4.content.Loader -> android.support.v4.a.a:
     int mId -> a
     android.support.v4.content.Loader$OnLoadCompleteListener mListener -> b
@@ -931,6 +1105,7 @@ android.support.v4.view.ViewPager -> android.support.v4.view.ViewPager:
     android.support.v4.view.ViewPager$OnPageChangeListener mInternalPageChangeListener -> O
     android.support.v4.view.ViewPager$OnAdapterChangeListener mAdapterChangeListener -> P
     int mScrollState -> Q
+    void initViewPager() -> f
     void setScrollState(int) -> b
     void setAdapter(android.support.v4.view.PagerAdapter) -> a
     android.support.v4.view.PagerAdapter getAdapter() -> a
@@ -947,7 +1122,7 @@ android.support.v4.view.ViewPager -> android.support.v4.view.ViewPager:
     void drawableStateChanged() -> drawableStateChanged
     void addNewItem(int,int) -> a
     void dataSetChanged() -> d
-    void populate() -> f
+    void populate() -> g
     android.os.Parcelable onSaveInstanceState() -> onSaveInstanceState
     void onRestoreInstanceState(android.os.Parcelable) -> onRestoreInstanceState
     void addView(android.view.View,int,android.view.ViewGroup$LayoutParams) -> addView
@@ -958,18 +1133,18 @@ android.support.v4.view.ViewPager -> android.support.v4.view.ViewPager:
     void onLayout(boolean,int,int,int,int) -> onLayout
     void computeScroll() -> computeScroll
     void pageScrolled(int) -> d
-    void completeScroll() -> g
+    void completeScroll() -> h
     boolean onInterceptTouchEvent(android.view.MotionEvent) -> onInterceptTouchEvent
     boolean onTouchEvent(android.view.MotionEvent) -> onTouchEvent
     void draw(android.graphics.Canvas) -> draw
     void onDraw(android.graphics.Canvas) -> onDraw
     void onSecondaryPointerUp(android.view.MotionEvent) -> a
-    void endDrag() -> h
+    void endDrag() -> i
     void setScrollingCacheEnabled(boolean) -> a
     boolean canScroll(android.view.View,boolean,int,int,int) -> a
     boolean dispatchKeyEvent(android.view.KeyEvent) -> dispatchKeyEvent
     boolean arrowScroll(int) -> e
-    boolean pageLeft() -> i
+    boolean pageLeft() -> j
     void addFocusables(java.util.ArrayList,int,int) -> addFocusables
     void addTouchables(java.util.ArrayList) -> addTouchables
     boolean onRequestFocusInDescendants(int,android.graphics.Rect) -> onRequestFocusInDescendants
@@ -1073,6 +1248,7 @@ com.actionbarsherlock.ActionBarSherlock -> com.actionbarsherlock.ActionBarSherlo
     boolean dispatchOptionsItemSelected(android.view.MenuItem) -> dispatchOptionsItemSelected
     boolean dispatchMenuOpened(int,android.view.Menu) -> dispatchMenuOpened
     void dispatchPanelClosed(int,android.view.Menu) -> dispatchPanelClosed
+    void dispatchDestroy() -> dispatchDestroy
     boolean callbackCreateOptionsMenu(com.actionbarsherlock.view.Menu) -> callbackCreateOptionsMenu
     boolean callbackPrepareOptionsMenu(com.actionbarsherlock.view.Menu) -> callbackPrepareOptionsMenu
     boolean callbackOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> callbackOptionsItemSelected
@@ -1141,10 +1317,13 @@ com.actionbarsherlock.R$attr -> com.actionbarsherlock.R$attr:
     int actionModeCloseButtonStyle -> actionModeCloseButtonStyle
     int actionModeCloseDrawable -> actionModeCloseDrawable
     int actionModePopupWindowStyle -> actionModePopupWindowStyle
+    int actionModeShareDrawable -> actionModeShareDrawable
     int actionModeSplitBackground -> actionModeSplitBackground
     int actionModeStyle -> actionModeStyle
     int actionOverflowButtonStyle -> actionOverflowButtonStyle
     int actionSpinnerItemStyle -> actionSpinnerItemStyle
+    int activatedBackgroundIndicator -> activatedBackgroundIndicator
+    int activityChooserViewStyle -> activityChooserViewStyle
     int background -> background
     int backgroundSplit -> backgroundSplit
     int backgroundStacked -> backgroundStacked
@@ -1155,6 +1334,7 @@ com.actionbarsherlock.R$attr -> com.actionbarsherlock.R$attr:
     int dividerVertical -> dividerVertical
     int dropDownListViewStyle -> dropDownListViewStyle
     int dropdownListPreferredItemHeight -> dropdownListPreferredItemHeight
+    int expandActivityOverflowButtonDrawable -> expandActivityOverflowButtonDrawable
     int headerBackground -> headerBackground
     int height -> height
     int homeAsUpIndicator -> homeAsUpIndicator
@@ -1162,10 +1342,12 @@ com.actionbarsherlock.R$attr -> com.actionbarsherlock.R$attr:
     int horizontalDivider -> horizontalDivider
     int icon -> icon
     int indeterminateProgressStyle -> indeterminateProgressStyle
+    int initialActivityCount -> initialActivityCount
     int itemBackground -> itemBackground
     int itemIconDisabledAlpha -> itemIconDisabledAlpha
     int itemPadding -> itemPadding
     int itemTextAppearance -> itemTextAppearance
+    int listPopupWindowStyle -> listPopupWindowStyle
     int listPreferredItemHeightSmall -> listPreferredItemHeightSmall
     int listPreferredItemPaddingLeft -> listPreferredItemPaddingLeft
     int listPreferredItemPaddingRight -> listPreferredItemPaddingRight
@@ -1256,6 +1438,8 @@ com.actionbarsherlock.R$drawable -> com.actionbarsherlock.R$drawable:
     int abs__ab_bottom_solid_light_holo -> abs__ab_bottom_solid_light_holo
     int abs__ab_bottom_transparent_dark_holo -> abs__ab_bottom_transparent_dark_holo
     int abs__ab_bottom_transparent_light_holo -> abs__ab_bottom_transparent_light_holo
+    int abs__ab_share_pack_holo_dark -> abs__ab_share_pack_holo_dark
+    int abs__ab_share_pack_holo_light -> abs__ab_share_pack_holo_light
     int abs__ab_solid_dark_holo -> abs__ab_solid_dark_holo
     int abs__ab_solid_light_holo -> abs__ab_solid_light_holo
     int abs__ab_solid_shadow_holo -> abs__ab_solid_shadow_holo
@@ -1266,6 +1450,8 @@ com.actionbarsherlock.R$drawable -> com.actionbarsherlock.R$drawable:
     int abs__ab_stacked_transparent_light_holo -> abs__ab_stacked_transparent_light_holo
     int abs__ab_transparent_dark_holo -> abs__ab_transparent_dark_holo
     int abs__ab_transparent_light_holo -> abs__ab_transparent_light_holo
+    int abs__activated_background_holo_dark -> abs__activated_background_holo_dark
+    int abs__activated_background_holo_light -> abs__activated_background_holo_light
     int abs__btn_cab_done_default_holo_dark -> abs__btn_cab_done_default_holo_dark
     int abs__btn_cab_done_default_holo_light -> abs__btn_cab_done_default_holo_light
     int abs__btn_cab_done_focused_holo_dark -> abs__btn_cab_done_focused_holo_dark
@@ -1290,8 +1476,11 @@ com.actionbarsherlock.R$drawable -> com.actionbarsherlock.R$drawable:
     int abs__ic_menu_moreoverflow_holo_light -> abs__ic_menu_moreoverflow_holo_light
     int abs__ic_menu_moreoverflow_normal_holo_dark -> abs__ic_menu_moreoverflow_normal_holo_dark
     int abs__ic_menu_moreoverflow_normal_holo_light -> abs__ic_menu_moreoverflow_normal_holo_light
+    int abs__ic_menu_share_holo_dark -> abs__ic_menu_share_holo_dark
+    int abs__ic_menu_share_holo_light -> abs__ic_menu_share_holo_light
     int abs__item_background_holo_dark -> abs__item_background_holo_dark
     int abs__item_background_holo_light -> abs__item_background_holo_light
+    int abs__list_activated_holo -> abs__list_activated_holo
     int abs__list_divider_holo_dark -> abs__list_divider_holo_dark
     int abs__list_divider_holo_light -> abs__list_divider_holo_light
     int abs__list_focused_holo -> abs__list_focused_holo
@@ -1452,11 +1641,16 @@ com.actionbarsherlock.R$id -> com.actionbarsherlock.R$id:
     int abs__action_mode_bar -> abs__action_mode_bar
     int abs__action_mode_bar_stub -> abs__action_mode_bar_stub
     int abs__action_mode_close_button -> abs__action_mode_close_button
+    int abs__activity_chooser_view_content -> abs__activity_chooser_view_content
     int abs__checkbox -> abs__checkbox
     int abs__content -> abs__content
+    int abs__default_activity_button -> abs__default_activity_button
+    int abs__expand_activities_button -> abs__expand_activities_button
     int abs__home -> abs__home
     int abs__icon -> abs__icon
+    int abs__image -> abs__image
     int abs__imageButton -> abs__imageButton
+    int abs__list_item -> abs__list_item
     int abs__progress_circular -> abs__progress_circular
     int abs__progress_horizontal -> abs__progress_horizontal
     int abs__radio -> abs__radio
@@ -1525,6 +1719,7 @@ com.actionbarsherlock.R$id -> com.actionbarsherlock.R$id:
     int menu_play_songs -> menu_play_songs
     int menu_playlist_options -> menu_playlist_options
     int menu_refresh_songs -> menu_refresh_songs
+    int menu_save_playlist -> menu_save_playlist
     int menu_search_artist -> menu_search_artist
     int menu_settings -> menu_settings
     int menu_share -> menu_share
@@ -1536,6 +1731,8 @@ com.actionbarsherlock.R$id -> com.actionbarsherlock.R$id:
     int overlay_update -> overlay_update
     int pager -> pager
     int password_input -> password_input
+    int play_in_dms -> play_in_dms
+    int play_in_grooveshark -> play_in_grooveshark
     int playpause -> playpause
     int progress_container -> progress_container
     int rdio_disclaimer -> rdio_disclaimer
@@ -1592,6 +1789,8 @@ com.actionbarsherlock.R$layout -> com.actionbarsherlock.R$layout:
     int abs__action_menu_layout -> abs__action_menu_layout
     int abs__action_mode_bar -> abs__action_mode_bar
     int abs__action_mode_close_item -> abs__action_mode_close_item
+    int abs__activity_chooser_view -> abs__activity_chooser_view
+    int abs__activity_chooser_view_list_item -> abs__activity_chooser_view_list_item
     int abs__dialog_title_holo -> abs__dialog_title_holo
     int abs__list_menu_item_checkbox -> abs__list_menu_item_checkbox
     int abs__list_menu_item_icon -> abs__list_menu_item_icon
@@ -1609,6 +1808,7 @@ com.actionbarsherlock.R$layout -> com.actionbarsherlock.R$layout:
     int dialog_export -> dialog_export
     int dialog_import -> dialog_import
     int dialog_input -> dialog_input
+    int dialog_player -> dialog_player
     int holodivider -> holodivider
     int list_item_1_image -> list_item_1_image
     int list_item_2_image_media -> list_item_2_image_media
@@ -1641,6 +1841,12 @@ com.actionbarsherlock.R$string -> com.actionbarsherlock.R$string:
     int abs__action_bar_up_description -> abs__action_bar_up_description
     int abs__action_menu_overflow_description -> abs__action_menu_overflow_description
     int abs__action_mode_done -> abs__action_mode_done
+    int abs__activity_chooser_view_dialog_title_default -> abs__activity_chooser_view_dialog_title_default
+    int abs__activity_chooser_view_see_all -> abs__activity_chooser_view_see_all
+    int abs__activitychooserview_choose_application -> abs__activitychooserview_choose_application
+    int abs__share_action_provider_share_with -> abs__share_action_provider_share_with
+    int abs__shareactionprovider_share_with -> abs__shareactionprovider_share_with
+    int abs__shareactionprovider_share_with_application -> abs__shareactionprovider_share_with_application
     int add_artist -> add_artist
     int add_to_playlist -> add_to_playlist
     int add_to_profile -> add_to_profile
@@ -1740,6 +1946,8 @@ com.actionbarsherlock.R$string -> com.actionbarsherlock.R$string:
     int on -> on
     int operation_in_progress -> operation_in_progress
     int password -> password
+    int play_in_dms -> play_in_dms
+    int play_in_grooveshark -> play_in_grooveshark
     int play_pause_preview -> play_pause_preview
     int play_songs -> play_songs
     int playlist_created -> playlist_created
@@ -1749,12 +1957,14 @@ com.actionbarsherlock.R$string -> com.actionbarsherlock.R$string:
     int playlist_options -> playlist_options
     int playlist_type -> playlist_type
     int playlists -> playlists
+    int playlists_frag_empty_list -> playlists_frag_empty_list
     int profile -> profile
     int profile_frag_empty_list -> profile_frag_empty_list
     int refresh_songs -> refresh_songs
     int remove_artist -> remove_artist
     int remove_song -> remove_song
     int req_add_artists_profile -> req_add_artists_profile
+    int requires_flash -> requires_flash
     int save_playlist -> save_playlist
     int search_artist -> search_artist
     int select_google_account -> select_google_account
@@ -1787,20 +1997,24 @@ com.actionbarsherlock.R$style -> com.actionbarsherlock.R$style:
     int DialogThemeNoTitle -> DialogThemeNoTitle
     int DialogWindowTitle_Sherlock -> DialogWindowTitle_Sherlock
     int DialogWindowTitle_Sherlock_Light -> DialogWindowTitle_Sherlock_Light
+    int Sherlock___TextAppearance_Small -> Sherlock___TextAppearance_Small
     int Sherlock___Theme -> Sherlock___Theme
     int Sherlock___Theme_DarkActionBar -> Sherlock___Theme_DarkActionBar
     int Sherlock___Theme_Dialog -> Sherlock___Theme_Dialog
     int Sherlock___Theme_Light -> Sherlock___Theme_Light
     int Sherlock___Widget_ActionBar -> Sherlock___Widget_ActionBar
     int Sherlock___Widget_ActionMode -> Sherlock___Widget_ActionMode
+    int Sherlock___Widget_ActivityChooserView -> Sherlock___Widget_ActivityChooserView
     int Sherlock___Widget_Holo_DropDownItem -> Sherlock___Widget_Holo_DropDownItem
     int Sherlock___Widget_Holo_ListView -> Sherlock___Widget_Holo_ListView
     int Sherlock___Widget_Holo_Spinner -> Sherlock___Widget_Holo_Spinner
     int SongSeekerTheme -> SongSeekerTheme
     int TextAppearance_Sherlock_DialogWindowTitle -> TextAppearance_Sherlock_DialogWindowTitle
     int TextAppearance_Sherlock_Light_DialogWindowTitle -> TextAppearance_Sherlock_Light_DialogWindowTitle
+    int TextAppearance_Sherlock_Light_Small -> TextAppearance_Sherlock_Light_Small
     int TextAppearance_Sherlock_Light_Widget_PopupMenu_Large -> TextAppearance_Sherlock_Light_Widget_PopupMenu_Large
     int TextAppearance_Sherlock_Light_Widget_PopupMenu_Small -> TextAppearance_Sherlock_Light_Widget_PopupMenu_Small
+    int TextAppearance_Sherlock_Small -> TextAppearance_Sherlock_Small
     int TextAppearance_Sherlock_Widget_ActionBar_Menu -> TextAppearance_Sherlock_Widget_ActionBar_Menu
     int TextAppearance_Sherlock_Widget_ActionBar_Subtitle -> TextAppearance_Sherlock_Widget_ActionBar_Subtitle
     int TextAppearance_Sherlock_Widget_ActionBar_Subtitle_Inverse -> TextAppearance_Sherlock_Widget_ActionBar_Subtitle_Inverse
@@ -1835,6 +2049,8 @@ com.actionbarsherlock.R$style -> com.actionbarsherlock.R$style:
     int Widget_Sherlock_ActionButton_CloseMode -> Widget_Sherlock_ActionButton_CloseMode
     int Widget_Sherlock_ActionButton_Overflow -> Widget_Sherlock_ActionButton_Overflow
     int Widget_Sherlock_ActionMode -> Widget_Sherlock_ActionMode
+    int Widget_Sherlock_ActivityChooserView -> Widget_Sherlock_ActivityChooserView
+    int Widget_Sherlock_Button_Small -> Widget_Sherlock_Button_Small
     int Widget_Sherlock_DropDownItem_Spinner -> Widget_Sherlock_DropDownItem_Spinner
     int Widget_Sherlock_Light_ActionBar -> Widget_Sherlock_Light_ActionBar
     int Widget_Sherlock_Light_ActionBar_Solid -> Widget_Sherlock_Light_ActionBar_Solid
@@ -1850,13 +2066,17 @@ com.actionbarsherlock.R$style -> com.actionbarsherlock.R$style:
     int Widget_Sherlock_Light_ActionButton_Overflow -> Widget_Sherlock_Light_ActionButton_Overflow
     int Widget_Sherlock_Light_ActionMode -> Widget_Sherlock_Light_ActionMode
     int Widget_Sherlock_Light_ActionMode_Inverse -> Widget_Sherlock_Light_ActionMode_Inverse
+    int Widget_Sherlock_Light_ActivityChooserView -> Widget_Sherlock_Light_ActivityChooserView
+    int Widget_Sherlock_Light_Button_Small -> Widget_Sherlock_Light_Button_Small
     int Widget_Sherlock_Light_DropDownItem_Spinner -> Widget_Sherlock_Light_DropDownItem_Spinner
+    int Widget_Sherlock_Light_ListPopupWindow -> Widget_Sherlock_Light_ListPopupWindow
     int Widget_Sherlock_Light_ListView_DropDown -> Widget_Sherlock_Light_ListView_DropDown
     int Widget_Sherlock_Light_PopupMenu -> Widget_Sherlock_Light_PopupMenu
     int Widget_Sherlock_Light_PopupWindow_ActionMode -> Widget_Sherlock_Light_PopupWindow_ActionMode
     int Widget_Sherlock_Light_ProgressBar -> Widget_Sherlock_Light_ProgressBar
     int Widget_Sherlock_Light_ProgressBar_Horizontal -> Widget_Sherlock_Light_ProgressBar_Horizontal
     int Widget_Sherlock_Light_Spinner_DropDown_ActionBar -> Widget_Sherlock_Light_Spinner_DropDown_ActionBar
+    int Widget_Sherlock_ListPopupWindow -> Widget_Sherlock_ListPopupWindow
     int Widget_Sherlock_ListView_DropDown -> Widget_Sherlock_ListView_DropDown
     int Widget_Sherlock_PopupMenu -> Widget_Sherlock_PopupMenu
     int Widget_Sherlock_PopupWindow_ActionMode -> Widget_Sherlock_PopupWindow_ActionMode
@@ -1909,6 +2129,10 @@ com.actionbarsherlock.R$styleable -> com.actionbarsherlock.R$styleable:
     int SherlockActionMode_height -> SherlockActionMode_height
     int SherlockActionMode_subtitleTextStyle -> SherlockActionMode_subtitleTextStyle
     int SherlockActionMode_titleTextStyle -> SherlockActionMode_titleTextStyle
+    int[] SherlockActivityChooserView -> SherlockActivityChooserView
+    int SherlockActivityChooserView_android_background -> SherlockActivityChooserView_android_background
+    int SherlockActivityChooserView_expandActivityOverflowButtonDrawable -> SherlockActivityChooserView_expandActivityOverflowButtonDrawable
+    int SherlockActivityChooserView_initialActivityCount -> SherlockActivityChooserView_initialActivityCount
     int[] SherlockMenuGroup -> SherlockMenuGroup
     int SherlockMenuGroup_android_checkableBehavior -> SherlockMenuGroup_android_checkableBehavior
     int SherlockMenuGroup_android_enabled -> SherlockMenuGroup_android_enabled
@@ -1971,16 +2195,20 @@ com.actionbarsherlock.R$styleable -> com.actionbarsherlock.R$styleable:
     int SherlockTheme_actionModeCloseButtonStyle -> SherlockTheme_actionModeCloseButtonStyle
     int SherlockTheme_actionModeCloseDrawable -> SherlockTheme_actionModeCloseDrawable
     int SherlockTheme_actionModePopupWindowStyle -> SherlockTheme_actionModePopupWindowStyle
+    int SherlockTheme_actionModeShareDrawable -> SherlockTheme_actionModeShareDrawable
     int SherlockTheme_actionModeSplitBackground -> SherlockTheme_actionModeSplitBackground
     int SherlockTheme_actionModeStyle -> SherlockTheme_actionModeStyle
     int SherlockTheme_actionOverflowButtonStyle -> SherlockTheme_actionOverflowButtonStyle
     int SherlockTheme_actionSpinnerItemStyle -> SherlockTheme_actionSpinnerItemStyle
+    int SherlockTheme_activatedBackgroundIndicator -> SherlockTheme_activatedBackgroundIndicator
+    int SherlockTheme_activityChooserViewStyle -> SherlockTheme_activityChooserViewStyle
     int SherlockTheme_android_windowIsFloating -> SherlockTheme_android_windowIsFloating
     int SherlockTheme_buttonStyleSmall -> SherlockTheme_buttonStyleSmall
     int SherlockTheme_dividerVertical -> SherlockTheme_dividerVertical
     int SherlockTheme_dropDownListViewStyle -> SherlockTheme_dropDownListViewStyle
     int SherlockTheme_dropdownListPreferredItemHeight -> SherlockTheme_dropdownListPreferredItemHeight
     int SherlockTheme_homeAsUpIndicator -> SherlockTheme_homeAsUpIndicator
+    int SherlockTheme_listPopupWindowStyle -> SherlockTheme_listPopupWindowStyle
     int SherlockTheme_listPreferredItemHeightSmall -> SherlockTheme_listPreferredItemHeightSmall
     int SherlockTheme_listPreferredItemPaddingLeft -> SherlockTheme_listPreferredItemPaddingLeft
     int SherlockTheme_listPreferredItemPaddingRight -> SherlockTheme_listPreferredItemPaddingRight
@@ -2175,6 +2403,7 @@ com.actionbarsherlock.app.SherlockActivity -> com.actionbarsherlock.app.Sherlock
     void onPostResume() -> onPostResume
     void onPause() -> onPause
     void onStop() -> onStop
+    void onDestroy() -> onDestroy
     void onPostCreate(android.os.Bundle) -> onPostCreate
     void onTitleChanged(java.lang.CharSequence,int) -> onTitleChanged
     boolean onMenuOpened(int,android.view.Menu) -> onMenuOpened
@@ -2205,10 +2434,10 @@ com.actionbarsherlock.app.SherlockActivity -> com.actionbarsherlock.app.Sherlock
     void setSupportProgressBarVisibility(boolean) -> setSupportProgressBarVisibility
     void setSupportSecondaryProgress(int) -> setSupportSecondaryProgress
 com.actionbarsherlock.app.SherlockDialogFragment -> com.actionbarsherlock.app.SherlockDialogFragment:
-    java.lang.String TAG -> TAG
     com.actionbarsherlock.app.SherlockFragmentActivity mActivity -> mActivity
     com.actionbarsherlock.app.SherlockFragmentActivity getSherlockActivity() -> getSherlockActivity
     void onAttach(android.app.Activity) -> onAttach
+    void onDetach() -> onDetach
     void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> onCreateOptionsMenu
     void onCreateOptionsMenu(com.actionbarsherlock.view.Menu,com.actionbarsherlock.view.MenuInflater) -> onCreateOptionsMenu
     void onPrepareOptionsMenu(android.view.Menu) -> onPrepareOptionsMenu
@@ -2226,6 +2455,7 @@ com.actionbarsherlock.app.SherlockExpandableListActivity -> com.actionbarsherloc
     void onPostResume() -> onPostResume
     void onPause() -> onPause
     void onStop() -> onStop
+    void onDestroy() -> onDestroy
     void onPostCreate(android.os.Bundle) -> onPostCreate
     void onTitleChanged(java.lang.CharSequence,int) -> onTitleChanged
     boolean onMenuOpened(int,android.view.Menu) -> onMenuOpened
@@ -2256,10 +2486,10 @@ com.actionbarsherlock.app.SherlockExpandableListActivity -> com.actionbarsherloc
     void setSupportProgressBarVisibility(boolean) -> setSupportProgressBarVisibility
     void setSupportSecondaryProgress(int) -> setSupportSecondaryProgress
 com.actionbarsherlock.app.SherlockFragment -> com.actionbarsherlock.app.SherlockFragment:
-    java.lang.String TAG -> TAG
     com.actionbarsherlock.app.SherlockFragmentActivity mActivity -> mActivity
     com.actionbarsherlock.app.SherlockFragmentActivity getSherlockActivity() -> getSherlockActivity
     void onAttach(android.app.Activity) -> onAttach
+    void onDetach() -> onDetach
     void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> onCreateOptionsMenu
     void onCreateOptionsMenu(com.actionbarsherlock.view.Menu,com.actionbarsherlock.view.MenuInflater) -> onCreateOptionsMenu
     void onPrepareOptionsMenu(android.view.Menu) -> onPrepareOptionsMenu
@@ -2273,7 +2503,6 @@ com.actionbarsherlock.app.SherlockFragmentActivity -> com.actionbarsherlock.app.
     boolean mIgnoreNativeCreate -> mIgnoreNativeCreate
     boolean mIgnoreNativePrepare -> mIgnoreNativePrepare
     boolean mIgnoreNativeSelected -> mIgnoreNativeSelected
-    java.lang.Boolean mOverrideNativeCreate -> mOverrideNativeCreate
     com.actionbarsherlock.ActionBarSherlock getSherlock() -> getSherlock
     com.actionbarsherlock.app.ActionBar getSupportActionBar() -> getSupportActionBar
     com.actionbarsherlock.view.ActionMode startActionMode(com.actionbarsherlock.view.ActionMode$Callback) -> startActionMode
@@ -2283,6 +2512,7 @@ com.actionbarsherlock.app.SherlockFragmentActivity -> com.actionbarsherlock.app.
     void onPostResume() -> onPostResume
     void onPause() -> onPause
     void onStop() -> onStop
+    void onDestroy() -> onDestroy
     void onPostCreate(android.os.Bundle) -> onPostCreate
     void onTitleChanged(java.lang.CharSequence,int) -> onTitleChanged
     boolean onMenuOpened(int,android.view.Menu) -> onMenuOpened
@@ -2299,11 +2529,8 @@ com.actionbarsherlock.app.SherlockFragmentActivity -> com.actionbarsherlock.app.
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
     void openOptionsMenu() -> openOptionsMenu
     void closeOptionsMenu() -> closeOptionsMenu
-    boolean onCreatePanelMenu(int,com.actionbarsherlock.view.Menu) -> onCreatePanelMenu
     boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu) -> onCreateOptionsMenu
-    boolean onPreparePanel(int,android.view.View,com.actionbarsherlock.view.Menu) -> onPreparePanel
     boolean onPrepareOptionsMenu(com.actionbarsherlock.view.Menu) -> onPrepareOptionsMenu
-    boolean onMenuItemSelected(int,com.actionbarsherlock.view.MenuItem) -> onMenuItemSelected
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
     void addContentView(android.view.View,android.view.ViewGroup$LayoutParams) -> addContentView
     void setContentView(int) -> setContentView
@@ -2326,6 +2553,7 @@ com.actionbarsherlock.app.SherlockListActivity -> com.actionbarsherlock.app.Sher
     void onPostResume() -> onPostResume
     void onPause() -> onPause
     void onStop() -> onStop
+    void onDestroy() -> onDestroy
     void onPostCreate(android.os.Bundle) -> onPostCreate
     void onTitleChanged(java.lang.CharSequence,int) -> onTitleChanged
     boolean onMenuOpened(int,android.view.Menu) -> onMenuOpened
@@ -2356,10 +2584,10 @@ com.actionbarsherlock.app.SherlockListActivity -> com.actionbarsherlock.app.Sher
     void setSupportProgressBarVisibility(boolean) -> setSupportProgressBarVisibility
     void setSupportSecondaryProgress(int) -> setSupportSecondaryProgress
 com.actionbarsherlock.app.SherlockListFragment -> com.actionbarsherlock.app.SherlockListFragment:
-    java.lang.String TAG -> TAG
     com.actionbarsherlock.app.SherlockFragmentActivity mActivity -> mActivity
     com.actionbarsherlock.app.SherlockFragmentActivity getSherlockActivity() -> getSherlockActivity
     void onAttach(android.app.Activity) -> onAttach
+    void onDetach() -> onDetach
     void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> onCreateOptionsMenu
     void onCreateOptionsMenu(com.actionbarsherlock.view.Menu,com.actionbarsherlock.view.MenuInflater) -> onCreateOptionsMenu
     void onPrepareOptionsMenu(android.view.Menu) -> onPrepareOptionsMenu
@@ -2377,6 +2605,7 @@ com.actionbarsherlock.app.SherlockPreferenceActivity -> com.actionbarsherlock.ap
     void onPostResume() -> onPostResume
     void onPause() -> onPause
     void onStop() -> onStop
+    void onDestroy() -> onDestroy
     void onPostCreate(android.os.Bundle) -> onPostCreate
     void onTitleChanged(java.lang.CharSequence,int) -> onTitleChanged
     boolean onMenuOpened(int,android.view.Menu) -> onMenuOpened
@@ -2412,9 +2641,11 @@ com.actionbarsherlock.internal.ActionBarSherlockCompat -> com.actionbarsherlock.
     boolean mReserveOverflowSet -> mReserveOverflowSet
     com.actionbarsherlock.internal.view.menu.MenuBuilder mMenu -> mMenu
     java.util.HashMap mNativeItemMap -> mNativeItemMap
+    boolean mMenuKeyIsLongPress -> mMenuKeyIsLongPress
     android.view.ViewGroup mDecor -> mDecor
     android.view.ViewGroup mContentParent -> mContentParent
     boolean mIsTitleReady -> mIsTitleReady
+    boolean mIsDestroyed -> mIsDestroyed
     boolean mClosingActionMenu -> mClosingActionMenu
     boolean mMenuIsPrepared -> mMenuIsPrepared
     boolean mMenuRefreshContent -> mMenuRefreshContent
@@ -2450,6 +2681,7 @@ com.actionbarsherlock.internal.ActionBarSherlockCompat -> com.actionbarsherlock.
     void dispatchPanelClosed(int,android.view.Menu) -> dispatchPanelClosed
     void dispatchTitleChanged(java.lang.CharSequence,int) -> dispatchTitleChanged
     boolean dispatchKeyEvent(android.view.KeyEvent) -> dispatchKeyEvent
+    void dispatchDestroy() -> dispatchDestroy
     boolean preparePanel() -> preparePanel
     boolean onMenuItemSelected(com.actionbarsherlock.internal.view.menu.MenuBuilder,com.actionbarsherlock.view.MenuItem) -> onMenuItemSelected
     void onMenuModeChange(com.actionbarsherlock.internal.view.menu.MenuBuilder) -> onMenuModeChange
@@ -2490,7 +2722,8 @@ com.actionbarsherlock.internal.ActionBarSherlockCompat -> com.actionbarsherlock.
     android.app.Activity access$1(com.actionbarsherlock.internal.ActionBarSherlockCompat) -> access$1
     com.actionbarsherlock.view.ActionMode access$2(com.actionbarsherlock.internal.ActionBarSherlockCompat) -> access$2
     void access$3(com.actionbarsherlock.internal.ActionBarSherlockCompat,com.actionbarsherlock.view.ActionMode) -> access$3
-    com.actionbarsherlock.internal.view.menu.MenuBuilder access$4(com.actionbarsherlock.internal.ActionBarSherlockCompat) -> access$4
+    boolean access$4(com.actionbarsherlock.internal.ActionBarSherlockCompat) -> access$4
+    com.actionbarsherlock.internal.view.menu.MenuBuilder access$5(com.actionbarsherlock.internal.ActionBarSherlockCompat) -> access$5
 com.actionbarsherlock.internal.ActionBarSherlockCompat$1 -> com.actionbarsherlock.internal.ActionBarSherlockCompat$1:
     com.actionbarsherlock.internal.ActionBarSherlockCompat this$0 -> this$0
     void run() -> run
@@ -2551,6 +2784,8 @@ com.actionbarsherlock.internal.ActionBarSherlockNative$ActionModeWrapper -> com.
     java.lang.CharSequence getSubtitle() -> getSubtitle
     android.view.View getCustomView() -> getCustomView
     com.actionbarsherlock.view.MenuInflater getMenuInflater() -> getMenuInflater
+    void setTag(java.lang.Object) -> setTag
+    java.lang.Object getTag() -> getTag
     com.actionbarsherlock.view.Menu getMenu() -> getMenu
 com.actionbarsherlock.internal.ResourcesCompat -> com.actionbarsherlock.internal.ResourcesCompat:
     boolean getResources_getBoolean(android.content.Context,int) -> getResources_getBoolean
@@ -3246,6 +3481,7 @@ com.actionbarsherlock.internal.nineoldandroids.view.animation.AnimatorProxy -> c
     void computeRect(android.graphics.RectF,android.view.View) -> computeRect
     void transformMatrix(android.graphics.Matrix,android.view.View) -> transformMatrix
     void applyTransformation(float,android.view.animation.Transformation) -> applyTransformation
+    void reset() -> reset
 com.actionbarsherlock.internal.nineoldandroids.widget.NineFrameLayout -> com.actionbarsherlock.internal.nineoldandroids.widget.NineFrameLayout:
     com.actionbarsherlock.internal.nineoldandroids.view.animation.AnimatorProxy mProxy -> mProxy
     void setVisibility(int) -> setVisibility
@@ -3253,6 +3489,11 @@ com.actionbarsherlock.internal.nineoldandroids.widget.NineFrameLayout -> com.act
     void setAlpha(float) -> setAlpha
     float getTranslationY() -> getTranslationY
     void setTranslationY(float) -> setTranslationY
+com.actionbarsherlock.internal.nineoldandroids.widget.NineHorizontalScrollView -> com.actionbarsherlock.internal.nineoldandroids.widget.NineHorizontalScrollView:
+    com.actionbarsherlock.internal.nineoldandroids.view.animation.AnimatorProxy mProxy -> mProxy
+    void setVisibility(int) -> setVisibility
+    float getAlpha() -> getAlpha
+    void setAlpha(float) -> setAlpha
 com.actionbarsherlock.internal.nineoldandroids.widget.NineLinearLayout -> com.actionbarsherlock.internal.nineoldandroids.widget.NineLinearLayout:
     com.actionbarsherlock.internal.nineoldandroids.view.animation.AnimatorProxy mProxy -> mProxy
     void setVisibility(int) -> setVisibility
@@ -3480,6 +3721,8 @@ com.actionbarsherlock.internal.view.menu.ActionMenuPresenter -> com.actionbarshe
 com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$ActionButtonSubmenu -> com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$ActionButtonSubmenu:
     com.actionbarsherlock.internal.view.menu.ActionMenuPresenter this$0 -> this$0
     void onDismiss() -> onDismiss
+com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$HasPermanentMenuKey -> com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$HasPermanentMenuKey:
+    boolean get(android.content.Context) -> get
 com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$OpenOverflowRunnable -> com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$OpenOverflowRunnable:
     com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$OverflowPopup mPopup -> mPopup
     com.actionbarsherlock.internal.view.menu.ActionMenuPresenter this$0 -> this$0
@@ -3886,6 +4129,7 @@ com.actionbarsherlock.internal.view.menu.MenuItemWrapper -> com.actionbarsherloc
     com.actionbarsherlock.view.SubMenu mSubMenu -> mSubMenu
     com.actionbarsherlock.view.MenuItem$OnMenuItemClickListener mMenuItemClickListener -> mMenuItemClickListener
     com.actionbarsherlock.view.MenuItem$OnActionExpandListener mActionExpandListener -> mActionExpandListener
+    android.view.MenuItem$OnActionExpandListener mNativeActionExpandListener -> mNativeActionExpandListener
     int getItemId() -> getItemId
     int getGroupId() -> getGroupId
     int getOrder() -> getOrder
@@ -3928,8 +4172,11 @@ com.actionbarsherlock.internal.view.menu.MenuItemWrapper -> com.actionbarsherloc
     boolean collapseActionView() -> collapseActionView
     boolean isActionViewExpanded() -> isActionViewExpanded
     com.actionbarsherlock.view.MenuItem setOnActionExpandListener(com.actionbarsherlock.view.MenuItem$OnActionExpandListener) -> setOnActionExpandListener
-    boolean onMenuItemActionCollapse(android.view.MenuItem) -> onMenuItemActionCollapse
+    com.actionbarsherlock.view.MenuItem$OnActionExpandListener access$0(com.actionbarsherlock.internal.view.menu.MenuItemWrapper) -> access$0
+com.actionbarsherlock.internal.view.menu.MenuItemWrapper$1 -> com.actionbarsherlock.internal.view.menu.MenuItemWrapper$1:
+    com.actionbarsherlock.internal.view.menu.MenuItemWrapper this$0 -> this$0
     boolean onMenuItemActionExpand(android.view.MenuItem) -> onMenuItemActionExpand
+    boolean onMenuItemActionCollapse(android.view.MenuItem) -> onMenuItemActionCollapse
 com.actionbarsherlock.internal.view.menu.MenuMule -> com.actionbarsherlock.internal.view.menu.MenuMule:
     java.lang.String ERROR -> ERROR
     com.actionbarsherlock.view.Menu mMenu -> mMenu
@@ -4262,7 +4509,6 @@ com.actionbarsherlock.internal.widget.ActionBarView -> com.actionbarsherlock.int
     com.actionbarsherlock.internal.view.menu.ActionMenuItem mLogoNavItem -> mLogoNavItem
     android.widget.SpinnerAdapter mSpinnerAdapter -> mSpinnerAdapter
     com.actionbarsherlock.app.ActionBar$OnNavigationListener mCallback -> mCallback
-    java.lang.Runnable mTabSelector -> mTabSelector
     com.actionbarsherlock.internal.widget.ActionBarView$ExpandedActionViewMenuPresenter mExpandedMenuPresenter -> mExpandedMenuPresenter
     android.view.View mExpandedActionView -> mExpandedActionView
     com.actionbarsherlock.view.Window$Callback mWindowCallback -> mWindowCallback
@@ -4571,12 +4817,20 @@ com.actionbarsherlock.internal.widget.IcsLinearLayout -> com.actionbarsherlock.i
     int SHOW_DIVIDER_END -> SHOW_DIVIDER_END
     android.graphics.drawable.Drawable mDivider -> mDivider
     int mDividerWidth -> mDividerWidth
+    int mDividerHeight -> mDividerHeight
     int mShowDividers -> mShowDividers
     int mDividerPadding -> mDividerPadding
+    void setShowDividers(int) -> setShowDividers
+    int getShowDividers() -> getShowDividers
     void setDividerDrawable(android.graphics.drawable.Drawable) -> setDividerDrawable
+    void setDividerPadding(int) -> setDividerPadding
+    int getDividerPadding() -> getDividerPadding
     int getDividerWidth() -> getDividerWidth
     void measureChildWithMargins(android.view.View,int,int,int,int) -> measureChildWithMargins
     void onDraw(android.graphics.Canvas) -> onDraw
+    void drawDividersVertical(android.graphics.Canvas) -> drawDividersVertical
+    void drawDividersHorizontal(android.graphics.Canvas) -> drawDividersHorizontal
+    void drawHorizontalDivider(android.graphics.Canvas,int) -> drawHorizontalDivider
     void drawVerticalDivider(android.graphics.Canvas,int) -> drawVerticalDivider
     boolean hasDividerBeforeChildAt(int) -> hasDividerBeforeChildAt
 com.actionbarsherlock.internal.widget.IcsListPopupWindow -> com.actionbarsherlock.internal.widget.IcsListPopupWindow:
@@ -5128,6 +5382,238 @@ com.actionbarsherlock.view.Window -> com.actionbarsherlock.view.Window:
     long FEATURE_INDETERMINATE_PROGRESS -> FEATURE_INDETERMINATE_PROGRESS
 com.actionbarsherlock.view.Window$Callback -> com.actionbarsherlock.view.Window$Callback:
     boolean onMenuItemSelected(int,com.actionbarsherlock.view.MenuItem) -> onMenuItemSelected
+com.actionbarsherlock.widget.ActivityChooserModel -> com.actionbarsherlock.widget.ActivityChooserModel:
+    boolean DEBUG -> DEBUG
+    java.lang.String LOG_TAG -> LOG_TAG
+    java.lang.String TAG_HISTORICAL_RECORDS -> TAG_HISTORICAL_RECORDS
+    java.lang.String TAG_HISTORICAL_RECORD -> TAG_HISTORICAL_RECORD
+    java.lang.String ATTRIBUTE_ACTIVITY -> ATTRIBUTE_ACTIVITY
+    java.lang.String ATTRIBUTE_TIME -> ATTRIBUTE_TIME
+    java.lang.String ATTRIBUTE_WEIGHT -> ATTRIBUTE_WEIGHT
+    java.lang.String DEFAULT_HISTORY_FILE_NAME -> DEFAULT_HISTORY_FILE_NAME
+    int DEFAULT_HISTORY_MAX_LENGTH -> DEFAULT_HISTORY_MAX_LENGTH
+    int DEFAULT_ACTIVITY_INFLATION -> DEFAULT_ACTIVITY_INFLATION
+    float DEFAULT_HISTORICAL_RECORD_WEIGHT -> DEFAULT_HISTORICAL_RECORD_WEIGHT
+    java.lang.String HISTORY_FILE_EXTENSION -> HISTORY_FILE_EXTENSION
+    int INVALID_INDEX -> INVALID_INDEX
+    java.lang.Object sRegistryLock -> sRegistryLock
+    java.util.Map sDataModelRegistry -> sDataModelRegistry
+    java.lang.Object mInstanceLock -> mInstanceLock
+    java.util.List mActivites -> mActivites
+    java.util.List mHistoricalRecords -> mHistoricalRecords
+    android.content.Context mContext -> mContext
+    java.lang.String mHistoryFileName -> mHistoryFileName
+    android.content.Intent mIntent -> mIntent
+    com.actionbarsherlock.widget.ActivityChooserModel$ActivitySorter mActivitySorter -> mActivitySorter
+    int mHistoryMaxSize -> mHistoryMaxSize
+    boolean mCanReadHistoricalData -> mCanReadHistoricalData
+    boolean mReadShareHistoryCalled -> mReadShareHistoryCalled
+    boolean mHistoricalRecordsChanged -> mHistoricalRecordsChanged
+    android.os.Handler mHandler -> mHandler
+    com.actionbarsherlock.widget.ActivityChooserModel$OnChooseActivityListener mActivityChoserModelPolicy -> mActivityChoserModelPolicy
+    com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor SERIAL_EXECUTOR -> SERIAL_EXECUTOR
+    com.actionbarsherlock.widget.ActivityChooserModel get(android.content.Context,java.lang.String) -> get
+    void setIntent(android.content.Intent) -> setIntent
+    android.content.Intent getIntent() -> getIntent
+    int getActivityCount() -> getActivityCount
+    android.content.pm.ResolveInfo getActivity(int) -> getActivity
+    int getActivityIndex(android.content.pm.ResolveInfo) -> getActivityIndex
+    android.content.Intent chooseActivity(int) -> chooseActivity
+    void setOnChooseActivityListener(com.actionbarsherlock.widget.ActivityChooserModel$OnChooseActivityListener) -> setOnChooseActivityListener
+    android.content.pm.ResolveInfo getDefaultActivity() -> getDefaultActivity
+    void setDefaultActivity(int) -> setDefaultActivity
+    void readHistoricalData() -> readHistoricalData
+    void persistHistoricalData() -> persistHistoricalData
+    void setActivitySorter(com.actionbarsherlock.widget.ActivityChooserModel$ActivitySorter) -> setActivitySorter
+    void sortActivities() -> sortActivities
+    void setHistoryMaxSize(int) -> setHistoryMaxSize
+    int getHistoryMaxSize() -> getHistoryMaxSize
+    int getHistorySize() -> getHistorySize
+    boolean addHisoricalRecord(com.actionbarsherlock.widget.ActivityChooserModel$HistoricalRecord) -> addHisoricalRecord
+    void pruneExcessiveHistoricalRecordsLocked() -> pruneExcessiveHistoricalRecordsLocked
+    void loadActivitiesLocked() -> loadActivitiesLocked
+    android.content.Context access$0(com.actionbarsherlock.widget.ActivityChooserModel) -> access$0
+    java.lang.String access$1(com.actionbarsherlock.widget.ActivityChooserModel) -> access$1
+    java.lang.Object access$2(com.actionbarsherlock.widget.ActivityChooserModel) -> access$2
+    java.util.List access$3(com.actionbarsherlock.widget.ActivityChooserModel) -> access$3
+    void access$4(com.actionbarsherlock.widget.ActivityChooserModel,boolean) -> access$4
+    android.os.Handler access$5(com.actionbarsherlock.widget.ActivityChooserModel) -> access$5
+    void access$6(com.actionbarsherlock.widget.ActivityChooserModel) -> access$6
+    void access$7(com.actionbarsherlock.widget.ActivityChooserModel) -> access$7
+    java.lang.String access$8() -> access$8
+com.actionbarsherlock.widget.ActivityChooserModel$ActivityChooserModelClient -> com.actionbarsherlock.widget.ActivityChooserModel$ActivityChooserModelClient:
+    void setActivityChooserModel(com.actionbarsherlock.widget.ActivityChooserModel) -> setActivityChooserModel
+com.actionbarsherlock.widget.ActivityChooserModel$ActivityResolveInfo -> com.actionbarsherlock.widget.ActivityChooserModel$ActivityResolveInfo:
+    android.content.pm.ResolveInfo resolveInfo -> resolveInfo
+    float weight -> weight
+    com.actionbarsherlock.widget.ActivityChooserModel this$0 -> this$0
+    int hashCode() -> hashCode
+    boolean equals(java.lang.Object) -> equals
+    int compareTo(com.actionbarsherlock.widget.ActivityChooserModel$ActivityResolveInfo) -> compareTo
+    java.lang.String toString() -> toString
+    int compareTo(java.lang.Object) -> compareTo
+com.actionbarsherlock.widget.ActivityChooserModel$ActivitySorter -> com.actionbarsherlock.widget.ActivityChooserModel$ActivitySorter:
+    void sort(android.content.Intent,java.util.List,java.util.List) -> sort
+com.actionbarsherlock.widget.ActivityChooserModel$DefaultSorter -> com.actionbarsherlock.widget.ActivityChooserModel$DefaultSorter:
+    float WEIGHT_DECAY_COEFFICIENT -> WEIGHT_DECAY_COEFFICIENT
+    java.util.Map mPackageNameToActivityMap -> mPackageNameToActivityMap
+    com.actionbarsherlock.widget.ActivityChooserModel this$0 -> this$0
+    void sort(android.content.Intent,java.util.List,java.util.List) -> sort
+com.actionbarsherlock.widget.ActivityChooserModel$HistoricalRecord -> com.actionbarsherlock.widget.ActivityChooserModel$HistoricalRecord:
+    android.content.ComponentName activity -> activity
+    long time -> time
+    float weight -> weight
+    int hashCode() -> hashCode
+    boolean equals(java.lang.Object) -> equals
+    java.lang.String toString() -> toString
+com.actionbarsherlock.widget.ActivityChooserModel$HistoryLoader -> com.actionbarsherlock.widget.ActivityChooserModel$HistoryLoader:
+    com.actionbarsherlock.widget.ActivityChooserModel this$0 -> this$0
+    void run() -> run
+    com.actionbarsherlock.widget.ActivityChooserModel access$1(com.actionbarsherlock.widget.ActivityChooserModel$HistoryLoader) -> access$1
+com.actionbarsherlock.widget.ActivityChooserModel$HistoryLoader$1 -> com.actionbarsherlock.widget.ActivityChooserModel$HistoryLoader$1:
+    com.actionbarsherlock.widget.ActivityChooserModel$HistoryLoader this$1 -> this$1
+    void run() -> run
+com.actionbarsherlock.widget.ActivityChooserModel$HistoryPersister -> com.actionbarsherlock.widget.ActivityChooserModel$HistoryPersister:
+    com.actionbarsherlock.widget.ActivityChooserModel this$0 -> this$0
+    void run() -> run
+com.actionbarsherlock.widget.ActivityChooserModel$OnChooseActivityListener -> com.actionbarsherlock.widget.ActivityChooserModel$OnChooseActivityListener:
+    boolean onChooseActivity(com.actionbarsherlock.widget.ActivityChooserModel,android.content.Intent) -> onChooseActivity
+com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor -> com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor:
+    java.util.LinkedList mTasks -> mTasks
+    java.lang.Runnable mActive -> mActive
+    void execute(java.lang.Runnable) -> execute
+    void scheduleNext() -> scheduleNext
+com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor$1 -> com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor$1:
+    com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor this$1 -> this$1
+    java.lang.Runnable val$r -> val$r
+    void run() -> run
+com.actionbarsherlock.widget.ActivityChooserView -> com.actionbarsherlock.widget.ActivityChooserView:
+    com.actionbarsherlock.widget.ActivityChooserView$ActivityChooserViewAdapter mAdapter -> mAdapter
+    com.actionbarsherlock.widget.ActivityChooserView$Callbacks mCallbacks -> mCallbacks
+    com.actionbarsherlock.internal.widget.IcsLinearLayout mActivityChooserContent -> mActivityChooserContent
+    android.graphics.drawable.Drawable mActivityChooserContentBackground -> mActivityChooserContentBackground
+    android.widget.FrameLayout mExpandActivityOverflowButton -> mExpandActivityOverflowButton
+    android.widget.ImageView mExpandActivityOverflowButtonImage -> mExpandActivityOverflowButtonImage
+    android.widget.FrameLayout mDefaultActivityButton -> mDefaultActivityButton
+    android.widget.ImageView mDefaultActivityButtonImage -> mDefaultActivityButtonImage
+    int mListPopupMaxWidth -> mListPopupMaxWidth
+    com.actionbarsherlock.view.ActionProvider mProvider -> mProvider
+    android.database.DataSetObserver mModelDataSetOberver -> mModelDataSetOberver
+    android.view.ViewTreeObserver$OnGlobalLayoutListener mOnGlobalLayoutListener -> mOnGlobalLayoutListener
+    com.actionbarsherlock.internal.widget.IcsListPopupWindow mListPopupWindow -> mListPopupWindow
+    android.widget.PopupWindow$OnDismissListener mOnDismissListener -> mOnDismissListener
+    boolean mIsSelectingDefaultActivity -> mIsSelectingDefaultActivity
+    int mInitialActivityCount -> mInitialActivityCount
+    boolean mIsAttachedToWindow -> mIsAttachedToWindow
+    int mDefaultActionButtonContentDescription -> mDefaultActionButtonContentDescription
+    android.content.Context mContext -> mContext
+    boolean IS_HONEYCOMB -> IS_HONEYCOMB
+    void setActivityChooserModel(com.actionbarsherlock.widget.ActivityChooserModel) -> setActivityChooserModel
+    void setExpandActivityOverflowButtonDrawable(android.graphics.drawable.Drawable) -> setExpandActivityOverflowButtonDrawable
+    void setExpandActivityOverflowButtonContentDescription(int) -> setExpandActivityOverflowButtonContentDescription
+    void setProvider(com.actionbarsherlock.view.ActionProvider) -> setProvider
+    boolean showPopup() -> showPopup
+    void showPopupUnchecked(int) -> showPopupUnchecked
+    boolean dismissPopup() -> dismissPopup
+    boolean isShowingPopup() -> isShowingPopup
+    void onAttachedToWindow() -> onAttachedToWindow
+    void onDetachedFromWindow() -> onDetachedFromWindow
+    void onMeasure(int,int) -> onMeasure
+    void onLayout(boolean,int,int,int,int) -> onLayout
+    com.actionbarsherlock.widget.ActivityChooserModel getDataModel() -> getDataModel
+    void setOnDismissListener(android.widget.PopupWindow$OnDismissListener) -> setOnDismissListener
+    void setInitialActivityCount(int) -> setInitialActivityCount
+    void setDefaultActionButtonContentDescription(int) -> setDefaultActionButtonContentDescription
+    com.actionbarsherlock.internal.widget.IcsListPopupWindow getListPopupWindow() -> getListPopupWindow
+    void updateAppearance() -> updateAppearance
+    com.actionbarsherlock.widget.ActivityChooserView$ActivityChooserViewAdapter access$0(com.actionbarsherlock.widget.ActivityChooserView) -> access$0
+    com.actionbarsherlock.internal.widget.IcsListPopupWindow access$1(com.actionbarsherlock.widget.ActivityChooserView) -> access$1
+    void access$2(com.actionbarsherlock.widget.ActivityChooserView,int) -> access$2
+    boolean access$3(com.actionbarsherlock.widget.ActivityChooserView) -> access$3
+    android.content.Context access$4(com.actionbarsherlock.widget.ActivityChooserView) -> access$4
+    android.widget.FrameLayout access$5(com.actionbarsherlock.widget.ActivityChooserView) -> access$5
+    android.widget.FrameLayout access$6(com.actionbarsherlock.widget.ActivityChooserView) -> access$6
+    void access$7(com.actionbarsherlock.widget.ActivityChooserView,boolean) -> access$7
+    int access$8(com.actionbarsherlock.widget.ActivityChooserView) -> access$8
+    android.widget.PopupWindow$OnDismissListener access$9(com.actionbarsherlock.widget.ActivityChooserView) -> access$9
+    android.database.DataSetObserver access$10(com.actionbarsherlock.widget.ActivityChooserView) -> access$10
+    boolean access$11() -> access$11
+    void access$12(com.actionbarsherlock.widget.ActivityChooserView) -> access$12
+com.actionbarsherlock.widget.ActivityChooserView$1 -> com.actionbarsherlock.widget.ActivityChooserView$1:
+    com.actionbarsherlock.widget.ActivityChooserView this$0 -> this$0
+    void onChanged() -> onChanged
+    void onInvalidated() -> onInvalidated
+com.actionbarsherlock.widget.ActivityChooserView$2 -> com.actionbarsherlock.widget.ActivityChooserView$2:
+    com.actionbarsherlock.widget.ActivityChooserView this$0 -> this$0
+    void onGlobalLayout() -> onGlobalLayout
+com.actionbarsherlock.widget.ActivityChooserView$3 -> com.actionbarsherlock.widget.ActivityChooserView$3:
+    com.actionbarsherlock.widget.ActivityChooserView this$0 -> this$0
+    void onChanged() -> onChanged
+com.actionbarsherlock.widget.ActivityChooserView$ActivityChooserViewAdapter -> com.actionbarsherlock.widget.ActivityChooserView$ActivityChooserViewAdapter:
+    int MAX_ACTIVITY_COUNT_UNLIMITED -> MAX_ACTIVITY_COUNT_UNLIMITED
+    int MAX_ACTIVITY_COUNT_DEFAULT -> MAX_ACTIVITY_COUNT_DEFAULT
+    int ITEM_VIEW_TYPE_ACTIVITY -> ITEM_VIEW_TYPE_ACTIVITY
+    int ITEM_VIEW_TYPE_FOOTER -> ITEM_VIEW_TYPE_FOOTER
+    int ITEM_VIEW_TYPE_COUNT -> ITEM_VIEW_TYPE_COUNT
+    com.actionbarsherlock.widget.ActivityChooserModel mDataModel -> mDataModel
+    int mMaxActivityCount -> mMaxActivityCount
+    boolean mShowDefaultActivity -> mShowDefaultActivity
+    boolean mHighlightDefaultActivity -> mHighlightDefaultActivity
+    boolean mShowFooterView -> mShowFooterView
+    com.actionbarsherlock.widget.ActivityChooserView this$0 -> this$0
+    void setDataModel(com.actionbarsherlock.widget.ActivityChooserModel) -> setDataModel
+    int getItemViewType(int) -> getItemViewType
+    int getViewTypeCount() -> getViewTypeCount
+    int getCount() -> getCount
+    java.lang.Object getItem(int) -> getItem
+    long getItemId(int) -> getItemId
+    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    int measureContentWidth() -> measureContentWidth
+    void setMaxActivityCount(int) -> setMaxActivityCount
+    android.content.pm.ResolveInfo getDefaultActivity() -> getDefaultActivity
+    void setShowFooterView(boolean) -> setShowFooterView
+    int getActivityCount() -> getActivityCount
+    int getHistorySize() -> getHistorySize
+    int getMaxActivityCount() -> getMaxActivityCount
+    com.actionbarsherlock.widget.ActivityChooserModel getDataModel() -> getDataModel
+    void setShowDefaultActivity(boolean,boolean) -> setShowDefaultActivity
+    boolean getShowDefaultActivity() -> getShowDefaultActivity
+com.actionbarsherlock.widget.ActivityChooserView$Callbacks -> com.actionbarsherlock.widget.ActivityChooserView$Callbacks:
+    com.actionbarsherlock.widget.ActivityChooserView this$0 -> this$0
+    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+    void onClick(android.view.View) -> onClick
+    boolean onLongClick(android.view.View) -> onLongClick
+    void onDismiss() -> onDismiss
+    void notifyOnDismissListener() -> notifyOnDismissListener
+com.actionbarsherlock.widget.ActivityChooserView$SetActivated -> com.actionbarsherlock.widget.ActivityChooserView$SetActivated:
+    void invoke(android.view.View,boolean) -> invoke
+com.actionbarsherlock.widget.ShareActionProvider -> com.actionbarsherlock.widget.ShareActionProvider:
+    int DEFAULT_INITIAL_ACTIVITY_COUNT -> DEFAULT_INITIAL_ACTIVITY_COUNT
+    int mMaxShownActivityCount -> mMaxShownActivityCount
+    com.actionbarsherlock.widget.ShareActionProvider$ShareMenuItemOnMenuItemClickListener mOnMenuItemClickListener -> mOnMenuItemClickListener
+    java.lang.String DEFAULT_SHARE_HISTORY_FILE_NAME -> DEFAULT_SHARE_HISTORY_FILE_NAME
+    android.content.Context mContext -> mContext
+    java.lang.String mShareHistoryFileName -> mShareHistoryFileName
+    com.actionbarsherlock.widget.ShareActionProvider$OnShareTargetSelectedListener mOnShareTargetSelectedListener -> mOnShareTargetSelectedListener
+    com.actionbarsherlock.widget.ActivityChooserModel$OnChooseActivityListener mOnChooseActivityListener -> mOnChooseActivityListener
+    void setOnShareTargetSelectedListener(com.actionbarsherlock.widget.ShareActionProvider$OnShareTargetSelectedListener) -> setOnShareTargetSelectedListener
+    android.view.View onCreateActionView() -> onCreateActionView
+    boolean hasSubMenu() -> hasSubMenu
+    void onPrepareSubMenu(com.actionbarsherlock.view.SubMenu) -> onPrepareSubMenu
+    void setShareHistoryFileName(java.lang.String) -> setShareHistoryFileName
+    void setShareIntent(android.content.Intent) -> setShareIntent
+    void setActivityChooserPolicyIfNeeded() -> setActivityChooserPolicyIfNeeded
+    android.content.Context access$0(com.actionbarsherlock.widget.ShareActionProvider) -> access$0
+    java.lang.String access$1(com.actionbarsherlock.widget.ShareActionProvider) -> access$1
+    com.actionbarsherlock.widget.ShareActionProvider$OnShareTargetSelectedListener access$2(com.actionbarsherlock.widget.ShareActionProvider) -> access$2
+com.actionbarsherlock.widget.ShareActionProvider$OnShareTargetSelectedListener -> com.actionbarsherlock.widget.ShareActionProvider$OnShareTargetSelectedListener:
+    boolean onShareTargetSelected(com.actionbarsherlock.widget.ShareActionProvider,android.content.Intent) -> onShareTargetSelected
+com.actionbarsherlock.widget.ShareActionProvider$ShareAcitivityChooserModelPolicy -> com.actionbarsherlock.widget.ShareActionProvider$ShareAcitivityChooserModelPolicy:
+    com.actionbarsherlock.widget.ShareActionProvider this$0 -> this$0
+    boolean onChooseActivity(com.actionbarsherlock.widget.ActivityChooserModel,android.content.Intent) -> onChooseActivity
+com.actionbarsherlock.widget.ShareActionProvider$ShareMenuItemOnMenuItemClickListener -> com.actionbarsherlock.widget.ShareActionProvider$ShareMenuItemOnMenuItemClickListener:
+    com.actionbarsherlock.widget.ShareActionProvider this$0 -> this$0
+    boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem) -> onMenuItemClick
 com.echonest.api.v4.Artist -> com.echonest.api.v4.a:
     java.lang.String getID() -> a
     java.lang.String getForeignID(java.lang.String) -> a
@@ -5383,9 +5869,12 @@ com.google.ads.AdView -> com.google.ads.AdView:
     com.google.ads.internal.d b -> b
     void a(android.content.Context,java.lang.String,int,com.google.ads.AdSize,android.util.AttributeSet) -> a
     int a(android.content.Context,int) -> a
+    boolean a(android.content.Context,com.google.ads.AdSize,android.util.AttributeSet) -> a
+    boolean b(android.content.Context,com.google.ads.AdSize,android.util.AttributeSet) -> b
     void a(android.content.Context,java.lang.String,com.google.ads.AdSize,android.util.AttributeSet) -> a
     java.lang.String a(java.lang.String,android.content.Context,android.util.AttributeSet,boolean,boolean) -> a
     java.util.Set b$565bd434(java.lang.String,android.content.Context,android.util.AttributeSet) -> a
+    void a(android.app.Activity,com.google.ads.AdSize,java.lang.String) -> a
 com.google.ads.InterstitialAd -> com.google.ads.e:
 com.google.ads.a -> com.google.ads.f:
     java.lang.String a -> a
@@ -6292,37 +6781,39 @@ com.seekermob.songseeker.R$id -> com.seekermob.songseeker.d:
     int overlay_update -> Z
     int pager -> aa
     int password_input -> ab
-    int playpause -> ac
-    int progress_container -> ad
-    int rdio_logo -> ae
-    int releaseinfo_artistName -> af
-    int releaseinfo_image -> ag
-    int releaseinfo_releaseName -> ah
-    int root_container -> ai
-    int secondLine -> aj
-    int seekBar_danceability -> ak
-    int seekBar_energy -> al
-    int seekBar_hotness -> am
-    int seekBar_max_results -> an
-    int seekBar_mood -> ao
-    int seekBar_tempo -> ap
-    int seekBar_variety -> aq
-    int sevendigital_logo -> ar
-    int similar_artists -> as
-    int songinfo_albumName -> at
-    int songinfo_artistName -> au
-    int songinfo_image -> av
-    int songinfo_loading -> aw
-    int songinfo_playpause -> ax
-    int songinfo_songName -> ay
-    int songinfo_songVersion -> az
-    int stub_update -> aA
-    int text -> aB
-    int textViewUpdateStatus -> aC
-    int text_input -> aD
-    int thirdLine -> aE
-    int username_input -> aF
-    int youtube_logo -> aG
+    int play_in_dms -> ac
+    int play_in_grooveshark -> ad
+    int playpause -> ae
+    int progress_container -> af
+    int rdio_logo -> ag
+    int releaseinfo_artistName -> ah
+    int releaseinfo_image -> ai
+    int releaseinfo_releaseName -> aj
+    int root_container -> ak
+    int secondLine -> al
+    int seekBar_danceability -> am
+    int seekBar_energy -> an
+    int seekBar_hotness -> ao
+    int seekBar_max_results -> ap
+    int seekBar_mood -> aq
+    int seekBar_tempo -> ar
+    int seekBar_variety -> as
+    int sevendigital_logo -> at
+    int similar_artists -> au
+    int songinfo_albumName -> av
+    int songinfo_artistName -> aw
+    int songinfo_image -> ax
+    int songinfo_loading -> ay
+    int songinfo_playpause -> az
+    int songinfo_songName -> aA
+    int songinfo_songVersion -> aB
+    int stub_update -> aC
+    int text -> aD
+    int textViewUpdateStatus -> aE
+    int text_input -> aF
+    int thirdLine -> aG
+    int username_input -> aH
+    int youtube_logo -> aI
 com.seekermob.songseeker.R$layout -> com.seekermob.songseeker.e:
     int about -> a
     int activity_singlepane_empty -> b
@@ -6332,15 +6823,16 @@ com.seekermob.songseeker.R$layout -> com.seekermob.songseeker.e:
     int dialog_export -> f
     int dialog_import -> g
     int dialog_input -> h
-    int list_item_1_image -> i
-    int list_item_2_image_media -> j
-    int list_item_3 -> k
-    int listview_progress -> l
-    int pager -> m
-    int playlist_options -> n
-    int preferences -> o
-    int release_info -> p
-    int song_info -> q
+    int dialog_player -> i
+    int list_item_1_image -> j
+    int list_item_2_image_media -> k
+    int list_item_3 -> l
+    int listview_progress -> m
+    int pager -> n
+    int playlist_options -> o
+    int preferences -> p
+    int release_info -> q
+    int song_info -> r
 com.seekermob.songseeker.R$menu -> com.seekermob.songseeker.f:
     int artistinfo_menu -> a
     int export_playlist_menu -> b
@@ -6409,27 +6901,28 @@ com.seekermob.songseeker.R$string -> com.seekermob.songseeker.g:
     int remove_artist -> ad
     int remove_song -> ae
     int req_add_artists_profile -> af
-    int select_google_account -> ag
-    int settings -> ah
-    int share_album_text -> ai
-    int share_artist_text -> aj
-    int share_song_text -> ak
-    int share_using -> al
-    int similar_artists_frag_empty -> am
-    int similar_artists_title -> an
-    int some_artists_added_profile -> ao
-    int some_songs_added_playlist -> ap
-    int song -> aq
-    int songs -> ar
-    int songs_frag_empty_list -> as
-    int success_add_artists_profile -> at
-    int success_add_songs_playlist -> au
-    int tempo_str -> av
-    int user_playlists_frag_empty -> aw
-    int variety_str -> ax
-    int videos -> ay
-    int youtube_videos_frag_empty -> az
-    int youtube_videos_title -> aA
+    int requires_flash -> ag
+    int select_google_account -> ah
+    int settings -> ai
+    int share_album_text -> aj
+    int share_artist_text -> ak
+    int share_song_text -> al
+    int share_using -> am
+    int similar_artists_frag_empty -> an
+    int similar_artists_title -> ao
+    int some_artists_added_profile -> ap
+    int some_songs_added_playlist -> aq
+    int song -> ar
+    int songs -> as
+    int songs_frag_empty_list -> at
+    int success_add_artists_profile -> au
+    int success_add_songs_playlist -> av
+    int tempo_str -> aw
+    int user_playlists_frag_empty -> ax
+    int variety_str -> ay
+    int videos -> az
+    int youtube_videos_frag_empty -> aA
+    int youtube_videos_title -> aB
 com.seekermob.songseeker.R$style -> com.seekermob.songseeker.h:
     int DialogThemeNoTitle -> a
 com.seekermob.songseeker.comm.EchoNestComm -> com.seekermob.songseeker.comm.a:
@@ -7306,7 +7799,7 @@ com.seekermob.songseeker.ui.PreferencesActivity$ClearCacheTask -> com.seekermob.
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.seekermob.songseeker.ui.ProfileFragment -> com.seekermob.songseeker.ui.bm:
     com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter mAdapter -> a
-    com.seekermob.songseeker.ui.ProfileFragment$ProfileTask mProfileTask -> b
+    com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask mImportProfileTask -> b
     android.os.Bundle mSavedState -> c
     void onActivityCreated(android.os.Bundle) -> onActivityCreated
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
@@ -7319,7 +7812,7 @@ com.seekermob.songseeker.ui.ProfileFragment -> com.seekermob.songseeker.ui.bm:
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
-    boolean isProfileTaskRunning() -> a
+    boolean isTaskRunning() -> a
     void importProfile(java.lang.String,int) -> a
     void access$0(com.seekermob.songseeker.ui.ProfileFragment) -> a
 com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter -> com.seekermob.songseeker.ui.bn:
@@ -7353,7 +7846,7 @@ com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment$1 -> com.seeker
 com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment$2 -> com.seekermob.songseeker.ui.bu:
     com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment this$1 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.ProfileFragment$ProfileTask -> com.seekermob.songseeker.ui.bv:
+com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask -> com.seekermob.songseeker.ui.bv:
     com.seekermob.songseeker.data.UserProfile mUserProfile -> b
     java.util.ArrayList mArtists -> c
     java.lang.String mUsername -> d
@@ -7371,13 +7864,13 @@ com.seekermob.songseeker.ui.ProfileFragment$ProfileTask -> com.seekermob.songsee
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
-    java.util.ArrayList access$3(com.seekermob.songseeker.ui.ProfileFragment$ProfileTask) -> a
-    java.util.concurrent.atomic.AtomicInteger access$4(com.seekermob.songseeker.ui.ProfileFragment$ProfileTask) -> b
-    com.seekermob.songseeker.data.UserProfile access$5(com.seekermob.songseeker.ui.ProfileFragment$ProfileTask) -> c
-    java.util.ArrayList access$6(com.seekermob.songseeker.ui.ProfileFragment$ProfileTask) -> d
-    com.seekermob.songseeker.ui.ProfileFragment access$7(com.seekermob.songseeker.ui.ProfileFragment$ProfileTask) -> e
-com.seekermob.songseeker.ui.ProfileFragment$ProfileTask$1 -> com.seekermob.songseeker.ui.bw:
-    com.seekermob.songseeker.ui.ProfileFragment$ProfileTask this$1 -> a
+    java.util.ArrayList access$3(com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask) -> a
+    java.util.concurrent.atomic.AtomicInteger access$4(com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask) -> b
+    com.seekermob.songseeker.data.UserProfile access$5(com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask) -> c
+    java.util.ArrayList access$6(com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask) -> d
+    com.seekermob.songseeker.ui.ProfileFragment access$7(com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask) -> e
+com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask$1 -> com.seekermob.songseeker.ui.bw:
+    com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask this$1 -> a
     void onClick(android.view.View) -> onClick
 com.seekermob.songseeker.ui.ReleaseInfoFragment -> com.seekermob.songseeker.ui.bx:
     com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter mAdapter -> a
@@ -7556,8 +8049,10 @@ com.seekermob.songseeker.ui.SongsFragment -> com.seekermob.songseeker.ui.cp:
     void getNewPlaylist(java.lang.String) -> a
     com.echonest.api.v4.PlaylistParams buildPlaylistParams(java.util.ArrayList) -> b
     void onDataChanged(java.util.ArrayList) -> a
-    boolean isPlaySongsTaskRunning() -> a
+    boolean isAnyTaskRunning() -> a
     void access$0(com.seekermob.songseeker.ui.SongsFragment) -> a
+    void access$1(com.seekermob.songseeker.ui.SongsFragment) -> b
+    void access$2(com.seekermob.songseeker.ui.SongsFragment) -> c
 com.seekermob.songseeker.ui.SongsFragment$1 -> com.seekermob.songseeker.ui.cq:
     com.seekermob.songseeker.ui.SongsFragment this$0 -> a
     void onClick(android.view.View) -> onClick
@@ -7582,10 +8077,11 @@ com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$4 -> com.seekermo
     void onClick(android.view.View) -> onClick
 com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask -> com.seekermob.songseeker.ui.cw:
     java.lang.String err -> c
-    java.util.List mSongs -> d
-    android.view.View mProgressOverlay -> e
-    android.widget.ProgressBar mUpdateProgress -> f
-    java.util.ArrayList mSongIds -> g
+    int mPlayer -> d
+    java.util.List mSongs -> e
+    android.view.View mProgressOverlay -> f
+    android.widget.ProgressBar mUpdateProgress -> g
+    java.util.ArrayList mSongIds -> h
     java.util.concurrent.atomic.AtomicInteger mFetchCount -> a
     com.seekermob.songseeker.ui.SongsFragment this$0 -> b
     void onPreExecute() -> onPreExecute
@@ -7595,11 +8091,21 @@ com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask -> com.seekermob.songsee
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
     java.util.ArrayList access$3(com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask) -> a
-    com.seekermob.songseeker.ui.SongsFragment access$4(com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask) -> b
+    int access$4(com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask) -> b
+    com.seekermob.songseeker.ui.SongsFragment access$5(com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask) -> c
 com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask$1 -> com.seekermob.songseeker.ui.cx:
     com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask this$1 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask -> com.seekermob.songseeker.ui.cy:
+com.seekermob.songseeker.ui.SongsFragment$PlayerDialogFragment -> com.seekermob.songseeker.ui.cy:
+    com.seekermob.songseeker.ui.SongsFragment$PlayerDialogFragment newInstance() -> a
+    android.app.Dialog onCreateDialog(android.os.Bundle) -> onCreateDialog
+com.seekermob.songseeker.ui.SongsFragment$PlayerDialogFragment$1 -> com.seekermob.songseeker.ui.cz:
+    com.seekermob.songseeker.ui.SongsFragment$PlayerDialogFragment this$1 -> a
+    void onClick(android.view.View) -> onClick
+com.seekermob.songseeker.ui.SongsFragment$PlayerDialogFragment$2 -> com.seekermob.songseeker.ui.da:
+    com.seekermob.songseeker.ui.SongsFragment$PlayerDialogFragment this$1 -> a
+    void onClick(android.view.View) -> onClick
+com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask -> com.seekermob.songseeker.ui.db:
     java.lang.String err -> a
     com.seekermob.songseeker.data.SongInfo mSelectedSong -> b
     android.view.View mProgressOverlay -> d
@@ -7610,10 +8116,10 @@ com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask -> com.seekermob.songs
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     com.seekermob.songseeker.ui.SongsFragment access$2(com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask) -> a
-com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask$1 -> com.seekermob.songseeker.ui.cz:
+com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask$1 -> com.seekermob.songseeker.ui.dc:
     com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask this$1 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$SongsAdapter -> com.seekermob.songseeker.ui.da:
+com.seekermob.songseeker.ui.SongsFragment$SongsAdapter -> com.seekermob.songseeker.ui.dd:
     java.util.ArrayList playlist -> b
     android.view.LayoutInflater inflater -> c
     com.seekermob.songseeker.ui.SongsFragment this$0 -> a
@@ -7627,17 +8133,17 @@ com.seekermob.songseeker.ui.SongsFragment$SongsAdapter -> com.seekermob.songseek
     int[] $SWITCH_TABLE$com$seekermob$songseeker$util$MediaPlayerController$MediaStatus() -> a
     java.util.ArrayList access$2(com.seekermob.songseeker.ui.SongsFragment$SongsAdapter) -> a
     com.seekermob.songseeker.ui.SongsFragment access$3(com.seekermob.songseeker.ui.SongsFragment$SongsAdapter) -> b
-com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$1 -> com.seekermob.songseeker.ui.db:
+com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$1 -> com.seekermob.songseeker.ui.de:
     com.seekermob.songseeker.ui.SongsFragment$SongsAdapter this$1 -> a
     com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$2 -> com.seekermob.songseeker.ui.dc:
+com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$2 -> com.seekermob.songseeker.ui.df:
     com.seekermob.songseeker.ui.SongsFragment$SongsAdapter this$1 -> a
     com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$ViewHolder -> com.seekermob.songseeker.ui.dd:
+com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$ViewHolder -> com.seekermob.songseeker.ui.dg:
     android.widget.TextView topText -> a
     android.widget.TextView botText -> b
     android.widget.ImageView image -> c
@@ -7649,7 +8155,7 @@ com.seekermob.songseeker.ui.YouTubeVideosActivity -> com.seekermob.songseeker.ui
     android.support.v4.app.Fragment mFragment -> a
     void onCreate(android.os.Bundle) -> onCreate
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
-com.seekermob.songseeker.ui.YouTubeVideosFragment -> com.seekermob.songseeker.ui.de:
+com.seekermob.songseeker.ui.YouTubeVideosFragment -> com.seekermob.songseeker.ui.dh:
     com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter mAdapter -> a
     com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosTask mTask -> b
     android.os.Bundle mSavedState -> c
@@ -7662,7 +8168,7 @@ com.seekermob.songseeker.ui.YouTubeVideosFragment -> com.seekermob.songseeker.ui
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
     boolean isTaskRunning() -> a
     com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter access$0(com.seekermob.songseeker.ui.YouTubeVideosFragment) -> a
-com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter -> com.seekermob.songseeker.ui.df:
+com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter -> com.seekermob.songseeker.ui.di:
     java.util.ArrayList mVideos -> b
     android.view.LayoutInflater mInflater -> c
     com.seekermob.songseeker.ui.YouTubeVideosFragment this$0 -> a
@@ -7673,12 +8179,12 @@ com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter -> com.seekermob
     void setAdapter(java.util.ArrayList) -> a
     java.lang.Object getItem(int) -> getItem
     java.util.ArrayList access$1(com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter) -> a
-com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter$ViewHolder -> com.seekermob.songseeker.ui.dg:
+com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter$ViewHolder -> com.seekermob.songseeker.ui.dj:
     android.widget.TextView topText -> a
     android.widget.TextView botText -> b
     android.widget.ImageView image -> c
     com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter this$1 -> d
-com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosTask -> com.seekermob.songseeker.ui.dh:
+com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosTask -> com.seekermob.songseeker.ui.dk:
     java.lang.String err -> a
     com.seekermob.songseeker.ui.YouTubeVideosFragment this$0 -> b
     void onPreExecute() -> onPreExecute
