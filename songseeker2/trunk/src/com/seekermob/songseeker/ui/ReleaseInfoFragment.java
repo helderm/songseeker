@@ -155,6 +155,9 @@ public class ReleaseInfoFragment extends SherlockListFragment{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		final Intent intent;
 		
+		if(getActivity() == null) //fixes strange ActionBarSherlock error when changing orientation
+			return true;
+		
 		if (item.getItemId() == R.id.menu_buy) {
 			intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mRelease.buyUrl));
 			intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
