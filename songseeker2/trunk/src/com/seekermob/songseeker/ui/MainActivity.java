@@ -4,6 +4,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.integralblue.httpresponsecache.HttpResponseCache;
 
 import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.ui.InputDialogFragment.OnTextEnteredListener;
@@ -12,12 +13,8 @@ import com.seekermob.songseeker.util.MediaPlayerController;
 import com.seekermob.songseeker.util.Util.TabsAdapter;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
-import android.widget.Toast;
 
 public class MainActivity extends SherlockFragmentActivity implements OnTextEnteredListener{
 
@@ -29,8 +26,8 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
 		super.onCreate(savedInstanceState);	    
 		setContentView(R.layout.pager);
 		
-		//set cache dirs
-        FileCache.setCacheDirs(getApplicationContext());
+		//install cache
+        FileCache.install(getApplicationContext(), false);         
 		
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -54,15 +51,22 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
         if(savedInstanceState != null) {
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("index"));
         }
-        
-        //checks if we need to clear the cache 
-        new AutoClearCacheTask().execute();
 	}
 
 	@Override
 	protected void onPause() {
 		MediaPlayerController.getCon().release();
 		super.onPause();
+	}
+	
+	@Override
+	protected void onStop() {
+		HttpResponseCache httpCache = com.integralblue.httpresponsecache.HttpResponseCache.getInstalled();
+		if(httpCache != null){
+			httpCache.flush();
+		}
+		
+		super.onStop();
 	}
 	
     @Override
@@ -112,35 +116,6 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
 			profileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(
 	                "android:switcher:"+R.id.pager+":"+ProfileFragment.TAB_ID); //that is the tag the ViewPager sets to the fragment
 			profileFragment.importProfile(text, ProfileFragment.IMPORT_TYPE_LASTFM);
-		}
-	}
-	
-	public class AutoClearCacheTask extends AsyncTask<Void, Void, Boolean>{
-		
-		@Override
-		protected Boolean doInBackground(Void... params) {			
-			
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-			String aux = prefs.getString("auto_clear_cache", "10");			
-			int maxCache = Integer.parseInt(aux);
-			
-			if(maxCache == 0){
-				return false;
-			}
-			
-			long cacheSize = FileCache.getCache(MainActivity.this).getCacheSize();		
-			if(cacheSize > (maxCache * 1048576)){ //bytes in a Mb
-				FileCache.getCache(MainActivity.this).clear();
-				return true;
-			}					
-		
-			return false;
-		}		
-
-		@Override
-		protected void onPostExecute(Boolean isCleared) {
-			if(isCleared == true)
-				Toast.makeText(MainActivity.this, R.string.cache_auto_cleared, Toast.LENGTH_SHORT).show();
 		}
 	}
 }

@@ -1,13 +1,13 @@
 package com.seekermob.songseeker.util;
 
+import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.InputStream;
+
+import com.integralblue.httpresponsecache.HttpResponseCache;
+import com.jakewharton.DiskLruCache;
+import com.jakewharton.DiskLruCache.Editor;
 
 import android.content.Context;
 import android.util.Log;
@@ -15,243 +15,93 @@ import android.util.Log;
 public class FileCache {
 	private static FileCache obj = new FileCache();
 
-	private static File externalCacheDir = null;
-	private static File internalCacheDir = null;
+	private File externalCacheDir;
+	private File internalCacheDir;
+	
+	private DiskLruCache imageCache;
+	
+	private static final int CACHE_VERSION = 1;	
+	private static final int CACHE_SIZE = 1024 * 1024 * 5; //5MB
+	
+	private FileCache(){ }
 
-	private FileCache(){  }
-
-	public static void setCacheDirs(Context context){
-		externalCacheDir = context.getExternalCacheDir();
-		internalCacheDir = context.getCacheDir();
-
-		//build needed directories
-		File dir = new File(internalCacheDir + FileType.IMAGE.getDir());
-		if(!dir.exists())
-			dir.mkdirs();  
-
-		dir = new File(internalCacheDir + FileType.SONG.getDir());
-		if(!dir.exists())
-			dir.mkdirs();  
-
-		dir = new File(internalCacheDir + FileType.ARTIST.getDir());
-		if(!dir.exists())
-			dir.mkdirs();  
-
-		if(externalCacheDir != null && android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)){
-			dir = new File(externalCacheDir + FileType.IMAGE.getDir());
-			if(!dir.exists())
-				dir.mkdirs();      
-
-			dir = new File(externalCacheDir + FileType.SONG.getDir());
-			if(!dir.exists())
-				dir.mkdirs(); 
-
-			dir = new File(externalCacheDir + FileType.ARTIST.getDir());
-			if(!dir.exists())
-				dir.mkdirs();  
+	public static void install(Context context, boolean isReinstall){		
+		File httpCacheDir, imageCacheDir;
+        
+		obj.externalCacheDir = context.getExternalCacheDir();		
+		obj.internalCacheDir = context.getCacheDir();
+		
+		if(obj.externalCacheDir == null && obj.internalCacheDir == null){
+			Log.e(Util.APP, "Failed to install cache");
+			return;
 		}
-	}
-
-	public static FileCache getCache(Context context){
-
-		if(externalCacheDir == null){
-			externalCacheDir = context.getExternalCacheDir();
+		
+		if(obj.externalCacheDir != null && android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)){
+			httpCacheDir = new File(obj.externalCacheDir, "http");
+			imageCacheDir = new File(obj.externalCacheDir, "images");
+		}else{
+			httpCacheDir = new File(obj.internalCacheDir, "http");	
+			imageCacheDir = new File(obj.internalCacheDir, "images");
+		}
+		if(!isReinstall){
+			try {
+				com.integralblue.httpresponsecache.HttpResponseCache.install(httpCacheDir, CACHE_SIZE);
+	        }catch(Exception e) {
+	        	Log.e(Util.APP, "Failed to set up Http Cache", e);
+	        } 	
 		}
 
-		if(internalCacheDir == null){
-			internalCacheDir = context.getCacheDir();
+		try{
+			obj.imageCache = DiskLruCache.open(imageCacheDir, CACHE_VERSION, 1, CACHE_SIZE);
+		}catch(Exception e){
+			Log.e(Util.APP, "Failed to set up Image Cache", e);
 		}
-
-		if(externalCacheDir == null && internalCacheDir == null){
-			Log.w(Util.APP, "Cache dirs not set!");
-			return null;
-		}
-		return obj;
 	}
 
 	public static FileCache getCache(){
-		if(externalCacheDir == null && internalCacheDir == null){
-			Log.w(Util.APP, "Cache dirs not set!");
-			return null;
-		}
 		return obj;
 	}
 
-	public File getFile(String filename, FileType type){
-		boolean isMounted = false;
+	public BufferedInputStream getImage(String key) throws IOException{
+        DiskLruCache.Snapshot snapshot;
 
-		if(externalCacheDir != null && android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)){
-			isMounted = true;
-		}
-
-		switch(type){
-
-		case IMAGE:
-			if(isMounted){
-				return new File(externalCacheDir + FileType.IMAGE.getDir(), String.valueOf(filename.hashCode()));
-			}else{
-				return new File(internalCacheDir + FileType.IMAGE.getDir(), String.valueOf(filename.hashCode()));
-			}  		
-
-		case SONG:
-			if(isMounted){
-				return new File(externalCacheDir + FileType.SONG.getDir(), filename);
-			}else{
-				return new File(internalCacheDir + FileType.SONG.getDir(), filename);
-			}  
-
-		case ARTIST:
-			if(isMounted){
-				return new File(externalCacheDir + FileType.ARTIST.getDir(), filename);
-			}else{
-				return new File(internalCacheDir + FileType.ARTIST.getDir(), filename);
-			}     		
-		}
-
-		return null;
+        if(imageCache == null) 
+        	return null;
+        
+        snapshot = imageCache.get(Integer.toString(key.hashCode()));
+        if (snapshot == null) 
+        	return null;
+                               
+        return new BufferedInputStream(snapshot.getInputStream(0)); 
+	}
+	
+	public void putImage(InputStream is, String key) throws IOException{
+		
+        if(imageCache == null) 
+        	return;
+		
+		Editor editor = imageCache.edit(Integer.toString(key.hashCode()));		
+		Util.CopyStream(is, editor.newOutputStream(0));
+		editor.commit();		
 	}
 
-	public void putObject(Serializable obj, String filename, FileType type) throws Exception{		
-		OutputStream fos = new FileOutputStream(getFile(filename, type));
-		ObjectOutputStream out = new ObjectOutputStream(fos);
-		out.writeObject(obj);
-		out.close();
-	}
+	public void clear(Context c){
 
-	public Object getObject(String filename, FileType type) throws Exception{
-		try{
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream(getFile(filename, type)));
-			return in.readObject();    	
-		}catch(FileNotFoundException e){
-			return null;
-		}catch(Exception e){
-			Log.w(Util.APP, "Unable to load a file from cache...", e);
-			return null;
-		}
-	}
-
-	public void clear(){
-		File[] files = null;
-		File dir = null;
-
-		//removes files in the external storage
-		if(externalCacheDir != null && android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)){
-			dir = new File(externalCacheDir + FileType.IMAGE.getDir());    		
-			if((files = dir.listFiles()) != null){	        	    	
-				for(File f : files){
-					f.delete();
-				}
+		try {
+			if(imageCache != null){
+				imageCache.delete();				
 			}
-
-			dir = new File(externalCacheDir + FileType.SONG.getDir());
-			if((files = dir.listFiles()) != null){	        	    	
-				for(File f : files){
-					f.delete();
-				}
-			}
-
-			dir = new File(externalCacheDir + FileType.ARTIST.getDir());
-			if((files = dir.listFiles()) != null){	        	    	
-				for(File f : files){
-					f.delete();
-				}
-			}    		
-		}
-
-		//removes files from the internal storage
-		dir = new File(internalCacheDir + FileType.IMAGE.getDir());    		
-		if((files = dir.listFiles()) != null){	        	    	
-			for(File f : files){
-				f.delete();
-			}
-		}
-
-		dir = new File(internalCacheDir + FileType.SONG.getDir());
-		if((files = dir.listFiles()) != null){	        	    	
-			for(File f : files){
-				f.delete();
-			}
-		}    
-
-		dir = new File(internalCacheDir + FileType.ARTIST.getDir());
-		if((files = dir.listFiles()) != null){	        	    	
-			for(File f : files){
-				f.delete();
-			}
-		}     	
-	}
-
-	public long getCacheSize(){
-		long totalSize = 0;
-		File[] files = null;
-		File dir = null;
-
-		try{
-
-			if(externalCacheDir != null && android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)){
-				dir = new File(externalCacheDir + FileType.IMAGE.getDir());    		
-				if((files = dir.listFiles()) != null){	        	    	
-					for(File f : files){
-						totalSize += f.length();
-					}
-				}
-
-				dir = new File(externalCacheDir + FileType.SONG.getDir());
-				if((files = dir.listFiles()) != null){	        	    	
-					for(File f : files){
-						totalSize += f.length();
-					}
-				}
-
-				dir = new File(externalCacheDir + FileType.ARTIST.getDir());
-				if((files = dir.listFiles()) != null){	        	    	
-					for(File f : files){
-						totalSize += f.length();
-					}
-				}
-			}
-
-			dir = new File(internalCacheDir + FileType.IMAGE.getDir());    		
-			if((files = dir.listFiles()) != null){	        	    	
-				for(File f : files){
-					totalSize += f.length();
-				}
-			}
-
-			dir = new File(internalCacheDir + FileType.SONG.getDir());
-			if((files = dir.listFiles()) != null){	        	    	
-				for(File f : files){
-					totalSize += f.length();
-				}
-			} 
-
-			dir = new File(internalCacheDir + FileType.ARTIST.getDir());
-			if((files = dir.listFiles()) != null){	        	    	
-				for(File f : files){
-					totalSize += f.length();
-				}
-			} 
-
-		}catch (Exception e) { //TODO: TEMPORARY! Just for an emergency issue. Should be fixed with the 'if(listFiles == null)'
-			Log.e(Util.APP, "Error while trying to fetch the cache size!", e);
-				return 0;
-		}
-
-		return totalSize;
-	}
-
-	public enum FileType{
-		IMAGE ("/images"),
-		SONG ("/songs"),
-		ARTIST ("/artists");
-
-		private String dir;
-
-		FileType(String dir) {
-			this.dir = dir;	        
+			
+			HttpResponseCache httpCache = com.integralblue.httpresponsecache.HttpResponseCache.getInstalled();
+			if(httpCache != null)
+				httpCache.delete();
+			
+			install(c, true);
+			
+		} catch (IOException e) {
+			Log.e(Util.APP, "Failed to destroy the Http Cache", e);
+			return;
 		}		
-		public String getDir(){
-			return this.dir;
-		}    	
+		
 	}
 }

@@ -76,18 +76,16 @@ public class Util {
 		return artists;
 	}
 
-	public static void CopyStream(InputStream is, OutputStream os){
+	public static void CopyStream(InputStream is, OutputStream os) throws IOException{
 		final int buffer_size=1024;
-		try{
-			byte[] bytes=new byte[buffer_size];
-			for(;;){
-				int count=is.read(bytes, 0, buffer_size);
-				if(count==-1)
-					break;
-				os.write(bytes, 0, count);
-			}
-		}
-		catch(Exception ex){}
+		
+		byte[] bytes=new byte[buffer_size];
+		for(;;){
+			int count=is.read(bytes, 0, buffer_size);
+			if(count==-1)
+				break;
+			os.write(bytes, 0, count);
+		}		
 	}
 	
 	/** Save the object to the device persistent storage*/
@@ -310,7 +308,8 @@ public class Util {
 
 		@Override
 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
-			mViewPager.setCurrentItem(tab.getPosition());
+			if(mViewPager.getCurrentItem() != tab.getPosition())
+				mViewPager.setCurrentItem(tab.getPosition());
 		}
 
 		@Override

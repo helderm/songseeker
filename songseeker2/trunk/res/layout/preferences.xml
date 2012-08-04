@@ -18,14 +18,7 @@
             android:summary="@string/clear_cache_summ_str"
             android:title="@string/clear_cache_title_str" >
         </Preference>
-
-        <ListPreference
-            android:defaultValue="10"
-            android:entries="@array/auto_clear_cache_entries_preference"
-            android:entryValues="@array/auto_clear_cache_values_preference"
-            android:key="auto_clear_cache"
-            android:summary="@string/auto_clear_cache_summ_str"
-            android:title="@string/auto_clear_cache_title_str" />
+        
     </PreferenceCategory>
 
 </PreferenceScreen>

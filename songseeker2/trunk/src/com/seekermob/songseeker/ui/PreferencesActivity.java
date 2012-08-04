@@ -77,7 +77,7 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			FileCache.getCache(getApplicationContext()).clear();        	
+			FileCache.getCache().clear(getApplicationContext());        	
 			return null;
 		}		
 

@@ -114,12 +114,9 @@
     <string name="clear_cache_summ_str">Removes cached data stored in your device</string>
     <string name="general_preferences">General Preferences</string>
     <string name="cache_preferences">Cache Preferences</string>
-    <string name="auto_clear_cache_title_str">Auto Clear Cache</string>
-    <string name="auto_clear_cache_summ_str">Auto clears the cache when it reachs the specified size</string>
     <string name="auth_cleared">Authentications cleared!</string>
     <string name="clearing_cache">Clearing cache, please wait…</string>
     <string name="cache_cleared">Cache cleared!</string>
-    <string name="cache_auto_cleared">Cache auto cleared!</string>
     <string name="app_description">Song Seeker is a new way of discovering music that matches to your taste! Find millions of songs with a single click, listen to full length songs or 30s samples, and much more! You can also configure your playlist with several options, export it to other services like YouTube and Grooveshark, and even buy songs that you like! Some of the features are:</string>
     <string name="feature_description_playlist">* Create a personalized playlist: With a single click, you will automatically receive songs that matches your taste!</string>
     <string name="feature_description_play">* Play the songs of your playlist: Play FULL length songs of your playlist for FREE on Dood\'s Music Streamer! (\'Play Songs\' action on \'Songs\' tab)</string>
@@ -148,18 +145,5 @@
     <string name="play_in_dms">Play in Dood\'s Music</string>
     <string name="play_in_grooveshark">Play in Grooveshark Web</string>
     <string name="requires_flash">This feature requires the Flash Player installed.</string>
-    
-    <string-array name="auto_clear_cache_entries_preference">
-        <item>Off</item>
-        <item>2 Mb</item>
-        <item>5 Mb</item>
-        <item>10 Mb</item>
-    </string-array>
-    <string-array name="auto_clear_cache_values_preference">
-        <item>0</item>
-        <item>2</item>
-        <item>5</item>
-        <item>10</item>
-    </string-array>
 
 </resources>

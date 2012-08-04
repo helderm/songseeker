@@ -1,19 +1,13 @@
 package com.seekermob.songseeker.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.BufferedInputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Stack;
 import java.util.WeakHashMap;
-
-import com.seekermob.songseeker.util.FileCache.FileType;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -30,8 +24,8 @@ public class ImageLoader {
     
 	private static MemoryCache memoryCache = new MemoryCache();
 	private static PhotosQueue photosQueue = loader.new PhotosQueue();
-    
-    private Map<View, String> views = Collections.synchronizedMap(new WeakHashMap<View, String>());
+	
+    private Map<View, String> views = Collections.synchronizedMap(new WeakHashMap<View, String>()); //TODO: Memory leak?
     private static PhotosLoader photoLoaderThread = null;
     private int stub_id;    
     
@@ -99,26 +93,24 @@ public class ImageLoader {
     }
     
     private Bitmap getBitmap(String url, ImageSize imageSize){
-
+    	Bitmap bitmap;
+    	
     	//from web
     	try {
-    		File f=FileCache.getCache().getFile(url, FileType.IMAGE);
+    		if((bitmap = decodeFile(url, imageSize)) != null){
+   				return bitmap;
+    		}
 
-    		//from SD cache
-    		Bitmap b = decodeFile(f, imageSize);
-    		if(b!=null)
-    			return b;
-
-    		Bitmap bitmap=null;
+    		//Bitmap bitmap=null;
     		URL imageUrl = new URL(url);
     		HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
     		conn.setConnectTimeout(30000);
     		conn.setReadTimeout(30000);
-    		InputStream is=conn.getInputStream();
-    		OutputStream os = new FileOutputStream(f);
-    		Util.CopyStream(is, os);
-    		os.close();
-    		bitmap = decodeFile(f, imageSize);
+    		InputStream webImage = conn.getInputStream();
+    		
+    		FileCache.getCache().putImage(webImage, url);
+  
+    		bitmap = decodeFile(url, imageSize);
     		return bitmap;
     	} catch (Exception ex){
     		Log.i(Util.APP, "Failed to download image from ["+url+"]", ex);
@@ -132,16 +124,19 @@ public class ImageLoader {
     }
 
     //decodes image and scales it to reduce memory consumption
-    private Bitmap decodeFile(File f, ImageSize imageSize) throws OutOfMemoryError{
+    private Bitmap decodeFile(String url, ImageSize imageSize) throws OutOfMemoryError{
         try {
-          
+        	
+        	BufferedInputStream is = FileCache.getCache().getImage(url);
+        	if(is == null)
+        		return null;        	
+        	
         	//decode image size
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(new FileInputStream(f),null,o);
+            BitmapFactory.decodeStream(is,null,o);
             
             //Find the correct scale value. It should be the power of 2.
-            //final int REQUIRED_SIZE=140;
             int width_tmp=o.outWidth, height_tmp=o.outHeight;
             int scale=1;
             while(true){
@@ -152,12 +147,17 @@ public class ImageLoader {
                 scale*=2;
             }
             
+            is.close();
+            is = FileCache.getCache().getImage(url);
+            
             //decode with inSampleSize
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize=scale;
             
-            return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
-        } catch (FileNotFoundException e) { } 
+            return BitmapFactory.decodeStream(is, null, o2);
+        } catch (Exception e) { 
+        	Log.e(Util.APP, "Unable to decode image!", e);
+        } 
         
         return null;
     }
