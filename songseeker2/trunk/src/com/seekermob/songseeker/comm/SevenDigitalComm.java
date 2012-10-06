@@ -15,7 +15,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
@@ -23,9 +22,7 @@ import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
 import com.seekermob.songseeker.data.ArtistInfo;
 import com.seekermob.songseeker.data.ReleaseInfo;
 import com.seekermob.songseeker.data.SongInfo;
-//import com.seekermob.songseeker.util.FileCache;
 import com.seekermob.songseeker.util.Util;
-//import com.seekermob.songseeker.util.FileCache.FileType;
 
 public class SevenDigitalComm {
 
@@ -42,7 +39,7 @@ public class SevenDigitalComm {
 		return comm;
 	}
 
-	public SongInfo querySongDetails(String trackId, String trackName, String artistName, Context context) throws ServiceCommException{
+	public SongInfo querySongDetails(String trackId, String trackName, String artistName) throws ServiceCommException{
 		Element fstNmElmnt;
 		NodeList fstNmElmntLst;
 
@@ -52,13 +49,6 @@ public class SevenDigitalComm {
 		String reqParam = "trackid="+trackId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
 
 		try {
-			
-			//try fetching song from cache first
-			/*SongInfoCache cachedSong = (SongInfoCache)FileCache.getCache(context).getObject(trackId, FileType.SONG);
-			if(cachedSong != null){
-				return new SongInfo(cachedSong);
-			}*/
-			
 			URL url = new URL(urlStr+reqParam);			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
@@ -84,9 +74,6 @@ public class SevenDigitalComm {
 			song = parseSongDetails(doc.getDocumentElement()).get(0);
 			if(song == null)
 				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
-
-			//cache the song details for faster access			
-			//FileCache.getCache(context).putObject(new SongInfoCache(song), song.id, FileType.SONG);
 
 		}catch(IOException e) {
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	
@@ -136,8 +123,6 @@ public class SevenDigitalComm {
  				if(artistName.equalsIgnoreCase(song.artist.name) || song.artist.name.toLowerCase().contains(artistName.toLowerCase()) 
  						|| artistName.toLowerCase().contains(song.artist.name.toLowerCase())){
  					
- 					//cache the song details for faster access			
- 					//FileCache.getCache().putObject(new SongInfoCache(song), song.id, FileType.SONG);
  					return song;
  				} 	
 			}
@@ -357,7 +342,6 @@ public class SevenDigitalComm {
 				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
 			}	
 
-			//songs = parseSongDetails(doc, true);
 			songs = parseSongDetails(doc.getDocumentElement());
 
 		}catch(IOException e) {
@@ -414,7 +398,7 @@ public class SevenDigitalComm {
 		return releases;
 	}
 
-	public ArtistInfo queryArtistDetails(String artistId, Context context) throws ServiceCommException{
+	public ArtistInfo queryArtistDetails(String artistId) throws ServiceCommException{
 		ArtistInfo artist;		
 		Element fstNmElmnt;
 		NodeList fstNmElmntLst;
@@ -423,20 +407,10 @@ public class SevenDigitalComm {
 		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
 
 		try {
-			//try fetching song from cache first
-			/*ArtistInfoCache cachedArtist = (ArtistInfoCache)FileCache.getCache(context).getObject(artistId, FileType.ARTIST);
-			if(cachedArtist != null){
-				return new ArtistInfo(cachedArtist);
-			}*/
 			
 			URL url = new URL(urlStr+reqParam);			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			
-			//Use this to fetch http headers!
-			//URLConnection conn = url.openConnection();
-			//conn.getInputStream();
-			//http://www.roseindia.net/java/java-get-example/http-headers.shtml
 			
 			Document doc = db.parse(new InputSource(url.openStream()));
 			doc.getDocumentElement().normalize();
@@ -453,9 +427,6 @@ public class SevenDigitalComm {
 			
 			if(artist == null)
 				throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
-			
-			//add this artist to the cache
-			//FileCache.getCache(context).putObject(new ArtistInfoCache(artist), artist.id, FileType.ARTIST);
 
 		}catch(IOException e) {
 			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	
@@ -469,6 +440,85 @@ public class SevenDigitalComm {
 		}		
 
 		return artist;
+	}
+	
+	public ArrayList<ReleaseInfo> queryEditorialList() throws ServiceCommException{
+		ArrayList<ReleaseInfo> queriedReleases = new ArrayList<ReleaseInfo>();
+		ArrayList<ReleaseInfo> releases = new ArrayList<ReleaseInfo>();
+		
+		final int MIN_EDITORIAL_RESULTS = 16;
+		
+		Element fstNmElmnt;
+		NodeList fstNmElmntLst;
+
+		try {
+			
+			String urlStr = ENDPOINT + "editorial/list?";
+			String reqParam = "key=featured_albums" + "&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
+			
+			URL url = new URL(urlStr+reqParam);			
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.parse(new InputSource(url.openStream()));
+			doc.getDocumentElement().normalize();
+
+			//check response
+			fstNmElmntLst = doc.getElementsByTagName("response");
+			fstNmElmnt = (Element) fstNmElmntLst.item(0);
+			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
+				parseError(fstNmElmnt);
+			}	
+
+			queriedReleases = parseReleaseDetails(doc.getDocumentElement());	
+			releases.addAll(queriedReleases);			
+			queriedReleases.clear();
+			
+			if(releases.size() >= MIN_EDITORIAL_RESULTS)
+				return releases;
+			
+			reqParam = "key=new_releases" + "&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
+			
+			url = new URL(urlStr+reqParam);			
+			db = dbf.newDocumentBuilder();
+			doc = db.parse(new InputSource(url.openStream()));
+			doc.getDocumentElement().normalize();
+			
+			//check response
+			fstNmElmntLst = doc.getElementsByTagName("response");
+			fstNmElmnt = (Element) fstNmElmntLst.item(0);
+			if(!fstNmElmnt.getAttribute("status").equalsIgnoreCase("ok")){
+				parseError(fstNmElmnt);
+			}	
+
+			queriedReleases = parseReleaseDetails(doc.getDocumentElement());
+			releases.addAll(queriedReleases);
+			queriedReleases.clear();
+			
+			if(releases.size() >= MIN_EDITORIAL_RESULTS)
+				return releases;
+			
+			reqParam = "key=staff_recommendations" + "&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
+			
+			url = new URL(urlStr+reqParam);			
+			db = dbf.newDocumentBuilder();
+			doc = db.parse(new InputSource(url.openStream()));
+			doc.getDocumentElement().normalize();
+			
+			queriedReleases = parseReleaseDetails(doc.getDocumentElement());
+			releases.addAll(queriedReleases);
+
+		}catch(IOException e) {
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.IO);	
+		}catch(NullPointerException e){
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.REQ_FAILED);
+		}catch(ServiceCommException e){
+			throw e;
+		}catch(Exception e){
+			Log.w(Util.APP, e.getMessage(), e);
+			throw new ServiceCommException(ServiceID.SEVENDIGITAL, ServiceErr.UNKNOWN);	
+		}	
+		
+		return releases;
 	}
 	
 	private ArrayList<SongInfo> parseSongDetails(Element element) throws Exception{
@@ -550,8 +600,6 @@ public class SevenDigitalComm {
 		Element fstNmElmnt, fstElmnt;
 		NodeList fstNm, fstNmElmntLst;
 
-		//NodeList nodeLst = doc.getElementsByTagName("release");					
-
 		NodeList nodeLst = element.getElementsByTagName("release");				
 		
 		//if(nodeLst.getLength() < 1)
@@ -589,7 +637,6 @@ public class SevenDigitalComm {
 			release.image = ((Node) fstNm.item(0)).getNodeValue();
 
 			//get artist details
-			//release.artist = parseReleaseArtistDetails(doc);
 			release.artist = parseArtistDetails(fstElmnt).get(0);
 
 			//mount buy url

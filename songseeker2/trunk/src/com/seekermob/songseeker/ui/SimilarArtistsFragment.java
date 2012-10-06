@@ -222,7 +222,7 @@ public class SimilarArtistsFragment extends SherlockListFragment {
 					String foreignId = a.getForeignID(EchoNestComm.SEVEN_DIGITAL);
 
 					try{
-						artist = SevenDigitalComm.getComm().queryArtistDetails(foreignId.split(":")[2], getActivity());
+						artist = SevenDigitalComm.getComm().queryArtistDetails(foreignId.split(":")[2]);
 					}catch (ServiceCommException e) {
 						Log.i(Util.APP, "Artist ["+a.getForeignID(EchoNestComm.SEVEN_DIGITAL)+"] not found in 7digital, skipping...");
 						continue;

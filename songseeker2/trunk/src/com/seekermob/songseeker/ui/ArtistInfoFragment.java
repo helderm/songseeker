@@ -367,7 +367,7 @@ public class ArtistInfoFragment extends SherlockListFragment{
 				
 				//will need to fetch artist details, since we dont have the artist image url 
 				if(mArtist.image == null){				
-					mArtist = SevenDigitalComm.getComm().queryArtistDetails(mArtist.id, getActivity());
+					mArtist = SevenDigitalComm.getComm().queryArtistDetails(mArtist.id);
 				}	
 				
 				if(isCancelled())
@@ -454,7 +454,7 @@ public class ArtistInfoFragment extends SherlockListFragment{
 			
 			//data missing, call the webservice before adding
 			try {
-				mArtist = SevenDigitalComm.getComm().queryArtistDetails(mArtist.id, getActivity());
+				mArtist = SevenDigitalComm.getComm().queryArtistDetails(mArtist.id);
 			} catch (ServiceCommException e) {
 				Log.w(Util.APP, "Failed to add artist to profile!", e);
 				err = getString(R.string.err_add_artists_profile);

@@ -36,7 +36,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
 
 		//create tabs
 		ActionBar.Tab songsTab = actionBar.newTab().setText(R.string.songs);
-		//ActionBar.Tab playlistsTab = actionBar.newTab().setText(R.string.playlists);
+		//ActionBar.Tab featuredTab = actionBar.newTab().setText(R.string.featured_releases);
 		ActionBar.Tab profileTab = actionBar.newTab().setText(R.string.profile);
 		
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -45,7 +45,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
         
         //add tabs
         mTabsAdapter.addTab(songsTab, SongsFragment.class);        
-        //mTabsAdapter.addTab(playlistsTab, PlaylistsFragment.class);
+        //mTabsAdapter.addTab(featuredTab, FeaturedReleasesFragment.class);
         mTabsAdapter.addTab(profileTab, ProfileFragment.class);
         
         if(savedInstanceState != null) {

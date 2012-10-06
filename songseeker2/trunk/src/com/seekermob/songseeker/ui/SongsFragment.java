@@ -490,7 +490,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			
 			try{
 				song = SevenDigitalComm.getComm().querySongDetails(mSelectedSong.id, 
-						mSelectedSong.name, mSelectedSong.artist.name, getActivity());				
+						mSelectedSong.name, mSelectedSong.artist.name);				
 			}catch(ServiceCommException e){
 				err = e.getMessage(getActivity());		
 				return null;
