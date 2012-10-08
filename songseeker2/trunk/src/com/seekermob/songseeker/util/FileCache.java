@@ -25,7 +25,7 @@ public class FileCache {
 	
 	private FileCache(){ }
 
-	public static void install(Context context, boolean isReinstall){		
+	public static void install(Context context){		
 		File httpCacheDir, imageCacheDir;
         
 		obj.externalCacheDir = context.getExternalCacheDir();		
@@ -43,13 +43,11 @@ public class FileCache {
 			httpCacheDir = new File(obj.internalCacheDir, "http");	
 			imageCacheDir = new File(obj.internalCacheDir, "images");
 		}
-		if(!isReinstall){
-			try {
+		try {
 				com.integralblue.httpresponsecache.HttpResponseCache.install(httpCacheDir, CACHE_SIZE);
-	        }catch(Exception e) {
+	    }catch(Exception e) {
 	        	Log.e(Util.APP, "Failed to set up Http Cache", e);
-	        } 	
-		}
+	    } 			
 
 		try{
 			obj.imageCache = DiskLruCache.open(imageCacheDir, CACHE_VERSION, 1, CACHE_SIZE);
@@ -96,7 +94,7 @@ public class FileCache {
 			if(httpCache != null)
 				httpCache.delete();
 			
-			install(c, true);
+			install(c);
 			
 		} catch (IOException e) {
 			Log.e(Util.APP, "Failed to destroy the Http Cache", e);

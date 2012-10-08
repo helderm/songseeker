@@ -27,7 +27,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
 		setContentView(R.layout.pager);
 		
 		//install cache
-        FileCache.install(getApplicationContext(), false);         
+        FileCache.install(getApplicationContext());         
 		
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
