@@ -99,11 +99,6 @@ public class EchoNestComm {
 				try {
 					Thread.sleep(3000);
 				} catch (InterruptedException e1) {	}	
-			} catch(OutOfMemoryError e){
-				//happened once inside jEN when fetching 100 songs in a playlist 
-				Log.e(Util.APP, "Insufficient free memory to fetch EN data!", e);
-				System.gc();
-				throw new ServiceCommException(ServiceID.ECHONEST, ServiceErr.UNKNOWN);
 			}
 		}
 

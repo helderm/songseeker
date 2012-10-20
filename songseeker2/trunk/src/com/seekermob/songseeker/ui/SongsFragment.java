@@ -63,7 +63,6 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	private static final String STATE_PLAY_SONGS_IDS = "playSongsIds";
 	private static final String STATE_PLAY_SONGS_INDEX = "playSongsIndex";
 	private static final String STATE_PLAY_SONGS_RUNNING = "playSongsRunning";
-	private static final String STATE_PLAY_SONGS_PLAYER = "playSongsPlayer";
 	private static final String STATE_SONG_DETAILS_RUNNING = "songDetailsRunning";
 	private static final String STATE_SONG_DETAILS_SONG = "songDetailsSong";
 	
@@ -164,7 +163,6 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
             outState.putBoolean(STATE_PLAY_SONGS_RUNNING, true);
             outState.putStringArrayList(STATE_PLAY_SONGS_IDS, task.mSongIds);
             outState.putInt(STATE_PLAY_SONGS_INDEX, task.mFetchCount.get());
-            outState.putInt(STATE_PLAY_SONGS_PLAYER, task.mPlayer);
 
             mPlaySongsTask = null;
         }        
@@ -211,10 +209,9 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		if(savedInstanceState.getBoolean(STATE_PLAY_SONGS_RUNNING)) {
 			ArrayList<String> ids = savedInstanceState.getStringArrayList(STATE_PLAY_SONGS_IDS);
 			int index = savedInstanceState.getInt(STATE_PLAY_SONGS_INDEX);
-			int player = savedInstanceState.getInt(STATE_PLAY_SONGS_PLAYER);
 
 			if (ids != null) {
-				mPlaySongsTask = (PlaySongsTask) new PlaySongsTask(ids, index, player).execute();
+				mPlaySongsTask = (PlaySongsTask) new PlaySongsTask(ids, index).execute();
 			}
 		}
 		
@@ -236,16 +233,8 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent i;
-		
-		if (item.getItemId() == R.id.menu_play_songs) {
-			
-			PlayerDialogFragment playerDiag = PlayerDialogFragment.newInstance();
-			FragmentTransaction ft = getFragmentManager().beginTransaction();
-			playerDiag.show(ft, "player-dialog");
-			
-			//playSongsIntoDoodsMusic();
-			return true;
-		} else if (item.getItemId() == R.id.menu_refresh_songs) {
+
+		if (item.getItemId() == R.id.menu_refresh_songs) {
 			if(isAnyTaskRunning()){
 				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
 				return true;
@@ -647,34 +636,12 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		//start task to fetch song ids from grooveshark
 		if(mPlaySongsTask != null)
 			mPlaySongsTask.cancel(true);
-		mPlaySongsTask = (PlaySongsTask) new PlaySongsTask(PlaySongsTask.DMS_PLAYER).execute();
-	}
-	
-	private void playSongsIntoGrooveshark(){
-		
-		if(isAnyTaskRunning()){
-			Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
-			return;
-		}
-		
-		if(mAdapter == null || mAdapter.playlist == null || mAdapter.playlist.size() == 0){
-			Toast.makeText(getActivity().getBaseContext(), R.string.no_song_found, Toast.LENGTH_SHORT).show();			
-			return;
-		}
-		
-		//start task to fetch song ids from grooveshark
-		if(mPlaySongsTask != null)
-			mPlaySongsTask.cancel(true);
-		mPlaySongsTask = (PlaySongsTask) new PlaySongsTask(PlaySongsTask.GROOVESHARK_PLAYER).execute();
+		mPlaySongsTask = (PlaySongsTask) new PlaySongsTask().execute();
 	}
 
 	private class PlaySongsTask extends AsyncTask<Void, Integer, int[]>{
 
 		private String err;
-		
-		private int mPlayer;	//0 -> DMS, 1-> Grooveshark		
-		public static final int DMS_PLAYER = 0;
-		public static final int GROOVESHARK_PLAYER = 1;
 		
 		private List<SongInfo> mSongs = new ArrayList<SongInfo>(mAdapter.playlist);
 		private View mProgressOverlay;
@@ -683,14 +650,12 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 		private ArrayList<String> mSongIds = new ArrayList<String>();
 		final AtomicInteger mFetchCount = new AtomicInteger();
 		
-        protected PlaySongsTask(int player) {
-        	mPlayer = player;
+        protected PlaySongsTask() {
         }
 		
-        protected PlaySongsTask(ArrayList<String> ids, int i, int player) {
+        protected PlaySongsTask(ArrayList<String> ids, int i) {
         	mSongIds = ids;
         	mFetchCount.set(i);
-        	mPlayer = player;
         }
 		
 		@Override
@@ -716,10 +681,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			
             //show dms warning only once
 			if(mFetchCount.get() == 0){
-				if(mPlayer == DMS_PLAYER)
-					Toast.makeText(getActivity().getBaseContext(), R.string.check_dms_setting_on, Toast.LENGTH_LONG).show();
-				else
-					Toast.makeText(getActivity().getBaseContext(), R.string.requires_flash, Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity().getBaseContext(), R.string.check_dms_setting_on, Toast.LENGTH_LONG).show();
 			}
 
 			//access is limited today to some ws calls/ip/minute, so i'll need to truncate the playlist 
@@ -806,26 +768,13 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			if(ids == null || ids.length == 0){
 				Toast.makeText(getActivity(), R.string.no_song_found, Toast.LENGTH_SHORT).show();
 				return;
-			}
-			
-			if(mPlayer == DMS_PLAYER){			
-				Intent intent = new Intent();
-				intent.setAction("com.mysticdeath.md_gs_app.remotelist");
-				intent.putExtra("name", Util.APP);
-				intent.putExtra("songIDs", ids);
-				getActivity().sendBroadcast(intent);
-			}else{
-				//build url with fetched song ids
-				StringBuilder sb = new StringBuilder();				
-				sb.append(GroovesharkComm.WIDGET_URL);			
-				for(int id : ids){
-					sb.append(id+",");
-				}
-				sb.deleteCharAt(sb.length()-1);	
-				
-				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(sb.toString()));
-				startActivity(intent);
-			}
+			}			
+	
+			Intent intent = new Intent();
+			intent.setAction("com.mysticdeath.md_gs_app.remotelist");
+			intent.putExtra("name", Util.APP);
+			intent.putExtra("songIDs", ids);
+			getActivity().sendBroadcast(intent);
 		}
 		
         @Override
@@ -877,6 +826,18 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	    	
 	    	View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_export, null, false);
 	    	
+	    	v.findViewById(R.id.export_to_dms).setOnClickListener(new View.OnClickListener() {
+	    		@Override
+	    		public void onClick(View v) {
+	    			int index = ((MainActivity)getActivity()).mViewPager.getCurrentItem();
+	    			SongsFragment f = (SongsFragment) getFragmentManager().findFragmentByTag(
+	                        "android:switcher:"+R.id.pager+":"+index); //that is the tag the ViewPager sets to the fragment
+	    			
+	    			f.playSongsIntoDoodsMusic();	    			
+	    			dismiss();
+	    		}
+	    	});	    	
+	    	
 	    	v.findViewById(R.id.export_to_grooveshark).setOnClickListener(new View.OnClickListener() {
 	    		@Override
 	    		public void onClick(View v) {
@@ -922,48 +883,6 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	    	return dialog;
 	    }
 	}
-		
-	public static class PlayerDialogFragment extends DialogFragment{
-		
-		public static PlayerDialogFragment newInstance(){
-			PlayerDialogFragment diag = new PlayerDialogFragment();
-			return diag;
-		}
-		
-	    @Override
-	    public Dialog onCreateDialog(Bundle savedInstanceState) {
-	    		    	
-	    	View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_player, null, false);
-	    	
-	    	v.findViewById(R.id.play_in_dms).setOnClickListener(new View.OnClickListener() {
-	    		@Override
-	    		public void onClick(View v) {
-	    			int index = ((MainActivity)getActivity()).mViewPager.getCurrentItem();
-	    			SongsFragment f = (SongsFragment) getFragmentManager().findFragmentByTag(
-	                        "android:switcher:"+R.id.pager+":"+index); //that is the tag the ViewPager sets to the fragment
-	    			
-	    			f.playSongsIntoDoodsMusic();	    			
-	    			dismiss();	    			
-	    		}
-	    	});
-	    	
-	    	v.findViewById(R.id.play_in_grooveshark).setOnClickListener(new View.OnClickListener() {
-	    		@Override
-	    		public void onClick(View v) {	    			
-	    			int index = ((MainActivity)getActivity()).mViewPager.getCurrentItem();
-	    			SongsFragment f = (SongsFragment) getFragmentManager().findFragmentByTag(
-	                        "android:switcher:"+R.id.pager+":"+index); //that is the tag the ViewPager sets to the fragment
-	    			
-	    			f.playSongsIntoGrooveshark();	    				    			
-	    			dismiss();
-	    		}
-	    	});  	    	
-    	
-	    	Dialog dialog = new Dialog(getActivity(), R.style.DialogThemeNoTitle);
-	    	dialog.setContentView(v);
-	    	return dialog;
-	    }
-	}	
 	
 	/*private void setLogoFooter() {		
 		

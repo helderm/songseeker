@@ -145,5 +145,7 @@
     <string name="play_in_dms">Play in Dood\'s Music</string>
     <string name="play_in_grooveshark">Play in Grooveshark Web</string>
     <string name="requires_flash">This feature requires the Flash Player installed.</string>
+    <string name="featured_releases">Featured Releases</string>
+    <string name="export_to_dms">Export to Dood\'s Music</string>
 
 </resources>

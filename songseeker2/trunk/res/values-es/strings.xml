@@ -148,18 +148,6 @@
     <string name="play_in_dms">Reproducir en Dood\'s Music</string>
     <string name="play_in_grooveshark">Reproducir en Grooveshark Web</string>
     <string name="requires_flash">Esta función requiere el Flash Player instalado.</string>
-    
-    <string-array name="auto_clear_cache_entries_preference">
-        <item>Off</item>
-        <item>2 Mb</item>
-        <item>5 Mb</item>
-        <item>10 Mb</item>
-    </string-array>
-    <string-array name="auto_clear_cache_values_preference">
-        <item>0</item>
-        <item>2</item>
-        <item>5</item>
-        <item>10</item>
-    </string-array>
+	<string name="export_to_dms">Exportar a Dood\'s Music</string>
 
 </resources>
