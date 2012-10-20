@@ -1295,9 +1295,6 @@ com.actionbarsherlock.R -> com.actionbarsherlock.R:
 com.actionbarsherlock.R$anim -> com.actionbarsherlock.R$anim:
     int fade_in -> fade_in
     int fade_out -> fade_out
-com.actionbarsherlock.R$array -> com.actionbarsherlock.R$array:
-    int auto_clear_cache_entries_preference -> auto_clear_cache_entries_preference
-    int auto_clear_cache_values_preference -> auto_clear_cache_values_preference
 com.actionbarsherlock.R$attr -> com.actionbarsherlock.R$attr:
     int absForceOverflow -> absForceOverflow
     int actionBarDivider -> actionBarDivider
@@ -1680,10 +1677,12 @@ com.actionbarsherlock.R$id -> com.actionbarsherlock.R$id:
     int echonest_disclaimer -> echonest_disclaimer
     int echonest_logo -> echonest_logo
     int exact_artists -> exact_artists
+    int export_to_dms -> export_to_dms
     int export_to_grooveshark -> export_to_grooveshark
     int export_to_lastfm -> export_to_lastfm
     int export_to_rdio -> export_to_rdio
     int export_to_youtube -> export_to_youtube
+    int featuredGrid -> featuredGrid
     int firstLine -> firstLine
     int grooveshark_disclaimer -> grooveshark_disclaimer
     int grooveshark_logo -> grooveshark_logo
@@ -1716,7 +1715,6 @@ com.actionbarsherlock.R$id -> com.actionbarsherlock.R$id:
     int menu_import_artists -> menu_import_artists
     int menu_login -> menu_login
     int menu_new_playlist -> menu_new_playlist
-    int menu_play_songs -> menu_play_songs
     int menu_playlist_options -> menu_playlist_options
     int menu_refresh_songs -> menu_refresh_songs
     int menu_save_playlist -> menu_save_playlist
@@ -1809,6 +1807,7 @@ com.actionbarsherlock.R$layout -> com.actionbarsherlock.R$layout:
     int dialog_import -> dialog_import
     int dialog_input -> dialog_input
     int dialog_player -> dialog_player
+    int featured_grid -> featured_grid
     int holodivider -> holodivider
     int list_item_1_image -> list_item_1_image
     int list_item_2_image_media -> list_item_2_image_media
@@ -1911,6 +1910,7 @@ com.actionbarsherlock.R$string -> com.actionbarsherlock.R$string:
     int export_lastfm_title -> export_lastfm_title
     int export_playlist -> export_playlist
     int export_rdio_title -> export_rdio_title
+    int export_to_dms -> export_to_dms
     int export_to_grooveshark -> export_to_grooveshark
     int export_to_lastfm -> export_to_lastfm
     int export_to_rdio -> export_to_rdio
@@ -1923,6 +1923,7 @@ com.actionbarsherlock.R$string -> com.actionbarsherlock.R$string:
     int feature_description_play -> feature_description_play
     int feature_description_playlist -> feature_description_playlist
     int feature_description_profile -> feature_description_profile
+    int featured_releases -> featured_releases
     int general_preferences -> general_preferences
     int grooveshark_username -> grooveshark_username
     int hotness_str -> hotness_str
@@ -6718,6 +6719,748 @@ com.google.gdata.util.common.base.UnicodeEscaper -> com.google.a.a.a.a.b:
     char[] growBuffer(char[],int,int) -> a
 com.google.gdata.util.common.base.UnicodeEscaper$2 -> com.google.a.a.a.a.c:
     java.lang.Object initialValue() -> initialValue
+com.integralblue.httpresponsecache.HttpResponseCache -> com.integralblue.httpresponsecache.a:
+    boolean calledSetURLStreamHandlerFactory -> a
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache delegate -> b
+    com.integralblue.httpresponsecache.HttpResponseCache getInstalled() -> a
+    com.integralblue.httpresponsecache.HttpResponseCache install$6a3d6ce5(java.io.File) -> a
+    java.net.CacheResponse get(java.net.URI,java.lang.String,java.util.Map) -> get
+    java.net.CacheRequest put(java.net.URI,java.net.URLConnection) -> put
+    void flush() -> b
+    void trackResponse(com.integralblue.httpresponsecache.compat.java.net.ResponseSource) -> a
+    void trackConditionalCacheHit() -> c
+    void update(java.net.CacheResponse,java.net.HttpURLConnection) -> a
+    void close() -> close
+    void delete() -> d
+com.integralblue.httpresponsecache.compat.Charsets -> com.integralblue.httpresponsecache.compat.a:
+    java.nio.charset.Charset UTF_8 -> a
+    java.nio.charset.Charset US_ASCII -> b
+    java.nio.charset.Charset ISO_8859_1 -> c
+com.integralblue.httpresponsecache.compat.Strings -> com.integralblue.httpresponsecache.compat.b:
+    char[] DIGITS -> a
+    char[] UPPER_CASE_DIGITS -> b
+    boolean isEmpty(java.lang.String) -> a
+    java.lang.String construct$7599adca(byte[],int,java.nio.charset.Charset) -> a
+    byte[] getBytes(java.lang.String,java.nio.charset.Charset) -> a
+    java.lang.String bytesToHexString$5a238448(byte[]) -> a
+com.integralblue.httpresponsecache.compat.System -> com.integralblue.httpresponsecache.compat.c:
+    java.util.logging.Logger LOGGER -> a
+    void logW(java.lang.String) -> a
+com.integralblue.httpresponsecache.compat.URIs -> com.integralblue.httpresponsecache.compat.d:
+    int getEffectivePort(java.net.URI) -> a
+    int getEffectivePort(java.lang.String,int) -> a
+com.integralblue.httpresponsecache.compat.URLStreamHandlerFactoryImpl -> com.integralblue.httpresponsecache.compat.e:
+    java.net.URLStreamHandler createURLStreamHandler(java.lang.String) -> createURLStreamHandler
+com.integralblue.httpresponsecache.compat.URLs -> com.integralblue.httpresponsecache.compat.f:
+    int getEffectivePort(java.net.URL) -> a
+com.integralblue.httpresponsecache.compat.java.lang.ArrayIndexOutOfBoundsException -> com.integralblue.httpresponsecache.compat.java.lang.ArrayIndexOutOfBoundsException:
+    long serialVersionUID -> serialVersionUID
+com.integralblue.httpresponsecache.compat.java.net.ExtendedResponseCache -> com.integralblue.httpresponsecache.compat.java.net.a:
+    void trackResponse(com.integralblue.httpresponsecache.compat.java.net.ResponseSource) -> a
+    void trackConditionalCacheHit() -> c
+    void update(java.net.CacheResponse,java.net.HttpURLConnection) -> a
+com.integralblue.httpresponsecache.compat.java.net.InetAddress -> com.integralblue.httpresponsecache.compat.java.net.b:
+    java.util.regex.Pattern IPV4_PATTERN -> a
+    java.util.regex.Pattern IPV6_HEX4DECCOMPRESSED_PATTERN -> b
+    java.util.regex.Pattern IPV6_6HEX4DEC_PATTERN -> c
+    java.util.regex.Pattern IPV6_HEXCOMPRESSED_PATTERN -> d
+    java.util.regex.Pattern IPV6_PATTERN -> e
+    boolean isNumeric(java.lang.String) -> a
+com.integralblue.httpresponsecache.compat.java.net.ResponseSource -> com.integralblue.httpresponsecache.compat.java.net.ResponseSource:
+    com.integralblue.httpresponsecache.compat.java.net.ResponseSource CACHE -> a
+    com.integralblue.httpresponsecache.compat.java.net.ResponseSource CONDITIONAL_CACHE -> b
+    com.integralblue.httpresponsecache.compat.java.net.ResponseSource NETWORK -> c
+    com.integralblue.httpresponsecache.compat.java.net.ResponseSource[] $VALUES -> d
+    com.integralblue.httpresponsecache.compat.java.net.ResponseSource[] values() -> values
+    com.integralblue.httpresponsecache.compat.java.net.ResponseSource valueOf(java.lang.String) -> valueOf
+    boolean requiresConnection() -> a
+com.integralblue.httpresponsecache.compat.java.util.Arrays -> com.integralblue.httpresponsecache.compat.java.util.a:
+    void checkOffsetAndCount(int,int,int) -> a
+com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit -> com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit:
+    com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit NANOSECONDS -> a
+    com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit MICROSECONDS -> b
+    com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit MILLISECONDS -> c
+    com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit SECONDS -> d
+    com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit MINUTES -> e
+    com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit HOURS -> f
+    com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit DAYS -> g
+    com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit[] $VALUES -> h
+    com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit[] values() -> values
+    com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit valueOf(java.lang.String) -> valueOf
+    long x$487762a3(long,long) -> a
+    long toMillis$1349e3() -> a
+com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit$1 -> com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit$1:
+    long toMillis$1349e3() -> a
+com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit$2 -> com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit$2:
+    long toMillis$1349e3() -> a
+com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit$3 -> com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit$3:
+    long toMillis$1349e3() -> a
+com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit$4 -> com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit$4:
+    long toMillis$1349e3() -> a
+com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit$5 -> com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit$5:
+    long toMillis$1349e3() -> a
+com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit$6 -> com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit$6:
+    long toMillis$1349e3() -> a
+com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit$7 -> com.integralblue.httpresponsecache.compat.java.util.concurrent.TimeUnit$7:
+    long toMillis$1349e3() -> a
+com.integralblue.httpresponsecache.compat.javax.net.ssl.DefaultHostnameVerifier -> com.integralblue.httpresponsecache.compat.a.a.a.a:
+    boolean verify(java.lang.String,javax.net.ssl.SSLSession) -> verify
+    java.util.List getSubjectAltNames(java.security.cert.X509Certificate,int) -> a
+    boolean verifyHostName(java.lang.String,java.lang.String) -> a
+com.integralblue.httpresponsecache.compat.javax.net.ssl.DistinguishedNameParser -> com.integralblue.httpresponsecache.compat.a.a.a.b:
+    java.lang.String dn -> a
+    int length -> b
+    int pos -> c
+    int beg -> d
+    int end -> e
+    int cur -> f
+    char[] chars -> g
+    java.lang.String nextAT() -> a
+    java.lang.String hexAV() -> b
+    java.lang.String escapedAV() -> c
+    char getEscaped() -> d
+    char getUTF8() -> e
+    int getByte(int) -> a
+    java.lang.String find(java.lang.String) -> a
+com.integralblue.httpresponsecache.compat.libcore.io.Base64 -> com.integralblue.httpresponsecache.compat.libcore.a.a:
+    byte[] map -> a
+    byte[] decode(byte[]) -> a
+    java.lang.String encode(byte[]) -> b
+com.integralblue.httpresponsecache.compat.libcore.io.IoUtils -> com.integralblue.httpresponsecache.compat.libcore.a.b:
+    void closeQuietly(java.io.Closeable) -> a
+    void closeQuietly(java.net.Socket) -> a
+com.integralblue.httpresponsecache.compat.libcore.io.Streams -> com.integralblue.httpresponsecache.compat.libcore.a.c:
+    java.util.concurrent.atomic.AtomicReference skipBuffer -> a
+    int readSingleByte(java.io.InputStream) -> a
+    void skipAll(java.io.InputStream) -> b
+    java.lang.String readAsciiLine(java.io.InputStream) -> c
+com.integralblue.httpresponsecache.compat.libcore.net.http.AbstractHttpInputStream -> com.integralblue.httpresponsecache.compat.libcore.net.http.a:
+    java.io.InputStream in -> a
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpEngine httpEngine -> b
+    java.net.CacheRequest cacheRequest -> d
+    java.io.OutputStream cacheBody -> e
+    boolean closed -> c
+    int read() -> read
+    void checkNotClosed() -> a
+    void cacheWrite(byte[],int,int) -> a
+    void endOfInput(boolean) -> a
+    void unexpectedEndOfInput() -> b
+com.integralblue.httpresponsecache.compat.libcore.net.http.AbstractHttpOutputStream -> com.integralblue.httpresponsecache.compat.libcore.net.http.b:
+    boolean closed -> a
+    void write(int) -> write
+    void checkNotClosed() -> a
+com.integralblue.httpresponsecache.compat.libcore.net.http.Challenge -> com.integralblue.httpresponsecache.compat.libcore.net.http.c:
+    java.lang.String scheme -> a
+    java.lang.String realm -> b
+    boolean equals(java.lang.Object) -> equals
+    int hashCode() -> hashCode
+    java.lang.String toString() -> toString
+com.integralblue.httpresponsecache.compat.libcore.net.http.ChunkedInputStream -> com.integralblue.httpresponsecache.compat.libcore.net.http.d:
+    int MIN_LAST_CHUNK_LENGTH -> d
+    int bytesRemainingInChunk -> e
+    boolean hasMoreChunks -> f
+    int read(byte[],int,int) -> read
+    void readChunkSize() -> c
+    int available() -> available
+    void close() -> close
+com.integralblue.httpresponsecache.compat.libcore.net.http.ChunkedOutputStream -> com.integralblue.httpresponsecache.compat.libcore.net.http.e:
+    byte[] CRLF -> b
+    byte[] HEX_DIGITS -> c
+    byte[] FINAL_CHUNK -> d
+    byte[] hex -> e
+    java.io.OutputStream socketOut -> f
+    int maxChunkLength -> g
+    java.io.ByteArrayOutputStream bufferedChunk -> h
+    void write(byte[],int,int) -> write
+    void writeHex(int) -> a
+    void flush() -> flush
+    void close() -> close
+    void writeBufferedChunkToSocket() -> b
+com.integralblue.httpresponsecache.compat.libcore.net.http.FixedLengthInputStream -> com.integralblue.httpresponsecache.compat.libcore.net.http.f:
+    int bytesRemaining -> d
+    int read(byte[],int,int) -> read
+    int available() -> available
+    void close() -> close
+com.integralblue.httpresponsecache.compat.libcore.net.http.FixedLengthOutputStream -> com.integralblue.httpresponsecache.compat.libcore.net.http.g:
+    java.io.OutputStream socketOut -> b
+    int bytesRemaining -> c
+    void write(byte[],int,int) -> write
+    void flush() -> flush
+    void close() -> close
+com.integralblue.httpresponsecache.compat.libcore.net.http.HeaderParser -> com.integralblue.httpresponsecache.compat.libcore.net.http.h:
+    void parseCacheControl(java.lang.String,com.integralblue.httpresponsecache.compat.libcore.net.http.HeaderParser$CacheControlHandler) -> a
+    java.util.List parseChallenges(com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders,java.lang.String) -> a
+    int skipUntil(java.lang.String,int,java.lang.String) -> a
+    int skipWhitespace(java.lang.String,int) -> a
+    int parseSeconds(java.lang.String) -> a
+com.integralblue.httpresponsecache.compat.libcore.net.http.HeaderParser$CacheControlHandler -> com.integralblue.httpresponsecache.compat.libcore.net.http.i:
+    void handle(java.lang.String,java.lang.String) -> a
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection -> com.integralblue.httpresponsecache.compat.libcore.net.http.j:
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection$Address address -> a
+    java.net.Socket socket -> b
+    java.io.InputStream inputStream -> c
+    java.io.OutputStream outputStream -> d
+    javax.net.ssl.SSLSocket unverifiedSocket -> e
+    javax.net.ssl.SSLSocket sslSocket -> f
+    java.io.InputStream sslInputStream -> g
+    java.io.OutputStream sslOutputStream -> h
+    boolean recycled -> i
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection connect(java.net.URI,javax.net.ssl.SSLSocketFactory,java.net.Proxy,boolean,int) -> a
+    void closeSocketAndStreams() -> a
+    void setSoTimeout(int) -> a
+    java.io.OutputStream getOutputStream() -> b
+    java.io.InputStream getInputStream() -> c
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection$Address getAddress() -> d
+    void setupSecureSocket(javax.net.ssl.SSLSocketFactory,boolean) -> a
+    javax.net.ssl.SSLSocket verifySecureSocketHostname(javax.net.ssl.HostnameVerifier) -> a
+    javax.net.ssl.SSLSocket getSecureSocketIfConnected() -> e
+    boolean isRecycled() -> f
+    void setRecycled() -> g
+    boolean isEligibleForRecycling() -> h
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection$Address -> com.integralblue.httpresponsecache.compat.libcore.net.http.k:
+    java.net.Proxy proxy -> a
+    boolean requiresTunnel -> b
+    java.lang.String uriHost -> c
+    int uriPort -> d
+    java.lang.String socketHost -> e
+    int socketPort -> f
+    javax.net.ssl.SSLSocketFactory sslSocketFactory -> g
+    java.net.Proxy getProxy() -> a
+    boolean equals(java.lang.Object) -> equals
+    int hashCode() -> hashCode
+    java.lang.String access$000(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection$Address) -> a
+    java.net.Proxy access$100(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection$Address) -> b
+    int access$200(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection$Address) -> c
+    boolean access$300(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection$Address) -> d
+    java.lang.String access$400(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection$Address) -> e
+    int access$500(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection$Address) -> f
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnectionPool -> com.integralblue.httpresponsecache.compat.libcore.net.http.l:
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnectionPool INSTANCE -> a
+    int maxConnections -> b
+    java.util.HashMap connectionPool -> c
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection get(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection$Address,int) -> a
+    void recycle(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection) -> a
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpDate -> com.integralblue.httpresponsecache.compat.libcore.net.http.m:
+    java.lang.ThreadLocal STANDARD_DATE_FORMAT -> a
+    java.lang.String[] BROWSER_COMPATIBLE_DATE_FORMATS -> b
+    java.util.Date parse(java.lang.String) -> a
+    java.lang.String format(java.util.Date) -> a
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpDate$1 -> com.integralblue.httpresponsecache.compat.libcore.net.http.n:
+    java.lang.Object initialValue() -> initialValue
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpEngine -> com.integralblue.httpresponsecache.compat.libcore.net.http.o:
+    java.net.CacheResponse GATEWAY_TIMEOUT_RESPONSE -> e
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpURLConnectionImpl policy -> a
+    java.lang.String method -> b
+    com.integralblue.httpresponsecache.compat.java.net.ResponseSource responseSource -> f
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection connection -> c
+    java.io.InputStream socketIn -> g
+    java.io.OutputStream socketOut -> h
+    java.io.OutputStream requestOut -> i
+    com.integralblue.httpresponsecache.compat.libcore.net.http.AbstractHttpOutputStream requestBodyOut -> j
+    java.io.InputStream responseBodyIn -> k
+    java.net.ResponseCache responseCache -> l
+    java.net.CacheResponse cacheResponse -> m
+    java.net.CacheRequest cacheRequest -> n
+    long sentRequestMillis -> o
+    boolean transparentGzip -> p
+    boolean sendChunked -> d
+    int httpMinorVersion -> q
+    java.net.URI uri -> r
+    com.integralblue.httpresponsecache.compat.libcore.net.http.RequestHeaders requestHeaders -> s
+    com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders responseHeaders -> t
+    com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders cachedResponseHeaders -> u
+    java.io.InputStream cachedResponseBody -> v
+    boolean automaticallyReleaseConnectionToPool -> w
+    boolean connectionReleased -> x
+    java.net.URI getUri() -> a
+    void sendRequest() -> b
+    void connect() -> c
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection openSocketConnection() -> d
+    void setResponse(com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders,java.io.InputStream) -> a
+    boolean hasRequestBody() -> x
+    java.io.OutputStream getRequestBody() -> e
+    boolean hasResponse() -> f
+    com.integralblue.httpresponsecache.compat.libcore.net.http.RequestHeaders getRequestHeaders() -> g
+    com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders getResponseHeaders() -> h
+    int getResponseCode() -> i
+    java.io.InputStream getResponseBody() -> j
+    java.net.CacheResponse getCacheResponse() -> k
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection getConnection() -> l
+    boolean hasRecycledConnection() -> m
+    boolean acceptCacheResponseType(java.net.CacheResponse) -> a
+    java.net.HttpURLConnection getHttpConnectionToCache() -> n
+    void automaticallyReleaseConnectionToPool() -> o
+    void release(boolean) -> a
+    void initContentStream(java.io.InputStream) -> a
+    void readResponseHeaders() -> y
+    boolean hasResponseBody() -> p
+    void readTrailers() -> q
+    void readHeaders(com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders) -> a
+    void writeRequestHeaders(int) -> a
+    com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders getNetworkRequestHeaders() -> r
+    java.lang.String getRequestLine() -> z
+    boolean includeAuthorityInRequestLine() -> s
+    javax.net.ssl.SSLSocketFactory getSslSocketFactory() -> t
+    java.lang.String getDefaultUserAgent() -> u
+    java.lang.String getOriginAddress(java.net.URL) -> a
+    boolean requiresTunnel() -> v
+    void readResponse() -> w
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpEngine$1 -> com.integralblue.httpresponsecache.compat.libcore.net.http.p:
+    java.util.Map getHeaders() -> getHeaders
+    java.io.InputStream getBody() -> getBody
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpHandler -> com.integralblue.httpresponsecache.compat.libcore.net.http.q:
+    java.net.URLConnection openConnection(java.net.URL) -> openConnection
+    java.net.URLConnection openConnection(java.net.URL,java.net.Proxy) -> openConnection
+    int getDefaultPort() -> getDefaultPort
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache -> com.integralblue.httpresponsecache.compat.libcore.net.http.r:
+    com.jakewharton.DiskLruCache cache -> a
+    int writeSuccessCount -> b
+    int writeAbortCount -> c
+    int networkCount -> d
+    int hitCount -> e
+    int requestCount -> f
+    java.lang.String uriToKey(java.net.URI) -> a
+    java.net.CacheResponse get(java.net.URI,java.lang.String,java.util.Map) -> get
+    java.net.CacheRequest put(java.net.URI,java.net.URLConnection) -> put
+    void update(java.net.CacheResponse,java.net.HttpURLConnection) -> a
+    void abortQuietly(com.jakewharton.DiskLruCache$Editor) -> a
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpEngine getHttpEngine(java.net.HttpURLConnection) -> a
+    com.jakewharton.DiskLruCache getCache() -> a
+    void trackResponse(com.integralblue.httpresponsecache.compat.java.net.ResponseSource) -> a
+    void trackConditionalCacheHit() -> c
+    int access$408(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache) -> a
+    int access$508(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache) -> b
+    java.io.InputStream access$600(com.jakewharton.DiskLruCache$Snapshot) -> a
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$1 -> com.integralblue.httpresponsecache.compat.libcore.net.http.s:
+    com.jakewharton.DiskLruCache$Snapshot val$snapshot -> a
+    void close() -> close
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$2 -> com.integralblue.httpresponsecache.compat.libcore.net.http.t:
+    int[] $SwitchMap$com$integralblue$httpresponsecache$compat$java$net$ResponseSource -> a
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$CacheRequestImpl -> com.integralblue.httpresponsecache.compat.libcore.net.http.u:
+    com.jakewharton.DiskLruCache$Editor editor -> b
+    java.io.OutputStream cacheOut -> c
+    boolean done -> d
+    java.io.OutputStream body -> e
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache this$0 -> a
+    void abort() -> abort
+    java.io.OutputStream getBody() -> getBody
+    boolean access$300(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$CacheRequestImpl) -> a
+    boolean access$302$2240146e(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$CacheRequestImpl) -> b
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$CacheRequestImpl$1 -> com.integralblue.httpresponsecache.compat.libcore.net.http.v:
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache val$this$0 -> a
+    com.jakewharton.DiskLruCache$Editor val$editor -> b
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$CacheRequestImpl this$1 -> c
+    void close() -> close
+    void write(byte[],int,int) -> write
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$Entry -> com.integralblue.httpresponsecache.compat.libcore.net.http.w:
+    java.lang.String uri -> a
+    com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders varyHeaders -> b
+    java.lang.String requestMethod -> c
+    com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders responseHeaders -> d
+    java.lang.String cipherSuite -> e
+    java.security.cert.Certificate[] peerCertificates -> f
+    java.security.cert.Certificate[] localCertificates -> g
+    void writeTo(com.jakewharton.DiskLruCache$Editor) -> a
+    boolean isHttps() -> a
+    int readInt(java.io.InputStream) -> a
+    java.security.cert.Certificate[] readCertArray(java.io.InputStream) -> b
+    void writeCertArray(java.io.Writer,java.security.cert.Certificate[]) -> a
+    boolean matches(java.net.URI,java.lang.String,java.util.Map) -> a
+    boolean access$000(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$Entry) -> a
+    com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders access$700(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$Entry) -> b
+    java.lang.String access$800(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$Entry) -> c
+    java.security.cert.Certificate[] access$900(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$Entry) -> d
+    java.security.cert.Certificate[] access$1000(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$Entry) -> e
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$EntryCacheResponse -> com.integralblue.httpresponsecache.compat.libcore.net.http.x:
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$Entry entry -> a
+    com.jakewharton.DiskLruCache$Snapshot snapshot -> b
+    java.io.InputStream in -> c
+    java.util.Map getHeaders() -> getHeaders
+    java.io.InputStream getBody() -> getBody
+    com.jakewharton.DiskLruCache$Snapshot access$100(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$EntryCacheResponse) -> a
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$EntrySecureCacheResponse -> com.integralblue.httpresponsecache.compat.libcore.net.http.y:
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$Entry entry -> a
+    com.jakewharton.DiskLruCache$Snapshot snapshot -> b
+    java.io.InputStream in -> c
+    java.util.Map getHeaders() -> getHeaders
+    java.io.InputStream getBody() -> getBody
+    java.lang.String getCipherSuite() -> getCipherSuite
+    java.util.List getServerCertificateChain() -> getServerCertificateChain
+    java.security.Principal getPeerPrincipal() -> getPeerPrincipal
+    java.util.List getLocalCertificateChain() -> getLocalCertificateChain
+    java.security.Principal getLocalPrincipal() -> getLocalPrincipal
+    com.jakewharton.DiskLruCache$Snapshot access$200(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpResponseCache$EntrySecureCacheResponse) -> a
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpURLConnectionImpl -> com.integralblue.httpresponsecache.compat.libcore.net.http.HttpURLConnectionImpl:
+    int defaultPort -> c
+    java.net.Proxy proxy -> d
+    com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders rawRequestHeaders -> e
+    int redirectionCount -> f
+    java.io.IOException httpEngineFailure -> a
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpEngine httpEngine -> b
+    void connect() -> connect
+    void disconnect() -> disconnect
+    java.io.InputStream getErrorStream() -> getErrorStream
+    java.lang.String getHeaderField(int) -> getHeaderField
+    java.lang.String getHeaderField(java.lang.String) -> getHeaderField
+    java.lang.String getHeaderFieldKey(int) -> getHeaderFieldKey
+    java.util.Map getHeaderFields() -> getHeaderFields
+    java.util.Map getRequestProperties() -> getRequestProperties
+    java.io.InputStream getInputStream() -> getInputStream
+    java.io.OutputStream getOutputStream() -> getOutputStream
+    java.security.Permission getPermission() -> getPermission
+    int getConnectToPort() -> f
+    java.lang.String getRequestProperty(java.lang.String) -> getRequestProperty
+    void initHttpEngine() -> g
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpEngine newHttpEngine(java.lang.String,com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders,com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection,com.integralblue.httpresponsecache.compat.libcore.net.http.RetryableOutputStream) -> a
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpEngine getResponse() -> h
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpEngine getHttpEngine() -> a
+    boolean processAuthHeader(int,com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders,com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders) -> a
+    java.lang.String getAuthorizationCredentials(com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders,java.lang.String) -> a
+    int getDefaultPort() -> b
+    int getFixedContentLength() -> c
+    int getChunkLength() -> d
+    java.net.Proxy getProxy() -> e
+    void setProxy(java.net.Proxy) -> a
+    boolean usingProxy() -> usingProxy
+    java.lang.String getResponseMessage() -> getResponseMessage
+    int getResponseCode() -> getResponseCode
+    void setRequestProperty(java.lang.String,java.lang.String) -> setRequestProperty
+    void addRequestProperty(java.lang.String,java.lang.String) -> addRequestProperty
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpURLConnectionImpl$Retry -> com.integralblue.httpresponsecache.compat.libcore.net.http.HttpURLConnectionImpl$Retry:
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpURLConnectionImpl$Retry NONE -> a
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpURLConnectionImpl$Retry SAME_CONNECTION -> b
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpURLConnectionImpl$Retry DIFFERENT_CONNECTION -> c
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpURLConnectionImpl$Retry[] $VALUES -> d
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpURLConnectionImpl$Retry[] values() -> values
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpURLConnectionImpl$Retry valueOf(java.lang.String) -> valueOf
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpsHandler -> com.integralblue.httpresponsecache.compat.libcore.net.http.z:
+    java.net.URLConnection openConnection(java.net.URL) -> openConnection
+    java.net.URLConnection openConnection(java.net.URL,java.net.Proxy) -> openConnection
+    int getDefaultPort() -> getDefaultPort
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpsURLConnectionImpl -> com.integralblue.httpresponsecache.compat.libcore.net.http.aa:
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpsURLConnectionImpl$HttpUrlConnectionDelegate delegate -> a
+    void checkConnected() -> b
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpEngine getHttpEngine() -> a
+    java.lang.String getCipherSuite() -> getCipherSuite
+    java.security.cert.Certificate[] getLocalCertificates() -> getLocalCertificates
+    java.security.cert.Certificate[] getServerCertificates() -> getServerCertificates
+    java.security.Principal getPeerPrincipal() -> getPeerPrincipal
+    java.security.Principal getLocalPrincipal() -> getLocalPrincipal
+    void disconnect() -> disconnect
+    java.io.InputStream getErrorStream() -> getErrorStream
+    java.lang.String getRequestMethod() -> getRequestMethod
+    int getResponseCode() -> getResponseCode
+    java.lang.String getResponseMessage() -> getResponseMessage
+    void setRequestMethod(java.lang.String) -> setRequestMethod
+    boolean usingProxy() -> usingProxy
+    boolean getInstanceFollowRedirects() -> getInstanceFollowRedirects
+    void setInstanceFollowRedirects(boolean) -> setInstanceFollowRedirects
+    void connect() -> connect
+    boolean getAllowUserInteraction() -> getAllowUserInteraction
+    java.lang.Object getContent() -> getContent
+    java.lang.Object getContent(java.lang.Class[]) -> getContent
+    java.lang.String getContentEncoding() -> getContentEncoding
+    int getContentLength() -> getContentLength
+    java.lang.String getContentType() -> getContentType
+    long getDate() -> getDate
+    boolean getDefaultUseCaches() -> getDefaultUseCaches
+    boolean getDoInput() -> getDoInput
+    boolean getDoOutput() -> getDoOutput
+    long getExpiration() -> getExpiration
+    java.lang.String getHeaderField(int) -> getHeaderField
+    java.util.Map getHeaderFields() -> getHeaderFields
+    java.util.Map getRequestProperties() -> getRequestProperties
+    void addRequestProperty(java.lang.String,java.lang.String) -> addRequestProperty
+    java.lang.String getHeaderField(java.lang.String) -> getHeaderField
+    long getHeaderFieldDate(java.lang.String,long) -> getHeaderFieldDate
+    int getHeaderFieldInt(java.lang.String,int) -> getHeaderFieldInt
+    java.lang.String getHeaderFieldKey(int) -> getHeaderFieldKey
+    long getIfModifiedSince() -> getIfModifiedSince
+    java.io.InputStream getInputStream() -> getInputStream
+    long getLastModified() -> getLastModified
+    java.io.OutputStream getOutputStream() -> getOutputStream
+    java.security.Permission getPermission() -> getPermission
+    java.lang.String getRequestProperty(java.lang.String) -> getRequestProperty
+    java.net.URL getURL() -> getURL
+    boolean getUseCaches() -> getUseCaches
+    void setAllowUserInteraction(boolean) -> setAllowUserInteraction
+    void setDefaultUseCaches(boolean) -> setDefaultUseCaches
+    void setDoInput(boolean) -> setDoInput
+    void setDoOutput(boolean) -> setDoOutput
+    void setIfModifiedSince(long) -> setIfModifiedSince
+    void setRequestProperty(java.lang.String,java.lang.String) -> setRequestProperty
+    void setUseCaches(boolean) -> setUseCaches
+    void setConnectTimeout(int) -> setConnectTimeout
+    int getConnectTimeout() -> getConnectTimeout
+    void setReadTimeout(int) -> setReadTimeout
+    int getReadTimeout() -> getReadTimeout
+    java.lang.String toString() -> toString
+    void setFixedLengthStreamingMode(int) -> setFixedLengthStreamingMode
+    void setChunkedStreamingMode(int) -> setChunkedStreamingMode
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpsURLConnectionImpl$HttpUrlConnectionDelegate -> com.integralblue.httpresponsecache.compat.libcore.net.http.ab:
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpsURLConnectionImpl this$0 -> c
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpEngine newHttpEngine(java.lang.String,com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders,com.integralblue.httpresponsecache.compat.libcore.net.http.HttpConnection,com.integralblue.httpresponsecache.compat.libcore.net.http.RetryableOutputStream) -> a
+    java.net.SecureCacheResponse getCacheResponse() -> f
+    javax.net.ssl.SSLSocket getSSLSocket() -> g
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpsURLConnectionImpl$HttpsEngine -> com.integralblue.httpresponsecache.compat.libcore.net.http.ac:
+    javax.net.ssl.SSLSocket sslSocket -> e
+    com.integralblue.httpresponsecache.compat.libcore.net.http.HttpsURLConnectionImpl enclosing -> f
+    void connect() -> c
+    boolean makeSslConnection(boolean) -> b
+    boolean acceptCacheResponseType(java.net.CacheResponse) -> a
+    boolean includeAuthorityInRequestLine() -> s
+    javax.net.ssl.SSLSocketFactory getSslSocketFactory() -> t
+    java.net.HttpURLConnection getHttpConnectionToCache() -> n
+    javax.net.ssl.SSLSocket access$300(com.integralblue.httpresponsecache.compat.libcore.net.http.HttpsURLConnectionImpl$HttpsEngine) -> a
+com.integralblue.httpresponsecache.compat.libcore.net.http.HttpsURLConnectionImpl$ProxyConnectEngine -> com.integralblue.httpresponsecache.compat.libcore.net.http.ad:
+    com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders getNetworkRequestHeaders() -> r
+    boolean requiresTunnel() -> v
+com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders -> com.integralblue.httpresponsecache.compat.libcore.net.http.ae:
+    java.util.Comparator FIELD_NAME_COMPARATOR -> a
+    java.util.List namesAndValues -> b
+    java.lang.String statusLine -> c
+    int httpMinorVersion -> d
+    int responseCode -> e
+    java.lang.String responseMessage -> f
+    void setStatusLine(java.lang.String) -> a
+    java.lang.String getStatusLine() -> a
+    int getHttpMinorVersion() -> b
+    int getResponseCode() -> c
+    java.lang.String getResponseMessage() -> d
+    void addLine(java.lang.String) -> b
+    void add(java.lang.String,java.lang.String) -> a
+    void removeAll(java.lang.String) -> c
+    void addAll(java.lang.String,java.util.List) -> a
+    void set(java.lang.String,java.lang.String) -> b
+    int length() -> e
+    java.lang.String getFieldName(int) -> a
+    java.lang.String getValue(int) -> b
+    java.lang.String get(java.lang.String) -> d
+    com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders getAll(java.util.Set) -> a
+    java.lang.String toHeaderString() -> f
+    java.util.Map toMultimap() -> g
+    com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders fromMultimap(java.util.Map) -> a
+com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders$1 -> com.integralblue.httpresponsecache.compat.libcore.net.http.af:
+    int compare(java.lang.Object,java.lang.Object) -> compare
+com.integralblue.httpresponsecache.compat.libcore.net.http.RequestHeaders -> com.integralblue.httpresponsecache.compat.libcore.net.http.ag:
+    java.net.URI uri -> a
+    com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders headers -> b
+    boolean noCache -> c
+    int maxAgeSeconds -> d
+    int maxStaleSeconds -> e
+    int minFreshSeconds -> f
+    boolean onlyIfCached -> g
+    boolean hasAuthorization -> h
+    int contentLength -> i
+    java.lang.String transferEncoding -> j
+    java.lang.String userAgent -> k
+    java.lang.String host -> l
+    java.lang.String connection -> m
+    java.lang.String acceptEncoding -> n
+    java.lang.String contentType -> o
+    java.lang.String ifModifiedSince -> p
+    java.lang.String ifNoneMatch -> q
+    java.lang.String proxyAuthorization -> r
+    boolean isChunked() -> a
+    boolean hasConnectionClose() -> b
+    com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders getHeaders() -> c
+    boolean isNoCache() -> d
+    int getMaxAgeSeconds() -> e
+    int getMaxStaleSeconds() -> f
+    int getMinFreshSeconds() -> g
+    boolean isOnlyIfCached() -> h
+    boolean hasAuthorization() -> i
+    int getContentLength() -> j
+    java.lang.String getUserAgent() -> k
+    java.lang.String getHost() -> l
+    java.lang.String getConnection() -> m
+    java.lang.String getAcceptEncoding() -> n
+    java.lang.String getContentType() -> o
+    java.lang.String getProxyAuthorization() -> p
+    void setChunked() -> q
+    void setContentLength(int) -> a
+    void setUserAgent(java.lang.String) -> a
+    void setHost(java.lang.String) -> b
+    void setConnection(java.lang.String) -> c
+    void setAcceptEncoding(java.lang.String) -> d
+    void setContentType(java.lang.String) -> e
+    void setIfModifiedSince(java.util.Date) -> a
+    void setIfNoneMatch(java.lang.String) -> f
+    boolean hasConditions() -> r
+    void addCookies(java.util.Map) -> a
+    boolean access$002$13a9c551(com.integralblue.httpresponsecache.compat.libcore.net.http.RequestHeaders) -> a
+    int access$102(com.integralblue.httpresponsecache.compat.libcore.net.http.RequestHeaders,int) -> a
+    int access$202(com.integralblue.httpresponsecache.compat.libcore.net.http.RequestHeaders,int) -> b
+    int access$302(com.integralblue.httpresponsecache.compat.libcore.net.http.RequestHeaders,int) -> c
+    boolean access$402$13a9c551(com.integralblue.httpresponsecache.compat.libcore.net.http.RequestHeaders) -> b
+com.integralblue.httpresponsecache.compat.libcore.net.http.RequestHeaders$1 -> com.integralblue.httpresponsecache.compat.libcore.net.http.ah:
+    com.integralblue.httpresponsecache.compat.libcore.net.http.RequestHeaders this$0 -> a
+    void handle(java.lang.String,java.lang.String) -> a
+com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders -> com.integralblue.httpresponsecache.compat.libcore.net.http.ai:
+    java.net.URI uri -> a
+    com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders headers -> b
+    java.util.Date servedDate -> c
+    java.util.Date lastModified -> d
+    java.util.Date expires -> e
+    long sentRequestMillis -> f
+    long receivedResponseMillis -> g
+    boolean noCache -> h
+    boolean noStore -> i
+    int maxAgeSeconds -> j
+    int sMaxAgeSeconds -> k
+    boolean isPublic -> l
+    boolean mustRevalidate -> m
+    java.lang.String etag -> n
+    int ageSeconds -> o
+    java.util.Set varyFields -> p
+    java.lang.String contentEncoding -> q
+    java.lang.String transferEncoding -> r
+    int contentLength -> s
+    java.lang.String connection -> t
+    boolean isContentEncodingGzip() -> a
+    void stripContentEncoding() -> b
+    boolean isChunked() -> c
+    boolean hasConnectionClose() -> d
+    com.integralblue.httpresponsecache.compat.libcore.net.http.RawHeaders getHeaders() -> e
+    java.util.Set getVaryFields() -> f
+    int getContentLength() -> g
+    void setLocalTimestamps(long,long) -> a
+    boolean isCacheable(com.integralblue.httpresponsecache.compat.libcore.net.http.RequestHeaders) -> a
+    boolean hasVaryAll() -> h
+    boolean varyMatches(java.util.Map,java.util.Map) -> a
+    com.integralblue.httpresponsecache.compat.java.net.ResponseSource chooseResponseSource(long,com.integralblue.httpresponsecache.compat.libcore.net.http.RequestHeaders) -> a
+    boolean validate(com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders) -> a
+    com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders combine(com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders) -> b
+    boolean isEndToEnd(java.lang.String) -> a
+    boolean access$002$3aebd9f5(com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders) -> c
+    boolean access$102$3aebd9f5(com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders) -> d
+    int access$202(com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders,int) -> a
+    int access$302(com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders,int) -> b
+    boolean access$402$3aebd9f5(com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders) -> e
+    boolean access$502$3aebd9f5(com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders) -> f
+com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders$1 -> com.integralblue.httpresponsecache.compat.libcore.net.http.aj:
+    com.integralblue.httpresponsecache.compat.libcore.net.http.ResponseHeaders this$0 -> a
+    void handle(java.lang.String,java.lang.String) -> a
+com.integralblue.httpresponsecache.compat.libcore.net.http.RetryableOutputStream -> com.integralblue.httpresponsecache.compat.libcore.net.http.ak:
+    int limit -> b
+    java.io.ByteArrayOutputStream content -> c
+    void close() -> close
+    void write(byte[],int,int) -> write
+    int contentLength() -> b
+    void writeToSocket(java.io.OutputStream) -> a
+com.integralblue.httpresponsecache.compat.libcore.net.http.UnknownLengthHttpInputStream -> com.integralblue.httpresponsecache.compat.libcore.net.http.al:
+    boolean inputExhausted -> d
+    int read(byte[],int,int) -> read
+    int available() -> available
+    void close() -> close
+com.integralblue.httpresponsecache.compat.libcore.util.EmptyArray -> com.integralblue.httpresponsecache.compat.libcore.b.a:
+    boolean[] BOOLEAN -> a
+    byte[] BYTE -> b
+    char[] CHAR -> c
+    double[] DOUBLE -> d
+    int[] INT -> e
+    java.lang.Class[] CLASS -> f
+    java.lang.Object[] OBJECT -> g
+    java.lang.String[] STRING -> h
+    java.lang.Throwable[] THROWABLE -> i
+    java.lang.StackTraceElement[] STACK_TRACE_ELEMENT -> j
+com.integralblue.httpresponsecache.compat.libcore.util.Objects -> com.integralblue.httpresponsecache.compat.libcore.b.b:
+    boolean equal(java.lang.Object,java.lang.Object) -> a
+com.jakewharton.DiskLruCache -> com.a.a:
+    java.nio.charset.Charset UTF_8 -> a
+    java.io.File directory -> b
+    java.io.File journalFile -> c
+    java.io.File journalFileTmp -> d
+    int appVersion -> e
+    long maxSize -> f
+    int valueCount -> g
+    long size -> h
+    java.io.Writer journalWriter -> i
+    java.util.LinkedHashMap lruEntries -> j
+    int redundantOpCount -> k
+    long nextSequenceNumber -> l
+    java.util.concurrent.ExecutorService executorService -> m
+    java.util.concurrent.Callable cleanupCallable -> n
+    void deleteContents(java.io.File) -> a
+    void closeQuietly(java.io.Closeable) -> b
+    java.lang.String readAsciiLine(java.io.InputStream) -> a
+    com.jakewharton.DiskLruCache open$1707e120(java.io.File,int,int) -> a
+    void readJournal() -> f
+    void processJournal() -> g
+    void rebuildJournal() -> h
+    void deleteIfExists(java.io.File) -> b
+    com.jakewharton.DiskLruCache$Snapshot get(java.lang.String) -> a
+    com.jakewharton.DiskLruCache$Editor edit(java.lang.String) -> b
+    com.jakewharton.DiskLruCache$Editor edit(java.lang.String,long) -> a
+    java.io.File getDirectory() -> a
+    long maxSize() -> b
+    void completeEdit(com.jakewharton.DiskLruCache$Editor,boolean) -> a
+    boolean journalRebuildRequired() -> i
+    boolean remove(java.lang.String) -> c
+    boolean isClosed() -> c
+    void checkNotClosed() -> j
+    void flush() -> d
+    void close() -> close
+    void trimToSize() -> k
+    void delete() -> e
+    void validateKey(java.lang.String) -> d
+    java.io.Writer access$000(com.jakewharton.DiskLruCache) -> a
+    void access$100(com.jakewharton.DiskLruCache) -> b
+    boolean access$200(com.jakewharton.DiskLruCache) -> c
+    void access$300(com.jakewharton.DiskLruCache) -> d
+    int access$402$5ba0f521(com.jakewharton.DiskLruCache) -> e
+    com.jakewharton.DiskLruCache$Editor access$1500(com.jakewharton.DiskLruCache,java.lang.String,long) -> a
+    void access$1700(java.io.Closeable) -> a
+    void access$2000(com.jakewharton.DiskLruCache,com.jakewharton.DiskLruCache$Editor,boolean) -> a
+    int access$2200(com.jakewharton.DiskLruCache) -> f
+    java.io.File access$2300(com.jakewharton.DiskLruCache) -> g
+com.jakewharton.DiskLruCache$1 -> com.a.b:
+    com.jakewharton.DiskLruCache this$0 -> a
+    java.lang.Void call() -> a
+    java.lang.Object call() -> call
+com.jakewharton.DiskLruCache$Editor -> com.a.c:
+    com.jakewharton.DiskLruCache$Entry entry -> b
+    boolean hasErrors -> c
+    com.jakewharton.DiskLruCache this$0 -> a
+    java.io.OutputStream newOutputStream(int) -> a
+    void commit() -> a
+    void abort() -> b
+    com.jakewharton.DiskLruCache$Entry access$1400(com.jakewharton.DiskLruCache$Editor) -> a
+    boolean access$2102$7e009070(com.jakewharton.DiskLruCache$Editor) -> b
+com.jakewharton.DiskLruCache$Editor$FaultHidingOutputStream -> com.a.d:
+    com.jakewharton.DiskLruCache$Editor this$1 -> a
+    void write(int) -> write
+    void write(byte[],int,int) -> write
+    void close() -> close
+    void flush() -> flush
+com.jakewharton.DiskLruCache$Entry -> com.a.e:
+    java.lang.String key -> b
+    long[] lengths -> c
+    boolean readable -> d
+    com.jakewharton.DiskLruCache$Editor currentEditor -> e
+    long sequenceNumber -> f
+    com.jakewharton.DiskLruCache this$0 -> a
+    java.lang.String getLengths() -> a
+    java.io.IOException invalidLengths(java.lang.String[]) -> a
+    java.io.File getCleanFile(int) -> a
+    java.io.File getDirtyFile(int) -> b
+    boolean access$602$1bfd09af(com.jakewharton.DiskLruCache$Entry) -> a
+    com.jakewharton.DiskLruCache$Editor access$702(com.jakewharton.DiskLruCache$Entry,com.jakewharton.DiskLruCache$Editor) -> a
+    void access$800(com.jakewharton.DiskLruCache$Entry,java.lang.String[]) -> a
+    com.jakewharton.DiskLruCache$Editor access$700(com.jakewharton.DiskLruCache$Entry) -> b
+    long[] access$1000(com.jakewharton.DiskLruCache$Entry) -> c
+    java.lang.String access$1100(com.jakewharton.DiskLruCache$Entry) -> d
+    boolean access$600(com.jakewharton.DiskLruCache$Entry) -> e
+    long access$1200(com.jakewharton.DiskLruCache$Entry) -> f
+    long access$1202(com.jakewharton.DiskLruCache$Entry,long) -> a
+com.jakewharton.DiskLruCache$Snapshot -> com.a.f:
+    java.lang.String key -> b
+    long sequenceNumber -> c
+    java.io.InputStream[] ins -> d
+    com.jakewharton.DiskLruCache this$0 -> a
+    com.jakewharton.DiskLruCache$Editor edit() -> a
+    java.io.InputStream getInputStream(int) -> a
+    void close() -> close
 com.seekermob.songseeker.R -> com.seekermob.songseeker.a:
 com.seekermob.songseeker.R$anim -> com.seekermob.songseeker.b:
     int fade_in -> a
@@ -6739,37 +7482,37 @@ com.seekermob.songseeker.R$id -> com.seekermob.songseeker.d:
     int designer_logo -> j
     int echonest_logo -> k
     int exact_artists -> l
-    int export_to_grooveshark -> m
-    int export_to_lastfm -> n
-    int export_to_rdio -> o
-    int export_to_youtube -> p
-    int firstLine -> q
-    int grooveshark_logo -> r
-    int image -> s
-    int import_from_device -> t
-    int import_from_lastfm -> u
-    int label_danceability -> v
-    int label_energy -> w
-    int label_hotness -> x
-    int label_max_results -> y
-    int label_mood -> z
-    int label_tempo -> A
-    int label_variety -> B
-    int lastfm_logo -> C
-    int line -> D
-    int loading -> E
-    int media_btns -> F
-    int menu_about -> G
-    int menu_add_artist -> H
-    int menu_add_to_playlist -> I
-    int menu_add_to_profile -> J
-    int menu_buy -> K
-    int menu_clear_profile -> L
-    int menu_export_playlist -> M
-    int menu_import_artists -> N
-    int menu_login -> O
-    int menu_new_playlist -> P
-    int menu_play_songs -> Q
+    int export_to_dms -> m
+    int export_to_grooveshark -> n
+    int export_to_lastfm -> o
+    int export_to_rdio -> p
+    int export_to_youtube -> q
+    int firstLine -> r
+    int grooveshark_logo -> s
+    int image -> t
+    int import_from_device -> u
+    int import_from_lastfm -> v
+    int label_danceability -> w
+    int label_energy -> x
+    int label_hotness -> y
+    int label_max_results -> z
+    int label_mood -> A
+    int label_tempo -> B
+    int label_variety -> C
+    int lastfm_logo -> D
+    int line -> E
+    int loading -> F
+    int media_btns -> G
+    int menu_about -> H
+    int menu_add_artist -> I
+    int menu_add_to_playlist -> J
+    int menu_add_to_profile -> K
+    int menu_buy -> L
+    int menu_clear_profile -> M
+    int menu_export_playlist -> N
+    int menu_import_artists -> O
+    int menu_login -> P
+    int menu_new_playlist -> Q
     int menu_playlist_options -> R
     int menu_refresh_songs -> S
     int menu_search_artist -> T
@@ -6781,39 +7524,37 @@ com.seekermob.songseeker.R$id -> com.seekermob.songseeker.d:
     int overlay_update -> Z
     int pager -> aa
     int password_input -> ab
-    int play_in_dms -> ac
-    int play_in_grooveshark -> ad
-    int playpause -> ae
-    int progress_container -> af
-    int rdio_logo -> ag
-    int releaseinfo_artistName -> ah
-    int releaseinfo_image -> ai
-    int releaseinfo_releaseName -> aj
-    int root_container -> ak
-    int secondLine -> al
-    int seekBar_danceability -> am
-    int seekBar_energy -> an
-    int seekBar_hotness -> ao
-    int seekBar_max_results -> ap
-    int seekBar_mood -> aq
-    int seekBar_tempo -> ar
-    int seekBar_variety -> as
-    int sevendigital_logo -> at
-    int similar_artists -> au
-    int songinfo_albumName -> av
-    int songinfo_artistName -> aw
-    int songinfo_image -> ax
-    int songinfo_loading -> ay
-    int songinfo_playpause -> az
-    int songinfo_songName -> aA
-    int songinfo_songVersion -> aB
-    int stub_update -> aC
-    int text -> aD
-    int textViewUpdateStatus -> aE
-    int text_input -> aF
-    int thirdLine -> aG
-    int username_input -> aH
-    int youtube_logo -> aI
+    int playpause -> ac
+    int progress_container -> ad
+    int rdio_logo -> ae
+    int releaseinfo_artistName -> af
+    int releaseinfo_image -> ag
+    int releaseinfo_releaseName -> ah
+    int root_container -> ai
+    int secondLine -> aj
+    int seekBar_danceability -> ak
+    int seekBar_energy -> al
+    int seekBar_hotness -> am
+    int seekBar_max_results -> an
+    int seekBar_mood -> ao
+    int seekBar_tempo -> ap
+    int seekBar_variety -> aq
+    int sevendigital_logo -> ar
+    int similar_artists -> as
+    int songinfo_albumName -> at
+    int songinfo_artistName -> au
+    int songinfo_image -> av
+    int songinfo_loading -> aw
+    int songinfo_playpause -> ax
+    int songinfo_songName -> ay
+    int songinfo_songVersion -> az
+    int stub_update -> aA
+    int text -> aB
+    int textViewUpdateStatus -> aC
+    int text_input -> aD
+    int thirdLine -> aE
+    int username_input -> aF
+    int youtube_logo -> aG
 com.seekermob.songseeker.R$layout -> com.seekermob.songseeker.e:
     int about -> a
     int activity_singlepane_empty -> b
@@ -6823,16 +7564,15 @@ com.seekermob.songseeker.R$layout -> com.seekermob.songseeker.e:
     int dialog_export -> f
     int dialog_import -> g
     int dialog_input -> h
-    int dialog_player -> i
-    int list_item_1_image -> j
-    int list_item_2_image_media -> k
-    int list_item_3 -> l
-    int listview_progress -> m
-    int pager -> n
-    int playlist_options -> o
-    int preferences -> p
-    int release_info -> q
-    int song_info -> r
+    int list_item_1_image -> i
+    int list_item_2_image_media -> j
+    int list_item_3 -> k
+    int listview_progress -> l
+    int pager -> m
+    int playlist_options -> n
+    int preferences -> o
+    int release_info -> p
+    int song_info -> q
 com.seekermob.songseeker.R$menu -> com.seekermob.songseeker.f:
     int artistinfo_menu -> a
     int export_playlist_menu -> b
@@ -6853,76 +7593,74 @@ com.seekermob.songseeker.R$string -> com.seekermob.songseeker.g:
     int artist_news_title -> h
     int artists_already_profile -> i
     int auth_cleared -> j
-    int cache_auto_cleared -> k
-    int cache_cleared -> l
-    int check_dms_setting_on -> m
-    int choose_playlist_export_tip -> n
-    int clear_profile -> o
-    int clear_profile_warn_msg -> p
-    int clearing_cache -> q
-    int danceability_str -> r
-    int energy_str -> s
-    int err_add_artists_profile -> t
-    int err_add_songs_playlist -> u
-    int exception_artist_not_found -> v
-    int exception_io -> w
-    int exception_not_auth -> x
-    int exception_req_failed -> y
-    int exception_song_not_found -> z
-    int exception_try_later -> A
-    int exception_unknown -> B
-    int exception_user_not_found -> C
-    int export_grooveshark_title -> D
-    int export_lastfm_title -> E
-    int export_rdio_title -> F
-    int export_youtube_title -> G
-    int exporting -> H
-    int grooveshark_username -> I
-    int hotness_str -> J
-    int import_no_artist_found -> K
-    int import_profile_failed -> L
-    int importing -> M
-    int install_dms -> N
-    int lastfm_username -> O
-    int loading -> P
-    int max_results_str -> Q
-    int mood_str -> R
-    int no_google_account_found -> S
-    int no_song_found -> T
-    int not_authorized -> U
-    int operation_in_progress -> V
-    int playlist_created -> W
-    int playlist_created_by -> X
-    int playlist_empty -> Y
-    int playlist_name -> Z
-    int playlist_options -> aa
-    int profile -> ab
-    int profile_frag_empty_list -> ac
-    int remove_artist -> ad
-    int remove_song -> ae
-    int req_add_artists_profile -> af
-    int requires_flash -> ag
-    int select_google_account -> ah
-    int settings -> ai
-    int share_album_text -> aj
-    int share_artist_text -> ak
-    int share_song_text -> al
-    int share_using -> am
-    int similar_artists_frag_empty -> an
-    int similar_artists_title -> ao
-    int some_artists_added_profile -> ap
-    int some_songs_added_playlist -> aq
-    int song -> ar
-    int songs -> as
-    int songs_frag_empty_list -> at
-    int success_add_artists_profile -> au
-    int success_add_songs_playlist -> av
-    int tempo_str -> aw
-    int user_playlists_frag_empty -> ax
-    int variety_str -> ay
-    int videos -> az
-    int youtube_videos_frag_empty -> aA
-    int youtube_videos_title -> aB
+    int cache_cleared -> k
+    int check_dms_setting_on -> l
+    int choose_playlist_export_tip -> m
+    int clear_profile -> n
+    int clear_profile_warn_msg -> o
+    int clearing_cache -> p
+    int danceability_str -> q
+    int energy_str -> r
+    int err_add_artists_profile -> s
+    int err_add_songs_playlist -> t
+    int exception_artist_not_found -> u
+    int exception_io -> v
+    int exception_not_auth -> w
+    int exception_req_failed -> x
+    int exception_song_not_found -> y
+    int exception_try_later -> z
+    int exception_unknown -> A
+    int exception_user_not_found -> B
+    int export_grooveshark_title -> C
+    int export_lastfm_title -> D
+    int export_rdio_title -> E
+    int export_youtube_title -> F
+    int exporting -> G
+    int grooveshark_username -> H
+    int hotness_str -> I
+    int import_no_artist_found -> J
+    int import_profile_failed -> K
+    int importing -> L
+    int install_dms -> M
+    int lastfm_username -> N
+    int loading -> O
+    int max_results_str -> P
+    int mood_str -> Q
+    int no_google_account_found -> R
+    int no_song_found -> S
+    int not_authorized -> T
+    int operation_in_progress -> U
+    int playlist_created -> V
+    int playlist_created_by -> W
+    int playlist_empty -> X
+    int playlist_name -> Y
+    int playlist_options -> Z
+    int profile -> aa
+    int profile_frag_empty_list -> ab
+    int remove_artist -> ac
+    int remove_song -> ad
+    int req_add_artists_profile -> ae
+    int select_google_account -> af
+    int settings -> ag
+    int share_album_text -> ah
+    int share_artist_text -> ai
+    int share_song_text -> aj
+    int share_using -> ak
+    int similar_artists_frag_empty -> al
+    int similar_artists_title -> am
+    int some_artists_added_profile -> an
+    int some_songs_added_playlist -> ao
+    int song -> ap
+    int songs -> aq
+    int songs_frag_empty_list -> ar
+    int success_add_artists_profile -> as
+    int success_add_songs_playlist -> at
+    int tempo_str -> au
+    int user_playlists_frag_empty -> av
+    int variety_str -> aw
+    int videos -> ax
+    int youtube_videos_frag_empty -> ay
+    int youtube_videos_title -> az
 com.seekermob.songseeker.R$style -> com.seekermob.songseeker.h:
     int DialogThemeNoTitle -> a
 com.seekermob.songseeker.comm.EchoNestComm -> com.seekermob.songseeker.comm.a:
@@ -7017,14 +7755,14 @@ com.seekermob.songseeker.comm.ServiceCommException$ServiceID -> com.seekermob.so
 com.seekermob.songseeker.comm.SevenDigitalComm -> com.seekermob.songseeker.comm.e:
     com.seekermob.songseeker.comm.SevenDigitalComm comm -> a
     com.seekermob.songseeker.comm.SevenDigitalComm getComm() -> a
-    com.seekermob.songseeker.data.SongInfo querySongDetails$408bf7a5(java.lang.String,java.lang.String,java.lang.String) -> a
+    com.seekermob.songseeker.data.SongInfo querySongDetails(java.lang.String,java.lang.String,java.lang.String) -> a
     com.seekermob.songseeker.data.SongInfo querySongSearch(java.lang.String,java.lang.String) -> a
     com.seekermob.songseeker.data.ArtistInfo queryArtistSearch(java.lang.String) -> a
     java.util.ArrayList queryArtistTopTracks(java.lang.String) -> b
     java.lang.String getPreviewUrl(java.lang.String) -> c
     java.util.ArrayList queryReleaseSongList(java.lang.String) -> d
     java.util.ArrayList getArtistReleases(java.lang.String) -> e
-    com.seekermob.songseeker.data.ArtistInfo queryArtistDetails$4a673beb(java.lang.String) -> f
+    com.seekermob.songseeker.data.ArtistInfo queryArtistDetails(java.lang.String) -> f
     java.util.ArrayList parseSongDetails(org.w3c.dom.Element) -> a
     java.util.ArrayList parseReleaseDetails(org.w3c.dom.Element) -> b
     java.util.ArrayList parseArtistDetails(org.w3c.dom.Element) -> c
@@ -7738,14 +8476,11 @@ com.seekermob.songseeker.ui.MainActivity -> com.seekermob.songseeker.ui.MainActi
     android.support.v4.view.ViewPager mViewPager -> b
     void onCreate(android.os.Bundle) -> onCreate
     void onPause() -> onPause
+    void onStop() -> onStop
     void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
     boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu) -> onCreateOptionsMenu
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
     void onDialogTextEntered(java.lang.String,java.lang.String) -> b
-com.seekermob.songseeker.ui.MainActivity$AutoClearCacheTask -> com.seekermob.songseeker.ui.bg:
-    com.seekermob.songseeker.ui.MainActivity this$0 -> a
-    void onPostExecute(java.lang.Object) -> onPostExecute
-    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.seekermob.songseeker.ui.MusicInfoActivity -> com.seekermob.songseeker.ui.MusicInfoActivity:
     com.seekermob.songseeker.util.Util$TabsAdapter mTabsAdapter -> a
     android.support.v4.view.ViewPager mViewPager -> b
@@ -7776,28 +8511,28 @@ com.seekermob.songseeker.ui.PlaylistOptionsActivity -> com.seekermob.songseeker.
     void onProgressChanged(android.widget.SeekBar,int,boolean) -> onProgressChanged
     void onStartTrackingTouch(android.widget.SeekBar) -> onStartTrackingTouch
     void onStopTrackingTouch(android.widget.SeekBar) -> onStopTrackingTouch
-com.seekermob.songseeker.ui.PlaylistOptionsActivity$1 -> com.seekermob.songseeker.ui.bh:
+com.seekermob.songseeker.ui.PlaylistOptionsActivity$1 -> com.seekermob.songseeker.ui.bg:
     com.seekermob.songseeker.ui.PlaylistOptionsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.PlaylistOptionsActivity$2 -> com.seekermob.songseeker.ui.bi:
+com.seekermob.songseeker.ui.PlaylistOptionsActivity$2 -> com.seekermob.songseeker.ui.bh:
     com.seekermob.songseeker.ui.PlaylistOptionsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
 com.seekermob.songseeker.ui.PreferencesActivity -> com.seekermob.songseeker.ui.PreferencesActivity:
     void onCreate(android.os.Bundle) -> onCreate
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
-com.seekermob.songseeker.ui.PreferencesActivity$1 -> com.seekermob.songseeker.ui.bj:
+com.seekermob.songseeker.ui.PreferencesActivity$1 -> com.seekermob.songseeker.ui.bi:
     com.seekermob.songseeker.ui.PreferencesActivity this$0 -> a
     android.preference.PreferenceActivity val$activity -> b
     boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
-com.seekermob.songseeker.ui.PreferencesActivity$2 -> com.seekermob.songseeker.ui.bk:
+com.seekermob.songseeker.ui.PreferencesActivity$2 -> com.seekermob.songseeker.ui.bj:
     com.seekermob.songseeker.ui.PreferencesActivity this$0 -> a
     boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
-com.seekermob.songseeker.ui.PreferencesActivity$ClearCacheTask -> com.seekermob.songseeker.ui.bl:
+com.seekermob.songseeker.ui.PreferencesActivity$ClearCacheTask -> com.seekermob.songseeker.ui.bk:
     com.seekermob.songseeker.ui.PreferencesActivity this$0 -> a
     void onPreExecute() -> onPreExecute
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.ui.ProfileFragment -> com.seekermob.songseeker.ui.bm:
+com.seekermob.songseeker.ui.ProfileFragment -> com.seekermob.songseeker.ui.bl:
     com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter mAdapter -> a
     com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask mImportProfileTask -> b
     android.os.Bundle mSavedState -> c
@@ -7815,7 +8550,7 @@ com.seekermob.songseeker.ui.ProfileFragment -> com.seekermob.songseeker.ui.bm:
     boolean isTaskRunning() -> a
     void importProfile(java.lang.String,int) -> a
     void access$0(com.seekermob.songseeker.ui.ProfileFragment) -> a
-com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter -> com.seekermob.songseeker.ui.bn:
+com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter -> com.seekermob.songseeker.ui.bm:
     com.seekermob.songseeker.data.UserProfile prof -> b
     android.view.LayoutInflater inflater -> c
     com.seekermob.songseeker.ui.ProfileFragment this$0 -> a
@@ -7825,28 +8560,28 @@ com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter -> com.seekermob.song
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     java.lang.Object getItem(int) -> getItem
     com.seekermob.songseeker.data.UserProfile access$1(com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter) -> a
-com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter$ViewHolder -> com.seekermob.songseeker.ui.bo:
+com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter$ViewHolder -> com.seekermob.songseeker.ui.bn:
     android.widget.TextView line -> a
     android.widget.ImageView image -> b
     com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter this$1 -> c
-com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment -> com.seekermob.songseeker.ui.bp:
+com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment -> com.seekermob.songseeker.ui.bo:
     com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment newInstance() -> a
     android.app.Dialog onCreateDialog(android.os.Bundle) -> onCreateDialog
-com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment$1 -> com.seekermob.songseeker.ui.bq:
+com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment$1 -> com.seekermob.songseeker.ui.bp:
     com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment this$1 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment$2 -> com.seekermob.songseeker.ui.br:
+com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment$2 -> com.seekermob.songseeker.ui.bq:
     com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment this$1 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment -> com.seekermob.songseeker.ui.bs:
+com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment -> com.seekermob.songseeker.ui.br:
     android.app.Dialog onCreateDialog(android.os.Bundle) -> onCreateDialog
-com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment$1 -> com.seekermob.songseeker.ui.bt:
+com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment$1 -> com.seekermob.songseeker.ui.bs:
     com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment this$1 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment$2 -> com.seekermob.songseeker.ui.bu:
+com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment$2 -> com.seekermob.songseeker.ui.bt:
     com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment this$1 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask -> com.seekermob.songseeker.ui.bv:
+com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask -> com.seekermob.songseeker.ui.bu:
     com.seekermob.songseeker.data.UserProfile mUserProfile -> b
     java.util.ArrayList mArtists -> c
     java.lang.String mUsername -> d
@@ -7869,10 +8604,10 @@ com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask -> com.seekermob.s
     com.seekermob.songseeker.data.UserProfile access$5(com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask) -> c
     java.util.ArrayList access$6(com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask) -> d
     com.seekermob.songseeker.ui.ProfileFragment access$7(com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask) -> e
-com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask$1 -> com.seekermob.songseeker.ui.bw:
+com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask$1 -> com.seekermob.songseeker.ui.bv:
     com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask this$1 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.ReleaseInfoFragment -> com.seekermob.songseeker.ui.bx:
+com.seekermob.songseeker.ui.ReleaseInfoFragment -> com.seekermob.songseeker.ui.bw:
     com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter mAdapter -> a
     com.seekermob.songseeker.data.ReleaseInfo mRelease -> b
     com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseDetailsTask mReleaseDetailsTask -> c
@@ -7888,14 +8623,14 @@ com.seekermob.songseeker.ui.ReleaseInfoFragment -> com.seekermob.songseeker.ui.b
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
     com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter access$0(com.seekermob.songseeker.ui.ReleaseInfoFragment) -> a
     com.seekermob.songseeker.data.ReleaseInfo access$1(com.seekermob.songseeker.ui.ReleaseInfoFragment) -> b
-com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseDetailsTask -> com.seekermob.songseeker.ui.by:
+com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseDetailsTask -> com.seekermob.songseeker.ui.bx:
     java.lang.String err -> a
     com.seekermob.songseeker.ui.ReleaseInfoFragment this$0 -> b
     void onPreExecute() -> onPreExecute
     java.util.ArrayList doInBackground$2b2655bf() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter -> com.seekermob.songseeker.ui.bz:
+com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter -> com.seekermob.songseeker.ui.by:
     java.util.ArrayList mReleaseSongs -> b
     android.view.LayoutInflater inflater -> c
     com.seekermob.songseeker.ui.ReleaseInfoFragment this$0 -> a
@@ -7910,17 +8645,17 @@ com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter -> com.seeke
     int[] $SWITCH_TABLE$com$seekermob$songseeker$util$MediaPlayerController$MediaStatus() -> a
     java.util.ArrayList access$2(com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter) -> a
     com.seekermob.songseeker.ui.ReleaseInfoFragment access$3(com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter) -> b
-com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter$1 -> com.seekermob.songseeker.ui.ca:
+com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter$1 -> com.seekermob.songseeker.ui.bz:
     com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter this$1 -> a
     com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter$2 -> com.seekermob.songseeker.ui.cb:
+com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter$2 -> com.seekermob.songseeker.ui.ca:
     com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter this$1 -> a
     com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter$ViewHolder -> com.seekermob.songseeker.ui.cc:
+com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter$ViewHolder -> com.seekermob.songseeker.ui.cb:
     android.widget.TextView topText -> a
     android.widget.TextView botText -> b
     android.widget.ImageView image -> c
@@ -7932,7 +8667,7 @@ com.seekermob.songseeker.ui.SimilarArtistsActivity -> com.seekermob.songseeker.u
     android.support.v4.app.Fragment mFragment -> a
     void onCreate(android.os.Bundle) -> onCreate
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
-com.seekermob.songseeker.ui.SimilarArtistsFragment -> com.seekermob.songseeker.ui.cd:
+com.seekermob.songseeker.ui.SimilarArtistsFragment -> com.seekermob.songseeker.ui.cc:
     com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter mAdapter -> a
     com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsTask mTask -> b
     android.os.Bundle mSavedState -> c
@@ -7945,7 +8680,7 @@ com.seekermob.songseeker.ui.SimilarArtistsFragment -> com.seekermob.songseeker.u
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
     boolean isTaskRunning() -> a
     com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter access$0(com.seekermob.songseeker.ui.SimilarArtistsFragment) -> a
-com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter -> com.seekermob.songseeker.ui.ce:
+com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter -> com.seekermob.songseeker.ui.cd:
     java.util.ArrayList mSimilarArtists -> b
     android.view.LayoutInflater mInflater -> c
     com.seekermob.songseeker.ui.SimilarArtistsFragment this$0 -> a
@@ -7956,18 +8691,18 @@ com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter -> com.
     void setAdapter(java.util.ArrayList) -> a
     java.lang.Object getItem(int) -> getItem
     java.util.ArrayList access$1(com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter) -> a
-com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter$ViewHolder -> com.seekermob.songseeker.ui.cf:
+com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter$ViewHolder -> com.seekermob.songseeker.ui.ce:
     android.widget.TextView line -> a
     android.widget.ImageView image -> b
     com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter this$1 -> c
-com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsTask -> com.seekermob.songseeker.ui.cg:
+com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsTask -> com.seekermob.songseeker.ui.cf:
     java.lang.String err -> a
     com.seekermob.songseeker.ui.SimilarArtistsFragment this$0 -> b
     void onPreExecute() -> onPreExecute
     java.util.ArrayList doInBackground$2b2655bf() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.ui.SongInfoFragment -> com.seekermob.songseeker.ui.ch:
+com.seekermob.songseeker.ui.SongInfoFragment -> com.seekermob.songseeker.ui.cg:
     com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter mAdapter -> a
     com.seekermob.songseeker.data.SongInfo mSong -> b
     com.seekermob.songseeker.ui.SongInfoFragment$TopTracksTask mTopTracksTask -> c
@@ -7984,13 +8719,13 @@ com.seekermob.songseeker.ui.SongInfoFragment -> com.seekermob.songseeker.ui.ch:
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
     com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter access$0(com.seekermob.songseeker.ui.SongInfoFragment) -> a
     com.seekermob.songseeker.data.SongInfo access$1(com.seekermob.songseeker.ui.SongInfoFragment) -> b
-com.seekermob.songseeker.ui.SongInfoFragment$1 -> com.seekermob.songseeker.ui.ci:
+com.seekermob.songseeker.ui.SongInfoFragment$1 -> com.seekermob.songseeker.ui.ch:
     com.seekermob.songseeker.ui.SongInfoFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongInfoFragment$2 -> com.seekermob.songseeker.ui.cj:
+com.seekermob.songseeker.ui.SongInfoFragment$2 -> com.seekermob.songseeker.ui.ci:
     com.seekermob.songseeker.ui.SongInfoFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter -> com.seekermob.songseeker.ui.ck:
+com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter -> com.seekermob.songseeker.ui.cj:
     java.util.ArrayList mTopTracks -> b
     android.view.LayoutInflater inflater -> c
     com.seekermob.songseeker.ui.SongInfoFragment this$0 -> a
@@ -8005,17 +8740,17 @@ com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter -> com.seekermob.s
     int[] $SWITCH_TABLE$com$seekermob$songseeker$util$MediaPlayerController$MediaStatus() -> a
     java.util.ArrayList access$2(com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter) -> a
     com.seekermob.songseeker.ui.SongInfoFragment access$3(com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter) -> b
-com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter$1 -> com.seekermob.songseeker.ui.cl:
+com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter$1 -> com.seekermob.songseeker.ui.ck:
     com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter this$1 -> a
     com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter$2 -> com.seekermob.songseeker.ui.cm:
+com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter$2 -> com.seekermob.songseeker.ui.cl:
     com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter this$1 -> a
     com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter$ViewHolder -> com.seekermob.songseeker.ui.cn:
+com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter$ViewHolder -> com.seekermob.songseeker.ui.cm:
     android.widget.TextView topText -> a
     android.widget.TextView botText -> b
     android.widget.ImageView image -> c
@@ -8023,14 +8758,14 @@ com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter$ViewHolder -> com.
     android.widget.ProgressBar loading -> e
     android.widget.FrameLayout mediaBtns -> f
     com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter this$1 -> g
-com.seekermob.songseeker.ui.SongInfoFragment$TopTracksTask -> com.seekermob.songseeker.ui.co:
+com.seekermob.songseeker.ui.SongInfoFragment$TopTracksTask -> com.seekermob.songseeker.ui.cn:
     java.lang.String err -> a
     com.seekermob.songseeker.ui.SongInfoFragment this$0 -> b
     void onPreExecute() -> onPreExecute
     java.util.ArrayList doInBackground$2b2655bf() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.ui.SongsFragment -> com.seekermob.songseeker.ui.cp:
+com.seekermob.songseeker.ui.SongsFragment -> com.seekermob.songseeker.ui.co:
     com.seekermob.songseeker.ui.SongsFragment$SongsAdapter mAdapter -> a
     com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask mPlaySongsTask -> b
     com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask mSongDetailsTask -> c
@@ -8052,36 +8787,37 @@ com.seekermob.songseeker.ui.SongsFragment -> com.seekermob.songseeker.ui.cp:
     boolean isAnyTaskRunning() -> a
     void access$0(com.seekermob.songseeker.ui.SongsFragment) -> a
     void access$1(com.seekermob.songseeker.ui.SongsFragment) -> b
-    void access$2(com.seekermob.songseeker.ui.SongsFragment) -> c
-com.seekermob.songseeker.ui.SongsFragment$1 -> com.seekermob.songseeker.ui.cq:
+com.seekermob.songseeker.ui.SongsFragment$1 -> com.seekermob.songseeker.ui.cp:
     com.seekermob.songseeker.ui.SongsFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment -> com.seekermob.songseeker.ui.cr:
+com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment -> com.seekermob.songseeker.ui.cq:
     com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment newInstance(java.util.ArrayList) -> a
     android.app.Dialog onCreateDialog(android.os.Bundle) -> onCreateDialog
-com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$1 -> com.seekermob.songseeker.ui.cs:
+com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$1 -> com.seekermob.songseeker.ui.cr:
+    com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment this$1 -> a
+    void onClick(android.view.View) -> onClick
+com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$2 -> com.seekermob.songseeker.ui.cs:
     com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment this$1 -> a
     java.util.ArrayList val$playlist -> b
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$2 -> com.seekermob.songseeker.ui.ct:
+com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$3 -> com.seekermob.songseeker.ui.ct:
     com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment this$1 -> a
     java.util.ArrayList val$playlist -> b
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$3 -> com.seekermob.songseeker.ui.cu:
+com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$4 -> com.seekermob.songseeker.ui.cu:
     com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment this$1 -> a
     java.util.ArrayList val$playlist -> b
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$4 -> com.seekermob.songseeker.ui.cv:
+com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$5 -> com.seekermob.songseeker.ui.cv:
     com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment this$1 -> a
     java.util.ArrayList val$playlist -> b
     void onClick(android.view.View) -> onClick
 com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask -> com.seekermob.songseeker.ui.cw:
     java.lang.String err -> c
-    int mPlayer -> d
-    java.util.List mSongs -> e
-    android.view.View mProgressOverlay -> f
-    android.widget.ProgressBar mUpdateProgress -> g
-    java.util.ArrayList mSongIds -> h
+    java.util.List mSongs -> d
+    android.view.View mProgressOverlay -> e
+    android.widget.ProgressBar mUpdateProgress -> f
+    java.util.ArrayList mSongIds -> g
     java.util.concurrent.atomic.AtomicInteger mFetchCount -> a
     com.seekermob.songseeker.ui.SongsFragment this$0 -> b
     void onPreExecute() -> onPreExecute
@@ -8091,21 +8827,11 @@ com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask -> com.seekermob.songsee
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
     java.util.ArrayList access$3(com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask) -> a
-    int access$4(com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask) -> b
-    com.seekermob.songseeker.ui.SongsFragment access$5(com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask) -> c
+    com.seekermob.songseeker.ui.SongsFragment access$4(com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask) -> b
 com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask$1 -> com.seekermob.songseeker.ui.cx:
     com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask this$1 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$PlayerDialogFragment -> com.seekermob.songseeker.ui.cy:
-    com.seekermob.songseeker.ui.SongsFragment$PlayerDialogFragment newInstance() -> a
-    android.app.Dialog onCreateDialog(android.os.Bundle) -> onCreateDialog
-com.seekermob.songseeker.ui.SongsFragment$PlayerDialogFragment$1 -> com.seekermob.songseeker.ui.cz:
-    com.seekermob.songseeker.ui.SongsFragment$PlayerDialogFragment this$1 -> a
-    void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$PlayerDialogFragment$2 -> com.seekermob.songseeker.ui.da:
-    com.seekermob.songseeker.ui.SongsFragment$PlayerDialogFragment this$1 -> a
-    void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask -> com.seekermob.songseeker.ui.db:
+com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask -> com.seekermob.songseeker.ui.cy:
     java.lang.String err -> a
     com.seekermob.songseeker.data.SongInfo mSelectedSong -> b
     android.view.View mProgressOverlay -> d
@@ -8116,10 +8842,10 @@ com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask -> com.seekermob.songs
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     com.seekermob.songseeker.ui.SongsFragment access$2(com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask) -> a
-com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask$1 -> com.seekermob.songseeker.ui.dc:
+com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask$1 -> com.seekermob.songseeker.ui.cz:
     com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask this$1 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$SongsAdapter -> com.seekermob.songseeker.ui.dd:
+com.seekermob.songseeker.ui.SongsFragment$SongsAdapter -> com.seekermob.songseeker.ui.da:
     java.util.ArrayList playlist -> b
     android.view.LayoutInflater inflater -> c
     com.seekermob.songseeker.ui.SongsFragment this$0 -> a
@@ -8133,17 +8859,17 @@ com.seekermob.songseeker.ui.SongsFragment$SongsAdapter -> com.seekermob.songseek
     int[] $SWITCH_TABLE$com$seekermob$songseeker$util$MediaPlayerController$MediaStatus() -> a
     java.util.ArrayList access$2(com.seekermob.songseeker.ui.SongsFragment$SongsAdapter) -> a
     com.seekermob.songseeker.ui.SongsFragment access$3(com.seekermob.songseeker.ui.SongsFragment$SongsAdapter) -> b
-com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$1 -> com.seekermob.songseeker.ui.de:
+com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$1 -> com.seekermob.songseeker.ui.db:
     com.seekermob.songseeker.ui.SongsFragment$SongsAdapter this$1 -> a
     com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$2 -> com.seekermob.songseeker.ui.df:
+com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$2 -> com.seekermob.songseeker.ui.dc:
     com.seekermob.songseeker.ui.SongsFragment$SongsAdapter this$1 -> a
     com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$ViewHolder -> com.seekermob.songseeker.ui.dg:
+com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$ViewHolder -> com.seekermob.songseeker.ui.dd:
     android.widget.TextView topText -> a
     android.widget.TextView botText -> b
     android.widget.ImageView image -> c
@@ -8155,7 +8881,7 @@ com.seekermob.songseeker.ui.YouTubeVideosActivity -> com.seekermob.songseeker.ui
     android.support.v4.app.Fragment mFragment -> a
     void onCreate(android.os.Bundle) -> onCreate
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
-com.seekermob.songseeker.ui.YouTubeVideosFragment -> com.seekermob.songseeker.ui.dh:
+com.seekermob.songseeker.ui.YouTubeVideosFragment -> com.seekermob.songseeker.ui.de:
     com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter mAdapter -> a
     com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosTask mTask -> b
     android.os.Bundle mSavedState -> c
@@ -8168,7 +8894,7 @@ com.seekermob.songseeker.ui.YouTubeVideosFragment -> com.seekermob.songseeker.ui
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
     boolean isTaskRunning() -> a
     com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter access$0(com.seekermob.songseeker.ui.YouTubeVideosFragment) -> a
-com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter -> com.seekermob.songseeker.ui.di:
+com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter -> com.seekermob.songseeker.ui.df:
     java.util.ArrayList mVideos -> b
     android.view.LayoutInflater mInflater -> c
     com.seekermob.songseeker.ui.YouTubeVideosFragment this$0 -> a
@@ -8179,39 +8905,28 @@ com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter -> com.seekermob
     void setAdapter(java.util.ArrayList) -> a
     java.lang.Object getItem(int) -> getItem
     java.util.ArrayList access$1(com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter) -> a
-com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter$ViewHolder -> com.seekermob.songseeker.ui.dj:
+com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter$ViewHolder -> com.seekermob.songseeker.ui.dg:
     android.widget.TextView topText -> a
     android.widget.TextView botText -> b
     android.widget.ImageView image -> c
     com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter this$1 -> d
-com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosTask -> com.seekermob.songseeker.ui.dk:
+com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosTask -> com.seekermob.songseeker.ui.dh:
     java.lang.String err -> a
     com.seekermob.songseeker.ui.YouTubeVideosFragment this$0 -> b
     void onPreExecute() -> onPreExecute
     java.util.ArrayList doInBackground$2b2655bf() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.util.FileCache -> com.seekermob.songseeker.util.FileCache:
+com.seekermob.songseeker.util.FileCache -> com.seekermob.songseeker.util.a:
     com.seekermob.songseeker.util.FileCache obj -> a
     java.io.File externalCacheDir -> b
     java.io.File internalCacheDir -> c
-    int[] $SWITCH_TABLE$com$seekermob$songseeker$util$FileCache$FileType -> d
-    void setCacheDirs(android.content.Context) -> a
-    com.seekermob.songseeker.util.FileCache getCache(android.content.Context) -> b
+    com.jakewharton.DiskLruCache imageCache -> d
+    void install(android.content.Context) -> a
     com.seekermob.songseeker.util.FileCache getCache() -> a
-    java.io.File getFile(java.lang.String,com.seekermob.songseeker.util.FileCache$FileType) -> a
-    void clear() -> b
-    long getCacheSize() -> c
-    int[] $SWITCH_TABLE$com$seekermob$songseeker$util$FileCache$FileType() -> d
-com.seekermob.songseeker.util.FileCache$FileType -> com.seekermob.songseeker.util.FileCache$FileType:
-    com.seekermob.songseeker.util.FileCache$FileType IMAGE -> a
-    com.seekermob.songseeker.util.FileCache$FileType SONG -> b
-    com.seekermob.songseeker.util.FileCache$FileType ARTIST -> c
-    java.lang.String dir -> dir
-    com.seekermob.songseeker.util.FileCache$FileType[] ENUM$VALUES -> d
-    java.lang.String getDir() -> a
-    com.seekermob.songseeker.util.FileCache$FileType[] values() -> values
-    com.seekermob.songseeker.util.FileCache$FileType valueOf(java.lang.String) -> valueOf
+    java.io.BufferedInputStream getImage(java.lang.String) -> a
+    void putImage(java.io.InputStream,java.lang.String) -> a
+    void clear(android.content.Context) -> b
 com.seekermob.songseeker.util.ImageLoader -> com.seekermob.songseeker.util.ImageLoader:
     com.seekermob.songseeker.util.ImageLoader loader -> a
     com.seekermob.songseeker.util.MemoryCache memoryCache -> b
@@ -8224,13 +8939,13 @@ com.seekermob.songseeker.util.ImageLoader -> com.seekermob.songseeker.util.Image
     void DisplayImage$71b84739(java.lang.String,android.widget.ImageView,com.seekermob.songseeker.util.ImageLoader$ImageSize) -> a
     void queuePhoto(java.lang.String,android.view.View,com.seekermob.songseeker.util.ImageLoader$ImageSize,boolean) -> a
     android.graphics.Bitmap getBitmap(java.lang.String,com.seekermob.songseeker.util.ImageLoader$ImageSize) -> b
-    android.graphics.Bitmap decodeFile(java.io.File,com.seekermob.songseeker.util.ImageLoader$ImageSize) -> a
+    android.graphics.Bitmap decodeFile(java.lang.String,com.seekermob.songseeker.util.ImageLoader$ImageSize) -> c
     com.seekermob.songseeker.util.ImageLoader$PhotosQueue access$0() -> b
     android.graphics.Bitmap access$1$7572638f(java.lang.String,com.seekermob.songseeker.util.ImageLoader$ImageSize) -> a
     com.seekermob.songseeker.util.MemoryCache access$2() -> c
     java.util.Map access$3(com.seekermob.songseeker.util.ImageLoader) -> a
     int access$4(com.seekermob.songseeker.util.ImageLoader) -> b
-com.seekermob.songseeker.util.ImageLoader$BitmapDisplayer -> com.seekermob.songseeker.util.a:
+com.seekermob.songseeker.util.ImageLoader$BitmapDisplayer -> com.seekermob.songseeker.util.b:
     android.graphics.Bitmap bitmap -> a
     android.view.View view -> b
     boolean isBkg -> c
@@ -8245,16 +8960,16 @@ com.seekermob.songseeker.util.ImageLoader$ImageSize -> com.seekermob.songseeker.
     com.seekermob.songseeker.util.ImageLoader$ImageSize[] values() -> values
     com.seekermob.songseeker.util.ImageLoader$ImageSize valueOf(java.lang.String) -> valueOf
     int access$2(com.seekermob.songseeker.util.ImageLoader$ImageSize) -> a
-com.seekermob.songseeker.util.ImageLoader$PhotoToLoad -> com.seekermob.songseeker.util.b:
+com.seekermob.songseeker.util.ImageLoader$PhotoToLoad -> com.seekermob.songseeker.util.c:
     java.lang.String url -> a
     android.view.View view -> b
     com.seekermob.songseeker.util.ImageLoader$ImageSize imageSize -> c
     boolean isBkg -> d
     com.seekermob.songseeker.util.ImageLoader this$0 -> e
-com.seekermob.songseeker.util.ImageLoader$PhotosLoader -> com.seekermob.songseeker.util.c:
+com.seekermob.songseeker.util.ImageLoader$PhotosLoader -> com.seekermob.songseeker.util.d:
     com.seekermob.songseeker.util.ImageLoader this$0 -> a
     void run() -> run
-com.seekermob.songseeker.util.ImageLoader$PhotosQueue -> com.seekermob.songseeker.util.d:
+com.seekermob.songseeker.util.ImageLoader$PhotosQueue -> com.seekermob.songseeker.util.e:
     java.util.Stack photosToLoad -> b
     com.seekermob.songseeker.util.ImageLoader this$0 -> a
     void Clean(android.view.View) -> a
@@ -8280,7 +8995,7 @@ com.seekermob.songseeker.util.MediaPlayerController -> com.seekermob.songseeker.
     com.seekermob.songseeker.util.MediaPlayerController$MediaInfo access$1() -> c
     void access$2(com.seekermob.songseeker.util.MediaPlayerController) -> a
     void access$3(com.seekermob.songseeker.util.MediaPlayerController) -> b
-com.seekermob.songseeker.util.MediaPlayerController$MediaInfo -> com.seekermob.songseeker.util.e:
+com.seekermob.songseeker.util.MediaPlayerController$MediaInfo -> com.seekermob.songseeker.util.f:
     java.lang.String source -> a
     java.lang.String songId -> b
     android.widget.BaseAdapter adapter -> c
@@ -8289,7 +9004,7 @@ com.seekermob.songseeker.util.MediaPlayerController$MediaInfo -> com.seekermob.s
     android.widget.ProgressBar loading -> f
     com.seekermob.songseeker.util.MediaPlayerController$MediaStatus status -> g
     com.seekermob.songseeker.util.MediaPlayerController this$0 -> h
-com.seekermob.songseeker.util.MediaPlayerController$MediaPlayerCommander -> com.seekermob.songseeker.util.f:
+com.seekermob.songseeker.util.MediaPlayerController$MediaPlayerCommander -> com.seekermob.songseeker.util.g:
     java.lang.String err -> b
     com.seekermob.songseeker.util.MediaPlayerController this$0 -> a
     int[] $SWITCH_TABLE$com$seekermob$songseeker$util$MediaPlayerController$MediaStatus -> c
@@ -8306,22 +9021,21 @@ com.seekermob.songseeker.util.MediaPlayerController$MediaStatus -> com.seekermob
     com.seekermob.songseeker.util.MediaPlayerController$MediaStatus[] ENUM$VALUES -> e
     com.seekermob.songseeker.util.MediaPlayerController$MediaStatus[] values() -> values
     com.seekermob.songseeker.util.MediaPlayerController$MediaStatus valueOf(java.lang.String) -> valueOf
-com.seekermob.songseeker.util.MediaPlayerController$TaskParams -> com.seekermob.songseeker.util.g:
+com.seekermob.songseeker.util.MediaPlayerController$TaskParams -> com.seekermob.songseeker.util.h:
     int action -> a
     com.seekermob.songseeker.util.MediaPlayerController$MediaInfo media -> b
     com.seekermob.songseeker.util.MediaPlayerController this$0 -> c
-com.seekermob.songseeker.util.MemoryCache -> com.seekermob.songseeker.util.h:
+com.seekermob.songseeker.util.MemoryCache -> com.seekermob.songseeker.util.i:
     java.util.HashMap cache -> a
     android.graphics.Bitmap get(java.lang.String) -> a
     void put(java.lang.String,android.graphics.Bitmap) -> a
-com.seekermob.songseeker.util.Util -> com.seekermob.songseeker.util.i:
-    void CopyStream(java.io.InputStream,java.io.OutputStream) -> a
+com.seekermob.songseeker.util.Util -> com.seekermob.songseeker.util.j:
     void writeObjectToDevice(android.app.Activity,java.lang.Object,java.lang.String) -> a
     java.lang.Object readObjectFromDevice(android.content.Context,java.lang.String) -> a
     boolean isAppInstalled(java.lang.String,android.content.Context) -> a
     void setListShown(android.support.v4.app.Fragment,boolean) -> a
     android.view.View setProgressShown(android.support.v4.app.Fragment,boolean) -> b
-com.seekermob.songseeker.util.Util$TabsAdapter -> com.seekermob.songseeker.util.j:
+com.seekermob.songseeker.util.Util$TabsAdapter -> com.seekermob.songseeker.util.k:
     android.content.Context mContext -> a
     com.actionbarsherlock.app.ActionBar mActionBar -> b
     android.support.v4.view.ViewPager mViewPager -> c
