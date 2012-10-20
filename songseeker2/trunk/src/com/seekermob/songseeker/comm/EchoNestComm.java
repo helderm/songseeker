@@ -2,6 +2,7 @@ package com.seekermob.songseeker.comm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import android.util.Log;
 
@@ -46,6 +47,11 @@ public class EchoNestComm {
 
 		while(true){		
 			try{				
+				
+				//lame solution to avoid returning the same playlist in the cache after refreshing
+				Random rand = new Random();				
+				plp.setArtistStartYearAfter(rand.nextInt(1900));
+				
 				pl = en.createStaticPlaylist(plp);
 				
 				if(pl == null)
