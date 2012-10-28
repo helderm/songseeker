@@ -114,12 +114,9 @@
     <string name="clear_cache_summ_str">Elimina los datos en caché almacenados en su dispositivo</string>
     <string name="general_preferences">Preferencias Generales</string>
     <string name="cache_preferences">Preferencias de Caché</string>
-    <string name="auto_clear_cache_title_str">Borrado Automático del Caché</string>
-    <string name="auto_clear_cache_summ_str">Auto borra la memoria caché cuando se de que llegue el tamaño especificado</string>
     <string name="auth_cleared">Autenticaciones despejado!</string>
     <string name="clearing_cache">Vaciar la caché, por favor espere…</string>
     <string name="cache_cleared">Caché despejado!</string>
-    <string name="cache_auto_cleared">Automática de caché borrado!</string>
     <string name="app_description">Song Seeker es una nueva forma de descubrir la música que coincida con sus gustos! Encuentra millones de canciones con un solo clic, escuchar las canciones de larga duración o las muestras de 30 segundos, y mucho más! También puede configurar su lista de reproducción con varias opciones, exportarlo a otros servicios como YouTube y Grooveshark, e incluso comprar canciones que te gustan! Algunas de las características son:</string>
     <string name="feature_description_playlist">* Crear una lista de reproducción personalizada: Con un solo clic, usted recibirá automáticamente las canciones que se adapte a su gusto!</string>
     <string name="feature_description_play">* Escuchar las canciones de tu lista de reproducción: Escucha las canciones de longitud completa de la lista de reproducción de forma gratuita en Dood\'s Music Streamer! </string>
