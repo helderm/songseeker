@@ -1,5 +1,7 @@
 package com.seekermob.songseeker.ui;
 
+import java.io.IOException;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -10,11 +12,13 @@ import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.ui.InputDialogFragment.OnTextEnteredListener;
 import com.seekermob.songseeker.util.FileCache;
 import com.seekermob.songseeker.util.MediaPlayerController;
+import com.seekermob.songseeker.util.Util;
 import com.seekermob.songseeker.util.Util.TabsAdapter;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 public class MainActivity extends SherlockFragmentActivity implements OnTextEnteredListener{
 
@@ -69,6 +73,21 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
 		super.onStop();
 	}
 	
+    @Override
+	protected void onDestroy() {
+
+		try{
+			HttpResponseCache httpCache = com.integralblue.httpresponsecache.HttpResponseCache.getInstalled();
+			if(httpCache != null){
+				httpCache.delete();
+			}
+		}catch (IOException e){
+			Log.e(Util.APP, "Unable to delete http cache", e);
+		}
+
+		super.onDestroy();
+	}
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
