@@ -1620,7 +1620,6 @@ com.actionbarsherlock.R$id -> com.actionbarsherlock.R$id:
     int about_feature_configure -> about_feature_configure
     int about_feature_export -> about_feature_export
     int about_feature_more -> about_feature_more
-    int about_feature_play -> about_feature_play
     int about_feature_playlist -> about_feature_playlist
     int about_feature_profile -> about_feature_profile
     int about_grooveshark_info -> about_grooveshark_info
@@ -1682,7 +1681,6 @@ com.actionbarsherlock.R$id -> com.actionbarsherlock.R$id:
     int export_to_lastfm -> export_to_lastfm
     int export_to_rdio -> export_to_rdio
     int export_to_youtube -> export_to_youtube
-    int featuredGrid -> featuredGrid
     int firstLine -> firstLine
     int grooveshark_disclaimer -> grooveshark_disclaimer
     int grooveshark_logo -> grooveshark_logo
@@ -1807,7 +1805,6 @@ com.actionbarsherlock.R$layout -> com.actionbarsherlock.R$layout:
     int dialog_import -> dialog_import
     int dialog_input -> dialog_input
     int dialog_player -> dialog_player
-    int featured_grid -> featured_grid
     int holodivider -> holodivider
     int list_item_1_image -> list_item_1_image
     int list_item_2_image_media -> list_item_2_image_media
@@ -1867,11 +1864,8 @@ com.actionbarsherlock.R$string -> com.actionbarsherlock.R$string:
     int artistinfo_similar -> artistinfo_similar
     int artists_already_profile -> artists_already_profile
     int auth_cleared -> auth_cleared
-    int auto_clear_cache_summ_str -> auto_clear_cache_summ_str
-    int auto_clear_cache_title_str -> auto_clear_cache_title_str
     int buy_at -> buy_at
     int by -> by
-    int cache_auto_cleared -> cache_auto_cleared
     int cache_cleared -> cache_cleared
     int cache_preferences -> cache_preferences
     int cancel -> cancel
@@ -1920,7 +1914,6 @@ com.actionbarsherlock.R$string -> com.actionbarsherlock.R$string:
     int feature_description_configure -> feature_description_configure
     int feature_description_export -> feature_description_export
     int feature_description_more -> feature_description_more
-    int feature_description_play -> feature_description_play
     int feature_description_playlist -> feature_description_playlist
     int feature_description_profile -> feature_description_profile
     int featured_releases -> featured_releases
@@ -8477,6 +8470,7 @@ com.seekermob.songseeker.ui.MainActivity -> com.seekermob.songseeker.ui.MainActi
     void onCreate(android.os.Bundle) -> onCreate
     void onPause() -> onPause
     void onStop() -> onStop
+    void onDestroy() -> onDestroy
     void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
     boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu) -> onCreateOptionsMenu
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
