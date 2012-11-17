@@ -117,9 +117,8 @@
     <string name="auth_cleared">Authentications cleared!</string>
     <string name="clearing_cache">Clearing cache, please wait…</string>
     <string name="cache_cleared">Cache cleared!</string>
-    <string name="app_description">Song Seeker is a new way of discovering music that matches to your taste! Find millions of songs with a single click, listen to full length songs or 30s samples, and much more! You can also configure your playlist with several options, export it to other services like YouTube and Grooveshark, and even buy songs that you like! Some of the features are:</string>
+    <string name="app_description">Song Seeker is a new way of discovering music that matches to your taste! Find millions of songs with a single click and much more! You can also configure your playlist with several options, export it to other services like YouTube and Grooveshark, and even buy songs that you like! Some of the features are:</string>
     <string name="feature_description_playlist">* Create a personalized playlist: With a single click, you will automatically receive songs that matches your taste!</string>
-    <string name="feature_description_play">* Play the songs of your playlist: Play FULL length songs of your playlist for FREE on Dood\'s Music Streamer! (\'Play Songs\' action on \'Songs\' tab)</string>
     <string name="feature_description_profile">* Build a musical taste profile: Add artists to your taste profile or import them from Last.fm or from your device top artists! (\'Add/Import Artists\' actions on \'Profile\' tab)</string>
     <string name="feature_description_export">* Export your playlist: Export the playlist created to other services like YouTube and Grooveshark! (\'Export Playlist\' action on \'Songs\' tab)</string>
     <string name="feature_description_configure">* Configure your playlist: We provide several options to personalize your playlist, like Mood, Tempo and Danceability! You can also filter to songs from artists that you know or similar ones! (\'Playlist Options\' action on \'Songs\' tab)</string>

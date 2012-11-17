@@ -117,9 +117,8 @@
     <string name="auth_cleared">Autenticaciones despejado!</string>
     <string name="clearing_cache">Vaciar la caché, por favor espere…</string>
     <string name="cache_cleared">Caché despejado!</string>
-    <string name="app_description">Song Seeker es una nueva forma de descubrir la música que coincida con sus gustos! Encuentra millones de canciones con un solo clic, escuchar las canciones de larga duración o las muestras de 30 segundos, y mucho más! También puede configurar su lista de reproducción con varias opciones, exportarlo a otros servicios como YouTube y Grooveshark, e incluso comprar canciones que te gustan! Algunas de las características son:</string>
+    <string name="app_description">Song Seeker es una nueva forma de descubrir la música que coincida con sus gustos! Encuentra millones de canciones con un solo clic y mucho más! También puede configurar su lista de reproducción con varias opciones, exportarlo a otros servicios como YouTube y Grooveshark, e incluso comprar canciones que te gustan! Algunas de las características son:</string>
     <string name="feature_description_playlist">* Crear una lista de reproducción personalizada: Con un solo clic, usted recibirá automáticamente las canciones que se adapte a su gusto!</string>
-    <string name="feature_description_play">* Escuchar las canciones de tu lista de reproducción: Escucha las canciones de longitud completa de la lista de reproducción de forma gratuita en Dood\'s Music Streamer! </string>
     <string name="feature_description_profile">* Crear un perfil de sabor musical: Añadir artistas a su perfil de sabor o importarlos desde Last.fm o de sus artistas principales del dispositivo!</string>
     <string name="feature_description_export">* Exportación de la lista de reproducción: Exportar la lista de reproducción creada a otros servicios como YouTube y Grooveshark!</string>
     <string name="feature_description_configure">* Configura tu lista de reproducción: Ofrecemos varias opciones para personalizar tu lista de reproducción, como estado de ánimo, Tempo y bailable! También se pueden filtrar las canciones de los artistas que usted sabe o similares!</string>

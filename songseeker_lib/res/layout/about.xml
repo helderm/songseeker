@@ -27,30 +27,7 @@
             android:layout_below="@+id/about_description"
             android:layout_marginRight="@dimen/layout_padding"
             android:text="@string/feature_description_playlist" />
-
-        <TextView
-            android:id="@+id/about_feature_play"
-            style="@style/about_features"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/about_description"
-            android:layout_alignRight="@+id/about_description"
-            android:layout_below="@+id/about_feature_playlist"
-            android:layout_marginTop="@dimen/layout_padding"
-            android:text="@string/feature_description_play" />
-
-        <TextView
-            android:id="@+id/about_feature_profile"
-            style="@style/about_features"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/about_description"
-            android:layout_alignRight="@+id/about_description"
-            android:layout_below="@+id/about_feature_play"
-            android:layout_marginTop="@dimen/layout_padding"
-            android:text="@string/feature_description_profile" >
-        </TextView>
-
+        
         <TextView
             android:id="@+id/about_feature_export"
             style="@style/about_features"
@@ -58,9 +35,21 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/about_description"
             android:layout_alignRight="@+id/about_description"
-            android:layout_below="@+id/about_feature_profile"
+            android:layout_below="@+id/about_feature_playlist"
             android:layout_marginTop="@dimen/layout_padding"
             android:text="@string/feature_description_export" >
+        </TextView>
+        
+        <TextView
+            android:id="@+id/about_feature_profile"
+            style="@style/about_features"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/about_description"
+            android:layout_alignRight="@+id/about_description"
+            android:layout_below="@+id/about_feature_export"
+            android:layout_marginTop="@dimen/layout_padding"
+            android:text="@string/feature_description_profile" >
         </TextView>
 
         <TextView
@@ -70,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/about_description"
             android:layout_alignRight="@+id/about_description"
-            android:layout_below="@+id/about_feature_export"
+            android:layout_below="@+id/about_feature_profile"
             android:layout_marginTop="@dimen/layout_padding"
             android:text="@string/feature_description_configure" >
         </TextView>
