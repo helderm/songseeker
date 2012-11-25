@@ -16,4 +16,5 @@
         android:icon="@drawable/ic_action_clear"
         android:showAsAction="ifRoom"
         android:title="@string/clear_profile"/>    
-</menu>
+
+</menu>
