@@ -39,7 +39,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
 		actionBar.setDisplayShowHomeEnabled(false);
 
 		//create tabs
-		ActionBar.Tab songsTab = actionBar.newTab().setText(R.string.songs);
+		ActionBar.Tab songsTab = actionBar.newTab().setText(R.string.playlist);
 		//ActionBar.Tab featuredTab = actionBar.newTab().setText(R.string.featured_releases);
 		ActionBar.Tab profileTab = actionBar.newTab().setText(R.string.profile);
 		
