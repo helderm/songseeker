@@ -116,5 +116,72 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_gravity">center</item>
     </style>
+    
+	<!-- Styles created by Android Action Bar Style Generator -->
+    <style name="Theme.ss" parent="@style/Theme.Sherlock.ForceOverflow">
+        <item name="actionBarItemBackground">@drawable/selectable_background_ss</item>
+        <item name="popupMenuStyle">@style/ss_PopupMenu</item>
+        <item name="dropDownListViewStyle">@style/ss_DropDownListView</item>
+        <item name="actionBarTabStyle">@style/ss_ActionBarTabStyle</item>
+        <item name="actionDropDownStyle">@style/ss_DropDownNav</item>
+        <item name="actionBarStyle">@style/ss_transparent_ActionBar</item>
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_ss</item>
+        <item name="android:popupMenuStyle">@style/ss_PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@style/ss_DropDownListView</item>
+        <item name="android:actionBarTabStyle">@style/ss_ActionBarTabStyle</item>
+        <item name="android:actionDropDownStyle">@style/ss_DropDownNav</item>
+        <item name="android:actionBarStyle">@style/ss_transparent_ActionBar</item>
+        <item name="android:panelBackground">@drawable/menu_hardkey_panel_ss</item>
+    </style>
+
+    <style name="ss_solid_ActionBar" parent="@style/Widget.Sherlock.ActionBar.Solid">
+        <item name="background">@drawable/ab_solid_ss</item>
+        <item name="backgroundStacked">@drawable/ab_stacked_solid_ss</item>
+        <item name="backgroundSplit">@drawable/ab_bottom_solid_ss</item>
+        <item name="progressBarStyle">@style/ss_ProgressBar</item>
+        <item name="android:background">@drawable/ab_solid_ss</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_ss</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_ss</item>
+        <item name="android:progressBarStyle">@style/ss_ProgressBar</item>
+    </style>
+
+    <style name="ss_transparent_ActionBar" parent="@style/Widget.Sherlock.ActionBar">
+        <item name="background">@drawable/ab_transparent_ss</item>
+        <item name="progressBarStyle">@style/ss_ProgressBar</item>
+        <item name="android:background">@drawable/ab_transparent_ss</item>
+        <item name="android:progressBarStyle">@style/ss_ProgressBar</item>
+    </style>
+
+    <style name="ss_PopupMenu" parent="@style/Widget.Sherlock.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_ss</item>
+    </style>
+
+    <style name="ss_DropDownListView" parent="@style/Widget.Sherlock.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_ss</item>
+    </style>
+
+    <style name="ss_ActionBarTabStyle" parent="@style/Widget.Sherlock.ActionBar.TabView">
+        <item name="background">@drawable/tab_indicator_ab_ss</item>
+        <item name="android:background">@drawable/tab_indicator_ab_ss</item>
+    </style>
+
+    <style name="ss_DropDownNav" parent="@style/Widget.Sherlock.Spinner.DropDown.ActionBar">
+        <item name="background">@drawable/spinner_background_ab_ss</item>
+        <item name="android:background">@drawable/spinner_background_ab_ss</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_ss</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_ss</item>
+    </style>
+
+    <style name="ss_ProgressBar" parent="@style/Widget.Sherlock.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_ss</item>
+    </style>
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.ss.widget" parent="@style/Theme.Sherlock">
+        <item name="popupMenuStyle">@style/ss_PopupMenu</item>
+        <item name="dropDownListViewStyle">@style/ss_DropDownListView</item>
+        <item name="android:popupMenuStyle">@style/ss_PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@style/ss_DropDownListView</item>
+    </style>
 
 </resources>

@@ -10,5 +10,8 @@
     <color name="dark_grey01">#292626</color>
     <color name="translucent_grey">#70575c62</color>
     <color name="transparent">#00000000</color>
+    
+    <!-- Colors created by Android Action Bar Style Generator -->
+    <color name="pressed_ss">#CC52d23b</color>
 
 </resources>
