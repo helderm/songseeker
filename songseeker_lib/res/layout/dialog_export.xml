@@ -10,7 +10,7 @@
         style="@style/pl_options_labels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:button="@drawable/btn_radio"
+        android:button="@drawable/btn_radio_holo_dark"
         android:text="@string/export_to_dms" />
 
     <RadioButton
@@ -18,7 +18,7 @@
         style="@style/pl_options_labels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:button="@drawable/btn_radio"
+        android:button="@drawable/btn_radio_holo_dark"
         android:text="@string/export_to_grooveshark" />
 
     <RadioButton
@@ -26,7 +26,7 @@
         style="@style/pl_options_labels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:button="@drawable/btn_radio"
+        android:button="@drawable/btn_radio_holo_dark"
         android:text="@string/export_to_youtube" />
 
     <RadioButton
@@ -34,7 +34,7 @@
         style="@style/pl_options_labels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:button="@drawable/btn_radio"
+        android:button="@drawable/btn_radio_holo_dark"
         android:text="@string/export_to_rdio" />
 
     <RadioButton
@@ -42,7 +42,7 @@
         style="@style/pl_options_labels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:button="@drawable/btn_radio"
+        android:button="@drawable/btn_radio_holo_dark"
         android:text="@string/export_to_lastfm" />
 
 </RadioGroup>

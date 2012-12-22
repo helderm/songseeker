@@ -10,7 +10,7 @@
         style="@style/pl_options_labels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:button="@drawable/btn_radio"
+        android:button="@drawable/btn_radio_holo_dark"
         android:text="@string/import_from_device" />
 
     <RadioButton
@@ -18,7 +18,7 @@
         style="@style/pl_options_labels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:button="@drawable/btn_radio"
+        android:button="@drawable/btn_radio_holo_dark"
         android:text="@string/import_from_lastfm" />
 
 </RadioGroup>
