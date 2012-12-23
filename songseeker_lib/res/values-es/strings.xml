@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Song Seeker</string>
+
+    <string name="app_name">Song Seeker</string>
     <string name="songs">Canciones</string>
     <string name="profile">Perfil</string>
     <string name="playlist">Playlist</string>
@@ -119,12 +120,12 @@
     <string name="feature_description_export">* Exportación de la playlist: Exportar playlist creada a otros servicios como YouTube y Grooveshark!</string>
     <string name="feature_description_configure">* Configura tu playlist: Ofrecemos varias opciones para personalizar tu playlist, como estado de ánimo, Tempo y bailable! También se pueden filtrar las canciones de los artistas que usted sabe o similares!</string>
     <string name="feature_description_more">* Y mucho más! Obtener información de un artista, canciones de un álbum, ver las canciones en YouTube, comprar en 7digital…</string>
-	<string name="disclaimer_echonest">Recomendación de música, noticias Biografía, proporcionada por el Echo Nest.</string>
-	<string name="disclaimer_sevendigital">Canción, álbum, información del artista, muestras de canciones y comprar enlaces proporcionados por 7digital.</string>
-	<string name="disclaimer_designer">Los iconos Lanzadores proporcionados por Lucas Sánchez.</string>
-	<string name="disclaimer_rdio">Playlist a buscar y la exportación proporcionado por Rdio.</string>
-	<string name="disclaimer_grooveshark">Playlist a buscar y la exportación proporcionado por Grooveshark.</string>
-	<string name="disclaimer_lastfm">Artistas top de usuario, playlist a buscar y exportar proporcionada por Last.fm.</string>
+    <string name="disclaimer_echonest">Recomendación de música, noticias Biografía, proporcionada por el Echo Nest.</string>
+    <string name="disclaimer_sevendigital">Canción, álbum, información del artista, muestras de canciones y comprar enlaces proporcionados por 7digital.</string>
+    <string name="disclaimer_designer">Los iconos Lanzadores proporcionados por Lucas Sánchez.</string>
+    <string name="disclaimer_rdio">Playlist a buscar y la exportación proporcionado por Rdio.</string>
+    <string name="disclaimer_grooveshark">Playlist a buscar y la exportación proporcionado por Grooveshark.</string>
+    <string name="disclaimer_lastfm">Artistas top de usuario, playlist a buscar y exportar proporcionada por Last.fm.</string>
     <string name="disclaimer_youtube">Vídeo buscar, buscar y exportar la playlist proporcionada por YouTube.</string>
     <string name="disclaimer_app">Este producto utiliza la API de Echo Nest, API de 7digital, la API de Last.fm, Grooveshark API, API Rdio y API de YouTube, pero no recibe la aprobación, certificación, aprobado en modo alguno por los servicios mencionados.</string>
     <string name="clear_profile_warn_msg">Todos los artistas de su perfil será borrados. ¿Está seguro?</string>
@@ -139,6 +140,7 @@
     <string name="playlists_frag_empty_list">No hay las playlists guardadas.</string>
     <string name="play_in_dms">Reproducir en Dood\'s Music</string>
     <string name="play_in_grooveshark">Reproducir en Grooveshark Web</string>
-	<string name="export_to_dms">Exportar a Dood\'s Music</string>
+    <string name="export_to_dms">Exportar a Dood\'s Music</string>
+    <string name="send_feedback">Enviar Comentarios</string>
 
 </resources>

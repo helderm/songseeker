@@ -120,12 +120,12 @@
     <string name="feature_description_export">* Export your playlist: Export the playlist created to other services like YouTube and Grooveshark! (\'Export Playlist\' action on \'Songs\' tab)</string>
     <string name="feature_description_configure">* Configure your playlist: We provide several options to personalize your playlist, like Mood, Tempo and Danceability! You can also filter to songs from artists that you know or similar ones! (\'Playlist Options\' action on \'Songs\' tab)</string>
     <string name="feature_description_more">* And much more! Get information from an artist, songs in an album, watch songs on YouTube, buy them at 7digital…</string>
-	<string name="disclaimer_echonest">Music recommendation, artist news, biography provided by The Echo Nest.</string>
-	<string name="disclaimer_sevendigital">Song, album, artist information, song samples and buy links provided by 7digital.</string>
-	<string name="disclaimer_designer">Launcher icons provided by Lucas Sanchez.</string>
-	<string name="disclaimer_rdio">Playlist fetch and export provided by Rdio.</string>
-	<string name="disclaimer_grooveshark">Playlist fetch and export provided by Grooveshark.</string>
-	<string name="disclaimer_lastfm">User top artists, playlist fetch and export provided by Last.fm.</string>
+    <string name="disclaimer_echonest">Music recommendation, artist news, biography provided by The Echo Nest.</string>
+    <string name="disclaimer_sevendigital">Song, album, artist information, song samples and buy links provided by 7digital.</string>
+    <string name="disclaimer_designer">Launcher icons provided by Lucas Sanchez.</string>
+    <string name="disclaimer_rdio">Playlist fetch and export provided by Rdio.</string>
+    <string name="disclaimer_grooveshark">Playlist fetch and export provided by Grooveshark.</string>
+    <string name="disclaimer_lastfm">User top artists, playlist fetch and export provided by Last.fm.</string>
     <string name="disclaimer_youtube">Video fetch, playlist fetch and export provided by YouTube.</string>
     <string name="disclaimer_app">This product uses The Echo Nest API, 7digital API, Last.fm API, Grooveshark API, Rdio API and YouTube API, but it is not endorsed, certified, approved in any way by the mentioned services.</string>
     <string name="clear_profile_warn_msg">All artists of your profile will be deleted. Are you sure?</string>
@@ -141,5 +141,6 @@
     <string name="play_in_dms">Play in Dood\'s Music</string>
     <string name="play_in_grooveshark">Play in Grooveshark Web</string>
     <string name="export_to_dms">Export to Dood\'s Music</string>
+    <string name="send_feedback">Send Feedback</string>
 
 </resources>

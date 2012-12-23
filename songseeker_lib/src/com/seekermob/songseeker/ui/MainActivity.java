@@ -16,6 +16,7 @@ import com.seekermob.songseeker.util.Util;
 import com.seekermob.songseeker.util.Util.TabsAdapter;
 
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -112,7 +113,23 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
 			i = new Intent(this, AboutActivity.class);
 			startActivity(i);
 			return true;
-		} else {
+		} else if (item.getItemId() == R.id.menu_feedback){
+			String versionName;
+			try {
+				String pkg = getPackageName();
+				versionName = getPackageManager().getPackageInfo(pkg, 0).versionName;
+			} catch (NameNotFoundException e) {
+				versionName = "?";
+			}
+
+            final Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("plain/text");
+            intent.putExtra(Intent.EXTRA_TEXT, "");
+            intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] {"hgmdev@gmail.com" });
+			intent.putExtra(Intent.EXTRA_SUBJECT, "Song Seeker v" + versionName + " Feedback");
+			startActivity(Intent.createChooser(intent, getString(R.string.send_feedback)));
+			return true;
+		}else {
 			return super.onOptionsItemSelected(item);
 		}
 	}

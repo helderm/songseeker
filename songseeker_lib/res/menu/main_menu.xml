@@ -5,9 +5,16 @@
         android:showAsAction="never"
         android:title="@string/settings"
         android:orderInCategory="9"/> <!-- High enough to be after the fragments actions -->
+
+    <item
+        android:id="@+id/menu_feedback"
+        android:showAsAction="never"
+        android:title="@string/send_feedback"
+        android:orderInCategory="10"/>
+
     <item
         android:id="@+id/menu_about"
         android:showAsAction="never"
         android:title="@string/about"
-        android:orderInCategory="10"/>
+        android:orderInCategory="11"/>
 </menu>
