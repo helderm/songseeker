@@ -41,7 +41,7 @@
 
         <TextView
             android:id="@+id/artistinfo_biography"
-            style="@style/music_info_subtitle"
+            style="@style/music_info_links"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/artistinfo_artistName"
@@ -64,7 +64,7 @@
 
         <TextView
             android:id="@+id/artistinfo_news"
-            style="@style/music_info_subtitle"
+            style="@style/music_info_links"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/artistinfo_artistName"
@@ -87,7 +87,7 @@
 
         <TextView
             android:id="@+id/artistinfo_similar"
-            style="@style/music_info_subtitle"
+            style="@style/music_info_links"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/artistinfo_artistName"

@@ -48,6 +48,13 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/light_grey</item>
     </style>
+    
+    <style name="music_info_links">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@drawable/text_color</item>
+    </style>    
 
     <style name="music_info_details">
         <item name="android:gravity">center</item>
