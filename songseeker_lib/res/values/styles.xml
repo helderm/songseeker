@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="SongSeekerTheme" parent="Theme.Sherlock.ForceOverflow"></style>
+    <style name="SongSeekerTheme" parent="Theme.Sherlock"></style>
 
     <style name="DialogThemeNoTitle" parent="Theme.Sherlock.Dialog">
         <item name="android:windowNoTitle">true</item>
@@ -118,7 +118,7 @@
     </style>
     
 	<!-- Styles created by Android Action Bar Style Generator -->
-    <style name="Theme.ss" parent="@style/Theme.Sherlock.ForceOverflow">
+    <style name="Theme.ss" parent="@style/Theme.Sherlock">
         <item name="actionBarItemBackground">@drawable/selectable_background_ss</item>
         <item name="popupMenuStyle">@style/ss_PopupMenu</item>
         <item name="dropDownListViewStyle">@style/ss_DropDownListView</item>
