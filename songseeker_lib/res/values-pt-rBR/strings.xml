@@ -9,13 +9,12 @@
     <string name="refresh_playlist">Recarregar Playlist</string>
     <string name="playlist_options">Opções de Playlist</string>
     <string name="export_playlist">Exportar Playlist</string>
-    <string name="search_artist">Buscar Artista</string>
     <string name="clear_playlists">Limpar Playlists</string>
     <string name="add_artist">Adicionar Artista</string>
     <string name="import_artists">Importar Artistas</string>
     <string name="settings">Preferências</string>
     <string name="about">Sobre</string>
-    <string name="songs_frag_empty_list"> Clique aqui para buscar algumas MÚSICAS!</string>
+    <string name="songs_frag_empty_list"> Clique aqui para buscar uma nova PLAYLIST!</string>
     <string name="req_add_artists_profile">Por favor adicione pelo menos um artista no seu perfil.</string>
     <string name="playlist_empty">Sua playlist está vazia! Tente mudar suas opções de playlist.</string>
     <string name="err_add_songs_playlist">Não foi possível adicionar músicas à sua playlist!</string>
@@ -63,7 +62,7 @@
     <string name="by">por</string>
     <string name="on">em</string>
     <string name="song">Música</string>
-    <string name="album">Album</string>
+    <string name="album">Álbum</string>
     <string name="artist">Artista</string>
     <string name="watch_on">Ver no YouTube</string>
     <string name="add_to_playlist">Adicionar à Playlist</string>

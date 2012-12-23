@@ -8,7 +8,7 @@
         android:title="@string/export_playlist"/>    
     
     <item
-        android:id="@+id/menu_refresh_songs"
+        android:id="@+id/menu_refresh_playlist"
         android:icon="@drawable/ic_action_refresh"
         android:showAsAction="ifRoom"
         android:title="@string/refresh_playlist"/>
@@ -19,9 +19,9 @@
         android:showAsAction="ifRoom"
         android:title="@string/playlist_options"/>
     <item
-        android:id="@+id/menu_search_artist"
-        android:icon="@drawable/ic_action_search"
+        android:id="@+id/menu_new_playlist"
+        android:icon="@drawable/ic_action_add"
         android:showAsAction="ifRoom"
-        android:title="@string/search_artist"/>   
+        android:title="@string/new_playlist"/>
 
 </menu>

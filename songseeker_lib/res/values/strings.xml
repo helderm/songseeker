@@ -9,7 +9,6 @@
     <string name="refresh_playlist">Refresh Playlist</string>
     <string name="playlist_options">Playlist Options</string>
     <string name="export_playlist">Export Playlist</string>
-    <string name="search_artist">Search Artist</string>
     <string name="clear_playlists">Clear Playlists</string>
     <string name="add_artist">Add Artist</string>
     <string name="import_artists">Import Artists</string>

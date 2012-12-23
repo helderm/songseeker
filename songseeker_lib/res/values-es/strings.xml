@@ -8,7 +8,6 @@
     <string name="refresh_playlist">Actualizar Playlist</string>
     <string name="playlist_options">Opciones de Playlist</string>
     <string name="export_playlist">Exportar Playlist</string>
-    <string name="search_artist">Buscar Artista</string>
     <string name="clear_playlists">Limpiar Playlists</string>
     <string name="add_artist">Añadir Artista</string>
     <string name="import_artists">Importar Artistas</string>

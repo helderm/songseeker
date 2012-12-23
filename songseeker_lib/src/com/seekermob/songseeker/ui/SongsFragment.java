@@ -234,7 +234,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent i;
 
-		if (item.getItemId() == R.id.menu_refresh_songs) {
+		if (item.getItemId() == R.id.menu_refresh_playlist) {
 			if(isAnyTaskRunning()){
 				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
 				return true;
@@ -260,7 +260,7 @@ public class SongsFragment extends SherlockListFragment implements PlaylistListe
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			exportDiag.show(ft, "export-dialog");
 			return true;
-		} else if (item.getItemId() == R.id.menu_search_artist) {
+		} else if (item.getItemId() == R.id.menu_new_playlist) {
 			if(isAnyTaskRunning()){
 				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
 				return true;
