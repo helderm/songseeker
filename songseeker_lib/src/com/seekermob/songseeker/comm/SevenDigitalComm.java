@@ -15,6 +15,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import android.net.Uri;
 import android.util.Log;
 
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
@@ -97,7 +98,7 @@ public class SevenDigitalComm {
 		ArrayList<SongInfo> songs;
 
 		String urlStr = ENDPOINT + "track/search?";
-		String reqParam = "q="+trackName.replace(' ', '+')+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=30&page=1&imageSize="+IMAGE_SIZE;
+		String reqParam = "q="+ Uri.encode(trackName)+ "&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=30&page=1&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -150,7 +151,7 @@ public class SevenDigitalComm {
 		ArrayList<ArtistInfo> artists;
 
 		String urlStr = ENDPOINT + "artist/search?";
-		String reqParam = "q="+artistName.replace(' ', '+')+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=15&page=1&imageSize="+IMAGE_SIZE;
+		String reqParam = "q=" + Uri.encode(artistName) + "&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=15&page=1&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
