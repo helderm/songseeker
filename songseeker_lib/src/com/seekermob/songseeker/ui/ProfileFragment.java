@@ -168,13 +168,8 @@ public class ProfileFragment extends SherlockListFragment{
 			dialog.showDialog(getActivity());
 			return true;
 		} else if (item.getItemId() == R.id.menu_import_artists) {
-			if(isTaskRunning()){
-				Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
-				return true;
-			}
-			ImportDialogFragment importDiag = new ImportDialogFragment();
-			ft = getFragmentManager().beginTransaction();
-			importDiag.show(ft, "import-dialog");
+			
+			importProfile();
 			return true;
 		} else if (item.getItemId() == R.id.menu_clear_profile) {
 			if(isTaskRunning()){
@@ -502,6 +497,16 @@ public class ProfileFragment extends SherlockListFragment{
         }
     }
 
+    public void importProfile(){
+		if(isTaskRunning()){
+			Toast.makeText(getActivity(), R.string.operation_in_progress, Toast.LENGTH_SHORT).show();
+			return;
+		}
+		ImportDialogFragment importDiag = new ImportDialogFragment();
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		importDiag.show(ft, "import-dialog");
+    }
+    
 	public static class ImportDialogFragment extends DialogFragment{
 		
 		public static ImportDialogFragment newInstance(){

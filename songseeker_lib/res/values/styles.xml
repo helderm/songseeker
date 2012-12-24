@@ -105,13 +105,13 @@
         <item name="android:scrollbarThumbVertical">@drawable/fastscroll_thumb_holo</item>
     </style>
 
-    <style name="about_description">
+    <style name="highlighted_bold_text">
         <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/light_green</item>
     </style>
 
-    <style name="about_features">
+    <style name="bold_text">
         <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/light_grey</item>

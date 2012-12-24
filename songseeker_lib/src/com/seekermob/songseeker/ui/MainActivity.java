@@ -9,6 +9,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.integralblue.httpresponsecache.HttpResponseCache;
 
 import com.seekermob.songseeker.R;
+import com.seekermob.songseeker.ui.FirstRunDialogFragment.OnFirstRunImportProfileListener;
 import com.seekermob.songseeker.ui.InputDialogFragment.OnTextEnteredListener;
 import com.seekermob.songseeker.util.FileCache;
 import com.seekermob.songseeker.util.MediaPlayerController;
@@ -21,7 +22,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
-public class MainActivity extends SherlockFragmentActivity implements OnTextEnteredListener{
+public class MainActivity extends SherlockFragmentActivity implements OnTextEnteredListener, OnFirstRunImportProfileListener{
 
 	TabsAdapter mTabsAdapter;
 	ViewPager mViewPager;
@@ -55,6 +56,11 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
         
         if(savedInstanceState != null) {
             actionBar.setSelectedNavigationItem(savedInstanceState.getInt("index"));
+        }
+        
+        if(!FirstRunDialogFragment.hasSeenFirstRunFragment(this)){
+        	FirstRunDialogFragment newFragment = FirstRunDialogFragment.newInstance();
+			newFragment.showDialog(this);
         }
 	}
 
@@ -146,12 +152,22 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
 			songsFragment.getNewPlaylist(text);
 		}else if(tag.equalsIgnoreCase(ProfileFragment.DIALOG_ARTIST_NAME)){
 			profileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(
-	                "android:switcher:"+R.id.pager+":"+ProfileFragment.TAB_ID); //that is the tag the ViewPager sets to the fragment
+	                "android:switcher:"+R.id.pager+":"+ProfileFragment.TAB_ID);
 			profileFragment.importProfile(text, ProfileFragment.IMPORT_TYPE_USER);
 		}else if(tag.equalsIgnoreCase(ProfileFragment.DIALOG_LASTFM_USERNAME)){
 			profileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(
-	                "android:switcher:"+R.id.pager+":"+ProfileFragment.TAB_ID); //that is the tag the ViewPager sets to the fragment
+	                "android:switcher:"+R.id.pager+":"+ProfileFragment.TAB_ID); 
 			profileFragment.importProfile(text, ProfileFragment.IMPORT_TYPE_LASTFM);
 		}
+	}
+
+	@Override
+	public void OnFirstRunImportProfile() {
+		//TODO: HARDCODED the profile tab index here, need to update when its index change
+		getSupportActionBar().setSelectedNavigationItem(ProfileFragment.TAB_ID);
+		
+		ProfileFragment frag = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(
+                "android:switcher:"+R.id.pager+":"+ProfileFragment.TAB_ID);
+		frag.importProfile();		
 	}
 }

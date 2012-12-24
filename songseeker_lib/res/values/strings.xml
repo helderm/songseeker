@@ -142,5 +142,6 @@
     <string name="play_in_grooveshark">Play in Grooveshark Web</string>
     <string name="export_to_dms">Export to Dood\'s Music</string>
     <string name="send_feedback">Send Feedback</string>
-
+    <string name="first_run_welcome">Welcome to Song Seeker, an automatic playlist creator app for Android!</string>
+    <string name="first_run_usage">It creates playlists based mainly on the list of artists stored in your PROFILE. To get started, import some artists to your profile by clicking below!</string>
 </resources>
