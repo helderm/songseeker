@@ -885,6 +885,23 @@ android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplHoneycomb -> android
     android.app.PendingIntent getPendingIntent(android.content.Context,android.content.Intent[],int,int) -> getPendingIntent
 android.support.v4.app.TaskStackBuilderHoneycomb -> android.support.v4.app.TaskStackBuilderHoneycomb:
     android.app.PendingIntent getActivitiesPendingIntent(android.content.Context,int,android.content.Intent[],int) -> getActivitiesPendingIntent
+android.support.v4.app.Watson -> android.support.v4.app.Watson:
+    boolean DEBUG -> DEBUG
+    java.lang.String TAG -> TAG
+    java.util.ArrayList mCreatedMenus -> mCreatedMenus
+    boolean onCreatePanelMenu(int,com.actionbarsherlock.view.Menu) -> onCreatePanelMenu
+    boolean onPreparePanel(int,android.view.View,com.actionbarsherlock.view.Menu) -> onPreparePanel
+    boolean onMenuItemSelected(int,com.actionbarsherlock.view.MenuItem) -> onMenuItemSelected
+    boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu) -> onCreateOptionsMenu
+    boolean onPrepareOptionsMenu(com.actionbarsherlock.view.Menu) -> onPrepareOptionsMenu
+    boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
+    com.actionbarsherlock.view.MenuInflater getSupportMenuInflater() -> getSupportMenuInflater
+android.support.v4.app.Watson$OnCreateOptionsMenuListener -> android.support.v4.app.Watson$OnCreateOptionsMenuListener:
+    void onCreateOptionsMenu(com.actionbarsherlock.view.Menu,com.actionbarsherlock.view.MenuInflater) -> onCreateOptionsMenu
+android.support.v4.app.Watson$OnOptionsItemSelectedListener -> android.support.v4.app.Watson$OnOptionsItemSelectedListener:
+    boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
+android.support.v4.app.Watson$OnPrepareOptionsMenuListener -> android.support.v4.app.Watson$OnPrepareOptionsMenuListener:
+    void onPrepareOptionsMenu(com.actionbarsherlock.view.Menu) -> onPrepareOptionsMenu
 android.support.v4.app._ActionBarSherlockTrojanHorse -> android.support.v4.app._ActionBarSherlockTrojanHorse:
     boolean DEBUG -> DEBUG
     java.lang.String TAG -> TAG
@@ -1186,7 +1203,57 @@ android.support.v4.view.ViewPager$SavedState -> android.support.v4.view.ViewPage
 android.support.v4.view.ViewPager$SavedState$1 -> android.support.v4.view.ae:
     java.lang.Object[] newArray(int) -> a
     java.lang.Object createFromParcel(android.os.Parcel,java.lang.ClassLoader) -> a
-android.support.v4.widget.EdgeEffectCompat -> android.support.v4.d.a:
+android.support.v4.widget.CursorAdapter -> android.support.v4.d.a:
+    boolean mDataValid -> mDataValid
+    boolean mAutoRequery -> mAutoRequery
+    android.database.Cursor mCursor -> mCursor
+    android.content.Context mContext -> mContext
+    int mRowIDColumn -> mRowIDColumn
+    android.support.v4.widget.CursorAdapter$ChangeObserver mChangeObserver -> mChangeObserver
+    android.database.DataSetObserver mDataSetObserver -> mDataSetObserver
+    android.support.v4.widget.CursorFilter mCursorFilter -> mCursorFilter
+    android.widget.FilterQueryProvider mFilterQueryProvider -> mFilterQueryProvider
+    int FLAG_AUTO_REQUERY -> FLAG_AUTO_REQUERY
+    int FLAG_REGISTER_CONTENT_OBSERVER -> FLAG_REGISTER_CONTENT_OBSERVER
+    void init(android.content.Context,android.database.Cursor,boolean) -> init
+    void init(android.content.Context,android.database.Cursor,int) -> init
+    android.database.Cursor getCursor() -> getCursor
+    int getCount() -> getCount
+    java.lang.Object getItem(int) -> getItem
+    long getItemId(int) -> getItemId
+    boolean hasStableIds() -> hasStableIds
+    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    android.view.View getDropDownView(int,android.view.View,android.view.ViewGroup) -> getDropDownView
+    android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> newView
+    android.view.View newDropDownView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> newDropDownView
+    void bindView(android.view.View,android.content.Context,android.database.Cursor) -> bindView
+    void changeCursor(android.database.Cursor) -> changeCursor
+    android.database.Cursor swapCursor(android.database.Cursor) -> swapCursor
+    java.lang.CharSequence convertToString(android.database.Cursor) -> convertToString
+    android.database.Cursor runQueryOnBackgroundThread(java.lang.CharSequence) -> runQueryOnBackgroundThread
+    android.widget.Filter getFilter() -> getFilter
+    android.widget.FilterQueryProvider getFilterQueryProvider() -> getFilterQueryProvider
+    void setFilterQueryProvider(android.widget.FilterQueryProvider) -> setFilterQueryProvider
+    void onContentChanged() -> onContentChanged
+android.support.v4.widget.CursorAdapter$ChangeObserver -> android.support.v4.d.b:
+    android.support.v4.widget.CursorAdapter this$0 -> a
+    boolean deliverSelfNotifications() -> deliverSelfNotifications
+    void onChange(boolean) -> onChange
+android.support.v4.widget.CursorAdapter$MyDataSetObserver -> android.support.v4.d.c:
+    android.support.v4.widget.CursorAdapter this$0 -> a
+    void onChanged() -> onChanged
+    void onInvalidated() -> onInvalidated
+android.support.v4.widget.CursorFilter -> android.support.v4.d.d:
+    android.support.v4.widget.CursorFilter$CursorFilterClient mClient -> a
+    java.lang.CharSequence convertResultToString(java.lang.Object) -> convertResultToString
+    android.widget.Filter$FilterResults performFiltering(java.lang.CharSequence) -> performFiltering
+    void publishResults(java.lang.CharSequence,android.widget.Filter$FilterResults) -> publishResults
+android.support.v4.widget.CursorFilter$CursorFilterClient -> android.support.v4.d.e:
+    java.lang.CharSequence convertToString(android.database.Cursor) -> convertToString
+    android.database.Cursor runQueryOnBackgroundThread(java.lang.CharSequence) -> runQueryOnBackgroundThread
+    android.database.Cursor getCursor() -> getCursor
+    void changeCursor(android.database.Cursor) -> changeCursor
+android.support.v4.widget.EdgeEffectCompat -> android.support.v4.d.f:
     java.lang.Object mEdgeEffect -> a
     android.support.v4.widget.EdgeEffectCompat$EdgeEffectImpl IMPL -> b
     void setSize(int,int) -> a
@@ -1195,7 +1262,7 @@ android.support.v4.widget.EdgeEffectCompat -> android.support.v4.d.a:
     boolean onPull(float) -> a
     boolean onRelease() -> c
     boolean draw(android.graphics.Canvas) -> a
-android.support.v4.widget.EdgeEffectCompat$BaseEdgeEffectImpl -> android.support.v4.d.b:
+android.support.v4.widget.EdgeEffectCompat$BaseEdgeEffectImpl -> android.support.v4.d.g:
     java.lang.Object newEdgeEffect(android.content.Context) -> a
     void setSize(java.lang.Object,int,int) -> a
     boolean isFinished(java.lang.Object) -> a
@@ -1203,7 +1270,7 @@ android.support.v4.widget.EdgeEffectCompat$BaseEdgeEffectImpl -> android.support
     boolean onPull(java.lang.Object,float) -> a
     boolean onRelease(java.lang.Object) -> c
     boolean draw(java.lang.Object,android.graphics.Canvas) -> a
-android.support.v4.widget.EdgeEffectCompat$EdgeEffectIcsImpl -> android.support.v4.d.c:
+android.support.v4.widget.EdgeEffectCompat$EdgeEffectIcsImpl -> android.support.v4.d.h:
     java.lang.Object newEdgeEffect(android.content.Context) -> a
     void setSize(java.lang.Object,int,int) -> a
     boolean isFinished(java.lang.Object) -> a
@@ -1211,7 +1278,7 @@ android.support.v4.widget.EdgeEffectCompat$EdgeEffectIcsImpl -> android.support.
     boolean onPull(java.lang.Object,float) -> a
     boolean onRelease(java.lang.Object) -> c
     boolean draw(java.lang.Object,android.graphics.Canvas) -> a
-android.support.v4.widget.EdgeEffectCompat$EdgeEffectImpl -> android.support.v4.d.d:
+android.support.v4.widget.EdgeEffectCompat$EdgeEffectImpl -> android.support.v4.d.i:
     java.lang.Object newEdgeEffect(android.content.Context) -> a
     void setSize(java.lang.Object,int,int) -> a
     boolean isFinished(java.lang.Object) -> a
@@ -1219,6 +1286,14 @@ android.support.v4.widget.EdgeEffectCompat$EdgeEffectImpl -> android.support.v4.
     boolean onPull(java.lang.Object,float) -> a
     boolean onRelease(java.lang.Object) -> c
     boolean draw(java.lang.Object,android.graphics.Canvas) -> a
+android.support.v4.widget.ResourceCursorAdapter -> android.support.v4.d.j:
+    int mLayout -> mLayout
+    int mDropDownLayout -> mDropDownLayout
+    android.view.LayoutInflater mInflater -> mInflater
+    android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> newView
+    android.view.View newDropDownView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> newDropDownView
+    void setViewResource(int) -> setViewResource
+    void setDropDownViewResource(int) -> setDropDownViewResource
 com.actionbarsherlock.ActionBarSherlock -> com.actionbarsherlock.ActionBarSherlock:
     java.lang.String TAG -> TAG
     boolean DEBUG -> DEBUG
@@ -1249,6 +1324,8 @@ com.actionbarsherlock.ActionBarSherlock -> com.actionbarsherlock.ActionBarSherlo
     boolean dispatchMenuOpened(int,android.view.Menu) -> dispatchMenuOpened
     void dispatchPanelClosed(int,android.view.Menu) -> dispatchPanelClosed
     void dispatchDestroy() -> dispatchDestroy
+    void dispatchSaveInstanceState(android.os.Bundle) -> dispatchSaveInstanceState
+    void dispatchRestoreInstanceState(android.os.Bundle) -> dispatchRestoreInstanceState
     boolean callbackCreateOptionsMenu(com.actionbarsherlock.view.Menu) -> callbackCreateOptionsMenu
     boolean callbackPrepareOptionsMenu(com.actionbarsherlock.view.Menu) -> callbackPrepareOptionsMenu
     boolean callbackOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> callbackOptionsItemSelected
@@ -1292,938 +1369,603 @@ com.actionbarsherlock.ActionBarSherlock$OnPrepareOptionsMenuListener -> com.acti
 com.actionbarsherlock.ActionBarSherlock$OnPreparePanelListener -> com.actionbarsherlock.ActionBarSherlock$OnPreparePanelListener:
     boolean onPreparePanel(int,android.view.View,com.actionbarsherlock.view.Menu) -> onPreparePanel
 com.actionbarsherlock.R -> com.actionbarsherlock.R:
-com.actionbarsherlock.R$anim -> com.actionbarsherlock.R$anim:
-    int fade_in -> fade_in
-    int fade_out -> fade_out
 com.actionbarsherlock.R$attr -> com.actionbarsherlock.R$attr:
-    int absForceOverflow -> absForceOverflow
-    int actionBarDivider -> actionBarDivider
-    int actionBarItemBackground -> actionBarItemBackground
-    int actionBarSize -> actionBarSize
-    int actionBarSplitStyle -> actionBarSplitStyle
-    int actionBarStyle -> actionBarStyle
-    int actionBarTabBarStyle -> actionBarTabBarStyle
-    int actionBarTabStyle -> actionBarTabStyle
-    int actionBarTabTextStyle -> actionBarTabTextStyle
-    int actionBarWidgetTheme -> actionBarWidgetTheme
-    int actionButtonStyle -> actionButtonStyle
-    int actionDropDownStyle -> actionDropDownStyle
-    int actionMenuTextAppearance -> actionMenuTextAppearance
-    int actionMenuTextColor -> actionMenuTextColor
-    int actionModeBackground -> actionModeBackground
-    int actionModeCloseButtonStyle -> actionModeCloseButtonStyle
-    int actionModeCloseDrawable -> actionModeCloseDrawable
-    int actionModePopupWindowStyle -> actionModePopupWindowStyle
-    int actionModeShareDrawable -> actionModeShareDrawable
-    int actionModeSplitBackground -> actionModeSplitBackground
-    int actionModeStyle -> actionModeStyle
-    int actionOverflowButtonStyle -> actionOverflowButtonStyle
-    int actionSpinnerItemStyle -> actionSpinnerItemStyle
-    int activatedBackgroundIndicator -> activatedBackgroundIndicator
-    int activityChooserViewStyle -> activityChooserViewStyle
-    int background -> background
-    int backgroundSplit -> backgroundSplit
-    int backgroundStacked -> backgroundStacked
-    int buttonStyleSmall -> buttonStyleSmall
-    int customNavigationLayout -> customNavigationLayout
-    int displayOptions -> displayOptions
-    int divider -> divider
-    int dividerVertical -> dividerVertical
-    int dropDownListViewStyle -> dropDownListViewStyle
-    int dropdownListPreferredItemHeight -> dropdownListPreferredItemHeight
-    int expandActivityOverflowButtonDrawable -> expandActivityOverflowButtonDrawable
-    int headerBackground -> headerBackground
-    int height -> height
-    int homeAsUpIndicator -> homeAsUpIndicator
-    int homeLayout -> homeLayout
-    int horizontalDivider -> horizontalDivider
-    int icon -> icon
-    int indeterminateProgressStyle -> indeterminateProgressStyle
-    int initialActivityCount -> initialActivityCount
-    int itemBackground -> itemBackground
-    int itemIconDisabledAlpha -> itemIconDisabledAlpha
-    int itemPadding -> itemPadding
-    int itemTextAppearance -> itemTextAppearance
-    int listPopupWindowStyle -> listPopupWindowStyle
-    int listPreferredItemHeightSmall -> listPreferredItemHeightSmall
-    int listPreferredItemPaddingLeft -> listPreferredItemPaddingLeft
-    int listPreferredItemPaddingRight -> listPreferredItemPaddingRight
-    int logo -> logo
-    int navigationMode -> navigationMode
-    int popupMenuStyle -> popupMenuStyle
-    int preserveIconSpacing -> preserveIconSpacing
-    int progressBarPadding -> progressBarPadding
-    int progressBarStyle -> progressBarStyle
-    int spinnerDropDownItemStyle -> spinnerDropDownItemStyle
-    int spinnerItemStyle -> spinnerItemStyle
-    int subtitle -> subtitle
-    int subtitleTextStyle -> subtitleTextStyle
-    int textAppearanceLargePopupMenu -> textAppearanceLargePopupMenu
-    int textAppearanceListItemSmall -> textAppearanceListItemSmall
     int textAppearanceSmall -> textAppearanceSmall
-    int textAppearanceSmallPopupMenu -> textAppearanceSmallPopupMenu
+    int actionModeStyle -> actionModeStyle
+    int searchViewCloseIcon -> searchViewCloseIcon
+    int activityChooserViewStyle -> activityChooserViewStyle
+    int itemIconDisabledAlpha -> itemIconDisabledAlpha
+    int headerBackground -> headerBackground
+    int dividerVertical -> dividerVertical
+    int actionModeCloseDrawable -> actionModeCloseDrawable
+    int actionBarDivider -> actionBarDivider
+    int searchViewVoiceIcon -> searchViewVoiceIcon
+    int actionBarWidgetTheme -> actionBarWidgetTheme
+    int spinnerDropDownItemStyle -> spinnerDropDownItemStyle
+    int divider -> divider
+    int navigationMode -> navigationMode
+    int listPopupWindowStyle -> listPopupWindowStyle
+    int actionBarItemBackground -> actionBarItemBackground
+    int homeLayout -> homeLayout
+    int progressBarPadding -> progressBarPadding
+    int horizontalDivider -> horizontalDivider
+    int listPreferredItemHeightSmall -> listPreferredItemHeightSmall
     int textColorPrimary -> textColorPrimary
-    int textColorPrimaryDisableOnly -> textColorPrimaryDisableOnly
-    int textColorPrimaryInverse -> textColorPrimaryInverse
+    int selectableItemBackground -> selectableItemBackground
+    int backgroundSplit -> backgroundSplit
+    int actionBarTabBarStyle -> actionBarTabBarStyle
+    int textAppearanceSearchResultSubtitle -> textAppearanceSearchResultSubtitle
     int title -> title
-    int titleTextStyle -> titleTextStyle
-    int verticalDivider -> verticalDivider
+    int preserveIconSpacing -> preserveIconSpacing
+    int actionBarSize -> actionBarSize
+    int textAppearanceListItemSmall -> textAppearanceListItemSmall
+    int searchViewEditQuery -> searchViewEditQuery
+    int itemPadding -> itemPadding
+    int searchViewTextField -> searchViewTextField
+    int logo -> logo
+    int textColorPrimaryDisableOnly -> textColorPrimaryDisableOnly
+    int backgroundStacked -> backgroundStacked
+    int searchViewSearchIcon -> searchViewSearchIcon
+    int itemTextAppearance -> itemTextAppearance
     int windowActionBar -> windowActionBar
-    int windowActionBarOverlay -> windowActionBarOverlay
-    int windowActionModeOverlay -> windowActionModeOverlay
-    int windowAnimationStyle -> windowAnimationStyle
-    int windowContentOverlay -> windowContentOverlay
-    int windowMinWidthMajor -> windowMinWidthMajor
-    int windowMinWidthMinor -> windowMinWidthMinor
-    int windowNoTitle -> windowNoTitle
     int windowSplitActionBar -> windowSplitActionBar
+    int spinnerItemStyle -> spinnerItemStyle
+    int background -> background
+    int actionOverflowButtonStyle -> actionOverflowButtonStyle
+    int windowMinWidthMajor -> windowMinWidthMajor
+    int initialActivityCount -> initialActivityCount
+    int listPreferredItemPaddingRight -> listPreferredItemPaddingRight
+    int dropDownListViewStyle -> dropDownListViewStyle
+    int actionBarTabTextStyle -> actionBarTabTextStyle
+    int searchViewEditQueryBackground -> searchViewEditQueryBackground
+    int windowMinWidthMinor -> windowMinWidthMinor
+    int actionModeBackground -> actionModeBackground
+    int searchViewTextFieldRight -> searchViewTextFieldRight
+    int height -> height
+    int textAppearanceSmallPopupMenu -> textAppearanceSmallPopupMenu
+    int textColorSearchUrl -> textColorSearchUrl
+    int actionButtonStyle -> actionButtonStyle
+    int windowAnimationStyle -> windowAnimationStyle
+    int searchAutoCompleteTextView -> searchAutoCompleteTextView
+    int actionBarTabStyle -> actionBarTabStyle
+    int windowContentOverlay -> windowContentOverlay
+    int actionBarStyle -> actionBarStyle
+    int windowActionModeOverlay -> windowActionModeOverlay
+    int indeterminateProgressStyle -> indeterminateProgressStyle
+    int expandActivityOverflowButtonDrawable -> expandActivityOverflowButtonDrawable
+    int actionModeShareDrawable -> actionModeShareDrawable
+    int activatedBackgroundIndicator -> activatedBackgroundIndicator
+    int windowNoTitle -> windowNoTitle
+    int actionMenuTextAppearance -> actionMenuTextAppearance
+    int textAppearanceLargePopupMenu -> textAppearanceLargePopupMenu
+    int textColorPrimaryInverse -> textColorPrimaryInverse
+    int verticalDivider -> verticalDivider
+    int homeAsUpIndicator -> homeAsUpIndicator
+    int actionModePopupWindowStyle -> actionModePopupWindowStyle
+    int itemBackground -> itemBackground
+    int iconifiedByDefault -> iconifiedByDefault
+    int searchResultListItemHeight -> searchResultListItemHeight
+    int actionModeCloseButtonStyle -> actionModeCloseButtonStyle
+    int actionBarSplitStyle -> actionBarSplitStyle
+    int popupMenuStyle -> popupMenuStyle
+    int searchViewGoIcon -> searchViewGoIcon
+    int actionSpinnerItemStyle -> actionSpinnerItemStyle
+    int dropdownListPreferredItemHeight -> dropdownListPreferredItemHeight
+    int buttonStyleSmall -> buttonStyleSmall
+    int displayOptions -> displayOptions
+    int titleTextStyle -> titleTextStyle
+    int icon -> icon
+    int customNavigationLayout -> customNavigationLayout
+    int actionModeSplitBackground -> actionModeSplitBackground
+    int queryHint -> queryHint
+    int listPreferredItemPaddingLeft -> listPreferredItemPaddingLeft
+    int windowActionBarOverlay -> windowActionBarOverlay
+    int searchDropdownBackground -> searchDropdownBackground
+    int subtitleTextStyle -> subtitleTextStyle
+    int progressBarStyle -> progressBarStyle
+    int textAppearanceSearchResultTitle -> textAppearanceSearchResultTitle
+    int subtitle -> subtitle
+    int actionDropDownStyle -> actionDropDownStyle
+    int actionMenuTextColor -> actionMenuTextColor
 com.actionbarsherlock.R$bool -> com.actionbarsherlock.R$bool:
-    int abs__action_bar_embed_tabs -> abs__action_bar_embed_tabs
-    int abs__action_bar_expanded_action_views_exclusive -> abs__action_bar_expanded_action_views_exclusive
-    int abs__config_actionMenuItemAllCaps -> abs__config_actionMenuItemAllCaps
     int abs__config_allowActionMenuItemTextWithIcon -> abs__config_allowActionMenuItemTextWithIcon
+    int abs__action_bar_expanded_action_views_exclusive -> abs__action_bar_expanded_action_views_exclusive
     int abs__config_showMenuShortcutsWhenKeyboardPresent -> abs__config_showMenuShortcutsWhenKeyboardPresent
+    int abs__action_bar_embed_tabs -> abs__action_bar_embed_tabs
     int abs__split_action_bar_is_narrow -> abs__split_action_bar_is_narrow
+    int abs__config_actionMenuItemAllCaps -> abs__config_actionMenuItemAllCaps
 com.actionbarsherlock.R$color -> com.actionbarsherlock.R$color:
-    int abs__background_holo_dark -> abs__background_holo_dark
-    int abs__background_holo_light -> abs__background_holo_light
-    int abs__bright_foreground_disabled_holo_dark -> abs__bright_foreground_disabled_holo_dark
-    int abs__bright_foreground_disabled_holo_light -> abs__bright_foreground_disabled_holo_light
+    int abs__bright_foreground_inverse_holo_light -> abs__bright_foreground_inverse_holo_light
+    int abs__primary_text_disable_only_holo_light -> abs__primary_text_disable_only_holo_light
+    int abs__holo_blue_light -> abs__holo_blue_light
     int abs__bright_foreground_holo_dark -> abs__bright_foreground_holo_dark
     int abs__bright_foreground_holo_light -> abs__bright_foreground_holo_light
-    int abs__bright_foreground_inverse_holo_dark -> abs__bright_foreground_inverse_holo_dark
-    int abs__bright_foreground_inverse_holo_light -> abs__bright_foreground_inverse_holo_light
-    int abs__holo_blue_light -> abs__holo_blue_light
-    int abs__primary_text_disable_only_holo_dark -> abs__primary_text_disable_only_holo_dark
-    int abs__primary_text_disable_only_holo_light -> abs__primary_text_disable_only_holo_light
     int abs__primary_text_holo_dark -> abs__primary_text_holo_dark
+    int abs__primary_text_disable_only_holo_dark -> abs__primary_text_disable_only_holo_dark
+    int abs__bright_foreground_disabled_holo_dark -> abs__bright_foreground_disabled_holo_dark
+    int abs__background_holo_light -> abs__background_holo_light
+    int abs__bright_foreground_disabled_holo_light -> abs__bright_foreground_disabled_holo_light
+    int abs__bright_foreground_inverse_holo_dark -> abs__bright_foreground_inverse_holo_dark
     int abs__primary_text_holo_light -> abs__primary_text_holo_light
-    int background_holo_dark -> background_holo_dark
-    int dark_blue -> dark_blue
-    int dark_green -> dark_green
-    int dark_grey -> dark_grey
-    int dark_grey01 -> dark_grey01
-    int light_blue -> light_blue
-    int light_green -> light_green
-    int light_grey -> light_grey
-    int translucent_grey -> translucent_grey
-    int transparent -> transparent
+    int abs__background_holo_dark -> abs__background_holo_dark
 com.actionbarsherlock.R$dimen -> com.actionbarsherlock.R$dimen:
-    int abs__action_bar_default_height -> abs__action_bar_default_height
-    int abs__action_bar_icon_vertical_padding -> abs__action_bar_icon_vertical_padding
-    int abs__action_bar_subtitle_bottom_margin -> abs__action_bar_subtitle_bottom_margin
-    int abs__action_bar_subtitle_text_size -> abs__action_bar_subtitle_text_size
-    int abs__action_bar_subtitle_top_margin -> abs__action_bar_subtitle_top_margin
-    int abs__action_bar_title_text_size -> abs__action_bar_title_text_size
-    int abs__action_button_min_width -> abs__action_button_min_width
-    int abs__alert_dialog_title_height -> abs__alert_dialog_title_height
     int abs__config_prefDialogWidth -> abs__config_prefDialogWidth
-    int abs__dialog_min_width_major -> abs__dialog_min_width_major
-    int abs__dialog_min_width_minor -> abs__dialog_min_width_minor
+    int abs__action_bar_subtitle_text_size -> abs__action_bar_subtitle_text_size
+    int abs__action_bar_icon_vertical_padding -> abs__action_bar_icon_vertical_padding
+    int abs__dropdownitem_icon_width -> abs__dropdownitem_icon_width
+    int abs__action_bar_subtitle_top_margin -> abs__action_bar_subtitle_top_margin
+    int abs__action_button_min_width -> abs__action_button_min_width
     int action_button_min_width -> action_button_min_width
-    int image_list_item -> image_list_item
-    int image_music_info -> image_music_info
-    int layout_padding -> layout_padding
-    int line_height_list_item -> line_height_list_item
-    int mediabtns_list_item -> mediabtns_list_item
-    int text_size_large -> text_size_large
-    int text_size_medium -> text_size_medium
-    int text_size_small -> text_size_small
+    int abs__action_bar_default_height -> abs__action_bar_default_height
+    int abs__dropdownitem_text_padding_left -> abs__dropdownitem_text_padding_left
+    int abs__dialog_min_width_minor -> abs__dialog_min_width_minor
+    int abs__dropdownitem_text_padding_right -> abs__dropdownitem_text_padding_right
+    int abs__dialog_min_width_major -> abs__dialog_min_width_major
+    int abs__search_view_text_min_width -> abs__search_view_text_min_width
+    int abs__search_view_preferred_width -> abs__search_view_preferred_width
+    int abs__action_bar_subtitle_bottom_margin -> abs__action_bar_subtitle_bottom_margin
+    int abs__alert_dialog_title_height -> abs__alert_dialog_title_height
+    int abs__action_bar_title_text_size -> abs__action_bar_title_text_size
 com.actionbarsherlock.R$drawable -> com.actionbarsherlock.R$drawable:
-    int abs__ab_bottom_solid_dark_holo -> abs__ab_bottom_solid_dark_holo
-    int abs__ab_bottom_solid_inverse_holo -> abs__ab_bottom_solid_inverse_holo
-    int abs__ab_bottom_solid_light_holo -> abs__ab_bottom_solid_light_holo
-    int abs__ab_bottom_transparent_dark_holo -> abs__ab_bottom_transparent_dark_holo
-    int abs__ab_bottom_transparent_light_holo -> abs__ab_bottom_transparent_light_holo
-    int abs__ab_share_pack_holo_dark -> abs__ab_share_pack_holo_dark
-    int abs__ab_share_pack_holo_light -> abs__ab_share_pack_holo_light
-    int abs__ab_solid_dark_holo -> abs__ab_solid_dark_holo
-    int abs__ab_solid_light_holo -> abs__ab_solid_light_holo
-    int abs__ab_solid_shadow_holo -> abs__ab_solid_shadow_holo
+    int abs__ic_cab_done_holo_dark -> abs__ic_cab_done_holo_dark
+    int abs__ic_go -> abs__ic_go
+    int abs__progress_medium_holo -> abs__progress_medium_holo
+    int abs__progress_secondary_holo_light -> abs__progress_secondary_holo_light
     int abs__ab_stacked_solid_dark_holo -> abs__ab_stacked_solid_dark_holo
-    int abs__ab_stacked_solid_inverse_holo -> abs__ab_stacked_solid_inverse_holo
-    int abs__ab_stacked_solid_light_holo -> abs__ab_stacked_solid_light_holo
-    int abs__ab_stacked_transparent_dark_holo -> abs__ab_stacked_transparent_dark_holo
+    int abs__ab_bottom_solid_dark_holo -> abs__ab_bottom_solid_dark_holo
+    int abs__tab_selected_pressed_holo -> abs__tab_selected_pressed_holo
+    int abs__spinner_ab_focused_holo_dark -> abs__spinner_ab_focused_holo_dark
+    int abs__ab_solid_dark_holo -> abs__ab_solid_dark_holo
+    int abs__textfield_search_default_holo_dark -> abs__textfield_search_default_holo_dark
     int abs__ab_stacked_transparent_light_holo -> abs__ab_stacked_transparent_light_holo
-    int abs__ab_transparent_dark_holo -> abs__ab_transparent_dark_holo
-    int abs__ab_transparent_light_holo -> abs__ab_transparent_light_holo
-    int abs__activated_background_holo_dark -> abs__activated_background_holo_dark
-    int abs__activated_background_holo_light -> abs__activated_background_holo_light
-    int abs__btn_cab_done_default_holo_dark -> abs__btn_cab_done_default_holo_dark
-    int abs__btn_cab_done_default_holo_light -> abs__btn_cab_done_default_holo_light
-    int abs__btn_cab_done_focused_holo_dark -> abs__btn_cab_done_focused_holo_dark
+    int abs__textfield_searchview_right_holo_light -> abs__textfield_searchview_right_holo_light
     int abs__btn_cab_done_focused_holo_light -> abs__btn_cab_done_focused_holo_light
-    int abs__btn_cab_done_holo_dark -> abs__btn_cab_done_holo_dark
-    int abs__btn_cab_done_holo_light -> abs__btn_cab_done_holo_light
-    int abs__btn_cab_done_pressed_holo_dark -> abs__btn_cab_done_pressed_holo_dark
-    int abs__btn_cab_done_pressed_holo_light -> abs__btn_cab_done_pressed_holo_light
-    int abs__cab_background_bottom_holo_dark -> abs__cab_background_bottom_holo_dark
-    int abs__cab_background_bottom_holo_light -> abs__cab_background_bottom_holo_light
-    int abs__cab_background_top_holo_dark -> abs__cab_background_top_holo_dark
-    int abs__cab_background_top_holo_light -> abs__cab_background_top_holo_light
-    int abs__dialog_bottom_holo_dark -> abs__dialog_bottom_holo_dark
+    int abs__ic_clear_search_api_disabled_holo_light -> abs__ic_clear_search_api_disabled_holo_light
+    int abs__ab_share_pack_holo_light -> abs__ab_share_pack_holo_light
+    int abs__ic_clear_normal -> abs__ic_clear_normal
+    int abs__ab_solid_light_holo -> abs__ab_solid_light_holo
+    int abs__ic_clear_holo_light -> abs__ic_clear_holo_light
+    int abs__ic_search -> abs__ic_search
+    int abs__ic_voice_search -> abs__ic_voice_search
+    int abs__textfield_search_selected_holo_light -> abs__textfield_search_selected_holo_light
+    int abs__spinner_ab_pressed_holo_dark -> abs__spinner_ab_pressed_holo_dark
+    int abs__spinner_ab_default_holo_light -> abs__spinner_ab_default_holo_light
+    int abs__ab_bottom_solid_light_holo -> abs__ab_bottom_solid_light_holo
+    int abs__textfield_search_right_selected_holo_dark -> abs__textfield_search_right_selected_holo_dark
+    int abs__btn_cab_done_default_holo_dark -> abs__btn_cab_done_default_holo_dark
+    int abs__btn_cab_done_focused_holo_dark -> abs__btn_cab_done_focused_holo_dark
+    int abs__list_divider_holo_dark -> abs__list_divider_holo_dark
+    int abs__textfield_searchview_holo_dark -> abs__textfield_searchview_holo_dark
+    int abs__search_dropdown_dark -> abs__search_dropdown_dark
+    int abs__textfield_search_selected_holo_dark -> abs__textfield_search_selected_holo_dark
+    int abs__activated_background_holo_dark -> abs__activated_background_holo_dark
+    int abs__ic_clear_disabled -> abs__ic_clear_disabled
+    int abs__ab_stacked_transparent_dark_holo -> abs__ab_stacked_transparent_dark_holo
     int abs__dialog_bottom_holo_light -> abs__dialog_bottom_holo_light
     int abs__dialog_full_holo_dark -> abs__dialog_full_holo_dark
-    int abs__dialog_full_holo_light -> abs__dialog_full_holo_light
-    int abs__ic_ab_back_holo_dark -> abs__ic_ab_back_holo_dark
-    int abs__ic_ab_back_holo_light -> abs__ic_ab_back_holo_light
-    int abs__ic_cab_done_holo_dark -> abs__ic_cab_done_holo_dark
-    int abs__ic_cab_done_holo_light -> abs__ic_cab_done_holo_light
-    int abs__ic_menu_moreoverflow_holo_dark -> abs__ic_menu_moreoverflow_holo_dark
-    int abs__ic_menu_moreoverflow_holo_light -> abs__ic_menu_moreoverflow_holo_light
-    int abs__ic_menu_moreoverflow_normal_holo_dark -> abs__ic_menu_moreoverflow_normal_holo_dark
-    int abs__ic_menu_moreoverflow_normal_holo_light -> abs__ic_menu_moreoverflow_normal_holo_light
-    int abs__ic_menu_share_holo_dark -> abs__ic_menu_share_holo_dark
-    int abs__ic_menu_share_holo_light -> abs__ic_menu_share_holo_light
-    int abs__item_background_holo_dark -> abs__item_background_holo_dark
-    int abs__item_background_holo_light -> abs__item_background_holo_light
-    int abs__list_activated_holo -> abs__list_activated_holo
-    int abs__list_divider_holo_dark -> abs__list_divider_holo_dark
-    int abs__list_divider_holo_light -> abs__list_divider_holo_light
-    int abs__list_focused_holo -> abs__list_focused_holo
-    int abs__list_longpressed_holo -> abs__list_longpressed_holo
-    int abs__list_pressed_holo_dark -> abs__list_pressed_holo_dark
-    int abs__list_pressed_holo_light -> abs__list_pressed_holo_light
-    int abs__list_selector_background_transition_holo_dark -> abs__list_selector_background_transition_holo_dark
-    int abs__list_selector_background_transition_holo_light -> abs__list_selector_background_transition_holo_light
-    int abs__list_selector_disabled_holo_dark -> abs__list_selector_disabled_holo_dark
-    int abs__list_selector_disabled_holo_light -> abs__list_selector_disabled_holo_light
-    int abs__list_selector_holo_dark -> abs__list_selector_holo_dark
-    int abs__list_selector_holo_light -> abs__list_selector_holo_light
-    int abs__menu_dropdown_panel_holo_dark -> abs__menu_dropdown_panel_holo_dark
-    int abs__menu_dropdown_panel_holo_light -> abs__menu_dropdown_panel_holo_light
-    int abs__progress_bg_holo_dark -> abs__progress_bg_holo_dark
     int abs__progress_bg_holo_light -> abs__progress_bg_holo_light
-    int abs__progress_horizontal_holo_dark -> abs__progress_horizontal_holo_dark
-    int abs__progress_horizontal_holo_light -> abs__progress_horizontal_holo_light
-    int abs__progress_medium_holo -> abs__progress_medium_holo
-    int abs__progress_primary_holo_dark -> abs__progress_primary_holo_dark
-    int abs__progress_primary_holo_light -> abs__progress_primary_holo_light
-    int abs__progress_secondary_holo_dark -> abs__progress_secondary_holo_dark
-    int abs__progress_secondary_holo_light -> abs__progress_secondary_holo_light
-    int abs__spinner_20_inner_holo -> abs__spinner_20_inner_holo
-    int abs__spinner_20_outer_holo -> abs__spinner_20_outer_holo
-    int abs__spinner_48_inner_holo -> abs__spinner_48_inner_holo
-    int abs__spinner_48_outer_holo -> abs__spinner_48_outer_holo
-    int abs__spinner_ab_default_holo_dark -> abs__spinner_ab_default_holo_dark
-    int abs__spinner_ab_default_holo_light -> abs__spinner_ab_default_holo_light
-    int abs__spinner_ab_disabled_holo_dark -> abs__spinner_ab_disabled_holo_dark
-    int abs__spinner_ab_disabled_holo_light -> abs__spinner_ab_disabled_holo_light
-    int abs__spinner_ab_focused_holo_dark -> abs__spinner_ab_focused_holo_dark
-    int abs__spinner_ab_focused_holo_light -> abs__spinner_ab_focused_holo_light
-    int abs__spinner_ab_holo_dark -> abs__spinner_ab_holo_dark
-    int abs__spinner_ab_holo_light -> abs__spinner_ab_holo_light
-    int abs__spinner_ab_pressed_holo_dark -> abs__spinner_ab_pressed_holo_dark
-    int abs__spinner_ab_pressed_holo_light -> abs__spinner_ab_pressed_holo_light
-    int abs__tab_indicator_ab_holo -> abs__tab_indicator_ab_holo
-    int abs__tab_indicator_holo -> abs__tab_indicator_holo
-    int abs__tab_selected_focused_holo -> abs__tab_selected_focused_holo
+    int abs__ic_clear_search_api_holo_light -> abs__ic_clear_search_api_holo_light
+    int abs__menu_dropdown_panel_holo_dark -> abs__menu_dropdown_panel_holo_dark
+    int abs__activated_background_holo_light -> abs__activated_background_holo_light
+    int abs__ic_search_api_holo_light -> abs__ic_search_api_holo_light
+    int abs__cab_background_bottom_holo_light -> abs__cab_background_bottom_holo_light
+    int abs__btn_cab_done_holo_dark -> abs__btn_cab_done_holo_dark
     int abs__tab_selected_holo -> abs__tab_selected_holo
-    int abs__tab_selected_pressed_holo -> abs__tab_selected_pressed_holo
-    int abs__tab_unselected_focused_holo -> abs__tab_unselected_focused_holo
+    int abs__cab_background_bottom_holo_dark -> abs__cab_background_bottom_holo_dark
+    int abs__ab_transparent_dark_holo -> abs__ab_transparent_dark_holo
+    int abs__progress_horizontal_holo_light -> abs__progress_horizontal_holo_light
+    int abs__ic_ab_back_holo_dark -> abs__ic_ab_back_holo_dark
+    int abs__ic_menu_share_holo_dark -> abs__ic_menu_share_holo_dark
+    int abs__ab_stacked_solid_light_holo -> abs__ab_stacked_solid_light_holo
+    int abs__dialog_full_holo_light -> abs__dialog_full_holo_light
+    int abs__cab_background_top_holo_dark -> abs__cab_background_top_holo_dark
+    int abs__list_selector_disabled_holo_dark -> abs__list_selector_disabled_holo_dark
+    int abs__ic_menu_moreoverflow_holo_light -> abs__ic_menu_moreoverflow_holo_light
+    int abs__tab_selected_focused_holo -> abs__tab_selected_focused_holo
+    int abs__list_selector_holo_dark -> abs__list_selector_holo_dark
     int abs__tab_unselected_holo -> abs__tab_unselected_holo
+    int abs__spinner_20_inner_holo -> abs__spinner_20_inner_holo
+    int abs__ab_share_pack_holo_dark -> abs__ab_share_pack_holo_dark
+    int abs__textfield_searchview_holo_light -> abs__textfield_searchview_holo_light
+    int abs__btn_cab_done_pressed_holo_light -> abs__btn_cab_done_pressed_holo_light
+    int abs__ab_bottom_transparent_dark_holo -> abs__ab_bottom_transparent_dark_holo
+    int abs__ic_clear -> abs__ic_clear
+    int abs__spinner_48_outer_holo -> abs__spinner_48_outer_holo
+    int abs__textfield_search_default_holo_light -> abs__textfield_search_default_holo_light
+    int abs__ab_solid_shadow_holo -> abs__ab_solid_shadow_holo
+    int abs__ab_transparent_light_holo -> abs__ab_transparent_light_holo
+    int abs__list_selector_disabled_holo_light -> abs__list_selector_disabled_holo_light
+    int abs__progress_secondary_holo_dark -> abs__progress_secondary_holo_dark
+    int abs__spinner_ab_holo_light -> abs__spinner_ab_holo_light
+    int abs__list_selector_background_transition_holo_light -> abs__list_selector_background_transition_holo_light
+    int abs__list_focused_holo -> abs__list_focused_holo
+    int abs__spinner_ab_pressed_holo_light -> abs__spinner_ab_pressed_holo_light
+    int abs__progress_primary_holo_dark -> abs__progress_primary_holo_dark
+    int abs__dialog_bottom_holo_dark -> abs__dialog_bottom_holo_dark
+    int abs__search_dropdown_light -> abs__search_dropdown_light
+    int abs__textfield_search_right_default_holo_dark -> abs__textfield_search_right_default_holo_dark
+    int abs__list_selector_holo_light -> abs__list_selector_holo_light
+    int abs__ab_bottom_solid_inverse_holo -> abs__ab_bottom_solid_inverse_holo
+    int abs__ic_menu_moreoverflow_normal_holo_dark -> abs__ic_menu_moreoverflow_normal_holo_dark
+    int abs__progress_primary_holo_light -> abs__progress_primary_holo_light
+    int abs__ic_go_search_api_holo_light -> abs__ic_go_search_api_holo_light
+    int abs__btn_cab_done_holo_light -> abs__btn_cab_done_holo_light
+    int abs__list_pressed_holo_light -> abs__list_pressed_holo_light
+    int abs__spinner_20_outer_holo -> abs__spinner_20_outer_holo
+    int abs__textfield_search_right_default_holo_light -> abs__textfield_search_right_default_holo_light
+    int abs__ic_ab_back_holo_light -> abs__ic_ab_back_holo_light
+    int abs__list_selector_background_transition_holo_dark -> abs__list_selector_background_transition_holo_dark
+    int abs__spinner_ab_disabled_holo_light -> abs__spinner_ab_disabled_holo_light
+    int abs__tab_unselected_focused_holo -> abs__tab_unselected_focused_holo
+    int abs__ic_cab_done_holo_light -> abs__ic_cab_done_holo_light
+    int abs__ic_menu_share_holo_light -> abs__ic_menu_share_holo_light
+    int abs__spinner_ab_default_holo_dark -> abs__spinner_ab_default_holo_dark
     int abs__tab_unselected_pressed_holo -> abs__tab_unselected_pressed_holo
-    int btn_default_disabled_focused_holo_dark -> btn_default_disabled_focused_holo_dark
-    int btn_default_disabled_holo_dark -> btn_default_disabled_holo_dark
-    int btn_default_focused_holo_dark -> btn_default_focused_holo_dark
-    int btn_default_holo_dark -> btn_default_holo_dark
-    int btn_default_normal_holo_dark -> btn_default_normal_holo_dark
-    int btn_default_pressed_holo_dark -> btn_default_pressed_holo_dark
-    int btn_radio -> btn_radio
-    int btn_radio_off_focused_holo_dark -> btn_radio_off_focused_holo_dark
-    int btn_radio_off_holo_dark -> btn_radio_off_holo_dark
-    int btn_radio_off_pressed_holo_dark -> btn_radio_off_pressed_holo_dark
-    int btn_radio_on_focused_holo_dark -> btn_radio_on_focused_holo_dark
-    int btn_radio_on_holo_dark -> btn_radio_on_holo_dark
-    int btn_radio_on_pressed_holo_dark -> btn_radio_on_pressed_holo_dark
-    int designer_logo -> designer_logo
-    int divider_horizontal_holo_dark -> divider_horizontal_holo_dark
-    int echonest_logo -> echonest_logo
-    int echonest_logo_pwd -> echonest_logo_pwd
-    int edit_text_holo_dark -> edit_text_holo_dark
-    int fastscroll_thumb_default_holo -> fastscroll_thumb_default_holo
-    int fastscroll_thumb_holo -> fastscroll_thumb_holo
-    int fastscroll_thumb_pressed_holo -> fastscroll_thumb_pressed_holo
-    int fastscroll_track_default_holo_dark -> fastscroll_track_default_holo_dark
-    int fastscroll_track_holo_dark -> fastscroll_track_holo_dark
-    int fastscroll_track_pressed_holo_dark -> fastscroll_track_pressed_holo_dark
-    int grooveshark_logo -> grooveshark_logo
-    int ic_action_add -> ic_action_add
-    int ic_action_buy -> ic_action_buy
-    int ic_action_clear -> ic_action_clear
-    int ic_action_export -> ic_action_export
-    int ic_action_import -> ic_action_import
-    int ic_action_login -> ic_action_login
-    int ic_action_love -> ic_action_love
-    int ic_action_play -> ic_action_play
-    int ic_action_playlist_options -> ic_action_playlist_options
-    int ic_action_refresh -> ic_action_refresh
-    int ic_action_save_playlist -> ic_action_save_playlist
-    int ic_action_search -> ic_action_search
-    int ic_action_share -> ic_action_share
-    int ic_action_shuffle -> ic_action_shuffle
-    int ic_action_watch -> ic_action_watch
-    int ic_disc_stub -> ic_disc_stub
-    int ic_image_pause -> ic_image_pause
-    int ic_image_play -> ic_image_play
-    int ic_launcher -> ic_launcher
-    int lastfm_logo -> lastfm_logo
-    int list_focused_holo -> list_focused_holo
-    int list_longpressed_holo -> list_longpressed_holo
-    int list_pressed_holo_dark -> list_pressed_holo_dark
-    int list_selector_background_transition_holo_dark -> list_selector_background_transition_holo_dark
-    int list_selector_disabled_holo_dark -> list_selector_disabled_holo_dark
-    int list_selector_holo_dark -> list_selector_holo_dark
-    int main_background -> main_background
-    int progress_bg_holo_dark -> progress_bg_holo_dark
-    int progress_horizontal_holo_dark -> progress_horizontal_holo_dark
-    int progress_indeterminate_horizontal_holo -> progress_indeterminate_horizontal_holo
-    int progress_large_holo -> progress_large_holo
-    int progress_primary_holo_dark -> progress_primary_holo_dark
-    int progress_secondary_holo_dark -> progress_secondary_holo_dark
-    int progressbar_indeterminate_holo1 -> progressbar_indeterminate_holo1
-    int progressbar_indeterminate_holo2 -> progressbar_indeterminate_holo2
-    int progressbar_indeterminate_holo3 -> progressbar_indeterminate_holo3
-    int progressbar_indeterminate_holo4 -> progressbar_indeterminate_holo4
-    int progressbar_indeterminate_holo5 -> progressbar_indeterminate_holo5
-    int progressbar_indeterminate_holo6 -> progressbar_indeterminate_holo6
-    int progressbar_indeterminate_holo7 -> progressbar_indeterminate_holo7
-    int progressbar_indeterminate_holo8 -> progressbar_indeterminate_holo8
-    int rdio_logo -> rdio_logo
-    int scrubber_control_focused_holo -> scrubber_control_focused_holo
-    int scrubber_control_normal_holo -> scrubber_control_normal_holo
-    int scrubber_control_pressed_holo -> scrubber_control_pressed_holo
-    int scrubber_primary_holo -> scrubber_primary_holo
-    int scrubber_secondary_holo -> scrubber_secondary_holo
-    int scrubber_track_holo_dark -> scrubber_track_holo_dark
-    int seekbar_progress -> seekbar_progress
-    int seekbar_thumb -> seekbar_thumb
-    int sevendigital_logo -> sevendigital_logo
-    int spinner_76_inner_holo -> spinner_76_inner_holo
-    int spinner_76_outer_holo -> spinner_76_outer_holo
-    int textfield_activated_holo_dark -> textfield_activated_holo_dark
-    int textfield_default_holo_dark -> textfield_default_holo_dark
-    int textfield_disabled_focused_holo_dark -> textfield_disabled_focused_holo_dark
-    int textfield_disabled_holo_dark -> textfield_disabled_holo_dark
-    int textfield_focused_holo_dark -> textfield_focused_holo_dark
-    int textfield_multiline_activated_holo_dark -> textfield_multiline_activated_holo_dark
-    int textfield_multiline_default_holo_dark -> textfield_multiline_default_holo_dark
-    int textfield_multiline_disabled_focused_holo_dark -> textfield_multiline_disabled_focused_holo_dark
-    int textfield_multiline_disabled_holo_dark -> textfield_multiline_disabled_holo_dark
-    int textfield_multiline_focused_holo_dark -> textfield_multiline_focused_holo_dark
-    int youtube_logo -> youtube_logo
+    int abs__ic_menu_moreoverflow_normal_holo_light -> abs__ic_menu_moreoverflow_normal_holo_light
+    int abs__progress_horizontal_holo_dark -> abs__progress_horizontal_holo_dark
+    int abs__ic_voice_search_api_holo_light -> abs__ic_voice_search_api_holo_light
+    int abs__progress_bg_holo_dark -> abs__progress_bg_holo_dark
+    int abs__tab_indicator_holo -> abs__tab_indicator_holo
+    int abs__btn_cab_done_default_holo_light -> abs__btn_cab_done_default_holo_light
+    int abs__spinner_48_inner_holo -> abs__spinner_48_inner_holo
+    int abs__textfield_search_right_selected_holo_light -> abs__textfield_search_right_selected_holo_light
+    int abs__btn_cab_done_pressed_holo_dark -> abs__btn_cab_done_pressed_holo_dark
+    int abs__textfield_searchview_right_holo_dark -> abs__textfield_searchview_right_holo_dark
+    int abs__menu_dropdown_panel_holo_light -> abs__menu_dropdown_panel_holo_light
+    int abs__list_activated_holo -> abs__list_activated_holo
+    int abs__cab_background_top_holo_light -> abs__cab_background_top_holo_light
+    int abs__spinner_ab_focused_holo_light -> abs__spinner_ab_focused_holo_light
+    int abs__spinner_ab_disabled_holo_dark -> abs__spinner_ab_disabled_holo_dark
+    int abs__ab_bottom_transparent_light_holo -> abs__ab_bottom_transparent_light_holo
+    int abs__item_background_holo_dark -> abs__item_background_holo_dark
+    int abs__list_divider_holo_light -> abs__list_divider_holo_light
+    int abs__list_pressed_holo_dark -> abs__list_pressed_holo_dark
+    int abs__ab_stacked_solid_inverse_holo -> abs__ab_stacked_solid_inverse_holo
+    int abs__item_background_holo_light -> abs__item_background_holo_light
+    int abs__spinner_ab_holo_dark -> abs__spinner_ab_holo_dark
+    int abs__tab_indicator_ab_holo -> abs__tab_indicator_ab_holo
+    int abs__ic_menu_moreoverflow_holo_dark -> abs__ic_menu_moreoverflow_holo_dark
+    int abs__list_longpressed_holo -> abs__list_longpressed_holo
 com.actionbarsherlock.R$id -> com.actionbarsherlock.R$id:
-    int ProgressBarShowListDet -> ProgressBarShowListDet
-    int about_description -> about_description
-    int about_designer_info -> about_designer_info
-    int about_echonest_info -> about_echonest_info
-    int about_feature_configure -> about_feature_configure
-    int about_feature_export -> about_feature_export
-    int about_feature_more -> about_feature_more
-    int about_feature_playlist -> about_feature_playlist
-    int about_feature_profile -> about_feature_profile
-    int about_grooveshark_info -> about_grooveshark_info
-    int about_lastfm_info -> about_lastfm_info
-    int about_rdio_info -> about_rdio_info
-    int about_sevendigital_info -> about_sevendigital_info
-    int about_youtube_info -> about_youtube_info
-    int abs__action_bar -> abs__action_bar
     int abs__action_bar_container -> abs__action_bar_container
-    int abs__action_bar_subtitle -> abs__action_bar_subtitle
-    int abs__action_bar_title -> abs__action_bar_title
-    int abs__action_context_bar -> abs__action_context_bar
-    int abs__action_menu_divider -> abs__action_menu_divider
-    int abs__action_menu_presenter -> abs__action_menu_presenter
-    int abs__action_mode_bar -> abs__action_mode_bar
-    int abs__action_mode_bar_stub -> abs__action_mode_bar_stub
-    int abs__action_mode_close_button -> abs__action_mode_close_button
-    int abs__activity_chooser_view_content -> abs__activity_chooser_view_content
-    int abs__checkbox -> abs__checkbox
-    int abs__content -> abs__content
-    int abs__default_activity_button -> abs__default_activity_button
-    int abs__expand_activities_button -> abs__expand_activities_button
-    int abs__home -> abs__home
-    int abs__icon -> abs__icon
-    int abs__image -> abs__image
-    int abs__imageButton -> abs__imageButton
-    int abs__list_item -> abs__list_item
-    int abs__progress_circular -> abs__progress_circular
-    int abs__progress_horizontal -> abs__progress_horizontal
-    int abs__radio -> abs__radio
-    int abs__shortcut -> abs__shortcut
-    int abs__split_action_bar -> abs__split_action_bar
-    int abs__textButton -> abs__textButton
-    int abs__title -> abs__title
-    int abs__titleDivider -> abs__titleDivider
-    int abs__up -> abs__up
-    int adView -> adView
-    int artistinfo_artistName -> artistinfo_artistName
-    int artistinfo_biography -> artistinfo_biography
-    int artistinfo_image -> artistinfo_image
-    int artistinfo_info -> artistinfo_info
-    int artistinfo_news -> artistinfo_news
-    int artistinfo_similar -> artistinfo_similar
-    int background -> background
-    int btn_ok -> btn_ok
-    int by -> by
-    int data_container -> data_container
-    int designer_disclaimer -> designer_disclaimer
-    int designer_logo -> designer_logo
-    int disableHome -> disableHome
-    int divider1 -> divider1
-    int divider2 -> divider2
-    int divider3 -> divider3
-    int echonest_disclaimer -> echonest_disclaimer
-    int echonest_logo -> echonest_logo
-    int exact_artists -> exact_artists
-    int export_to_dms -> export_to_dms
-    int export_to_grooveshark -> export_to_grooveshark
-    int export_to_lastfm -> export_to_lastfm
-    int export_to_rdio -> export_to_rdio
-    int export_to_youtube -> export_to_youtube
-    int firstLine -> firstLine
-    int grooveshark_disclaimer -> grooveshark_disclaimer
-    int grooveshark_logo -> grooveshark_logo
-    int homeAsUp -> homeAsUp
-    int image -> image
-    int import_from_device -> import_from_device
-    int import_from_lastfm -> import_from_lastfm
-    int label_danceability -> label_danceability
-    int label_energy -> label_energy
-    int label_hotness -> label_hotness
-    int label_max_results -> label_max_results
-    int label_mood -> label_mood
-    int label_tempo -> label_tempo
-    int label_variety -> label_variety
-    int lastfm_disclaimer -> lastfm_disclaimer
-    int lastfm_logo -> lastfm_logo
-    int line -> line
-    int listMode -> listMode
-    int loading -> loading
-    int logo -> logo
-    int media_btns -> media_btns
-    int menu_about -> menu_about
-    int menu_add_artist -> menu_add_artist
-    int menu_add_to_playlist -> menu_add_to_playlist
-    int menu_add_to_profile -> menu_add_to_profile
-    int menu_buy -> menu_buy
-    int menu_clear_playlists -> menu_clear_playlists
-    int menu_clear_profile -> menu_clear_profile
-    int menu_export_playlist -> menu_export_playlist
-    int menu_import_artists -> menu_import_artists
-    int menu_login -> menu_login
-    int menu_new_playlist -> menu_new_playlist
-    int menu_playlist_options -> menu_playlist_options
-    int menu_refresh_songs -> menu_refresh_songs
-    int menu_save_playlist -> menu_save_playlist
-    int menu_search_artist -> menu_search_artist
-    int menu_settings -> menu_settings
-    int menu_share -> menu_share
-    int menu_shuffle_options -> menu_shuffle_options
-    int menu_watch -> menu_watch
     int normal -> normal
-    int on -> on
-    int overlayCancel -> overlayCancel
-    int overlay_update -> overlay_update
-    int pager -> pager
-    int password_input -> password_input
-    int play_in_dms -> play_in_dms
-    int play_in_grooveshark -> play_in_grooveshark
-    int playpause -> playpause
-    int progress_container -> progress_container
-    int rdio_disclaimer -> rdio_disclaimer
-    int rdio_logo -> rdio_logo
-    int releaseinfo_artistName -> releaseinfo_artistName
-    int releaseinfo_image -> releaseinfo_image
-    int releaseinfo_info -> releaseinfo_info
-    int releaseinfo_releaseName -> releaseinfo_releaseName
-    int root_container -> root_container
-    int secondLine -> secondLine
-    int seekBar_danceability -> seekBar_danceability
-    int seekBar_energy -> seekBar_energy
-    int seekBar_hotness -> seekBar_hotness
-    int seekBar_max_results -> seekBar_max_results
-    int seekBar_mood -> seekBar_mood
-    int seekBar_tempo -> seekBar_tempo
-    int seekBar_variety -> seekBar_variety
-    int sevendigital_disclaimer -> sevendigital_disclaimer
-    int sevendigital_logo -> sevendigital_logo
-    int showCustom -> showCustom
-    int showHome -> showHome
+    int abs__search_go_btn -> abs__search_go_btn
+    int abs__default_activity_button -> abs__default_activity_button
+    int homeAsUp -> homeAsUp
+    int abs__search_bar -> abs__search_bar
+    int abs__action_mode_bar -> abs__action_mode_bar
+    int abs__imageButton -> abs__imageButton
+    int edit_query -> edit_query
+    int abs__action_bar_subtitle -> abs__action_bar_subtitle
+    int abs__activity_chooser_view_content -> abs__activity_chooser_view_content
+    int abs__search_voice_btn -> abs__search_voice_btn
+    int disableHome -> disableHome
     int showTitle -> showTitle
-    int similar_artists -> similar_artists
-    int songinfo_albumName -> songinfo_albumName
-    int songinfo_artistName -> songinfo_artistName
-    int songinfo_image -> songinfo_image
-    int songinfo_loading -> songinfo_loading
-    int songinfo_media_btns -> songinfo_media_btns
-    int songinfo_playpause -> songinfo_playpause
-    int songinfo_songName -> songinfo_songName
-    int songinfo_songVersion -> songinfo_songVersion
-    int songinfo_topTrackTitle -> songinfo_topTrackTitle
-    int stub_update -> stub_update
-    int tabMode -> tabMode
-    int text -> text
-    int textViewUpdateStatus -> textViewUpdateStatus
-    int text_input -> text_input
-    int thirdLine -> thirdLine
-    int useLogo -> useLogo
-    int username_input -> username_input
+    int abs__up -> abs__up
+    int abs__split_action_bar -> abs__split_action_bar
+    int abs__action_context_bar -> abs__action_context_bar
+    int abs__list_item -> abs__list_item
+    int abs__progress_horizontal -> abs__progress_horizontal
+    int showHome -> showHome
+    int abs__home -> abs__home
+    int abs__search_src_text -> abs__search_src_text
+    int abs__search_mag_icon -> abs__search_mag_icon
+    int abs__checkbox -> abs__checkbox
+    int abs__search_close_btn -> abs__search_close_btn
+    int abs__image -> abs__image
+    int showCustom -> showCustom
+    int abs__action_mode_bar_stub -> abs__action_mode_bar_stub
+    int abs__content -> abs__content
+    int abs__icon -> abs__icon
+    int abs__action_menu_divider -> abs__action_menu_divider
+    int abs__search_badge -> abs__search_badge
+    int abs__action_bar -> abs__action_bar
+    int abs__search_plate -> abs__search_plate
+    int abs__action_mode_close_button -> abs__action_mode_close_button
     int wrap_content -> wrap_content
-    int wrapper -> wrapper
-    int youtube_disclaimer -> youtube_disclaimer
-    int youtube_logo -> youtube_logo
+    int listMode -> listMode
+    int abs__title -> abs__title
+    int abs__progress_circular -> abs__progress_circular
+    int useLogo -> useLogo
+    int tabMode -> tabMode
+    int abs__search_edit_frame -> abs__search_edit_frame
+    int abs__radio -> abs__radio
+    int abs__action_bar_title -> abs__action_bar_title
+    int abs__search_button -> abs__search_button
+    int abs__shortcut -> abs__shortcut
+    int abs__action_menu_presenter -> abs__action_menu_presenter
+    int abs__textButton -> abs__textButton
+    int abs__titleDivider -> abs__titleDivider
+    int abs__expand_activities_button -> abs__expand_activities_button
+    int abs__submit_area -> abs__submit_area
 com.actionbarsherlock.R$integer -> com.actionbarsherlock.R$integer:
     int abs__max_action_buttons -> abs__max_action_buttons
 com.actionbarsherlock.R$layout -> com.actionbarsherlock.R$layout:
-    int about -> about
-    int abs__action_bar_home -> abs__action_bar_home
-    int abs__action_bar_tab -> abs__action_bar_tab
-    int abs__action_bar_tab_bar_view -> abs__action_bar_tab_bar_view
-    int abs__action_bar_title_item -> abs__action_bar_title_item
-    int abs__action_menu_item_layout -> abs__action_menu_item_layout
-    int abs__action_menu_layout -> abs__action_menu_layout
-    int abs__action_mode_bar -> abs__action_mode_bar
-    int abs__action_mode_close_item -> abs__action_mode_close_item
-    int abs__activity_chooser_view -> abs__activity_chooser_view
-    int abs__activity_chooser_view_list_item -> abs__activity_chooser_view_list_item
     int abs__dialog_title_holo -> abs__dialog_title_holo
+    int abs__action_menu_layout -> abs__action_menu_layout
+    int sherlock_spinner_dropdown_item_light_dark -> sherlock_spinner_dropdown_item_light_dark
+    int abs__action_mode_bar -> abs__action_mode_bar
+    int sherlock_spinner_item -> sherlock_spinner_item
+    int abs__activity_chooser_view -> abs__activity_chooser_view
+    int abs__search_view -> abs__search_view
+    int abs__popup_menu_item_layout -> abs__popup_menu_item_layout
+    int abs__action_bar_tab_bar_view -> abs__action_bar_tab_bar_view
+    int abs__action_bar_home -> abs__action_bar_home
+    int abs__action_menu_item_layout -> abs__action_menu_item_layout
+    int abs__list_menu_item_radio -> abs__list_menu_item_radio
+    int abs__action_mode_close_item -> abs__action_mode_close_item
+    int abs__activity_chooser_view_list_item -> abs__activity_chooser_view_list_item
+    int abs__screen_simple_overlay_action_mode -> abs__screen_simple_overlay_action_mode
+    int abs__screen_action_bar -> abs__screen_action_bar
+    int sherlock_spinner_item_light_dark -> sherlock_spinner_item_light_dark
+    int sherlock_spinner_dropdown_item -> sherlock_spinner_dropdown_item
+    int abs__search_dropdown_item_icons_2line -> abs__search_dropdown_item_icons_2line
+    int abs__action_bar_title_item -> abs__action_bar_title_item
+    int abs__screen_action_bar_overlay -> abs__screen_action_bar_overlay
     int abs__list_menu_item_checkbox -> abs__list_menu_item_checkbox
+    int abs__simple_dropdown_hint -> abs__simple_dropdown_hint
     int abs__list_menu_item_icon -> abs__list_menu_item_icon
     int abs__list_menu_item_layout -> abs__list_menu_item_layout
-    int abs__list_menu_item_radio -> abs__list_menu_item_radio
-    int abs__popup_menu_item_layout -> abs__popup_menu_item_layout
-    int abs__screen_action_bar -> abs__screen_action_bar
-    int abs__screen_action_bar_overlay -> abs__screen_action_bar_overlay
     int abs__screen_simple -> abs__screen_simple
-    int abs__screen_simple_overlay_action_mode -> abs__screen_simple_overlay_action_mode
-    int activity_singlepane_empty -> activity_singlepane_empty
-    int artist_info -> artist_info
-    int bio -> bio
-    int dialog_auth -> dialog_auth
-    int dialog_export -> dialog_export
-    int dialog_import -> dialog_import
-    int dialog_input -> dialog_input
-    int dialog_player -> dialog_player
-    int holodivider -> holodivider
-    int list_item_1_image -> list_item_1_image
-    int list_item_2_image_media -> list_item_2_image_media
-    int list_item_3 -> list_item_3
-    int listview_progress -> listview_progress
-    int logo -> logo
-    int pager -> pager
-    int playlist_options -> playlist_options
-    int preferences -> preferences
-    int progress_overlay -> progress_overlay
-    int release_info -> release_info
-    int sherlock_spinner_dropdown_item -> sherlock_spinner_dropdown_item
-    int sherlock_spinner_dropdown_item_light_dark -> sherlock_spinner_dropdown_item_light_dark
-    int sherlock_spinner_item -> sherlock_spinner_item
-    int sherlock_spinner_item_light_dark -> sherlock_spinner_item_light_dark
-    int song_info -> song_info
-com.actionbarsherlock.R$menu -> com.actionbarsherlock.R$menu:
-    int artistinfo_menu -> artistinfo_menu
-    int export_playlist_menu -> export_playlist_menu
-    int main_menu -> main_menu
-    int playlist_options_menu -> playlist_options_menu
-    int playlists_menu -> playlists_menu
-    int profile_menu -> profile_menu
-    int releaseinfo_menu -> releaseinfo_menu
-    int songinfo_menu -> songinfo_menu
-    int songs_menu -> songs_menu
+    int abs__action_bar_tab -> abs__action_bar_tab
 com.actionbarsherlock.R$string -> com.actionbarsherlock.R$string:
-    int about -> about
-    int abs__action_bar_home_description -> abs__action_bar_home_description
     int abs__action_bar_up_description -> abs__action_bar_up_description
-    int abs__action_menu_overflow_description -> abs__action_menu_overflow_description
-    int abs__action_mode_done -> abs__action_mode_done
+    int abs__searchview_description_clear -> abs__searchview_description_clear
     int abs__activity_chooser_view_dialog_title_default -> abs__activity_chooser_view_dialog_title_default
+    int abs__action_mode_done -> abs__action_mode_done
+    int abs__searchview_description_voice -> abs__searchview_description_voice
+    int abs__searchview_description_query -> abs__searchview_description_query
+    int abs__shareactionprovider_share_with -> abs__shareactionprovider_share_with
+    int abs__action_bar_home_description -> abs__action_bar_home_description
+    int abs__searchview_description_search -> abs__searchview_description_search
     int abs__activity_chooser_view_see_all -> abs__activity_chooser_view_see_all
     int abs__activitychooserview_choose_application -> abs__activitychooserview_choose_application
     int abs__share_action_provider_share_with -> abs__share_action_provider_share_with
-    int abs__shareactionprovider_share_with -> abs__shareactionprovider_share_with
+    int abs__action_menu_overflow_description -> abs__action_menu_overflow_description
+    int abs__searchview_description_submit -> abs__searchview_description_submit
     int abs__shareactionprovider_share_with_application -> abs__shareactionprovider_share_with_application
-    int add_artist -> add_artist
-    int add_to_playlist -> add_to_playlist
-    int add_to_profile -> add_to_profile
-    int album -> album
-    int album_image -> album_image
-    int app_description -> app_description
-    int app_name -> app_name
-    int artist -> artist
-    int artist_albums -> artist_albums
-    int artist_bio_frag_empty -> artist_bio_frag_empty
-    int artist_bio_title -> artist_bio_title
-    int artist_image -> artist_image
-    int artist_name -> artist_name
-    int artist_news_frag_empty -> artist_news_frag_empty
-    int artist_news_title -> artist_news_title
-    int artist_top_songs -> artist_top_songs
-    int artistinfo_bio -> artistinfo_bio
-    int artistinfo_news -> artistinfo_news
-    int artistinfo_similar -> artistinfo_similar
-    int artists_already_profile -> artists_already_profile
-    int auth_cleared -> auth_cleared
-    int buy_at -> buy_at
-    int by -> by
-    int cache_cleared -> cache_cleared
-    int cache_preferences -> cache_preferences
-    int cancel -> cancel
-    int check_dms_setting_on -> check_dms_setting_on
-    int choose_playlist_export_tip -> choose_playlist_export_tip
-    int clear_auth_summ_str -> clear_auth_summ_str
-    int clear_auth_title_str -> clear_auth_title_str
-    int clear_cache_summ_str -> clear_cache_summ_str
-    int clear_cache_title_str -> clear_cache_title_str
-    int clear_playlists -> clear_playlists
-    int clear_profile -> clear_profile
-    int clear_profile_warn_msg -> clear_profile_warn_msg
-    int clearing_cache -> clearing_cache
-    int danceability_str -> danceability_str
-    int disclaimer_app -> disclaimer_app
-    int disclaimer_designer -> disclaimer_designer
-    int disclaimer_echonest -> disclaimer_echonest
-    int disclaimer_grooveshark -> disclaimer_grooveshark
-    int disclaimer_lastfm -> disclaimer_lastfm
-    int disclaimer_rdio -> disclaimer_rdio
-    int disclaimer_sevendigital -> disclaimer_sevendigital
-    int disclaimer_youtube -> disclaimer_youtube
-    int donate -> donate
-    int energy_str -> energy_str
-    int err_add_artists_profile -> err_add_artists_profile
-    int err_add_songs_playlist -> err_add_songs_playlist
-    int exception_artist_not_found -> exception_artist_not_found
-    int exception_io -> exception_io
-    int exception_not_auth -> exception_not_auth
-    int exception_req_failed -> exception_req_failed
-    int exception_song_not_found -> exception_song_not_found
-    int exception_try_later -> exception_try_later
-    int exception_unknown -> exception_unknown
-    int exception_user_not_found -> exception_user_not_found
-    int export_grooveshark_title -> export_grooveshark_title
-    int export_lastfm_title -> export_lastfm_title
-    int export_playlist -> export_playlist
-    int export_rdio_title -> export_rdio_title
-    int export_to_dms -> export_to_dms
-    int export_to_grooveshark -> export_to_grooveshark
-    int export_to_lastfm -> export_to_lastfm
-    int export_to_rdio -> export_to_rdio
-    int export_to_youtube -> export_to_youtube
-    int export_youtube_title -> export_youtube_title
-    int exporting -> exporting
-    int feature_description_configure -> feature_description_configure
-    int feature_description_export -> feature_description_export
-    int feature_description_more -> feature_description_more
-    int feature_description_playlist -> feature_description_playlist
-    int feature_description_profile -> feature_description_profile
-    int featured_releases -> featured_releases
-    int general_preferences -> general_preferences
-    int grooveshark_username -> grooveshark_username
-    int hotness_str -> hotness_str
-    int import_artists -> import_artists
-    int import_from_device -> import_from_device
-    int import_from_lastfm -> import_from_lastfm
-    int import_no_artist_found -> import_no_artist_found
-    int import_profile_failed -> import_profile_failed
-    int importing -> importing
-    int install_dms -> install_dms
-    int known_artists -> known_artists
-    int lastfm_username -> lastfm_username
-    int loading -> loading
-    int log_in -> log_in
-    int max_results_str -> max_results_str
-    int mood_str -> mood_str
-    int new_playlist -> new_playlist
-    int no_google_account_found -> no_google_account_found
-    int no_song_found -> no_song_found
-    int not_authorized -> not_authorized
-    int on -> on
-    int operation_in_progress -> operation_in_progress
-    int password -> password
-    int play_in_dms -> play_in_dms
-    int play_in_grooveshark -> play_in_grooveshark
-    int play_pause_preview -> play_pause_preview
-    int play_songs -> play_songs
-    int playlist_created -> playlist_created
-    int playlist_created_by -> playlist_created_by
-    int playlist_empty -> playlist_empty
-    int playlist_name -> playlist_name
-    int playlist_options -> playlist_options
-    int playlist_type -> playlist_type
-    int playlists -> playlists
-    int playlists_frag_empty_list -> playlists_frag_empty_list
-    int profile -> profile
-    int profile_frag_empty_list -> profile_frag_empty_list
-    int refresh_songs -> refresh_songs
-    int remove_artist -> remove_artist
-    int remove_song -> remove_song
-    int req_add_artists_profile -> req_add_artists_profile
-    int requires_flash -> requires_flash
-    int save_playlist -> save_playlist
-    int search_artist -> search_artist
-    int select_google_account -> select_google_account
-    int settings -> settings
-    int share_album_text -> share_album_text
-    int share_artist_text -> share_artist_text
-    int share_song_text -> share_song_text
-    int share_using -> share_using
-    int share_with -> share_with
-    int shuffle -> shuffle
-    int similar_artists -> similar_artists
-    int similar_artists_frag_empty -> similar_artists_frag_empty
-    int similar_artists_title -> similar_artists_title
-    int some_artists_added_profile -> some_artists_added_profile
-    int some_songs_added_playlist -> some_songs_added_playlist
-    int song -> song
-    int song_list -> song_list
-    int songs -> songs
-    int songs_frag_empty_list -> songs_frag_empty_list
-    int success_add_artists_profile -> success_add_artists_profile
-    int success_add_songs_playlist -> success_add_songs_playlist
-    int tempo_str -> tempo_str
-    int user_playlists_frag_empty -> user_playlists_frag_empty
-    int variety_str -> variety_str
-    int videos -> videos
-    int watch_on -> watch_on
-    int youtube_videos_frag_empty -> youtube_videos_frag_empty
-    int youtube_videos_title -> youtube_videos_title
 com.actionbarsherlock.R$style -> com.actionbarsherlock.R$style:
-    int DialogThemeNoTitle -> DialogThemeNoTitle
-    int DialogWindowTitle_Sherlock -> DialogWindowTitle_Sherlock
-    int DialogWindowTitle_Sherlock_Light -> DialogWindowTitle_Sherlock_Light
-    int Sherlock___TextAppearance_Small -> Sherlock___TextAppearance_Small
-    int Sherlock___Theme -> Sherlock___Theme
-    int Sherlock___Theme_DarkActionBar -> Sherlock___Theme_DarkActionBar
-    int Sherlock___Theme_Dialog -> Sherlock___Theme_Dialog
-    int Sherlock___Theme_Light -> Sherlock___Theme_Light
-    int Sherlock___Widget_ActionBar -> Sherlock___Widget_ActionBar
-    int Sherlock___Widget_ActionMode -> Sherlock___Widget_ActionMode
-    int Sherlock___Widget_ActivityChooserView -> Sherlock___Widget_ActivityChooserView
-    int Sherlock___Widget_Holo_DropDownItem -> Sherlock___Widget_Holo_DropDownItem
-    int Sherlock___Widget_Holo_ListView -> Sherlock___Widget_Holo_ListView
-    int Sherlock___Widget_Holo_Spinner -> Sherlock___Widget_Holo_Spinner
-    int SongSeekerTheme -> SongSeekerTheme
-    int TextAppearance_Sherlock_DialogWindowTitle -> TextAppearance_Sherlock_DialogWindowTitle
-    int TextAppearance_Sherlock_Light_DialogWindowTitle -> TextAppearance_Sherlock_Light_DialogWindowTitle
-    int TextAppearance_Sherlock_Light_Small -> TextAppearance_Sherlock_Light_Small
-    int TextAppearance_Sherlock_Light_Widget_PopupMenu_Large -> TextAppearance_Sherlock_Light_Widget_PopupMenu_Large
-    int TextAppearance_Sherlock_Light_Widget_PopupMenu_Small -> TextAppearance_Sherlock_Light_Widget_PopupMenu_Small
-    int TextAppearance_Sherlock_Small -> TextAppearance_Sherlock_Small
-    int TextAppearance_Sherlock_Widget_ActionBar_Menu -> TextAppearance_Sherlock_Widget_ActionBar_Menu
-    int TextAppearance_Sherlock_Widget_ActionBar_Subtitle -> TextAppearance_Sherlock_Widget_ActionBar_Subtitle
-    int TextAppearance_Sherlock_Widget_ActionBar_Subtitle_Inverse -> TextAppearance_Sherlock_Widget_ActionBar_Subtitle_Inverse
-    int TextAppearance_Sherlock_Widget_ActionBar_Title -> TextAppearance_Sherlock_Widget_ActionBar_Title
-    int TextAppearance_Sherlock_Widget_ActionBar_Title_Inverse -> TextAppearance_Sherlock_Widget_ActionBar_Title_Inverse
-    int TextAppearance_Sherlock_Widget_ActionMode_Subtitle -> TextAppearance_Sherlock_Widget_ActionMode_Subtitle
-    int TextAppearance_Sherlock_Widget_ActionMode_Subtitle_Inverse -> TextAppearance_Sherlock_Widget_ActionMode_Subtitle_Inverse
-    int TextAppearance_Sherlock_Widget_ActionMode_Title -> TextAppearance_Sherlock_Widget_ActionMode_Title
-    int TextAppearance_Sherlock_Widget_ActionMode_Title_Inverse -> TextAppearance_Sherlock_Widget_ActionMode_Title_Inverse
-    int TextAppearance_Sherlock_Widget_DropDownItem -> TextAppearance_Sherlock_Widget_DropDownItem
-    int TextAppearance_Sherlock_Widget_PopupMenu -> TextAppearance_Sherlock_Widget_PopupMenu
-    int TextAppearance_Sherlock_Widget_PopupMenu_Large -> TextAppearance_Sherlock_Widget_PopupMenu_Large
-    int TextAppearance_Sherlock_Widget_PopupMenu_Small -> TextAppearance_Sherlock_Widget_PopupMenu_Small
-    int TextAppearance_Sherlock_Widget_TextView_SpinnerItem -> TextAppearance_Sherlock_Widget_TextView_SpinnerItem
-    int Theme_Sherlock -> Theme_Sherlock
-    int Theme_Sherlock_Dialog -> Theme_Sherlock_Dialog
-    int Theme_Sherlock_ForceOverflow -> Theme_Sherlock_ForceOverflow
-    int Theme_Sherlock_Light -> Theme_Sherlock_Light
-    int Theme_Sherlock_Light_DarkActionBar -> Theme_Sherlock_Light_DarkActionBar
-    int Theme_Sherlock_Light_DarkActionBar_ForceOverflow -> Theme_Sherlock_Light_DarkActionBar_ForceOverflow
-    int Theme_Sherlock_Light_Dialog -> Theme_Sherlock_Light_Dialog
-    int Theme_Sherlock_Light_ForceOverflow -> Theme_Sherlock_Light_ForceOverflow
-    int Theme_Sherlock_Light_NoActionBar -> Theme_Sherlock_Light_NoActionBar
-    int Theme_Sherlock_NoActionBar -> Theme_Sherlock_NoActionBar
-    int Widget -> Widget
-    int Widget_Sherlock_ActionBar -> Widget_Sherlock_ActionBar
-    int Widget_Sherlock_ActionBar_Solid -> Widget_Sherlock_ActionBar_Solid
-    int Widget_Sherlock_ActionBar_TabBar -> Widget_Sherlock_ActionBar_TabBar
-    int Widget_Sherlock_ActionBar_TabText -> Widget_Sherlock_ActionBar_TabText
-    int Widget_Sherlock_ActionBar_TabView -> Widget_Sherlock_ActionBar_TabView
-    int Widget_Sherlock_ActionButton -> Widget_Sherlock_ActionButton
-    int Widget_Sherlock_ActionButton_CloseMode -> Widget_Sherlock_ActionButton_CloseMode
-    int Widget_Sherlock_ActionButton_Overflow -> Widget_Sherlock_ActionButton_Overflow
-    int Widget_Sherlock_ActionMode -> Widget_Sherlock_ActionMode
-    int Widget_Sherlock_ActivityChooserView -> Widget_Sherlock_ActivityChooserView
-    int Widget_Sherlock_Button_Small -> Widget_Sherlock_Button_Small
-    int Widget_Sherlock_DropDownItem_Spinner -> Widget_Sherlock_DropDownItem_Spinner
-    int Widget_Sherlock_Light_ActionBar -> Widget_Sherlock_Light_ActionBar
-    int Widget_Sherlock_Light_ActionBar_Solid -> Widget_Sherlock_Light_ActionBar_Solid
-    int Widget_Sherlock_Light_ActionBar_Solid_Inverse -> Widget_Sherlock_Light_ActionBar_Solid_Inverse
-    int Widget_Sherlock_Light_ActionBar_TabBar -> Widget_Sherlock_Light_ActionBar_TabBar
-    int Widget_Sherlock_Light_ActionBar_TabBar_Inverse -> Widget_Sherlock_Light_ActionBar_TabBar_Inverse
-    int Widget_Sherlock_Light_ActionBar_TabText -> Widget_Sherlock_Light_ActionBar_TabText
-    int Widget_Sherlock_Light_ActionBar_TabText_Inverse -> Widget_Sherlock_Light_ActionBar_TabText_Inverse
-    int Widget_Sherlock_Light_ActionBar_TabView -> Widget_Sherlock_Light_ActionBar_TabView
-    int Widget_Sherlock_Light_ActionBar_TabView_Inverse -> Widget_Sherlock_Light_ActionBar_TabView_Inverse
-    int Widget_Sherlock_Light_ActionButton -> Widget_Sherlock_Light_ActionButton
-    int Widget_Sherlock_Light_ActionButton_CloseMode -> Widget_Sherlock_Light_ActionButton_CloseMode
-    int Widget_Sherlock_Light_ActionButton_Overflow -> Widget_Sherlock_Light_ActionButton_Overflow
-    int Widget_Sherlock_Light_ActionMode -> Widget_Sherlock_Light_ActionMode
-    int Widget_Sherlock_Light_ActionMode_Inverse -> Widget_Sherlock_Light_ActionMode_Inverse
     int Widget_Sherlock_Light_ActivityChooserView -> Widget_Sherlock_Light_ActivityChooserView
-    int Widget_Sherlock_Light_Button_Small -> Widget_Sherlock_Light_Button_Small
+    int Widget_Sherlock_Light_ProgressBar_Horizontal -> Widget_Sherlock_Light_ProgressBar_Horizontal
+    int TextAppearance_Sherlock_Light_Small -> TextAppearance_Sherlock_Light_Small
+    int DialogWindowTitle_Sherlock_Light -> DialogWindowTitle_Sherlock_Light
+    int Widget_Sherlock_ActivityChooserView -> Widget_Sherlock_ActivityChooserView
+    int TextAppearance_Sherlock_Widget_ActionBar_Subtitle_Inverse -> TextAppearance_Sherlock_Widget_ActionBar_Subtitle_Inverse
+    int Sherlock___Widget_Holo_ListView -> Sherlock___Widget_Holo_ListView
+    int Widget_Sherlock_Light_ActionBar -> Widget_Sherlock_Light_ActionBar
+    int DialogWindowTitle_Sherlock -> DialogWindowTitle_Sherlock
+    int Theme_Sherlock -> Theme_Sherlock
+    int TextAppearance_Sherlock_Widget_ActionMode_Subtitle_Inverse -> TextAppearance_Sherlock_Widget_ActionMode_Subtitle_Inverse
+    int TextAppearance_Sherlock_Widget_PopupMenu_Small -> TextAppearance_Sherlock_Widget_PopupMenu_Small
+    int Widget_Sherlock_Button_Small -> Widget_Sherlock_Button_Small
+    int TextAppearance_Sherlock_Light_DialogWindowTitle -> TextAppearance_Sherlock_Light_DialogWindowTitle
+    int Widget_Sherlock_Light_ActionBar_Solid -> Widget_Sherlock_Light_ActionBar_Solid
+    int TextAppearance_Sherlock_Widget_PopupMenu -> TextAppearance_Sherlock_Widget_PopupMenu
+    int Widget_Sherlock_ActionBar -> Widget_Sherlock_ActionBar
     int Widget_Sherlock_Light_DropDownItem_Spinner -> Widget_Sherlock_Light_DropDownItem_Spinner
     int Widget_Sherlock_Light_ListPopupWindow -> Widget_Sherlock_Light_ListPopupWindow
-    int Widget_Sherlock_Light_ListView_DropDown -> Widget_Sherlock_Light_ListView_DropDown
-    int Widget_Sherlock_Light_PopupMenu -> Widget_Sherlock_Light_PopupMenu
-    int Widget_Sherlock_Light_PopupWindow_ActionMode -> Widget_Sherlock_Light_PopupWindow_ActionMode
-    int Widget_Sherlock_Light_ProgressBar -> Widget_Sherlock_Light_ProgressBar
-    int Widget_Sherlock_Light_ProgressBar_Horizontal -> Widget_Sherlock_Light_ProgressBar_Horizontal
-    int Widget_Sherlock_Light_Spinner_DropDown_ActionBar -> Widget_Sherlock_Light_Spinner_DropDown_ActionBar
-    int Widget_Sherlock_ListPopupWindow -> Widget_Sherlock_ListPopupWindow
-    int Widget_Sherlock_ListView_DropDown -> Widget_Sherlock_ListView_DropDown
-    int Widget_Sherlock_PopupMenu -> Widget_Sherlock_PopupMenu
-    int Widget_Sherlock_PopupWindow_ActionMode -> Widget_Sherlock_PopupWindow_ActionMode
-    int Widget_Sherlock_ProgressBar -> Widget_Sherlock_ProgressBar
-    int Widget_Sherlock_ProgressBar_Horizontal -> Widget_Sherlock_ProgressBar_Horizontal
-    int Widget_Sherlock_Spinner_DropDown_ActionBar -> Widget_Sherlock_Spinner_DropDown_ActionBar
+    int Widget_Sherlock_Light_ActionMode -> Widget_Sherlock_Light_ActionMode
+    int Widget_Sherlock_Light_ActionBar_TabBar -> Widget_Sherlock_Light_ActionBar_TabBar
+    int Theme_Sherlock_Light_NoActionBar -> Theme_Sherlock_Light_NoActionBar
+    int Widget_Sherlock_Light_ActionMode_Inverse -> Widget_Sherlock_Light_ActionMode_Inverse
+    int Sherlock___Theme_Dialog -> Sherlock___Theme_Dialog
+    int Sherlock___Theme_DarkActionBar -> Sherlock___Theme_DarkActionBar
+    int TextAppearance_Sherlock_Widget_DropDownHint -> TextAppearance_Sherlock_Widget_DropDownHint
+    int Theme_Sherlock_Light_DarkActionBar -> Theme_Sherlock_Light_DarkActionBar
+    int Sherlock___Widget_Holo_Spinner -> Sherlock___Widget_Holo_Spinner
+    int TextAppearance_Sherlock_Widget_ActionBar_Menu -> TextAppearance_Sherlock_Widget_ActionBar_Menu
+    int Sherlock___Theme_Light -> Sherlock___Theme_Light
     int Widget_Sherlock_TextView_SpinnerItem -> Widget_Sherlock_TextView_SpinnerItem
-    int about_description -> about_description
-    int about_disclaimers -> about_disclaimers
-    int about_features -> about_features
-    int artist_bio -> artist_bio
-    int button_holo -> button_holo
-    int edit_text_holo -> edit_text_holo
-    int list_view_first_line -> list_view_first_line
-    int list_view_second_line -> list_view_second_line
-    int list_view_third_line -> list_view_third_line
-    int listview -> listview
-    int music_info_details -> music_info_details
-    int music_info_subtitle -> music_info_subtitle
-    int music_info_title -> music_info_title
-    int pl_options_labels -> pl_options_labels
-    int scrollview -> scrollview
-    int seekbar -> seekbar
+    int Widget_Sherlock_Light_ListView_DropDown -> Widget_Sherlock_Light_ListView_DropDown
+    int Widget_Sherlock_Light_Button_Small -> Widget_Sherlock_Light_Button_Small
+    int TextAppearance_Sherlock_Small -> TextAppearance_Sherlock_Small
+    int Theme_Sherlock_Light -> Theme_Sherlock_Light
+    int Widget_Sherlock_ActionBar_TabBar -> Widget_Sherlock_ActionBar_TabBar
+    int TextAppearance_Sherlock_Light_Widget_PopupMenu_Large -> TextAppearance_Sherlock_Light_Widget_PopupMenu_Large
+    int Sherlock___Theme -> Sherlock___Theme
+    int Widget_Sherlock_Light_ActionBar_TabBar_Inverse -> Widget_Sherlock_Light_ActionBar_TabBar_Inverse
+    int Widget_Sherlock_ActionButton -> Widget_Sherlock_ActionButton
+    int Theme_Sherlock_Light_Dialog -> Theme_Sherlock_Light_Dialog
+    int Widget_Sherlock_ProgressBar_Horizontal -> Widget_Sherlock_ProgressBar_Horizontal
+    int Widget_Sherlock_ActionButton_CloseMode -> Widget_Sherlock_ActionButton_CloseMode
+    int TextAppearance_Sherlock_Widget_DropDownItem -> TextAppearance_Sherlock_Widget_DropDownItem
+    int Theme_Sherlock_Dialog -> Theme_Sherlock_Dialog
+    int Widget_Sherlock_PopupWindow_ActionMode -> Widget_Sherlock_PopupWindow_ActionMode
+    int Widget_Sherlock_Light_ActionBar_Solid_Inverse -> Widget_Sherlock_Light_ActionBar_Solid_Inverse
+    int Widget_Sherlock_Light_SearchAutoCompleteTextView -> Widget_Sherlock_Light_SearchAutoCompleteTextView
+    int Widget_Sherlock_Light_Spinner_DropDown_ActionBar -> Widget_Sherlock_Light_Spinner_DropDown_ActionBar
+    int Sherlock___Widget_ActivityChooserView -> Sherlock___Widget_ActivityChooserView
+    int Sherlock___Widget_Holo_DropDownItem -> Sherlock___Widget_Holo_DropDownItem
+    int Widget -> Widget
+    int Sherlock___Widget_ActionMode -> Sherlock___Widget_ActionMode
+    int TextAppearance_Sherlock_Widget_ActionBar_Title_Inverse -> TextAppearance_Sherlock_Widget_ActionBar_Title_Inverse
+    int Widget_Sherlock_ActionMode -> Widget_Sherlock_ActionMode
+    int Widget_Sherlock_Light_ActionButton_Overflow -> Widget_Sherlock_Light_ActionButton_Overflow
+    int Theme_Sherlock_NoActionBar -> Theme_Sherlock_NoActionBar
+    int Widget_Sherlock_Light_PopupMenu -> Widget_Sherlock_Light_PopupMenu
+    int Widget_Sherlock_PopupMenu -> Widget_Sherlock_PopupMenu
+    int Sherlock___TextAppearance_Small -> Sherlock___TextAppearance_Small
+    int Widget_Sherlock_Light_PopupWindow_ActionMode -> Widget_Sherlock_Light_PopupWindow_ActionMode
+    int Widget_Sherlock_Light_ActionBar_TabView -> Widget_Sherlock_Light_ActionBar_TabView
+    int Widget_Sherlock_ListPopupWindow -> Widget_Sherlock_ListPopupWindow
+    int TextAppearance_Sherlock_DialogWindowTitle -> TextAppearance_Sherlock_DialogWindowTitle
+    int TextAppearance_Sherlock_Widget_ActionMode_Title_Inverse -> TextAppearance_Sherlock_Widget_ActionMode_Title_Inverse
+    int Widget_Sherlock_Light_ActionButton_CloseMode -> Widget_Sherlock_Light_ActionButton_CloseMode
+    int Widget_Sherlock_Light_ActionBar_TabText_Inverse -> Widget_Sherlock_Light_ActionBar_TabText_Inverse
+    int TextAppearance_Sherlock_Widget_ActionMode_Title -> TextAppearance_Sherlock_Widget_ActionMode_Title
+    int Widget_Sherlock_Spinner_DropDown_ActionBar -> Widget_Sherlock_Spinner_DropDown_ActionBar
+    int TextAppearance_Sherlock_Widget_TextView_SpinnerItem -> TextAppearance_Sherlock_Widget_TextView_SpinnerItem
+    int Sherlock___Widget_ActionBar -> Sherlock___Widget_ActionBar
+    int Widget_Sherlock_ProgressBar -> Widget_Sherlock_ProgressBar
+    int Widget_Sherlock_Light_ActionBar_TabView_Inverse -> Widget_Sherlock_Light_ActionBar_TabView_Inverse
+    int TextAppearance_Sherlock_Widget_ActionBar_Title -> TextAppearance_Sherlock_Widget_ActionBar_Title
+    int TextAppearance_Sherlock_Light_Widget_PopupMenu_Small -> TextAppearance_Sherlock_Light_Widget_PopupMenu_Small
+    int Widget_Sherlock_ActionBar_TabText -> Widget_Sherlock_ActionBar_TabText
+    int Widget_Sherlock_Light_ProgressBar -> Widget_Sherlock_Light_ProgressBar
+    int Widget_Sherlock_ActionBar_TabView -> Widget_Sherlock_ActionBar_TabView
+    int Widget_Sherlock_ActionBar_Solid -> Widget_Sherlock_ActionBar_Solid
+    int Widget_Sherlock_ListView_DropDown -> Widget_Sherlock_ListView_DropDown
+    int Widget_Sherlock_ActionButton_Overflow -> Widget_Sherlock_ActionButton_Overflow
+    int Widget_Sherlock_Light_ActionBar_TabText -> Widget_Sherlock_Light_ActionBar_TabText
+    int TextAppearance_Sherlock_Widget_ActionMode_Subtitle -> TextAppearance_Sherlock_Widget_ActionMode_Subtitle
+    int TextAppearance_Sherlock_Widget_ActionBar_Subtitle -> TextAppearance_Sherlock_Widget_ActionBar_Subtitle
+    int Widget_Sherlock_DropDownItem_Spinner -> Widget_Sherlock_DropDownItem_Spinner
+    int Sherlock___Widget_SearchAutoCompleteTextView -> Sherlock___Widget_SearchAutoCompleteTextView
+    int Widget_Sherlock_Light_ActionButton -> Widget_Sherlock_Light_ActionButton
+    int TextAppearance_Sherlock_Widget_PopupMenu_Large -> TextAppearance_Sherlock_Widget_PopupMenu_Large
+    int Widget_Sherlock_SearchAutoCompleteTextView -> Widget_Sherlock_SearchAutoCompleteTextView
 com.actionbarsherlock.R$styleable -> com.actionbarsherlock.R$styleable:
-    int[] SherlockActionBar -> SherlockActionBar
-    int SherlockActionBar_background -> SherlockActionBar_background
-    int SherlockActionBar_backgroundSplit -> SherlockActionBar_backgroundSplit
-    int SherlockActionBar_backgroundStacked -> SherlockActionBar_backgroundStacked
-    int SherlockActionBar_customNavigationLayout -> SherlockActionBar_customNavigationLayout
+    int SherlockTheme_textColorPrimaryInverse -> SherlockTheme_textColorPrimaryInverse
     int SherlockActionBar_displayOptions -> SherlockActionBar_displayOptions
-    int SherlockActionBar_divider -> SherlockActionBar_divider
-    int SherlockActionBar_height -> SherlockActionBar_height
-    int SherlockActionBar_homeLayout -> SherlockActionBar_homeLayout
-    int SherlockActionBar_icon -> SherlockActionBar_icon
-    int SherlockActionBar_indeterminateProgressStyle -> SherlockActionBar_indeterminateProgressStyle
-    int SherlockActionBar_itemPadding -> SherlockActionBar_itemPadding
-    int SherlockActionBar_logo -> SherlockActionBar_logo
-    int SherlockActionBar_navigationMode -> SherlockActionBar_navigationMode
-    int SherlockActionBar_progressBarPadding -> SherlockActionBar_progressBarPadding
-    int SherlockActionBar_progressBarStyle -> SherlockActionBar_progressBarStyle
-    int SherlockActionBar_subtitle -> SherlockActionBar_subtitle
-    int SherlockActionBar_subtitleTextStyle -> SherlockActionBar_subtitleTextStyle
-    int SherlockActionBar_title -> SherlockActionBar_title
-    int SherlockActionBar_titleTextStyle -> SherlockActionBar_titleTextStyle
-    int[] SherlockActionMenuItemView -> SherlockActionMenuItemView
-    int SherlockActionMenuItemView_android_minWidth -> SherlockActionMenuItemView_android_minWidth
-    int[] SherlockActionMode -> SherlockActionMode
-    int SherlockActionMode_background -> SherlockActionMode_background
-    int SherlockActionMode_backgroundSplit -> SherlockActionMode_backgroundSplit
-    int SherlockActionMode_height -> SherlockActionMode_height
-    int SherlockActionMode_subtitleTextStyle -> SherlockActionMode_subtitleTextStyle
-    int SherlockActionMode_titleTextStyle -> SherlockActionMode_titleTextStyle
-    int[] SherlockActivityChooserView -> SherlockActivityChooserView
-    int SherlockActivityChooserView_android_background -> SherlockActivityChooserView_android_background
-    int SherlockActivityChooserView_expandActivityOverflowButtonDrawable -> SherlockActivityChooserView_expandActivityOverflowButtonDrawable
-    int SherlockActivityChooserView_initialActivityCount -> SherlockActivityChooserView_initialActivityCount
-    int[] SherlockMenuGroup -> SherlockMenuGroup
-    int SherlockMenuGroup_android_checkableBehavior -> SherlockMenuGroup_android_checkableBehavior
-    int SherlockMenuGroup_android_enabled -> SherlockMenuGroup_android_enabled
-    int SherlockMenuGroup_android_id -> SherlockMenuGroup_android_id
-    int SherlockMenuGroup_android_menuCategory -> SherlockMenuGroup_android_menuCategory
-    int SherlockMenuGroup_android_orderInCategory -> SherlockMenuGroup_android_orderInCategory
-    int SherlockMenuGroup_android_visible -> SherlockMenuGroup_android_visible
-    int[] SherlockMenuItem -> SherlockMenuItem
-    int SherlockMenuItem_android_actionLayout -> SherlockMenuItem_android_actionLayout
-    int SherlockMenuItem_android_actionProviderClass -> SherlockMenuItem_android_actionProviderClass
-    int SherlockMenuItem_android_actionViewClass -> SherlockMenuItem_android_actionViewClass
-    int SherlockMenuItem_android_alphabeticShortcut -> SherlockMenuItem_android_alphabeticShortcut
-    int SherlockMenuItem_android_checkable -> SherlockMenuItem_android_checkable
-    int SherlockMenuItem_android_checked -> SherlockMenuItem_android_checked
-    int SherlockMenuItem_android_enabled -> SherlockMenuItem_android_enabled
-    int SherlockMenuItem_android_icon -> SherlockMenuItem_android_icon
-    int SherlockMenuItem_android_id -> SherlockMenuItem_android_id
-    int SherlockMenuItem_android_menuCategory -> SherlockMenuItem_android_menuCategory
-    int SherlockMenuItem_android_numericShortcut -> SherlockMenuItem_android_numericShortcut
-    int SherlockMenuItem_android_onClick -> SherlockMenuItem_android_onClick
-    int SherlockMenuItem_android_orderInCategory -> SherlockMenuItem_android_orderInCategory
-    int SherlockMenuItem_android_showAsAction -> SherlockMenuItem_android_showAsAction
-    int SherlockMenuItem_android_title -> SherlockMenuItem_android_title
-    int SherlockMenuItem_android_titleCondensed -> SherlockMenuItem_android_titleCondensed
-    int SherlockMenuItem_android_visible -> SherlockMenuItem_android_visible
-    int[] SherlockMenuView -> SherlockMenuView
-    int SherlockMenuView_headerBackground -> SherlockMenuView_headerBackground
-    int SherlockMenuView_horizontalDivider -> SherlockMenuView_horizontalDivider
-    int SherlockMenuView_itemBackground -> SherlockMenuView_itemBackground
-    int SherlockMenuView_itemIconDisabledAlpha -> SherlockMenuView_itemIconDisabledAlpha
-    int SherlockMenuView_itemTextAppearance -> SherlockMenuView_itemTextAppearance
-    int SherlockMenuView_preserveIconSpacing -> SherlockMenuView_preserveIconSpacing
-    int SherlockMenuView_verticalDivider -> SherlockMenuView_verticalDivider
-    int SherlockMenuView_windowAnimationStyle -> SherlockMenuView_windowAnimationStyle
-    int[] SherlockSpinner -> SherlockSpinner
-    int SherlockSpinner_android_dropDownHorizontalOffset -> SherlockSpinner_android_dropDownHorizontalOffset
-    int SherlockSpinner_android_dropDownSelector -> SherlockSpinner_android_dropDownSelector
-    int SherlockSpinner_android_dropDownVerticalOffset -> SherlockSpinner_android_dropDownVerticalOffset
-    int SherlockSpinner_android_dropDownWidth -> SherlockSpinner_android_dropDownWidth
-    int SherlockSpinner_android_gravity -> SherlockSpinner_android_gravity
-    int SherlockSpinner_android_popupBackground -> SherlockSpinner_android_popupBackground
-    int SherlockSpinner_android_popupPromptView -> SherlockSpinner_android_popupPromptView
-    int SherlockSpinner_android_prompt -> SherlockSpinner_android_prompt
-    int[] SherlockTheme -> SherlockTheme
-    int SherlockTheme_absForceOverflow -> SherlockTheme_absForceOverflow
-    int SherlockTheme_actionBarDivider -> SherlockTheme_actionBarDivider
-    int SherlockTheme_actionBarItemBackground -> SherlockTheme_actionBarItemBackground
-    int SherlockTheme_actionBarSize -> SherlockTheme_actionBarSize
-    int SherlockTheme_actionBarSplitStyle -> SherlockTheme_actionBarSplitStyle
-    int SherlockTheme_actionBarStyle -> SherlockTheme_actionBarStyle
-    int SherlockTheme_actionBarTabBarStyle -> SherlockTheme_actionBarTabBarStyle
-    int SherlockTheme_actionBarTabStyle -> SherlockTheme_actionBarTabStyle
-    int SherlockTheme_actionBarTabTextStyle -> SherlockTheme_actionBarTabTextStyle
-    int SherlockTheme_actionBarWidgetTheme -> SherlockTheme_actionBarWidgetTheme
-    int SherlockTheme_actionButtonStyle -> SherlockTheme_actionButtonStyle
-    int SherlockTheme_actionDropDownStyle -> SherlockTheme_actionDropDownStyle
     int SherlockTheme_actionMenuTextAppearance -> SherlockTheme_actionMenuTextAppearance
-    int SherlockTheme_actionMenuTextColor -> SherlockTheme_actionMenuTextColor
-    int SherlockTheme_actionModeBackground -> SherlockTheme_actionModeBackground
-    int SherlockTheme_actionModeCloseButtonStyle -> SherlockTheme_actionModeCloseButtonStyle
-    int SherlockTheme_actionModeCloseDrawable -> SherlockTheme_actionModeCloseDrawable
-    int SherlockTheme_actionModePopupWindowStyle -> SherlockTheme_actionModePopupWindowStyle
+    int SherlockTheme_listPreferredItemPaddingLeft -> SherlockTheme_listPreferredItemPaddingLeft
+    int SherlockMenuView_itemBackground -> SherlockMenuView_itemBackground
+    int SherlockTheme_actionBarDivider -> SherlockTheme_actionBarDivider
+    int SherlockTheme_homeAsUpIndicator -> SherlockTheme_homeAsUpIndicator
+    int SherlockView_android_focusable -> SherlockView_android_focusable
+    int SherlockMenuItem_android_id -> SherlockMenuItem_android_id
+    int[] SherlockTheme -> SherlockTheme
+    int[] SherlockMenuGroup -> SherlockMenuGroup
+    int SherlockTheme_actionBarSplitStyle -> SherlockTheme_actionBarSplitStyle
     int SherlockTheme_actionModeShareDrawable -> SherlockTheme_actionModeShareDrawable
+    int SherlockTheme_activatedBackgroundIndicator -> SherlockTheme_activatedBackgroundIndicator
+    int SherlockTheme_searchViewGoIcon -> SherlockTheme_searchViewGoIcon
+    int SherlockTheme_searchViewCloseIcon -> SherlockTheme_searchViewCloseIcon
+    int SherlockActionBar_subtitle -> SherlockActionBar_subtitle
+    int SherlockActionMode_backgroundSplit -> SherlockActionMode_backgroundSplit
+    int[] SherlockActionBar -> SherlockActionBar
+    int SherlockTheme_buttonStyleSmall -> SherlockTheme_buttonStyleSmall
+    int SherlockMenuItem_android_icon -> SherlockMenuItem_android_icon
+    int SherlockSearchView_android_maxWidth -> SherlockSearchView_android_maxWidth
+    int SherlockMenuItem_android_title -> SherlockMenuItem_android_title
+    int SherlockTheme_dropdownListPreferredItemHeight -> SherlockTheme_dropdownListPreferredItemHeight
+    int SherlockActivityChooserView_initialActivityCount -> SherlockActivityChooserView_initialActivityCount
+    int SherlockActionBar_itemPadding -> SherlockActionBar_itemPadding
+    int SherlockTheme_actionBarWidgetTheme -> SherlockTheme_actionBarWidgetTheme
+    int[] SherlockSearchView -> SherlockSearchView
+    int SherlockSpinner_android_dropDownHorizontalOffset -> SherlockSpinner_android_dropDownHorizontalOffset
+    int SherlockMenuGroup_android_orderInCategory -> SherlockMenuGroup_android_orderInCategory
+    int SherlockTheme_actionOverflowButtonStyle -> SherlockTheme_actionOverflowButtonStyle
+    int SherlockTheme_spinnerDropDownItemStyle -> SherlockTheme_spinnerDropDownItemStyle
+    int SherlockTheme_android_windowIsFloating -> SherlockTheme_android_windowIsFloating
+    int SherlockActionMode_background -> SherlockActionMode_background
+    int SherlockTheme_searchDropdownBackground -> SherlockTheme_searchDropdownBackground
+    int SherlockTheme_actionMenuTextColor -> SherlockTheme_actionMenuTextColor
+    int SherlockActionBar_progressBarPadding -> SherlockActionBar_progressBarPadding
+    int SherlockSearchView_iconifiedByDefault -> SherlockSearchView_iconifiedByDefault
+    int SherlockMenuItem_android_titleCondensed -> SherlockMenuItem_android_titleCondensed
+    int SherlockActionMode_height -> SherlockActionMode_height
+    int SherlockActionMenuItemView_android_minWidth -> SherlockActionMenuItemView_android_minWidth
+    int SherlockTheme_actionBarTabStyle -> SherlockTheme_actionBarTabStyle
+    int SherlockTheme_actionSpinnerItemStyle -> SherlockTheme_actionSpinnerItemStyle
+    int SherlockActivityChooserView_expandActivityOverflowButtonDrawable -> SherlockActivityChooserView_expandActivityOverflowButtonDrawable
+    int SherlockActionBar_backgroundSplit -> SherlockActionBar_backgroundSplit
+    int SherlockMenuView_headerBackground -> SherlockMenuView_headerBackground
+    int SherlockActionBar_subtitleTextStyle -> SherlockActionBar_subtitleTextStyle
+    int SherlockTheme_textColorSearchUrl -> SherlockTheme_textColorSearchUrl
+    int SherlockActionBar_icon -> SherlockActionBar_icon
+    int SherlockTheme_dropDownListViewStyle -> SherlockTheme_dropDownListViewStyle
+    int SherlockTheme_searchViewSearchIcon -> SherlockTheme_searchViewSearchIcon
+    int SherlockMenuItem_android_alphabeticShortcut -> SherlockMenuItem_android_alphabeticShortcut
+    int[] SherlockActionMenuItemView -> SherlockActionMenuItemView
+    int SherlockSpinner_android_dropDownWidth -> SherlockSpinner_android_dropDownWidth
+    int SherlockActionBar_indeterminateProgressStyle -> SherlockActionBar_indeterminateProgressStyle
+    int SherlockTheme_textAppearanceLargePopupMenu -> SherlockTheme_textAppearanceLargePopupMenu
+    int SherlockTheme_windowMinWidthMajor -> SherlockTheme_windowMinWidthMajor
+    int SherlockMenuItem_android_checked -> SherlockMenuItem_android_checked
+    int SherlockActionBar_progressBarStyle -> SherlockActionBar_progressBarStyle
+    int SherlockMenuView_horizontalDivider -> SherlockMenuView_horizontalDivider
+    int[] SherlockActivityChooserView -> SherlockActivityChooserView
+    int[] SherlockMenuItem -> SherlockMenuItem
+    int SherlockTheme_actionBarStyle -> SherlockTheme_actionBarStyle
+    int SherlockTheme_windowSplitActionBar -> SherlockTheme_windowSplitActionBar
+    int SherlockMenuGroup_android_enabled -> SherlockMenuGroup_android_enabled
+    int SherlockSpinner_android_gravity -> SherlockSpinner_android_gravity
+    int SherlockActionBar_customNavigationLayout -> SherlockActionBar_customNavigationLayout
+    int SherlockSpinner_android_prompt -> SherlockSpinner_android_prompt
+    int SherlockTheme_actionBarTabBarStyle -> SherlockTheme_actionBarTabBarStyle
+    int SherlockActionBar_title -> SherlockActionBar_title
+    int SherlockMenuItem_android_menuCategory -> SherlockMenuItem_android_menuCategory
+    int SherlockTheme_textAppearanceSearchResultSubtitle -> SherlockTheme_textAppearanceSearchResultSubtitle
+    int SherlockActionBar_height -> SherlockActionBar_height
+    int SherlockActionBar_navigationMode -> SherlockActionBar_navigationMode
+    int SherlockTheme_actionBarTabTextStyle -> SherlockTheme_actionBarTabTextStyle
+    int SherlockTheme_windowMinWidthMinor -> SherlockTheme_windowMinWidthMinor
+    int SherlockMenuItem_android_actionViewClass -> SherlockMenuItem_android_actionViewClass
+    int SherlockMenuView_itemTextAppearance -> SherlockMenuView_itemTextAppearance
+    int SherlockTheme_actionModeBackground -> SherlockTheme_actionModeBackground
+    int SherlockTheme_selectableItemBackground -> SherlockTheme_selectableItemBackground
+    int SherlockTheme_searchViewTextField -> SherlockTheme_searchViewTextField
+    int SherlockTheme_actionModeCloseDrawable -> SherlockTheme_actionModeCloseDrawable
+    int SherlockMenuItem_android_checkable -> SherlockMenuItem_android_checkable
+    int SherlockTheme_searchViewEditQuery -> SherlockTheme_searchViewEditQuery
+    int SherlockTheme_windowNoTitle -> SherlockTheme_windowNoTitle
+    int SherlockTheme_searchViewEditQueryBackground -> SherlockTheme_searchViewEditQueryBackground
+    int SherlockTheme_textAppearanceSmall -> SherlockTheme_textAppearanceSmall
+    int SherlockSpinner_android_dropDownVerticalOffset -> SherlockSpinner_android_dropDownVerticalOffset
+    int SherlockMenuView_verticalDivider -> SherlockMenuView_verticalDivider
+    int SherlockMenuGroup_android_visible -> SherlockMenuGroup_android_visible
+    int SherlockActionMode_subtitleTextStyle -> SherlockActionMode_subtitleTextStyle
+    int SherlockMenuView_itemIconDisabledAlpha -> SherlockMenuView_itemIconDisabledAlpha
+    int SherlockTheme_actionBarItemBackground -> SherlockTheme_actionBarItemBackground
+    int SherlockTheme_textColorPrimary -> SherlockTheme_textColorPrimary
+    int SherlockTheme_searchViewTextFieldRight -> SherlockTheme_searchViewTextFieldRight
+    int SherlockTheme_listPreferredItemHeightSmall -> SherlockTheme_listPreferredItemHeightSmall
+    int SherlockTheme_windowContentOverlay -> SherlockTheme_windowContentOverlay
+    int SherlockTheme_listPopupWindowStyle -> SherlockTheme_listPopupWindowStyle
+    int SherlockMenuGroup_android_menuCategory -> SherlockMenuGroup_android_menuCategory
+    int SherlockActionBar_logo -> SherlockActionBar_logo
+    int SherlockMenuItem_android_actionProviderClass -> SherlockMenuItem_android_actionProviderClass
+    int SherlockTheme_actionBarSize -> SherlockTheme_actionBarSize
+    int SherlockActionBar_backgroundStacked -> SherlockActionBar_backgroundStacked
+    int SherlockTheme_actionModeCloseButtonStyle -> SherlockTheme_actionModeCloseButtonStyle
+    int SherlockSearchView_android_inputType -> SherlockSearchView_android_inputType
+    int SherlockActivityChooserView_android_background -> SherlockActivityChooserView_android_background
+    int SherlockTheme_dividerVertical -> SherlockTheme_dividerVertical
+    int SherlockTheme_actionModePopupWindowStyle -> SherlockTheme_actionModePopupWindowStyle
+    int SherlockTheme_textAppearanceSmallPopupMenu -> SherlockTheme_textAppearanceSmallPopupMenu
+    int SherlockSpinner_android_popupBackground -> SherlockSpinner_android_popupBackground
+    int[] SherlockActionMode -> SherlockActionMode
+    int SherlockTheme_popupMenuStyle -> SherlockTheme_popupMenuStyle
+    int[] SherlockMenuView -> SherlockMenuView
+    int SherlockSpinner_android_popupPromptView -> SherlockSpinner_android_popupPromptView
+    int SherlockActionBar_background -> SherlockActionBar_background
+    int SherlockSpinner_android_dropDownSelector -> SherlockSpinner_android_dropDownSelector
     int SherlockTheme_actionModeSplitBackground -> SherlockTheme_actionModeSplitBackground
     int SherlockTheme_actionModeStyle -> SherlockTheme_actionModeStyle
-    int SherlockTheme_actionOverflowButtonStyle -> SherlockTheme_actionOverflowButtonStyle
-    int SherlockTheme_actionSpinnerItemStyle -> SherlockTheme_actionSpinnerItemStyle
-    int SherlockTheme_activatedBackgroundIndicator -> SherlockTheme_activatedBackgroundIndicator
-    int SherlockTheme_activityChooserViewStyle -> SherlockTheme_activityChooserViewStyle
-    int SherlockTheme_android_windowIsFloating -> SherlockTheme_android_windowIsFloating
-    int SherlockTheme_buttonStyleSmall -> SherlockTheme_buttonStyleSmall
-    int SherlockTheme_dividerVertical -> SherlockTheme_dividerVertical
-    int SherlockTheme_dropDownListViewStyle -> SherlockTheme_dropDownListViewStyle
-    int SherlockTheme_dropdownListPreferredItemHeight -> SherlockTheme_dropdownListPreferredItemHeight
-    int SherlockTheme_homeAsUpIndicator -> SherlockTheme_homeAsUpIndicator
-    int SherlockTheme_listPopupWindowStyle -> SherlockTheme_listPopupWindowStyle
-    int SherlockTheme_listPreferredItemHeightSmall -> SherlockTheme_listPreferredItemHeightSmall
-    int SherlockTheme_listPreferredItemPaddingLeft -> SherlockTheme_listPreferredItemPaddingLeft
+    int SherlockTheme_searchAutoCompleteTextView -> SherlockTheme_searchAutoCompleteTextView
+    int SherlockMenuView_windowAnimationStyle -> SherlockMenuView_windowAnimationStyle
+    int SherlockTheme_textAppearanceSearchResultTitle -> SherlockTheme_textAppearanceSearchResultTitle
     int SherlockTheme_listPreferredItemPaddingRight -> SherlockTheme_listPreferredItemPaddingRight
-    int SherlockTheme_popupMenuStyle -> SherlockTheme_popupMenuStyle
-    int SherlockTheme_spinnerDropDownItemStyle -> SherlockTheme_spinnerDropDownItemStyle
-    int SherlockTheme_spinnerItemStyle -> SherlockTheme_spinnerItemStyle
-    int SherlockTheme_textAppearanceLargePopupMenu -> SherlockTheme_textAppearanceLargePopupMenu
-    int SherlockTheme_textAppearanceListItemSmall -> SherlockTheme_textAppearanceListItemSmall
-    int SherlockTheme_textAppearanceSmall -> SherlockTheme_textAppearanceSmall
-    int SherlockTheme_textAppearanceSmallPopupMenu -> SherlockTheme_textAppearanceSmallPopupMenu
-    int SherlockTheme_textColorPrimary -> SherlockTheme_textColorPrimary
+    int SherlockMenuItem_android_numericShortcut -> SherlockMenuItem_android_numericShortcut
+    int SherlockMenuItem_android_showAsAction -> SherlockMenuItem_android_showAsAction
+    int SherlockTheme_actionButtonStyle -> SherlockTheme_actionButtonStyle
+    int SherlockMenuGroup_android_checkableBehavior -> SherlockMenuGroup_android_checkableBehavior
+    int SherlockTheme_searchResultListItemHeight -> SherlockTheme_searchResultListItemHeight
+    int SherlockMenuGroup_android_id -> SherlockMenuGroup_android_id
+    int SherlockTheme_actionDropDownStyle -> SherlockTheme_actionDropDownStyle
+    int SherlockSearchView_android_imeOptions -> SherlockSearchView_android_imeOptions
+    int SherlockSearchView_queryHint -> SherlockSearchView_queryHint
+    int SherlockActionMode_titleTextStyle -> SherlockActionMode_titleTextStyle
     int SherlockTheme_textColorPrimaryDisableOnly -> SherlockTheme_textColorPrimaryDisableOnly
-    int SherlockTheme_textColorPrimaryInverse -> SherlockTheme_textColorPrimaryInverse
-    int SherlockTheme_windowActionBar -> SherlockTheme_windowActionBar
-    int SherlockTheme_windowActionBarOverlay -> SherlockTheme_windowActionBarOverlay
+    int SherlockTheme_textAppearanceListItemSmall -> SherlockTheme_textAppearanceListItemSmall
     int SherlockTheme_windowActionModeOverlay -> SherlockTheme_windowActionModeOverlay
-    int SherlockTheme_windowContentOverlay -> SherlockTheme_windowContentOverlay
-    int SherlockTheme_windowMinWidthMajor -> SherlockTheme_windowMinWidthMajor
-    int SherlockTheme_windowMinWidthMinor -> SherlockTheme_windowMinWidthMinor
-    int SherlockTheme_windowNoTitle -> SherlockTheme_windowNoTitle
-    int SherlockTheme_windowSplitActionBar -> SherlockTheme_windowSplitActionBar
+    int SherlockActionBar_homeLayout -> SherlockActionBar_homeLayout
+    int SherlockActionBar_divider -> SherlockActionBar_divider
+    int SherlockTheme_spinnerItemStyle -> SherlockTheme_spinnerItemStyle
+    int SherlockMenuItem_android_visible -> SherlockMenuItem_android_visible
+    int SherlockMenuItem_android_orderInCategory -> SherlockMenuItem_android_orderInCategory
+    int SherlockActionBar_titleTextStyle -> SherlockActionBar_titleTextStyle
+    int SherlockMenuView_preserveIconSpacing -> SherlockMenuView_preserveIconSpacing
+    int SherlockTheme_windowActionBar -> SherlockTheme_windowActionBar
+    int SherlockTheme_activityChooserViewStyle -> SherlockTheme_activityChooserViewStyle
+    int SherlockMenuItem_android_enabled -> SherlockMenuItem_android_enabled
+    int[] SherlockView -> SherlockView
+    int SherlockMenuItem_android_onClick -> SherlockMenuItem_android_onClick
+    int SherlockMenuItem_android_actionLayout -> SherlockMenuItem_android_actionLayout
+    int SherlockTheme_searchViewVoiceIcon -> SherlockTheme_searchViewVoiceIcon
+    int[] SherlockSpinner -> SherlockSpinner
+    int SherlockTheme_windowActionBarOverlay -> SherlockTheme_windowActionBarOverlay
 com.actionbarsherlock.app.ActionBar -> com.actionbarsherlock.app.ActionBar:
     int NAVIGATION_MODE_STANDARD -> NAVIGATION_MODE_STANDARD
     int NAVIGATION_MODE_LIST -> NAVIGATION_MODE_LIST
@@ -2285,6 +2027,7 @@ com.actionbarsherlock.app.ActionBar -> com.actionbarsherlock.app.ActionBar:
     void setHomeButtonEnabled(boolean) -> setHomeButtonEnabled
     android.content.Context getThemedContext() -> getThemedContext
 com.actionbarsherlock.app.ActionBar$LayoutParams -> com.actionbarsherlock.app.ActionBar$LayoutParams:
+    int[] ATTRS -> ATTRS
     int gravity -> gravity
 com.actionbarsherlock.app.ActionBar$OnMenuVisibilityListener -> com.actionbarsherlock.app.ActionBar$OnMenuVisibilityListener:
     void onMenuVisibilityChanged(boolean) -> onMenuVisibilityChanged
@@ -2403,6 +2146,8 @@ com.actionbarsherlock.app.SherlockActivity -> com.actionbarsherlock.app.Sherlock
     boolean onMenuOpened(int,android.view.Menu) -> onMenuOpened
     void onPanelClosed(int,android.view.Menu) -> onPanelClosed
     boolean dispatchKeyEvent(android.view.KeyEvent) -> dispatchKeyEvent
+    void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    void onRestoreInstanceState(android.os.Bundle) -> onRestoreInstanceState
     com.actionbarsherlock.view.MenuInflater getSupportMenuInflater() -> getSupportMenuInflater
     void invalidateOptionsMenu() -> invalidateOptionsMenu
     void supportInvalidateOptionsMenu() -> supportInvalidateOptionsMenu
@@ -2512,6 +2257,8 @@ com.actionbarsherlock.app.SherlockFragmentActivity -> com.actionbarsherlock.app.
     boolean onMenuOpened(int,android.view.Menu) -> onMenuOpened
     void onPanelClosed(int,android.view.Menu) -> onPanelClosed
     boolean dispatchKeyEvent(android.view.KeyEvent) -> dispatchKeyEvent
+    void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    void onRestoreInstanceState(android.os.Bundle) -> onRestoreInstanceState
     com.actionbarsherlock.view.MenuInflater getSupportMenuInflater() -> getSupportMenuInflater
     void invalidateOptionsMenu() -> invalidateOptionsMenu
     void supportInvalidateOptionsMenu() -> supportInvalidateOptionsMenu
@@ -2553,6 +2300,8 @@ com.actionbarsherlock.app.SherlockListActivity -> com.actionbarsherlock.app.Sher
     boolean onMenuOpened(int,android.view.Menu) -> onMenuOpened
     void onPanelClosed(int,android.view.Menu) -> onPanelClosed
     boolean dispatchKeyEvent(android.view.KeyEvent) -> dispatchKeyEvent
+    void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    void onRestoreInstanceState(android.os.Bundle) -> onRestoreInstanceState
     com.actionbarsherlock.view.MenuInflater getSupportMenuInflater() -> getSupportMenuInflater
     void invalidateOptionsMenu() -> invalidateOptionsMenu
     void supportInvalidateOptionsMenu() -> supportInvalidateOptionsMenu
@@ -2605,6 +2354,8 @@ com.actionbarsherlock.app.SherlockPreferenceActivity -> com.actionbarsherlock.ap
     boolean onMenuOpened(int,android.view.Menu) -> onMenuOpened
     void onPanelClosed(int,android.view.Menu) -> onPanelClosed
     boolean dispatchKeyEvent(android.view.KeyEvent) -> dispatchKeyEvent
+    void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    void onRestoreInstanceState(android.os.Bundle) -> onRestoreInstanceState
     com.actionbarsherlock.view.MenuInflater getSupportMenuInflater() -> getSupportMenuInflater
     void invalidateOptionsMenu() -> invalidateOptionsMenu
     void supportInvalidateOptionsMenu() -> supportInvalidateOptionsMenu
@@ -2631,11 +2382,11 @@ com.actionbarsherlock.app.SherlockPreferenceActivity -> com.actionbarsherlock.ap
     void setSupportSecondaryProgress(int) -> setSupportSecondaryProgress
 com.actionbarsherlock.internal.ActionBarSherlockCompat -> com.actionbarsherlock.internal.ActionBarSherlockCompat:
     int DEFAULT_FEATURES -> DEFAULT_FEATURES
+    java.lang.String PANELS_TAG -> PANELS_TAG
     boolean mReserveOverflow -> mReserveOverflow
     boolean mReserveOverflowSet -> mReserveOverflowSet
     com.actionbarsherlock.internal.view.menu.MenuBuilder mMenu -> mMenu
     java.util.HashMap mNativeItemMap -> mNativeItemMap
-    boolean mMenuKeyIsLongPress -> mMenuKeyIsLongPress
     android.view.ViewGroup mDecor -> mDecor
     android.view.ViewGroup mContentParent -> mContentParent
     boolean mIsTitleReady -> mIsTitleReady
@@ -2676,6 +2427,8 @@ com.actionbarsherlock.internal.ActionBarSherlockCompat -> com.actionbarsherlock.
     void dispatchTitleChanged(java.lang.CharSequence,int) -> dispatchTitleChanged
     boolean dispatchKeyEvent(android.view.KeyEvent) -> dispatchKeyEvent
     void dispatchDestroy() -> dispatchDestroy
+    void dispatchSaveInstanceState(android.os.Bundle) -> dispatchSaveInstanceState
+    void dispatchRestoreInstanceState(android.os.Bundle) -> dispatchRestoreInstanceState
     boolean preparePanel() -> preparePanel
     boolean onMenuItemSelected(com.actionbarsherlock.internal.view.menu.MenuBuilder,com.actionbarsherlock.view.MenuItem) -> onMenuItemSelected
     void onMenuModeChange(com.actionbarsherlock.internal.view.menu.MenuBuilder) -> onMenuModeChange
@@ -2755,6 +2508,7 @@ com.actionbarsherlock.internal.ActionBarSherlockNative -> com.actionbarsherlock.
     com.actionbarsherlock.view.ActionMode startActionMode(com.actionbarsherlock.view.ActionMode$Callback) -> startActionMode
     void access$0(com.actionbarsherlock.internal.ActionBarSherlockNative,com.actionbarsherlock.internal.ActionBarSherlockNative$ActionModeWrapper) -> access$0
     com.actionbarsherlock.internal.ActionBarSherlockNative$ActionModeWrapper access$1(com.actionbarsherlock.internal.ActionBarSherlockNative) -> access$1
+    android.app.Activity access$2(com.actionbarsherlock.internal.ActionBarSherlockNative) -> access$2
 com.actionbarsherlock.internal.ActionBarSherlockNative$ActionModeCallbackWrapper -> com.actionbarsherlock.internal.ActionBarSherlockNative$ActionModeCallbackWrapper:
     com.actionbarsherlock.view.ActionMode$Callback mCallback -> mCallback
     com.actionbarsherlock.internal.ActionBarSherlockNative this$0 -> this$0
@@ -3708,10 +3462,11 @@ com.actionbarsherlock.internal.view.menu.ActionMenuPresenter -> com.actionbarshe
     android.os.Parcelable onSaveInstanceState() -> onSaveInstanceState
     void onRestoreInstanceState(android.os.Parcelable) -> onRestoreInstanceState
     void onSubUiVisibilityChanged(boolean) -> onSubUiVisibilityChanged
-    void access$0(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter,com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$OverflowPopup) -> access$0
-    android.view.View access$1(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter) -> access$1
-    void access$2(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter,com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$ActionButtonSubmenu) -> access$2
-    void access$3(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter,com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$OpenOverflowRunnable) -> access$3
+    com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$OverflowPopup access$0(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter) -> access$0
+    void access$1(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter,com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$OverflowPopup) -> access$1
+    android.view.View access$2(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter) -> access$2
+    void access$3(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter,com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$ActionButtonSubmenu) -> access$3
+    void access$4(com.actionbarsherlock.internal.view.menu.ActionMenuPresenter,com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$OpenOverflowRunnable) -> access$4
 com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$ActionButtonSubmenu -> com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$ActionButtonSubmenu:
     com.actionbarsherlock.internal.view.menu.ActionMenuPresenter this$0 -> this$0
     void onDismiss() -> onDismiss
@@ -4634,6 +4389,11 @@ com.actionbarsherlock.internal.widget.CapitalizingTextView -> com.actionbarsherl
     int R_styleable_TextView_textAllCaps -> R_styleable_TextView_textAllCaps
     boolean mAllCaps -> mAllCaps
     void setTextCompat(java.lang.CharSequence) -> setTextCompat
+com.actionbarsherlock.internal.widget.CollapsibleActionViewWrapper -> com.actionbarsherlock.internal.widget.CollapsibleActionViewWrapper:
+    com.actionbarsherlock.view.CollapsibleActionView child -> child
+    void onActionViewExpanded() -> onActionViewExpanded
+    void onActionViewCollapsed() -> onActionViewCollapsed
+    android.view.View unwrap() -> unwrap
 com.actionbarsherlock.internal.widget.FakeDialogPhoneWindow -> com.actionbarsherlock.internal.widget.FakeDialogPhoneWindow:
     android.util.TypedValue mMinWidthMajor -> mMinWidthMajor
     android.util.TypedValue mMinWidthMinor -> mMinWidthMinor
@@ -4800,9 +4560,17 @@ com.actionbarsherlock.internal.widget.IcsAdapterView$OnItemSelectedListener -> c
 com.actionbarsherlock.internal.widget.IcsAdapterView$SelectionNotifier -> com.actionbarsherlock.internal.widget.IcsAdapterView$SelectionNotifier:
     com.actionbarsherlock.internal.widget.IcsAdapterView this$0 -> this$0
     void run() -> run
+com.actionbarsherlock.internal.widget.IcsColorDrawable -> com.actionbarsherlock.internal.widget.IcsColorDrawable:
+    int color -> color
+    android.graphics.Paint paint -> paint
+    void draw(android.graphics.Canvas) -> draw
+    void setAlpha(int) -> setAlpha
+    void setColorFilter(android.graphics.ColorFilter) -> setColorFilter
+    int getOpacity() -> getOpacity
 com.actionbarsherlock.internal.widget.IcsLinearLayout -> com.actionbarsherlock.internal.widget.IcsLinearLayout:
-    int[] LinearLayout -> LinearLayout
+    int[] R_styleable_LinearLayout -> R_styleable_LinearLayout
     int LinearLayout_divider -> LinearLayout_divider
+    int LinearLayout_measureWithLargestChild -> LinearLayout_measureWithLargestChild
     int LinearLayout_showDividers -> LinearLayout_showDividers
     int LinearLayout_dividerPadding -> LinearLayout_dividerPadding
     int SHOW_DIVIDER_NONE -> SHOW_DIVIDER_NONE
@@ -4814,6 +4582,7 @@ com.actionbarsherlock.internal.widget.IcsLinearLayout -> com.actionbarsherlock.i
     int mDividerHeight -> mDividerHeight
     int mShowDividers -> mShowDividers
     int mDividerPadding -> mDividerPadding
+    boolean mUseLargestChild -> mUseLargestChild
     void setShowDividers(int) -> setShowDividers
     int getShowDividers() -> getShowDividers
     void setDividerDrawable(android.graphics.drawable.Drawable) -> setDividerDrawable
@@ -4827,6 +4596,11 @@ com.actionbarsherlock.internal.widget.IcsLinearLayout -> com.actionbarsherlock.i
     void drawHorizontalDivider(android.graphics.Canvas,int) -> drawHorizontalDivider
     void drawVerticalDivider(android.graphics.Canvas,int) -> drawVerticalDivider
     boolean hasDividerBeforeChildAt(int) -> hasDividerBeforeChildAt
+    boolean isMeasureWithLargestChildEnabled() -> isMeasureWithLargestChildEnabled
+    void setMeasureWithLargestChildEnabled(boolean) -> setMeasureWithLargestChildEnabled
+    void onMeasure(int,int) -> onMeasure
+    void useLargestChildHorizontal() -> useLargestChildHorizontal
+    void useLargestChildVertical() -> useLargestChildVertical
 com.actionbarsherlock.internal.widget.IcsListPopupWindow -> com.actionbarsherlock.internal.widget.IcsListPopupWindow:
     int EXPAND_LIST_TIMEOUT -> EXPAND_LIST_TIMEOUT
     android.content.Context mContext -> mContext
@@ -5248,16 +5022,18 @@ com.actionbarsherlock.view.MenuInflater -> com.actionbarsherlock.view.MenuInflat
     java.lang.Object[] mActionViewConstructorArguments -> mActionViewConstructorArguments
     java.lang.Object[] mActionProviderConstructorArguments -> mActionProviderConstructorArguments
     android.content.Context mContext -> mContext
+    java.lang.Object mRealOwner -> mRealOwner
     void inflate(int,com.actionbarsherlock.view.Menu) -> inflate
     void parseMenu(org.xmlpull.v1.XmlPullParser,android.util.AttributeSet,com.actionbarsherlock.view.Menu) -> parseMenu
     android.content.Context access$0(com.actionbarsherlock.view.MenuInflater) -> access$0
     java.lang.Class[] access$1() -> access$1
     java.lang.Object[] access$2(com.actionbarsherlock.view.MenuInflater) -> access$2
-    java.lang.Class[] access$3() -> access$3
-    java.lang.Object[] access$4(com.actionbarsherlock.view.MenuInflater) -> access$4
+    java.lang.Object access$3(com.actionbarsherlock.view.MenuInflater) -> access$3
+    java.lang.Class[] access$4() -> access$4
+    java.lang.Object[] access$5(com.actionbarsherlock.view.MenuInflater) -> access$5
 com.actionbarsherlock.view.MenuInflater$InflatedOnMenuItemClickListener -> com.actionbarsherlock.view.MenuInflater$InflatedOnMenuItemClickListener:
     java.lang.Class[] PARAM_TYPES -> PARAM_TYPES
-    android.content.Context mContext -> mContext
+    java.lang.Object mRealOwner -> mRealOwner
     java.lang.reflect.Method mMethod -> mMethod
     boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem) -> onMenuItemClick
 com.actionbarsherlock.view.MenuInflater$MenuState -> com.actionbarsherlock.view.MenuInflater$MenuState:
@@ -5405,7 +5181,7 @@ com.actionbarsherlock.widget.ActivityChooserModel -> com.actionbarsherlock.widge
     boolean mHistoricalRecordsChanged -> mHistoricalRecordsChanged
     android.os.Handler mHandler -> mHandler
     com.actionbarsherlock.widget.ActivityChooserModel$OnChooseActivityListener mActivityChoserModelPolicy -> mActivityChoserModelPolicy
-    com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor SERIAL_EXECUTOR -> SERIAL_EXECUTOR
+    java.util.concurrent.Executor SERIAL_EXECUTOR -> SERIAL_EXECUTOR
     com.actionbarsherlock.widget.ActivityChooserModel get(android.content.Context,java.lang.String) -> get
     void setIntent(android.content.Intent) -> setIntent
     android.content.Intent getIntent() -> getIntent
@@ -5472,15 +5248,6 @@ com.actionbarsherlock.widget.ActivityChooserModel$HistoryPersister -> com.action
     void run() -> run
 com.actionbarsherlock.widget.ActivityChooserModel$OnChooseActivityListener -> com.actionbarsherlock.widget.ActivityChooserModel$OnChooseActivityListener:
     boolean onChooseActivity(com.actionbarsherlock.widget.ActivityChooserModel,android.content.Intent) -> onChooseActivity
-com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor -> com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor:
-    java.util.LinkedList mTasks -> mTasks
-    java.lang.Runnable mActive -> mActive
-    void execute(java.lang.Runnable) -> execute
-    void scheduleNext() -> scheduleNext
-com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor$1 -> com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor$1:
-    com.actionbarsherlock.widget.ActivityChooserModel$SerialExecutor this$1 -> this$1
-    java.lang.Runnable val$r -> val$r
-    void run() -> run
 com.actionbarsherlock.widget.ActivityChooserView -> com.actionbarsherlock.widget.ActivityChooserView:
     com.actionbarsherlock.widget.ActivityChooserView$ActivityChooserViewAdapter mAdapter -> mAdapter
     com.actionbarsherlock.widget.ActivityChooserView$Callbacks mCallbacks -> mCallbacks
@@ -5581,6 +5348,213 @@ com.actionbarsherlock.widget.ActivityChooserView$Callbacks -> com.actionbarsherl
     void notifyOnDismissListener() -> notifyOnDismissListener
 com.actionbarsherlock.widget.ActivityChooserView$SetActivated -> com.actionbarsherlock.widget.ActivityChooserView$SetActivated:
     void invoke(android.view.View,boolean) -> invoke
+com.actionbarsherlock.widget.SearchView -> com.actionbarsherlock.widget.SearchView:
+    boolean DBG -> DBG
+    java.lang.String LOG_TAG -> LOG_TAG
+    java.lang.String IME_OPTION_NO_MICROPHONE -> IME_OPTION_NO_MICROPHONE
+    com.actionbarsherlock.widget.SearchView$OnQueryTextListener mOnQueryChangeListener -> mOnQueryChangeListener
+    com.actionbarsherlock.widget.SearchView$OnCloseListener mOnCloseListener -> mOnCloseListener
+    android.view.View$OnFocusChangeListener mOnQueryTextFocusChangeListener -> mOnQueryTextFocusChangeListener
+    com.actionbarsherlock.widget.SearchView$OnSuggestionListener mOnSuggestionListener -> mOnSuggestionListener
+    android.view.View$OnClickListener mOnSearchClickListener -> mOnSearchClickListener
+    boolean mIconifiedByDefault -> mIconifiedByDefault
+    boolean mIconified -> mIconified
+    android.support.v4.widget.CursorAdapter mSuggestionsAdapter -> mSuggestionsAdapter
+    android.view.View mSearchButton -> mSearchButton
+    android.view.View mSubmitButton -> mSubmitButton
+    android.view.View mSearchPlate -> mSearchPlate
+    android.view.View mSubmitArea -> mSubmitArea
+    android.widget.ImageView mCloseButton -> mCloseButton
+    android.view.View mSearchEditFrame -> mSearchEditFrame
+    android.view.View mVoiceButton -> mVoiceButton
+    com.actionbarsherlock.widget.SearchView$SearchAutoComplete mQueryTextView -> mQueryTextView
+    android.view.View mDropDownAnchor -> mDropDownAnchor
+    android.widget.ImageView mSearchHintIcon -> mSearchHintIcon
+    boolean mSubmitButtonEnabled -> mSubmitButtonEnabled
+    java.lang.CharSequence mQueryHint -> mQueryHint
+    boolean mQueryRefinement -> mQueryRefinement
+    boolean mClearingFocus -> mClearingFocus
+    int mMaxWidth -> mMaxWidth
+    boolean mVoiceButtonEnabled -> mVoiceButtonEnabled
+    java.lang.CharSequence mOldQueryText -> mOldQueryText
+    java.lang.CharSequence mUserQuery -> mUserQuery
+    boolean mExpandedInActionView -> mExpandedInActionView
+    int mCollapsedImeOptions -> mCollapsedImeOptions
+    android.app.SearchableInfo mSearchable -> mSearchable
+    android.os.Bundle mAppSearchData -> mAppSearchData
+    java.lang.Runnable mShowImeRunnable -> mShowImeRunnable
+    java.lang.Runnable mUpdateDrawableStateRunnable -> mUpdateDrawableStateRunnable
+    java.lang.Runnable mReleaseCursorRunnable -> mReleaseCursorRunnable
+    android.content.Intent mVoiceWebSearchIntent -> mVoiceWebSearchIntent
+    android.content.Intent mVoiceAppSearchIntent -> mVoiceAppSearchIntent
+    java.util.WeakHashMap mOutsideDrawablesCache -> mOutsideDrawablesCache
+    android.view.View$OnClickListener mOnClickListener -> mOnClickListener
+    android.view.View$OnKeyListener mTextKeyListener -> mTextKeyListener
+    android.widget.TextView$OnEditorActionListener mOnEditorActionListener -> mOnEditorActionListener
+    android.widget.AdapterView$OnItemClickListener mOnItemClickListener -> mOnItemClickListener
+    android.widget.AdapterView$OnItemSelectedListener mOnItemSelectedListener -> mOnItemSelectedListener
+    android.text.TextWatcher mTextWatcher -> mTextWatcher
+    void setSearchableInfo(android.app.SearchableInfo) -> setSearchableInfo
+    void setAppSearchData(android.os.Bundle) -> setAppSearchData
+    void setImeOptions(int) -> setImeOptions
+    int getImeOptions() -> getImeOptions
+    void setInputType(int) -> setInputType
+    int getInputType() -> getInputType
+    boolean requestFocus(int,android.graphics.Rect) -> requestFocus
+    void clearFocus() -> clearFocus
+    void setOnQueryTextListener(com.actionbarsherlock.widget.SearchView$OnQueryTextListener) -> setOnQueryTextListener
+    void setOnCloseListener(com.actionbarsherlock.widget.SearchView$OnCloseListener) -> setOnCloseListener
+    void setOnQueryTextFocusChangeListener(android.view.View$OnFocusChangeListener) -> setOnQueryTextFocusChangeListener
+    void setOnSuggestionListener(com.actionbarsherlock.widget.SearchView$OnSuggestionListener) -> setOnSuggestionListener
+    void setOnSearchClickListener(android.view.View$OnClickListener) -> setOnSearchClickListener
+    java.lang.CharSequence getQuery() -> getQuery
+    void setQuery(java.lang.CharSequence,boolean) -> setQuery
+    void setQueryHint(java.lang.CharSequence) -> setQueryHint
+    java.lang.CharSequence getQueryHint() -> getQueryHint
+    void setIconifiedByDefault(boolean) -> setIconifiedByDefault
+    boolean isIconfiedByDefault() -> isIconfiedByDefault
+    void setIconified(boolean) -> setIconified
+    boolean isIconified() -> isIconified
+    void setSubmitButtonEnabled(boolean) -> setSubmitButtonEnabled
+    boolean isSubmitButtonEnabled() -> isSubmitButtonEnabled
+    void setQueryRefinementEnabled(boolean) -> setQueryRefinementEnabled
+    boolean isQueryRefinementEnabled() -> isQueryRefinementEnabled
+    void setSuggestionsAdapter(android.support.v4.widget.CursorAdapter) -> setSuggestionsAdapter
+    android.support.v4.widget.CursorAdapter getSuggestionsAdapter() -> getSuggestionsAdapter
+    void setMaxWidth(int) -> setMaxWidth
+    int getMaxWidth() -> getMaxWidth
+    void onMeasure(int,int) -> onMeasure
+    int getPreferredWidth() -> getPreferredWidth
+    void updateViewsVisibility(boolean) -> updateViewsVisibility
+    boolean hasVoiceSearch() -> hasVoiceSearch
+    boolean isSubmitAreaEnabled() -> isSubmitAreaEnabled
+    void updateSubmitButton(boolean) -> updateSubmitButton
+    void updateSubmitArea() -> updateSubmitArea
+    void updateCloseButton() -> updateCloseButton
+    void postUpdateFocusedState() -> postUpdateFocusedState
+    void updateFocusedState() -> updateFocusedState
+    void onDetachedFromWindow() -> onDetachedFromWindow
+    void setImeVisibility(boolean) -> setImeVisibility
+    void onQueryRefine(java.lang.CharSequence) -> onQueryRefine
+    boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
+    boolean onSuggestionsKey(android.view.View,int,android.view.KeyEvent) -> onSuggestionsKey
+    int getSearchIconId() -> getSearchIconId
+    java.lang.CharSequence getDecoratedHint(java.lang.CharSequence) -> getDecoratedHint
+    void updateQueryHint() -> updateQueryHint
+    void updateSearchAutoComplete() -> updateSearchAutoComplete
+    void updateVoiceButton(boolean) -> updateVoiceButton
+    void onTextChanged(java.lang.CharSequence) -> onTextChanged
+    void onSubmitQuery() -> onSubmitQuery
+    void dismissSuggestions() -> dismissSuggestions
+    void onCloseClicked() -> onCloseClicked
+    void onSearchClicked() -> onSearchClicked
+    void onVoiceClicked() -> onVoiceClicked
+    void onTextFocusChanged() -> onTextFocusChanged
+    void onWindowFocusChanged(boolean) -> onWindowFocusChanged
+    void onActionViewCollapsed() -> onActionViewCollapsed
+    void onActionViewExpanded() -> onActionViewExpanded
+    void onInitializeAccessibilityEvent(android.view.accessibility.AccessibilityEvent) -> onInitializeAccessibilityEvent
+    void onInitializeAccessibilityNodeInfo(android.view.accessibility.AccessibilityNodeInfo) -> onInitializeAccessibilityNodeInfo
+    void adjustDropDownSizeAndPosition() -> adjustDropDownSizeAndPosition
+    boolean onItemClicked(int,int,java.lang.String) -> onItemClicked
+    boolean onItemSelected(int) -> onItemSelected
+    void rewriteQueryFromSuggestion(int) -> rewriteQueryFromSuggestion
+    boolean launchSuggestion(int,int,java.lang.String) -> launchSuggestion
+    void launchIntent(android.content.Intent) -> launchIntent
+    void setQuery(java.lang.CharSequence) -> setQuery
+    void launchQuerySearch(int,java.lang.String,java.lang.String) -> launchQuerySearch
+    android.content.Intent createIntent(java.lang.String,android.net.Uri,java.lang.String,java.lang.String,int,java.lang.String) -> createIntent
+    android.content.Intent createVoiceWebSearchIntent(android.content.Intent,android.app.SearchableInfo) -> createVoiceWebSearchIntent
+    android.content.Intent createVoiceAppSearchIntent(android.content.Intent,android.app.SearchableInfo) -> createVoiceAppSearchIntent
+    android.content.Intent createIntentFromSuggestion(android.database.Cursor,int,java.lang.String) -> createIntentFromSuggestion
+    void forceSuggestionQuery() -> forceSuggestionQuery
+    boolean isLandscapeMode(android.content.Context) -> isLandscapeMode
+    void ensureImeVisible(android.widget.AutoCompleteTextView,boolean) -> ensureImeVisible
+    void showSoftInputUnchecked(android.view.View,android.view.inputmethod.InputMethodManager,int) -> showSoftInputUnchecked
+    void setText(android.widget.AutoCompleteTextView,java.lang.CharSequence,boolean) -> setText
+    void access$0(android.view.View,android.view.inputmethod.InputMethodManager,int) -> access$0
+    void access$1(com.actionbarsherlock.widget.SearchView) -> access$1
+    android.support.v4.widget.CursorAdapter access$2(com.actionbarsherlock.widget.SearchView) -> access$2
+    android.view.View access$3(com.actionbarsherlock.widget.SearchView) -> access$3
+    void access$4(com.actionbarsherlock.widget.SearchView) -> access$4
+    android.widget.ImageView access$5(com.actionbarsherlock.widget.SearchView) -> access$5
+    void access$6(com.actionbarsherlock.widget.SearchView) -> access$6
+    android.view.View access$7(com.actionbarsherlock.widget.SearchView) -> access$7
+    void access$8(com.actionbarsherlock.widget.SearchView) -> access$8
+    android.view.View access$9(com.actionbarsherlock.widget.SearchView) -> access$9
+    void access$10(com.actionbarsherlock.widget.SearchView) -> access$10
+    com.actionbarsherlock.widget.SearchView$SearchAutoComplete access$11(com.actionbarsherlock.widget.SearchView) -> access$11
+    void access$12(com.actionbarsherlock.widget.SearchView) -> access$12
+    android.app.SearchableInfo access$13(com.actionbarsherlock.widget.SearchView) -> access$13
+    boolean access$14(com.actionbarsherlock.widget.SearchView,android.view.View,int,android.view.KeyEvent) -> access$14
+    void access$15(com.actionbarsherlock.widget.SearchView,int,java.lang.String,java.lang.String) -> access$15
+    boolean access$16(com.actionbarsherlock.widget.SearchView,int,int,java.lang.String) -> access$16
+    boolean access$17(com.actionbarsherlock.widget.SearchView,int) -> access$17
+    void access$18(com.actionbarsherlock.widget.SearchView,java.lang.CharSequence) -> access$18
+    void access$19(android.widget.AutoCompleteTextView,boolean) -> access$19
+    void access$20(com.actionbarsherlock.widget.SearchView,boolean) -> access$20
+    android.view.View$OnFocusChangeListener access$21(com.actionbarsherlock.widget.SearchView) -> access$21
+    void access$22(com.actionbarsherlock.widget.SearchView) -> access$22
+com.actionbarsherlock.widget.SearchView$1 -> com.actionbarsherlock.widget.SearchView$1:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void run() -> run
+com.actionbarsherlock.widget.SearchView$10 -> com.actionbarsherlock.widget.SearchView$10:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void onFocusChange(android.view.View,boolean) -> onFocusChange
+com.actionbarsherlock.widget.SearchView$11 -> com.actionbarsherlock.widget.SearchView$11:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void onLayoutChange(android.view.View,int,int,int,int,int,int,int,int) -> onLayoutChange
+com.actionbarsherlock.widget.SearchView$12 -> com.actionbarsherlock.widget.SearchView$12:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void onGlobalLayout() -> onGlobalLayout
+com.actionbarsherlock.widget.SearchView$2 -> com.actionbarsherlock.widget.SearchView$2:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void run() -> run
+com.actionbarsherlock.widget.SearchView$3 -> com.actionbarsherlock.widget.SearchView$3:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void run() -> run
+com.actionbarsherlock.widget.SearchView$4 -> com.actionbarsherlock.widget.SearchView$4:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void onClick(android.view.View) -> onClick
+com.actionbarsherlock.widget.SearchView$5 -> com.actionbarsherlock.widget.SearchView$5:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    boolean onKey(android.view.View,int,android.view.KeyEvent) -> onKey
+com.actionbarsherlock.widget.SearchView$6 -> com.actionbarsherlock.widget.SearchView$6:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    boolean onEditorAction(android.widget.TextView,int,android.view.KeyEvent) -> onEditorAction
+com.actionbarsherlock.widget.SearchView$7 -> com.actionbarsherlock.widget.SearchView$7:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+com.actionbarsherlock.widget.SearchView$8 -> com.actionbarsherlock.widget.SearchView$8:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void onItemSelected(android.widget.AdapterView,android.view.View,int,long) -> onItemSelected
+    void onNothingSelected(android.widget.AdapterView) -> onNothingSelected
+com.actionbarsherlock.widget.SearchView$9 -> com.actionbarsherlock.widget.SearchView$9:
+    com.actionbarsherlock.widget.SearchView this$0 -> this$0
+    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    void afterTextChanged(android.text.Editable) -> afterTextChanged
+com.actionbarsherlock.widget.SearchView$OnCloseListener -> com.actionbarsherlock.widget.SearchView$OnCloseListener:
+    boolean onClose() -> onClose
+com.actionbarsherlock.widget.SearchView$OnQueryTextListener -> com.actionbarsherlock.widget.SearchView$OnQueryTextListener:
+    boolean onQueryTextSubmit(java.lang.String) -> onQueryTextSubmit
+    boolean onQueryTextChange(java.lang.String) -> onQueryTextChange
+com.actionbarsherlock.widget.SearchView$OnSuggestionListener -> com.actionbarsherlock.widget.SearchView$OnSuggestionListener:
+    boolean onSuggestionSelect(int) -> onSuggestionSelect
+    boolean onSuggestionClick(int) -> onSuggestionClick
+com.actionbarsherlock.widget.SearchView$SearchAutoComplete -> com.actionbarsherlock.widget.SearchView$SearchAutoComplete:
+    int mThreshold -> mThreshold
+    com.actionbarsherlock.widget.SearchView mSearchView -> mSearchView
+    void setSearchView(com.actionbarsherlock.widget.SearchView) -> setSearchView
+    void setThreshold(int) -> setThreshold
+    boolean isEmpty() -> isEmpty
+    void replaceText(java.lang.CharSequence) -> replaceText
+    void performCompletion() -> performCompletion
+    void onWindowFocusChanged(boolean) -> onWindowFocusChanged
+    void onFocusChanged(boolean,int,android.graphics.Rect) -> onFocusChanged
+    boolean enoughToFilter() -> enoughToFilter
+    boolean onKeyPreIme(int,android.view.KeyEvent) -> onKeyPreIme
+    boolean access$0(com.actionbarsherlock.widget.SearchView$SearchAutoComplete) -> access$0
 com.actionbarsherlock.widget.ShareActionProvider -> com.actionbarsherlock.widget.ShareActionProvider:
     int DEFAULT_INITIAL_ACTIVITY_COUNT -> DEFAULT_INITIAL_ACTIVITY_COUNT
     int mMaxShownActivityCount -> mMaxShownActivityCount
@@ -5608,6 +5582,63 @@ com.actionbarsherlock.widget.ShareActionProvider$ShareAcitivityChooserModelPolic
 com.actionbarsherlock.widget.ShareActionProvider$ShareMenuItemOnMenuItemClickListener -> com.actionbarsherlock.widget.ShareActionProvider$ShareMenuItemOnMenuItemClickListener:
     com.actionbarsherlock.widget.ShareActionProvider this$0 -> this$0
     boolean onMenuItemClick(com.actionbarsherlock.view.MenuItem) -> onMenuItemClick
+com.actionbarsherlock.widget.SuggestionsAdapter -> com.actionbarsherlock.widget.SuggestionsAdapter:
+    boolean DBG -> DBG
+    java.lang.String LOG_TAG -> LOG_TAG
+    int QUERY_LIMIT -> QUERY_LIMIT
+    int REFINE_NONE -> REFINE_NONE
+    int REFINE_BY_ENTRY -> REFINE_BY_ENTRY
+    int REFINE_ALL -> REFINE_ALL
+    android.app.SearchManager mSearchManager -> mSearchManager
+    com.actionbarsherlock.widget.SearchView mSearchView -> mSearchView
+    android.content.Context mProviderContext -> mProviderContext
+    java.util.WeakHashMap mOutsideDrawablesCache -> mOutsideDrawablesCache
+    boolean mClosed -> mClosed
+    int mQueryRefinement -> mQueryRefinement
+    android.content.res.ColorStateList mUrlColor -> mUrlColor
+    int INVALID_INDEX -> INVALID_INDEX
+    int mText1Col -> mText1Col
+    int mText2Col -> mText2Col
+    int mText2UrlCol -> mText2UrlCol
+    int mIconName1Col -> mIconName1Col
+    int mIconName2Col -> mIconName2Col
+    int mFlagsCol -> mFlagsCol
+    void setQueryRefinement(int) -> setQueryRefinement
+    int getQueryRefinement() -> getQueryRefinement
+    boolean hasStableIds() -> hasStableIds
+    android.database.Cursor runQueryOnBackgroundThread(java.lang.CharSequence) -> runQueryOnBackgroundThread
+    android.database.Cursor getSuggestions(java.lang.String,int) -> getSuggestions
+    void close() -> close
+    void notifyDataSetChanged() -> notifyDataSetChanged
+    void notifyDataSetInvalidated() -> notifyDataSetInvalidated
+    void updateSpinnerState(android.database.Cursor) -> updateSpinnerState
+    void changeCursor(android.database.Cursor) -> changeCursor
+    android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> newView
+    void bindView(android.view.View,android.content.Context,android.database.Cursor) -> bindView
+    void onClick(android.view.View) -> onClick
+    java.lang.CharSequence formatUrl(java.lang.CharSequence) -> formatUrl
+    void setViewText(android.widget.TextView,java.lang.CharSequence) -> setViewText
+    android.graphics.drawable.Drawable getIcon1(android.database.Cursor) -> getIcon1
+    android.graphics.drawable.Drawable getIcon2(android.database.Cursor) -> getIcon2
+    void setViewDrawable(android.widget.ImageView,android.graphics.drawable.Drawable,int) -> setViewDrawable
+    java.lang.CharSequence convertToString(android.database.Cursor) -> convertToString
+    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    android.graphics.drawable.Drawable getDrawableFromResourceValue(java.lang.String) -> getDrawableFromResourceValue
+    android.graphics.drawable.Drawable getDrawable(android.net.Uri) -> getDrawable
+    android.graphics.drawable.Drawable getTheDrawable(android.net.Uri) -> getTheDrawable
+    android.graphics.drawable.Drawable checkIconCache(java.lang.String) -> checkIconCache
+    void storeInIconCache(java.lang.String,android.graphics.drawable.Drawable) -> storeInIconCache
+    android.graphics.drawable.Drawable getDefaultIcon1(android.database.Cursor) -> getDefaultIcon1
+    android.graphics.drawable.Drawable getActivityIconWithCache(android.content.ComponentName) -> getActivityIconWithCache
+    android.graphics.drawable.Drawable getActivityIcon(android.content.ComponentName) -> getActivityIcon
+    java.lang.String getColumnString(android.database.Cursor,java.lang.String) -> getColumnString
+    java.lang.String getStringOrNull(android.database.Cursor,int) -> getStringOrNull
+com.actionbarsherlock.widget.SuggestionsAdapter$ChildViewCache -> com.actionbarsherlock.widget.SuggestionsAdapter$ChildViewCache:
+    android.widget.TextView mText1 -> mText1
+    android.widget.TextView mText2 -> mText2
+    android.widget.ImageView mIcon1 -> mIcon1
+    android.widget.ImageView mIcon2 -> mIcon2
+    android.widget.ImageView mIconRefine -> mIconRefine
 com.echonest.api.v4.Artist -> com.echonest.api.v4.a:
     java.lang.String getID() -> a
     java.lang.String getForeignID(java.lang.String) -> a
@@ -7456,204 +7487,208 @@ com.jakewharton.DiskLruCache$Snapshot -> com.a.f:
     void close() -> close
 com.seekermob.songseeker.R -> com.seekermob.songseeker.a:
 com.seekermob.songseeker.R$anim -> com.seekermob.songseeker.b:
-    int fade_in -> a
-    int fade_out -> b
+    int fade_out -> a
+    int fade_in -> b
 com.seekermob.songseeker.R$drawable -> com.seekermob.songseeker.c:
-    int ic_disc_stub -> a
-    int ic_image_pause -> b
+    int ic_image_pause -> a
+    int ic_disc_stub -> b
     int ic_image_play -> c
 com.seekermob.songseeker.R$id -> com.seekermob.songseeker.d:
-    int ProgressBarShowListDet -> a
-    int artistinfo_artistName -> b
-    int artistinfo_biography -> c
-    int artistinfo_image -> d
-    int artistinfo_news -> e
-    int artistinfo_similar -> f
-    int background -> g
-    int btn_ok -> h
-    int data_container -> i
-    int designer_logo -> j
-    int echonest_logo -> k
-    int exact_artists -> l
-    int export_to_dms -> m
-    int export_to_grooveshark -> n
-    int export_to_lastfm -> o
-    int export_to_rdio -> p
-    int export_to_youtube -> q
-    int firstLine -> r
-    int grooveshark_logo -> s
-    int image -> t
-    int import_from_device -> u
-    int import_from_lastfm -> v
-    int label_danceability -> w
-    int label_energy -> x
-    int label_hotness -> y
-    int label_max_results -> z
-    int label_mood -> A
-    int label_tempo -> B
-    int label_variety -> C
-    int lastfm_logo -> D
-    int line -> E
-    int loading -> F
-    int media_btns -> G
-    int menu_about -> H
-    int menu_add_artist -> I
-    int menu_add_to_playlist -> J
-    int menu_add_to_profile -> K
-    int menu_buy -> L
-    int menu_clear_profile -> M
-    int menu_export_playlist -> N
-    int menu_import_artists -> O
-    int menu_login -> P
-    int menu_new_playlist -> Q
-    int menu_playlist_options -> R
-    int menu_refresh_songs -> S
-    int menu_search_artist -> T
-    int menu_settings -> U
-    int menu_share -> V
-    int menu_shuffle_options -> W
-    int menu_watch -> X
-    int overlayCancel -> Y
-    int overlay_update -> Z
-    int pager -> aa
-    int password_input -> ab
-    int playpause -> ac
-    int progress_container -> ad
-    int rdio_logo -> ae
-    int releaseinfo_artistName -> af
-    int releaseinfo_image -> ag
-    int releaseinfo_releaseName -> ah
-    int root_container -> ai
-    int secondLine -> aj
-    int seekBar_danceability -> ak
-    int seekBar_energy -> al
-    int seekBar_hotness -> am
-    int seekBar_max_results -> an
-    int seekBar_mood -> ao
-    int seekBar_tempo -> ap
-    int seekBar_variety -> aq
-    int sevendigital_logo -> ar
-    int similar_artists -> as
-    int songinfo_albumName -> at
-    int songinfo_artistName -> au
-    int songinfo_image -> av
-    int songinfo_loading -> aw
-    int songinfo_playpause -> ax
-    int songinfo_songName -> ay
-    int songinfo_songVersion -> az
-    int stub_update -> aA
-    int text -> aB
-    int textViewUpdateStatus -> aC
-    int text_input -> aD
-    int thirdLine -> aE
-    int username_input -> aF
-    int youtube_logo -> aG
+    int export_to_dms -> a
+    int menu_login -> b
+    int menu_playlist_options -> c
+    int menu_import_artists -> d
+    int menu_buy -> e
+    int label_hotness -> f
+    int youtube_logo -> g
+    int label_mood -> h
+    int label_tempo -> i
+    int artistinfo_news -> j
+    int ProgressBarShowListDet -> k
+    int loading -> l
+    int artistinfo_biography -> m
+    int image -> n
+    int seekBar_energy -> o
+    int menu_settings -> p
+    int thirdLine -> q
+    int artistinfo_similar -> r
+    int songinfo_loading -> s
+    int menu_about -> t
+    int exact_artists -> u
+    int line -> v
+    int releaseinfo_image -> w
+    int menu_export_playlist -> x
+    int media_btns -> y
+    int songinfo_songName -> z
+    int sevendigital_logo -> A
+    int releaseinfo_releaseName -> B
+    int menu_share -> C
+    int btn_import_profile -> D
+    int pager -> E
+    int import_from_device -> F
+    int overlayCancel -> G
+    int seekBar_mood -> H
+    int artistinfo_artistName -> I
+    int designer_logo -> J
+    int menu_shuffle_options -> K
+    int similar_artists -> L
+    int menu_refresh_playlist -> M
+    int export_to_lastfm -> N
+    int background -> O
+    int label_danceability -> P
+    int songinfo_image -> Q
+    int seekBar_hotness -> R
+    int playpause -> S
+    int echonest_logo -> T
+    int username_input -> U
+    int menu_add_to_playlist -> V
+    int export_to_rdio -> W
+    int password_input -> X
+    int seekBar_tempo -> Y
+    int seekBar_danceability -> Z
+    int menu_feedback -> aa
+    int lastfm_logo -> ab
+    int menu_add_to_profile -> ac
+    int artistinfo_image -> ad
+    int releaseinfo_artistName -> ae
+    int secondLine -> af
+    int progress_container -> ag
+    int export_to_youtube -> ah
+    int text -> ai
+    int export_to_grooveshark -> aj
+    int stub_update -> ak
+    int root_container -> al
+    int overlay_update -> am
+    int songinfo_playpause -> an
+    int seekBar_max_results -> ao
+    int menu_watch -> ap
+    int songinfo_songVersion -> aq
+    int label_energy -> ar
+    int label_variety -> as
+    int firstLine -> at
+    int songinfo_albumName -> au
+    int menu_new_playlist -> av
+    int grooveshark_logo -> aw
+    int menu_add_artist -> ax
+    int btn_ok -> ay
+    int text_input -> az
+    int textViewUpdateStatus -> aA
+    int menu_clear_profile -> aB
+    int data_container -> aC
+    int label_max_results -> aD
+    int seekBar_variety -> aE
+    int songinfo_artistName -> aF
+    int rdio_logo -> aG
+    int import_from_lastfm -> aH
 com.seekermob.songseeker.R$layout -> com.seekermob.songseeker.e:
-    int about -> a
-    int activity_singlepane_empty -> b
-    int artist_info -> c
-    int bio -> d
+    int dialog_import -> a
+    int list_item_2_image_media -> b
+    int about -> c
+    int dialog_input -> d
     int dialog_auth -> e
     int dialog_export -> f
-    int dialog_import -> g
-    int dialog_input -> h
-    int list_item_1_image -> i
-    int list_item_2_image_media -> j
-    int list_item_3 -> k
-    int listview_progress -> l
-    int pager -> m
-    int playlist_options -> n
-    int preferences -> o
-    int release_info -> p
-    int song_info -> q
+    int list_item_1_image -> g
+    int song_info -> h
+    int release_info -> i
+    int preferences -> j
+    int pager -> k
+    int artist_info -> l
+    int first_run -> m
+    int bio -> n
+    int listview_progress -> o
+    int activity_singlepane_empty -> p
+    int list_item_3 -> q
+    int playlist_options -> r
 com.seekermob.songseeker.R$menu -> com.seekermob.songseeker.f:
-    int artistinfo_menu -> a
+    int main_menu -> a
     int export_playlist_menu -> b
-    int main_menu -> c
-    int playlist_options_menu -> d
-    int profile_menu -> e
-    int releaseinfo_menu -> f
-    int songinfo_menu -> g
-    int songs_menu -> h
+    int songs_menu -> c
+    int songinfo_menu -> d
+    int artistinfo_menu -> e
+    int profile_menu -> f
+    int playlist_options_menu -> g
+    int releaseinfo_menu -> h
 com.seekermob.songseeker.R$string -> com.seekermob.songseeker.g:
-    int about -> a
-    int album -> b
-    int artist -> c
-    int artist_bio_frag_empty -> d
-    int artist_bio_title -> e
-    int artist_name -> f
-    int artist_news_frag_empty -> g
-    int artist_news_title -> h
-    int artists_already_profile -> i
-    int auth_cleared -> j
-    int cache_cleared -> k
-    int check_dms_setting_on -> l
-    int choose_playlist_export_tip -> m
-    int clear_profile -> n
-    int clear_profile_warn_msg -> o
-    int clearing_cache -> p
-    int danceability_str -> q
-    int energy_str -> r
-    int err_add_artists_profile -> s
-    int err_add_songs_playlist -> t
-    int exception_artist_not_found -> u
-    int exception_io -> v
-    int exception_not_auth -> w
-    int exception_req_failed -> x
-    int exception_song_not_found -> y
-    int exception_try_later -> z
-    int exception_unknown -> A
-    int exception_user_not_found -> B
-    int export_grooveshark_title -> C
-    int export_lastfm_title -> D
-    int export_rdio_title -> E
-    int export_youtube_title -> F
-    int exporting -> G
-    int grooveshark_username -> H
-    int hotness_str -> I
-    int import_no_artist_found -> J
-    int import_profile_failed -> K
-    int importing -> L
-    int install_dms -> M
-    int lastfm_username -> N
-    int loading -> O
-    int max_results_str -> P
-    int mood_str -> Q
-    int no_google_account_found -> R
-    int no_song_found -> S
-    int not_authorized -> T
-    int operation_in_progress -> U
-    int playlist_created -> V
-    int playlist_created_by -> W
-    int playlist_empty -> X
-    int playlist_name -> Y
-    int playlist_options -> Z
-    int profile -> aa
-    int profile_frag_empty_list -> ab
-    int remove_artist -> ac
-    int remove_song -> ad
-    int req_add_artists_profile -> ae
-    int select_google_account -> af
-    int settings -> ag
-    int share_album_text -> ah
-    int share_artist_text -> ai
-    int share_song_text -> aj
-    int share_using -> ak
-    int similar_artists_frag_empty -> al
-    int similar_artists_title -> am
-    int some_artists_added_profile -> an
-    int some_songs_added_playlist -> ao
-    int song -> ap
-    int songs -> aq
-    int songs_frag_empty_list -> ar
-    int success_add_artists_profile -> as
-    int success_add_songs_playlist -> at
-    int tempo_str -> au
-    int user_playlists_frag_empty -> av
-    int variety_str -> aw
-    int videos -> ax
-    int youtube_videos_frag_empty -> ay
-    int youtube_videos_title -> az
+    int remove_song -> a
+    int artist_bio_title -> b
+    int exception_song_not_found -> c
+    int export_rdio_title -> d
+    int exception_not_auth -> e
+    int success_add_artists_profile -> f
+    int share_album_text -> g
+    int some_artists_added_profile -> h
+    int loading -> i
+    int youtube_videos_frag_empty -> j
+    int playlist_created -> k
+    int artist_bio_frag_empty -> l
+    int share_song_text -> m
+    int install_dms -> n
+    int grooveshark_username -> o
+    int auth_cleared -> p
+    int max_results_str -> q
+    int req_add_artists_profile -> r
+    int hotness_str -> s
+    int clearing_cache -> t
+    int exception_io -> u
+    int clear_profile -> v
+    int lastfm_username -> w
+    int exporting -> x
+    int no_google_account_found -> y
+    int exception_user_not_found -> z
+    int operation_in_progress -> A
+    int similar_artists_title -> B
+    int export_youtube_title -> C
+    int variety_str -> D
+    int settings -> E
+    int album -> F
+    int playlist_empty -> G
+    int some_songs_added_playlist -> H
+    int export_grooveshark_title -> I
+    int energy_str -> J
+    int share_using -> K
+    int import_no_artist_found -> L
+    int err_add_songs_playlist -> M
+    int choose_playlist_export_tip -> N
+    int videos -> O
+    int remove_artist -> P
+    int exception_unknown -> Q
+    int artists_already_profile -> R
+    int success_add_songs_playlist -> S
+    int err_add_artists_profile -> T
+    int user_playlists_frag_empty -> U
+    int artist_news_frag_empty -> V
+    int artist_name -> W
+    int export_lastfm_title -> X
+    int playlist_options -> Y
+    int playlist_name -> Z
+    int song -> aa
+    int check_dms_setting_on -> ab
+    int songs -> ac
+    int about -> ad
+    int exception_try_later -> ae
+    int songs_frag_empty_list -> af
+    int playlist_created_by -> ag
+    int not_authorized -> ah
+    int artist -> ai
+    int youtube_videos_title -> aj
+    int playlist -> ak
+    int send_feedback -> al
+    int tempo_str -> am
+    int profile -> an
+    int cache_cleared -> ao
+    int importing -> ap
+    int clear_profile_warn_msg -> aq
+    int exception_artist_not_found -> ar
+    int no_song_found -> as
+    int mood_str -> at
+    int artist_news_title -> au
+    int similar_artists_frag_empty -> av
+    int exception_req_failed -> aw
+    int danceability_str -> ax
+    int share_artist_text -> ay
+    int select_google_account -> az
+    int profile_frag_empty_list -> aA
+    int import_profile_failed -> aB
 com.seekermob.songseeker.R$style -> com.seekermob.songseeker.h:
     int DialogThemeNoTitle -> a
 com.seekermob.songseeker.comm.EchoNestComm -> com.seekermob.songseeker.comm.a:
@@ -8444,25 +8479,38 @@ com.seekermob.songseeker.ui.ExportPlaylistYouTubeFragment$UserPlaylistsTask -> c
     java.util.ArrayList doInBackground$2b2655bf() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.ui.InputDialogFragment -> com.seekermob.songseeker.ui.bc:
+com.seekermob.songseeker.ui.FirstRunDialogFragment -> com.seekermob.songseeker.ui.bc:
+    com.seekermob.songseeker.ui.FirstRunDialogFragment$OnFirstRunImportProfileListener mListener -> a
+    com.seekermob.songseeker.ui.FirstRunDialogFragment newInstance() -> a
+    boolean hasSeenFirstRunFragment(android.content.Context) -> a
+    android.app.Dialog onCreateDialog(android.os.Bundle) -> onCreateDialog
+    void showDialog(android.support.v4.app.FragmentActivity) -> a
+    void onAttach(android.app.Activity) -> onAttach
+    com.seekermob.songseeker.ui.FirstRunDialogFragment$OnFirstRunImportProfileListener access$0(com.seekermob.songseeker.ui.FirstRunDialogFragment) -> a
+com.seekermob.songseeker.ui.FirstRunDialogFragment$1 -> com.seekermob.songseeker.ui.bd:
+    com.seekermob.songseeker.ui.FirstRunDialogFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.seekermob.songseeker.ui.FirstRunDialogFragment$OnFirstRunImportProfileListener -> com.seekermob.songseeker.ui.be:
+    void OnFirstRunImportProfile() -> a
+com.seekermob.songseeker.ui.InputDialogFragment -> com.seekermob.songseeker.ui.bf:
     com.seekermob.songseeker.ui.InputDialogFragment$OnTextEnteredListener mListener -> a
     com.seekermob.songseeker.ui.InputDialogFragment newInstance(int,java.lang.String) -> a
     android.app.Dialog onCreateDialog(android.os.Bundle) -> onCreateDialog
     void showDialog(android.support.v4.app.FragmentActivity) -> a
     void onAttach(android.app.Activity) -> onAttach
     com.seekermob.songseeker.ui.InputDialogFragment$OnTextEnteredListener access$0(com.seekermob.songseeker.ui.InputDialogFragment) -> a
-com.seekermob.songseeker.ui.InputDialogFragment$1 -> com.seekermob.songseeker.ui.bd:
+com.seekermob.songseeker.ui.InputDialogFragment$1 -> com.seekermob.songseeker.ui.bg:
     com.seekermob.songseeker.ui.InputDialogFragment this$0 -> a
     android.widget.EditText val$etInput -> b
     java.lang.String val$tag -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.InputDialogFragment$2 -> com.seekermob.songseeker.ui.be:
+com.seekermob.songseeker.ui.InputDialogFragment$2 -> com.seekermob.songseeker.ui.bh:
     com.seekermob.songseeker.ui.InputDialogFragment this$0 -> a
     android.widget.Button val$btnOk -> b
     void afterTextChanged(android.text.Editable) -> afterTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-com.seekermob.songseeker.ui.InputDialogFragment$OnTextEnteredListener -> com.seekermob.songseeker.ui.bf:
+com.seekermob.songseeker.ui.InputDialogFragment$OnTextEnteredListener -> com.seekermob.songseeker.ui.bi:
     void onDialogTextEntered(java.lang.String,java.lang.String) -> b
 com.seekermob.songseeker.ui.MainActivity -> com.seekermob.songseeker.ui.MainActivity:
     com.seekermob.songseeker.util.Util$TabsAdapter mTabsAdapter -> a
@@ -8475,6 +8523,7 @@ com.seekermob.songseeker.ui.MainActivity -> com.seekermob.songseeker.ui.MainActi
     boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu) -> onCreateOptionsMenu
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
     void onDialogTextEntered(java.lang.String,java.lang.String) -> b
+    void OnFirstRunImportProfile() -> a
 com.seekermob.songseeker.ui.MusicInfoActivity -> com.seekermob.songseeker.ui.MusicInfoActivity:
     com.seekermob.songseeker.util.Util$TabsAdapter mTabsAdapter -> a
     android.support.v4.view.ViewPager mViewPager -> b
@@ -8505,28 +8554,28 @@ com.seekermob.songseeker.ui.PlaylistOptionsActivity -> com.seekermob.songseeker.
     void onProgressChanged(android.widget.SeekBar,int,boolean) -> onProgressChanged
     void onStartTrackingTouch(android.widget.SeekBar) -> onStartTrackingTouch
     void onStopTrackingTouch(android.widget.SeekBar) -> onStopTrackingTouch
-com.seekermob.songseeker.ui.PlaylistOptionsActivity$1 -> com.seekermob.songseeker.ui.bg:
+com.seekermob.songseeker.ui.PlaylistOptionsActivity$1 -> com.seekermob.songseeker.ui.bj:
     com.seekermob.songseeker.ui.PlaylistOptionsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.PlaylistOptionsActivity$2 -> com.seekermob.songseeker.ui.bh:
+com.seekermob.songseeker.ui.PlaylistOptionsActivity$2 -> com.seekermob.songseeker.ui.bk:
     com.seekermob.songseeker.ui.PlaylistOptionsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
 com.seekermob.songseeker.ui.PreferencesActivity -> com.seekermob.songseeker.ui.PreferencesActivity:
     void onCreate(android.os.Bundle) -> onCreate
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
-com.seekermob.songseeker.ui.PreferencesActivity$1 -> com.seekermob.songseeker.ui.bi:
+com.seekermob.songseeker.ui.PreferencesActivity$1 -> com.seekermob.songseeker.ui.bl:
     com.seekermob.songseeker.ui.PreferencesActivity this$0 -> a
     android.preference.PreferenceActivity val$activity -> b
     boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
-com.seekermob.songseeker.ui.PreferencesActivity$2 -> com.seekermob.songseeker.ui.bj:
+com.seekermob.songseeker.ui.PreferencesActivity$2 -> com.seekermob.songseeker.ui.bm:
     com.seekermob.songseeker.ui.PreferencesActivity this$0 -> a
     boolean onPreferenceClick(android.preference.Preference) -> onPreferenceClick
-com.seekermob.songseeker.ui.PreferencesActivity$ClearCacheTask -> com.seekermob.songseeker.ui.bk:
+com.seekermob.songseeker.ui.PreferencesActivity$ClearCacheTask -> com.seekermob.songseeker.ui.bn:
     com.seekermob.songseeker.ui.PreferencesActivity this$0 -> a
     void onPreExecute() -> onPreExecute
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.ui.ProfileFragment -> com.seekermob.songseeker.ui.bl:
+com.seekermob.songseeker.ui.ProfileFragment -> com.seekermob.songseeker.ui.bo:
     com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter mAdapter -> a
     com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask mImportProfileTask -> b
     android.os.Bundle mSavedState -> c
@@ -8541,10 +8590,11 @@ com.seekermob.songseeker.ui.ProfileFragment -> com.seekermob.songseeker.ui.bl:
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     boolean onContextItemSelected(android.view.MenuItem) -> onContextItemSelected
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
-    boolean isTaskRunning() -> a
+    boolean isTaskRunning() -> b
+    void importProfile() -> a
     void importProfile(java.lang.String,int) -> a
     void access$0(com.seekermob.songseeker.ui.ProfileFragment) -> a
-com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter -> com.seekermob.songseeker.ui.bm:
+com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter -> com.seekermob.songseeker.ui.bp:
     com.seekermob.songseeker.data.UserProfile prof -> b
     android.view.LayoutInflater inflater -> c
     com.seekermob.songseeker.ui.ProfileFragment this$0 -> a
@@ -8554,28 +8604,28 @@ com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter -> com.seekermob.song
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     java.lang.Object getItem(int) -> getItem
     com.seekermob.songseeker.data.UserProfile access$1(com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter) -> a
-com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter$ViewHolder -> com.seekermob.songseeker.ui.bn:
+com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter$ViewHolder -> com.seekermob.songseeker.ui.bq:
     android.widget.TextView line -> a
     android.widget.ImageView image -> b
     com.seekermob.songseeker.ui.ProfileFragment$ArtistsAdapter this$1 -> c
-com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment -> com.seekermob.songseeker.ui.bo:
+com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment -> com.seekermob.songseeker.ui.br:
     com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment newInstance() -> a
     android.app.Dialog onCreateDialog(android.os.Bundle) -> onCreateDialog
-com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment$1 -> com.seekermob.songseeker.ui.bp:
+com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment$1 -> com.seekermob.songseeker.ui.bs:
     com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment this$1 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment$2 -> com.seekermob.songseeker.ui.bq:
+com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment$2 -> com.seekermob.songseeker.ui.bt:
     com.seekermob.songseeker.ui.ProfileFragment$ConfirmDialogFragment this$1 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment -> com.seekermob.songseeker.ui.br:
+com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment -> com.seekermob.songseeker.ui.bu:
     android.app.Dialog onCreateDialog(android.os.Bundle) -> onCreateDialog
-com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment$1 -> com.seekermob.songseeker.ui.bs:
+com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment$1 -> com.seekermob.songseeker.ui.bv:
     com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment this$1 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment$2 -> com.seekermob.songseeker.ui.bt:
+com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment$2 -> com.seekermob.songseeker.ui.bw:
     com.seekermob.songseeker.ui.ProfileFragment$ImportDialogFragment this$1 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask -> com.seekermob.songseeker.ui.bu:
+com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask -> com.seekermob.songseeker.ui.bx:
     com.seekermob.songseeker.data.UserProfile mUserProfile -> b
     java.util.ArrayList mArtists -> c
     java.lang.String mUsername -> d
@@ -8598,10 +8648,10 @@ com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask -> com.seekermob.s
     com.seekermob.songseeker.data.UserProfile access$5(com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask) -> c
     java.util.ArrayList access$6(com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask) -> d
     com.seekermob.songseeker.ui.ProfileFragment access$7(com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask) -> e
-com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask$1 -> com.seekermob.songseeker.ui.bv:
+com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask$1 -> com.seekermob.songseeker.ui.by:
     com.seekermob.songseeker.ui.ProfileFragment$ImportProfileTask this$1 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.ReleaseInfoFragment -> com.seekermob.songseeker.ui.bw:
+com.seekermob.songseeker.ui.ReleaseInfoFragment -> com.seekermob.songseeker.ui.bz:
     com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter mAdapter -> a
     com.seekermob.songseeker.data.ReleaseInfo mRelease -> b
     com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseDetailsTask mReleaseDetailsTask -> c
@@ -8617,14 +8667,14 @@ com.seekermob.songseeker.ui.ReleaseInfoFragment -> com.seekermob.songseeker.ui.b
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
     com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter access$0(com.seekermob.songseeker.ui.ReleaseInfoFragment) -> a
     com.seekermob.songseeker.data.ReleaseInfo access$1(com.seekermob.songseeker.ui.ReleaseInfoFragment) -> b
-com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseDetailsTask -> com.seekermob.songseeker.ui.bx:
+com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseDetailsTask -> com.seekermob.songseeker.ui.ca:
     java.lang.String err -> a
     com.seekermob.songseeker.ui.ReleaseInfoFragment this$0 -> b
     void onPreExecute() -> onPreExecute
     java.util.ArrayList doInBackground$2b2655bf() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter -> com.seekermob.songseeker.ui.by:
+com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter -> com.seekermob.songseeker.ui.cb:
     java.util.ArrayList mReleaseSongs -> b
     android.view.LayoutInflater inflater -> c
     com.seekermob.songseeker.ui.ReleaseInfoFragment this$0 -> a
@@ -8639,17 +8689,17 @@ com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter -> com.seeke
     int[] $SWITCH_TABLE$com$seekermob$songseeker$util$MediaPlayerController$MediaStatus() -> a
     java.util.ArrayList access$2(com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter) -> a
     com.seekermob.songseeker.ui.ReleaseInfoFragment access$3(com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter) -> b
-com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter$1 -> com.seekermob.songseeker.ui.bz:
+com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter$1 -> com.seekermob.songseeker.ui.cc:
     com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter this$1 -> a
     com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter$2 -> com.seekermob.songseeker.ui.ca:
+com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter$2 -> com.seekermob.songseeker.ui.cd:
     com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter this$1 -> a
     com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter$ViewHolder -> com.seekermob.songseeker.ui.cb:
+com.seekermob.songseeker.ui.ReleaseInfoFragment$ReleaseSongsAdapter$ViewHolder -> com.seekermob.songseeker.ui.ce:
     android.widget.TextView topText -> a
     android.widget.TextView botText -> b
     android.widget.ImageView image -> c
@@ -8661,7 +8711,7 @@ com.seekermob.songseeker.ui.SimilarArtistsActivity -> com.seekermob.songseeker.u
     android.support.v4.app.Fragment mFragment -> a
     void onCreate(android.os.Bundle) -> onCreate
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
-com.seekermob.songseeker.ui.SimilarArtistsFragment -> com.seekermob.songseeker.ui.cc:
+com.seekermob.songseeker.ui.SimilarArtistsFragment -> com.seekermob.songseeker.ui.cf:
     com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter mAdapter -> a
     com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsTask mTask -> b
     android.os.Bundle mSavedState -> c
@@ -8674,7 +8724,7 @@ com.seekermob.songseeker.ui.SimilarArtistsFragment -> com.seekermob.songseeker.u
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
     boolean isTaskRunning() -> a
     com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter access$0(com.seekermob.songseeker.ui.SimilarArtistsFragment) -> a
-com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter -> com.seekermob.songseeker.ui.cd:
+com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter -> com.seekermob.songseeker.ui.cg:
     java.util.ArrayList mSimilarArtists -> b
     android.view.LayoutInflater mInflater -> c
     com.seekermob.songseeker.ui.SimilarArtistsFragment this$0 -> a
@@ -8685,18 +8735,18 @@ com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter -> com.
     void setAdapter(java.util.ArrayList) -> a
     java.lang.Object getItem(int) -> getItem
     java.util.ArrayList access$1(com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter) -> a
-com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter$ViewHolder -> com.seekermob.songseeker.ui.ce:
+com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter$ViewHolder -> com.seekermob.songseeker.ui.ch:
     android.widget.TextView line -> a
     android.widget.ImageView image -> b
     com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsAdapter this$1 -> c
-com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsTask -> com.seekermob.songseeker.ui.cf:
+com.seekermob.songseeker.ui.SimilarArtistsFragment$SimilarArtistsTask -> com.seekermob.songseeker.ui.ci:
     java.lang.String err -> a
     com.seekermob.songseeker.ui.SimilarArtistsFragment this$0 -> b
     void onPreExecute() -> onPreExecute
     java.util.ArrayList doInBackground$2b2655bf() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.ui.SongInfoFragment -> com.seekermob.songseeker.ui.cg:
+com.seekermob.songseeker.ui.SongInfoFragment -> com.seekermob.songseeker.ui.cj:
     com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter mAdapter -> a
     com.seekermob.songseeker.data.SongInfo mSong -> b
     com.seekermob.songseeker.ui.SongInfoFragment$TopTracksTask mTopTracksTask -> c
@@ -8713,13 +8763,13 @@ com.seekermob.songseeker.ui.SongInfoFragment -> com.seekermob.songseeker.ui.cg:
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
     com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter access$0(com.seekermob.songseeker.ui.SongInfoFragment) -> a
     com.seekermob.songseeker.data.SongInfo access$1(com.seekermob.songseeker.ui.SongInfoFragment) -> b
-com.seekermob.songseeker.ui.SongInfoFragment$1 -> com.seekermob.songseeker.ui.ch:
+com.seekermob.songseeker.ui.SongInfoFragment$1 -> com.seekermob.songseeker.ui.ck:
     com.seekermob.songseeker.ui.SongInfoFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongInfoFragment$2 -> com.seekermob.songseeker.ui.ci:
+com.seekermob.songseeker.ui.SongInfoFragment$2 -> com.seekermob.songseeker.ui.cl:
     com.seekermob.songseeker.ui.SongInfoFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter -> com.seekermob.songseeker.ui.cj:
+com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter -> com.seekermob.songseeker.ui.cm:
     java.util.ArrayList mTopTracks -> b
     android.view.LayoutInflater inflater -> c
     com.seekermob.songseeker.ui.SongInfoFragment this$0 -> a
@@ -8734,17 +8784,17 @@ com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter -> com.seekermob.s
     int[] $SWITCH_TABLE$com$seekermob$songseeker$util$MediaPlayerController$MediaStatus() -> a
     java.util.ArrayList access$2(com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter) -> a
     com.seekermob.songseeker.ui.SongInfoFragment access$3(com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter) -> b
-com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter$1 -> com.seekermob.songseeker.ui.ck:
+com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter$1 -> com.seekermob.songseeker.ui.cn:
     com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter this$1 -> a
     com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter$2 -> com.seekermob.songseeker.ui.cl:
+com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter$2 -> com.seekermob.songseeker.ui.co:
     com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter this$1 -> a
     com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter$ViewHolder -> com.seekermob.songseeker.ui.cm:
+com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter$ViewHolder -> com.seekermob.songseeker.ui.cp:
     android.widget.TextView topText -> a
     android.widget.TextView botText -> b
     android.widget.ImageView image -> c
@@ -8752,14 +8802,14 @@ com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter$ViewHolder -> com.
     android.widget.ProgressBar loading -> e
     android.widget.FrameLayout mediaBtns -> f
     com.seekermob.songseeker.ui.SongInfoFragment$TopTracksAdapter this$1 -> g
-com.seekermob.songseeker.ui.SongInfoFragment$TopTracksTask -> com.seekermob.songseeker.ui.cn:
+com.seekermob.songseeker.ui.SongInfoFragment$TopTracksTask -> com.seekermob.songseeker.ui.cq:
     java.lang.String err -> a
     com.seekermob.songseeker.ui.SongInfoFragment this$0 -> b
     void onPreExecute() -> onPreExecute
     java.util.ArrayList doInBackground$2b2655bf() -> a
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.seekermob.songseeker.ui.SongsFragment -> com.seekermob.songseeker.ui.co:
+com.seekermob.songseeker.ui.SongsFragment -> com.seekermob.songseeker.ui.cr:
     com.seekermob.songseeker.ui.SongsFragment$SongsAdapter mAdapter -> a
     com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask mPlaySongsTask -> b
     com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask mSongDetailsTask -> c
@@ -8781,32 +8831,32 @@ com.seekermob.songseeker.ui.SongsFragment -> com.seekermob.songseeker.ui.co:
     boolean isAnyTaskRunning() -> a
     void access$0(com.seekermob.songseeker.ui.SongsFragment) -> a
     void access$1(com.seekermob.songseeker.ui.SongsFragment) -> b
-com.seekermob.songseeker.ui.SongsFragment$1 -> com.seekermob.songseeker.ui.cp:
+com.seekermob.songseeker.ui.SongsFragment$1 -> com.seekermob.songseeker.ui.cs:
     com.seekermob.songseeker.ui.SongsFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment -> com.seekermob.songseeker.ui.cq:
+com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment -> com.seekermob.songseeker.ui.ct:
     com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment newInstance(java.util.ArrayList) -> a
     android.app.Dialog onCreateDialog(android.os.Bundle) -> onCreateDialog
-com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$1 -> com.seekermob.songseeker.ui.cr:
+com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$1 -> com.seekermob.songseeker.ui.cu:
     com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment this$1 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$2 -> com.seekermob.songseeker.ui.cs:
-    com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment this$1 -> a
-    java.util.ArrayList val$playlist -> b
-    void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$3 -> com.seekermob.songseeker.ui.ct:
+com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$2 -> com.seekermob.songseeker.ui.cv:
     com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment this$1 -> a
     java.util.ArrayList val$playlist -> b
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$4 -> com.seekermob.songseeker.ui.cu:
+com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$3 -> com.seekermob.songseeker.ui.cw:
     com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment this$1 -> a
     java.util.ArrayList val$playlist -> b
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$5 -> com.seekermob.songseeker.ui.cv:
+com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$4 -> com.seekermob.songseeker.ui.cx:
     com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment this$1 -> a
     java.util.ArrayList val$playlist -> b
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask -> com.seekermob.songseeker.ui.cw:
+com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment$5 -> com.seekermob.songseeker.ui.cy:
+    com.seekermob.songseeker.ui.SongsFragment$ExportDialogFragment this$1 -> a
+    java.util.ArrayList val$playlist -> b
+    void onClick(android.view.View) -> onClick
+com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask -> com.seekermob.songseeker.ui.cz:
     java.lang.String err -> c
     java.util.List mSongs -> d
     android.view.View mProgressOverlay -> e
@@ -8822,10 +8872,10 @@ com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask -> com.seekermob.songsee
     void onProgressUpdate(java.lang.Object[]) -> onProgressUpdate
     java.util.ArrayList access$3(com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask) -> a
     com.seekermob.songseeker.ui.SongsFragment access$4(com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask) -> b
-com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask$1 -> com.seekermob.songseeker.ui.cx:
+com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask$1 -> com.seekermob.songseeker.ui.da:
     com.seekermob.songseeker.ui.SongsFragment$PlaySongsTask this$1 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask -> com.seekermob.songseeker.ui.cy:
+com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask -> com.seekermob.songseeker.ui.db:
     java.lang.String err -> a
     com.seekermob.songseeker.data.SongInfo mSelectedSong -> b
     android.view.View mProgressOverlay -> d
@@ -8836,10 +8886,10 @@ com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask -> com.seekermob.songs
     void onPostExecute(java.lang.Object) -> onPostExecute
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
     com.seekermob.songseeker.ui.SongsFragment access$2(com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask) -> a
-com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask$1 -> com.seekermob.songseeker.ui.cz:
+com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask$1 -> com.seekermob.songseeker.ui.dc:
     com.seekermob.songseeker.ui.SongsFragment$SongDetailsTask this$1 -> a
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$SongsAdapter -> com.seekermob.songseeker.ui.da:
+com.seekermob.songseeker.ui.SongsFragment$SongsAdapter -> com.seekermob.songseeker.ui.dd:
     java.util.ArrayList playlist -> b
     android.view.LayoutInflater inflater -> c
     com.seekermob.songseeker.ui.SongsFragment this$0 -> a
@@ -8853,17 +8903,17 @@ com.seekermob.songseeker.ui.SongsFragment$SongsAdapter -> com.seekermob.songseek
     int[] $SWITCH_TABLE$com$seekermob$songseeker$util$MediaPlayerController$MediaStatus() -> a
     java.util.ArrayList access$2(com.seekermob.songseeker.ui.SongsFragment$SongsAdapter) -> a
     com.seekermob.songseeker.ui.SongsFragment access$3(com.seekermob.songseeker.ui.SongsFragment$SongsAdapter) -> b
-com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$1 -> com.seekermob.songseeker.ui.db:
+com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$1 -> com.seekermob.songseeker.ui.de:
     com.seekermob.songseeker.ui.SongsFragment$SongsAdapter this$1 -> a
     com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$2 -> com.seekermob.songseeker.ui.dc:
+com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$2 -> com.seekermob.songseeker.ui.df:
     com.seekermob.songseeker.ui.SongsFragment$SongsAdapter this$1 -> a
     com.seekermob.songseeker.data.SongInfo val$song -> b
     int val$pos -> c
     void onClick(android.view.View) -> onClick
-com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$ViewHolder -> com.seekermob.songseeker.ui.dd:
+com.seekermob.songseeker.ui.SongsFragment$SongsAdapter$ViewHolder -> com.seekermob.songseeker.ui.dg:
     android.widget.TextView topText -> a
     android.widget.TextView botText -> b
     android.widget.ImageView image -> c
@@ -8875,7 +8925,7 @@ com.seekermob.songseeker.ui.YouTubeVideosActivity -> com.seekermob.songseeker.ui
     android.support.v4.app.Fragment mFragment -> a
     void onCreate(android.os.Bundle) -> onCreate
     boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem) -> onOptionsItemSelected
-com.seekermob.songseeker.ui.YouTubeVideosFragment -> com.seekermob.songseeker.ui.de:
+com.seekermob.songseeker.ui.YouTubeVideosFragment -> com.seekermob.songseeker.ui.dh:
     com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter mAdapter -> a
     com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosTask mTask -> b
     android.os.Bundle mSavedState -> c
@@ -8888,7 +8938,7 @@ com.seekermob.songseeker.ui.YouTubeVideosFragment -> com.seekermob.songseeker.ui
     void onListItemClick(android.widget.ListView,android.view.View,int,long) -> onListItemClick
     boolean isTaskRunning() -> a
     com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter access$0(com.seekermob.songseeker.ui.YouTubeVideosFragment) -> a
-com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter -> com.seekermob.songseeker.ui.df:
+com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter -> com.seekermob.songseeker.ui.di:
     java.util.ArrayList mVideos -> b
     android.view.LayoutInflater mInflater -> c
     com.seekermob.songseeker.ui.YouTubeVideosFragment this$0 -> a
@@ -8899,12 +8949,12 @@ com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter -> com.seekermob
     void setAdapter(java.util.ArrayList) -> a
     java.lang.Object getItem(int) -> getItem
     java.util.ArrayList access$1(com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter) -> a
-com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter$ViewHolder -> com.seekermob.songseeker.ui.dg:
+com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter$ViewHolder -> com.seekermob.songseeker.ui.dj:
     android.widget.TextView topText -> a
     android.widget.TextView botText -> b
     android.widget.ImageView image -> c
     com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosAdapter this$1 -> d
-com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosTask -> com.seekermob.songseeker.ui.dh:
+com.seekermob.songseeker.ui.YouTubeVideosFragment$VideosTask -> com.seekermob.songseeker.ui.dk:
     java.lang.String err -> a
     com.seekermob.songseeker.ui.YouTubeVideosFragment this$0 -> b
     void onPreExecute() -> onPreExecute
