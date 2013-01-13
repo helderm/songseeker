@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   	<dimen name="layout_padding">10dp</dimen>
+
+    <dimen name="layout_padding">10dp</dimen>
     <dimen name="text_size_small">14sp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
-    <dimen name="text_size_large">22sp</dimen>    
-    <dimen name="image_list_item">55dp</dimen>
-    <dimen name="line_height_list_item">26dp</dimen> <!-- should be a little less than half image_list_item -->
-    <dimen name="mediabtns_list_item">40dp</dimen>
+    <dimen name="text_size_large">22sp</dimen>
+    <dimen name="media_list_item">55dp</dimen>
+    <dimen name="line_height_list_item">26dp</dimen> <!-- should be a little less than half media_list_item -->
+    <dimen name="mediabtns_list_item">26dp</dimen>
     <dimen name="image_music_info">120dp</dimen>
+
 </resources>
