@@ -3,7 +3,7 @@ package com.seekermob.songseeker.ui;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.seekermob.songseeker.R;
@@ -32,19 +32,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class ProfileFragment extends SherlockListFragment{
+public class ProfileFragment extends SherlockFragment implements OnItemClickListener{
 
 	protected ArtistsAdapter mAdapter;
 	protected ImportProfileTask mImportProfileTask;
 	private Bundle mSavedState;
+	private GridView mGrid;
 	
 	private static final String STATE_PROFILE_ARTIST_NAMES = "profileArtistNames";
 	private static final String STATE_PROFILE_INDEX = "profileIndex";
@@ -70,23 +73,27 @@ public class ProfileFragment extends SherlockListFragment{
 	    
 	    //set adapter
 	    mAdapter = new ArtistsAdapter();
-	    setListAdapter(mAdapter);
-		
+
+        // setup grid view
+        mGrid = (GridView) getView().findViewById(R.id.grid);
+        mGrid.setAdapter(mAdapter);
+        mGrid.setOnItemClickListener(this);
+        View emptyView = getView().findViewById(R.id.empty);
+        if (emptyView != null) {
+        	((TextView)emptyView).setText(R.string.profile_frag_empty_list);
+            mGrid.setEmptyView(emptyView);
+        }
+        registerForContextMenu(mGrid);
+        
 	    //check if we are recovering the state	    
 	    restoreLocalState(savedInstanceState);
-	    
-	    //set empty view text
-	    ((TextView)(getListView().getEmptyView())).setText(R.string.profile_frag_empty_list);
-	    
-	    //context menu
-	    registerForContextMenu(getListView());	    
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		return inflater.inflate(R.layout.listview_progress, null);		
+		return inflater.inflate(R.layout.gridview_progress, null);
 	}	
 
 	@Override
@@ -200,6 +207,7 @@ public class ProfileFragment extends SherlockListFragment{
 		switch (item.getItemId()) {
 		case MENU_REMOVE_ARTIST:
 			UserProfile.getInstance(getActivity()).removeArtistFromProfile(info.position, this);
+			mAdapter.notifyDataSetChanged();
 			break;
 		default:
 			break;
@@ -236,7 +244,7 @@ public class ProfileFragment extends SherlockListFragment{
 			ViewHolder holder;
 
 			if(convertView == null) {
-				convertView = inflater.inflate(R.layout.list_item_1_image, null);
+				convertView = inflater.inflate(R.layout.profile, null);
 
 				holder = new ViewHolder();
 				holder.line = (TextView) convertView.findViewById(R.id.line);
@@ -264,7 +272,7 @@ public class ProfileFragment extends SherlockListFragment{
 	}	
 	
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
+	public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
 		ArtistInfo ai = new ArtistInfo(mAdapter.getItem(position));
 		Intent i = new Intent(getActivity(), MusicInfoActivity.class);
 		i.putExtra(ArtistInfoFragment.BUNDLE_ARTIST, ai);		
@@ -575,4 +583,5 @@ public class ProfileFragment extends SherlockListFragment{
 	                }).create();
 	    }
 	}
+
 }

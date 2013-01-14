@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="SongSeekerTheme" parent="Theme.Sherlock"></style>
 
@@ -103,6 +103,20 @@
     <style name="scrollview">
         <item name="android:scrollbarTrackVertical">@drawable/fastscroll_track_holo_dark</item>
         <item name="android:scrollbarThumbVertical">@drawable/fastscroll_thumb_holo</item>
+    </style>
+
+    <style name="gridview">
+        <item name="android:listSelector">@drawable/list_selector_holo_dark</item>
+        <item name="android:drawSelectorOnTop">true</item>
+        <item name="android:scrollbarTrackVertical">@drawable/fastscroll_track_holo_dark</item>
+        <item name="android:scrollbarThumbVertical">@drawable/fastscroll_thumb_holo</item>
+        <item name="android:fastScrollEnabled">false</item>
+        <item name="android:columnWidth">@dimen/grid_columnWidth</item>
+        <item name="android:gravity">center</item>
+        <item name="android:horizontalSpacing">1dp</item>
+        <item name="android:numColumns">auto_fit</item>
+        <item name="android:stretchMode">none</item>
+        <item name="android:verticalSpacing">1dp</item>
     </style>
 
     <style name="highlighted_bold_text">

@@ -6,8 +6,7 @@ import java.util.Random;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.ListFragment;
-import android.widget.BaseAdapter;
+import android.support.v4.app.Fragment;
 
 import com.seekermob.songseeker.util.Util;
 
@@ -43,13 +42,10 @@ public class UserProfile implements Serializable{
 		Util.writeObjectToDevice(activity, profile, PROFILE_FILENAME);
 	}
 	
-	/** Removes an artist from the profile
-	 * Is not sync because it is called from the UI thread. Shouldn't be a problem while the addToProfile task has a ProgressDialog*/
-	public void removeArtistFromProfile(int position, ListFragment frag){
+	/** Removes an artist from the profile **/
+	public void removeArtistFromProfile(int position, Fragment frag){
 		profile.artists.remove(position);
 		Util.writeObjectToDevice(frag.getActivity(), profile, PROFILE_FILENAME);	
-		
-		((BaseAdapter)frag.getListAdapter()).notifyDataSetChanged();
 	}
 	
 	public boolean isAlreadyInProfile(String id, String name){
@@ -79,7 +75,7 @@ public class UserProfile implements Serializable{
 	}
 	
 	/** Get random artists from the profile.
-	 * Main use is to feed the playlist/event creation*/
+	 * Main use is to feed the playlist creation*/
 	public ArrayList<ArtistInfo> getRandomArtists(int numArtists){
 		ArrayList<ArtistInfo> chosenArtists = new ArrayList<ArtistInfo>();
 		ArrayList<ArtistProfile> profileArtists = new ArrayList<ArtistProfile>(profile.artists);

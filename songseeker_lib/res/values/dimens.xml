@@ -9,5 +9,6 @@
     <dimen name="line_height_list_item">26dp</dimen> <!-- should be a little less than half media_list_item -->
     <dimen name="mediabtns_list_item">26dp</dimen>
     <dimen name="image_music_info">120dp</dimen>
+    <dimen name="grid_columnWidth">100dp</dimen>
 
 </resources>

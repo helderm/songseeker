@@ -6,7 +6,7 @@ import com.seekermob.songseeker.R;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -55,7 +55,7 @@ public class RecSongsPlaylist {
 	}
 
 	/** Get a new playlist methods*/
-	public void getNewPlaylist(PlaylistParams plp, ListFragment lf){
+	public void getNewPlaylist(PlaylistParams plp, Fragment lf){
 		cancelTask();
 		
 		task = (GetPlaylistTask) new GetPlaylistTask(plp, lf).execute();		
@@ -64,16 +64,16 @@ public class RecSongsPlaylist {
 	private class GetPlaylistTask extends AsyncTask<Void, Void, Void>{
 		private String err = null;
 		private PlaylistParams playlistParams;
-		private ListFragment listFragment;	
+		private Fragment frag;
 
-		public GetPlaylistTask(PlaylistParams plp, ListFragment lf) {
+		public GetPlaylistTask(PlaylistParams plp, Fragment lf) {
 			playlistParams = plp;
-			listFragment = lf;
+			frag = lf;
 		}
 
 		@Override
 		protected void onPreExecute() {
-			Util.setListShown(listFragment, false);
+			Util.setListShown(frag, false);
 		}
 
 		@Override
@@ -84,7 +84,7 @@ public class RecSongsPlaylist {
 			try {
 				pl = EchoNestComm.getComm().createStaticPlaylist(playlistParams);
 			} catch (ServiceCommException e) {
-				err = e.getMessage(listFragment.getActivity());
+				err = e.getMessage(frag.getActivity());
 				return null;
 			}
 
@@ -150,24 +150,24 @@ public class RecSongsPlaylist {
 
 		@Override
 		protected void onPostExecute(Void result) {
-			Util.setListShown(listFragment, true);
+			Util.setListShown(frag, true);
 			
 			//notify listeners that the data changed
 			notifyListeners();
 			
 			if(err != null){
-				Toast.makeText(listFragment.getActivity().getApplicationContext(), err, Toast.LENGTH_LONG).show();
-				listFragment = null;
+				Toast.makeText(frag.getActivity().getApplicationContext(), err, Toast.LENGTH_LONG).show();
+				frag = null;
 				return;
 			}
 
 			if(songs.size() == 0){
-				Toast.makeText(listFragment.getActivity().getApplicationContext(), R.string.playlist_empty, Toast.LENGTH_LONG).show();
-				listFragment = null;
+				Toast.makeText(frag.getActivity().getApplicationContext(), R.string.playlist_empty, Toast.LENGTH_LONG).show();
+				frag = null;
 				return;	    		
 			}			
 
-			listFragment = null; //maybe this prevents memory leakage
+			frag = null; //maybe this prevents memory leakage
 		}		
 	}	
 

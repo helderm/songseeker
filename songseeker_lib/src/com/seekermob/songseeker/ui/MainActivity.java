@@ -1,7 +1,5 @@
 package com.seekermob.songseeker.ui;
 
-import java.io.IOException;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -88,7 +86,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
 			if(httpCache != null){
 				httpCache.delete();
 			}
-		}catch (IOException e){
+		}catch(Exception e){
 			Log.e(Util.APP, "Unable to delete http cache", e);
 		}
 
