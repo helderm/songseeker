@@ -2,5 +2,6 @@ songseeker_free/bin/*
 songseeker_free/gen/*
 songseeker_lib/bin/*
 songseeker_lib/gen/*
+songseeker_lib/res/values/keys.xml
 com_actionbarsherlock/bin/*
 com_actionbarsherlock/gen/*
