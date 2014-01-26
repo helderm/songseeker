@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="echonest_key"></string>
+    <string name="grooveshark_key"></string>
+    <string name="grooveshark_secret"></string>
+    <string name="lastfm_key"></string>
+    <string name="lastfm_secret"></string>
+    <string name="rdio_key"></string>
+    <string name="rdio_secret"></string>
+    <string name="sevendigital_key"></string>
+    <string name="youtube_key"></string>
+    <string name="admob_unitid"></string>
+
+</resources>

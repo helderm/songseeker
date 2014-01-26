@@ -7,6 +7,12 @@ import com.actionbarsherlock.view.MenuItem;
 import com.integralblue.httpresponsecache.HttpResponseCache;
 
 import com.seekermob.songseeker.R;
+import com.seekermob.songseeker.comm.EchoNestComm;
+import com.seekermob.songseeker.comm.GroovesharkComm;
+import com.seekermob.songseeker.comm.LastfmComm;
+import com.seekermob.songseeker.comm.RdioComm;
+import com.seekermob.songseeker.comm.SevenDigitalComm;
+import com.seekermob.songseeker.comm.YouTubeComm;
 import com.seekermob.songseeker.ui.FirstRunDialogFragment.OnFirstRunImportProfileListener;
 import com.seekermob.songseeker.ui.InputDialogFragment.OnTextEnteredListener;
 import com.seekermob.songseeker.util.FileCache;
@@ -19,6 +25,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.content.Context;
 
 public class MainActivity extends SherlockFragmentActivity implements OnTextEnteredListener, OnFirstRunImportProfileListener{
 
@@ -30,8 +37,8 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
 		super.onCreate(savedInstanceState);	    
 		setContentView(R.layout.pager);
 		
-		//install cache
-        FileCache.install(getApplicationContext());         
+		//initialize app
+		initialize(getApplicationContext());                 
 		
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -167,5 +174,16 @@ public class MainActivity extends SherlockFragmentActivity implements OnTextEnte
 		ProfileFragment frag = (ProfileFragment) getSupportFragmentManager().findFragmentByTag(
                 "android:switcher:"+R.id.pager+":"+ProfileFragment.TAB_ID);
 		frag.importProfile();		
+	}
+	
+	private void initialize(Context c){
+		FileCache.install(getApplicationContext());
+		
+		EchoNestComm.initialize(c);		
+		GroovesharkComm.initialize(c);
+		LastfmComm.initialize(c);
+		RdioComm.initialize(c);
+		SevenDigitalComm.initialize(c);
+		YouTubeComm.initialize(c);
 	}
 }

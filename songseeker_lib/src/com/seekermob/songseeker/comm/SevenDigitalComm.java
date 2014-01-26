@@ -15,9 +15,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
 import com.seekermob.songseeker.data.ArtistInfo;
@@ -30,15 +32,19 @@ public class SevenDigitalComm {
 	private static SevenDigitalComm comm = new SevenDigitalComm(); 
 	private static final String ENDPOINT = "http://api.7digital.com/1.2/";
 	private static final String MOBILE_URL = "http://m.7digital.com/";
-	private static final String CONSUMER_KEY = "7d9b53mkgqh6";
+	private static String consumer_key = null;
 	private static final String PARTNER_ID = "2539";
 	private static final String IMAGE_SIZE = "200";
 
 	private SevenDigitalComm() {}
 
+	public static void initialize(Context c){
+		consumer_key = c.getString(R.string.sevendigital_key);
+	}
+	
 	static public SevenDigitalComm getComm(){
 		return comm;
-	}
+	}	
 
 	public SongInfo querySongDetails(String trackId, String trackName, String artistName) throws ServiceCommException{
 		Element fstNmElmnt;
@@ -47,7 +53,7 @@ public class SevenDigitalComm {
 		SongInfo song;
 
 		String urlStr = ENDPOINT + "track/details?";
-		String reqParam = "trackid="+trackId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
+		String reqParam = "trackid="+trackId+"&oauth_consumer_key="+ consumer_key+ "&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -98,7 +104,7 @@ public class SevenDigitalComm {
 		ArrayList<SongInfo> songs;
 
 		String urlStr = ENDPOINT + "track/search?";
-		String reqParam = "q="+ Uri.encode(trackName)+ "&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=30&page=1&imageSize="+IMAGE_SIZE;
+		String reqParam = "q="+ Uri.encode(trackName)+ "&oauth_consumer_key="+ consumer_key+ "&pagesize=30&page=1&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -151,7 +157,7 @@ public class SevenDigitalComm {
 		ArrayList<ArtistInfo> artists;
 
 		String urlStr = ENDPOINT + "artist/search?";
-		String reqParam = "q=" + Uri.encode(artistName) + "&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=15&page=1&imageSize="+IMAGE_SIZE;
+		String reqParam = "q=" + Uri.encode(artistName) + "&oauth_consumer_key="+ consumer_key+ "&pagesize=15&page=1&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -204,7 +210,7 @@ public class SevenDigitalComm {
 		NodeList fstNmElmntLst;
 
 		String urlStr = ENDPOINT + "artist/toptracks?";
-		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=10&page=1&imageSize="+IMAGE_SIZE;
+		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ consumer_key+ "&pagesize=10&page=1&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -244,7 +250,7 @@ public class SevenDigitalComm {
 		NodeList fstNmElmntLst;
 
 		String urlStr = ENDPOINT + "track/preview?";
-		String reqParam = "trackid="+trackId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&redirect=false";
+		String reqParam = "trackid="+trackId+"&oauth_consumer_key="+ consumer_key+ "&redirect=false";
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -286,7 +292,7 @@ public class SevenDigitalComm {
 		NodeList fstNmElmntLst;
 
 		String urlStr = ENDPOINT + "release/details?";
-		String reqParam = "releaseid="+releaseId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
+		String reqParam = "releaseid="+releaseId+"&oauth_consumer_key="+ consumer_key+ "&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -326,7 +332,7 @@ public class SevenDigitalComm {
 		NodeList fstNmElmntLst;
 
 		String urlStr = ENDPOINT + "release/tracks?";
-		String reqParam = "releaseid="+releaseId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&pagesize=50&page=1&imageSize="+IMAGE_SIZE;
+		String reqParam = "releaseid="+releaseId+"&oauth_consumer_key="+ consumer_key+ "&pagesize=50&page=1&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -366,7 +372,7 @@ public class SevenDigitalComm {
 		NodeList fstNmElmntLst;
 
 		String urlStr = ENDPOINT + "artist/releases?";
-		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
+		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ consumer_key+ "&imageSize="+IMAGE_SIZE;
 
 		try {
 			URL url = new URL(urlStr+reqParam);			
@@ -405,7 +411,7 @@ public class SevenDigitalComm {
 		NodeList fstNmElmntLst;
 
 		String urlStr = ENDPOINT + "artist/details?";
-		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
+		String reqParam = "artistid="+artistId+"&oauth_consumer_key="+ consumer_key+ "&imageSize="+IMAGE_SIZE;
 
 		try {
 			
@@ -455,7 +461,7 @@ public class SevenDigitalComm {
 		try {
 			
 			String urlStr = ENDPOINT + "editorial/list?";
-			String reqParam = "key=featured_albums" + "&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
+			String reqParam = "key=featured_albums" + "&oauth_consumer_key="+ consumer_key+ "&imageSize="+IMAGE_SIZE;
 			
 			URL url = new URL(urlStr+reqParam);			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -477,7 +483,7 @@ public class SevenDigitalComm {
 			if(releases.size() >= MIN_EDITORIAL_RESULTS)
 				return releases;
 			
-			reqParam = "key=new_releases" + "&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
+			reqParam = "key=new_releases" + "&oauth_consumer_key="+ consumer_key+ "&imageSize="+IMAGE_SIZE;
 			
 			url = new URL(urlStr+reqParam);			
 			db = dbf.newDocumentBuilder();
@@ -498,7 +504,7 @@ public class SevenDigitalComm {
 			if(releases.size() >= MIN_EDITORIAL_RESULTS)
 				return releases;
 			
-			reqParam = "key=staff_recommendations" + "&oauth_consumer_key="+ CONSUMER_KEY+ "&imageSize="+IMAGE_SIZE;
+			reqParam = "key=staff_recommendations" + "&oauth_consumer_key="+ consumer_key+ "&imageSize="+IMAGE_SIZE;
 			
 			url = new URL(urlStr+reqParam);			
 			db = dbf.newDocumentBuilder();

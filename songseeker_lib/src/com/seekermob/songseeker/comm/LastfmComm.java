@@ -30,24 +30,20 @@ public class LastfmComm {
 	private static String sessionKey;
 	private static String username;
 	
-	private static final String KEY = "4c2fe8fbeda6545125c50798c20bc9c0";
-	private static final String SECRET = "f7d0e539a08eb21e07a9d26fa66926a8";
+	private static String key;
+	private static String secret;
 	private static final String PREF_SESSIONKEY = "prefs.lastfm.sessionkey";
 	private static final String PREF_USERNAME = "pref.lastfm.username";
 	
 	private LastfmComm(){}
 	
-	public static LastfmComm getComm(Context c){
-		
-		if(sessionKey != null)
-			return comm;
+	public static void initialize(Context c){
+		key = c.getString(R.string.lastfm_key);
+		secret = c.getString(R.string.lastfm_secret);		
 		
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);
 		sessionKey = settings.getString(PREF_SESSIONKEY, null);
-		username = settings.getString(PREF_USERNAME, null);		
-		
-		Caller.getInstance().setCache(null);
-		return comm;
+		username = settings.getString(PREF_USERNAME, null);	
 	}
 	
 	public static LastfmComm getComm(){
@@ -58,7 +54,7 @@ public class LastfmComm {
 	public void requestAuthorize(String user, String pwd, Context c) throws ServiceCommException{
 		
 		try{
-			session = Authenticator.getMobileSession(user, pwd, KEY, SECRET);			
+			session = Authenticator.getMobileSession(user, pwd, key, secret);			
 		}catch(RuntimeException e){
 			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.IO);			
 		}
@@ -80,7 +76,7 @@ public class LastfmComm {
 		Collection<Playlist> pls;
 		
 		try{
-			pls = User.getPlaylists(session.getUsername(), KEY);
+			pls = User.getPlaylists(session.getUsername(), key);
 		}catch(RuntimeException e){
 			throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.IO);			
 		}
@@ -166,7 +162,7 @@ public class LastfmComm {
 	
 	public ArrayList<ArtistInfo> getTopArtists(String user) throws ServiceCommException{
 		try{
-			Collection<Artist> artists = User.getTopArtists(user, KEY);
+			Collection<Artist> artists = User.getTopArtists(user, key);
 			
 			if(artists.isEmpty())
 				throw new ServiceCommException(ServiceID.LASTFM, ServiceErr.USER_NOT_FOUND);
@@ -188,7 +184,7 @@ public class LastfmComm {
 		if(session == null){
 			if(sessionKey == null || username == null)
 				return false;
-			session = Session.createSession(KEY, SECRET, sessionKey, username, false);
+			session = Session.createSession(key, secret, sessionKey, username, false);
 		}
 		
 		return true;	

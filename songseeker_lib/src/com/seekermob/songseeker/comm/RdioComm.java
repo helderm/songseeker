@@ -15,6 +15,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
 import com.seekermob.songseeker.data.PlaylistInfo;
@@ -38,14 +39,14 @@ import oauth.signpost.exception.OAuthCommunicationException;
 public class RdioComm {
 	private static RdioComm comm = new RdioComm();
 	
-	private static final String CONSUMER_KEY = "e6axyuwxza2fxdhkbqbwdb2f";
-	private static final String CONSUMER_SECRET = "5PcRraQyRk";		
+	private static String consumer_key = "e6axyuwxza2fxdhkbqbwdb2f";
+	private static String consumer_secret = "5PcRraQyRk";		
 	private static final String REQUEST_TOKEN = "http://api.rdio.com/oauth/request_token";
 	private static final String ACCESS_TOKEN = "http://api.rdio.com/oauth/access_token";
 	private static final String AUTHORIZE = "https://www.rdio.com/oauth/authorize";
 	private static final String ENDPOINT = "http://api.rdio.com/1/";
 	
-	private OAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+	private static OAuthConsumer consumer;
 	private OAuthProvider provider = new CommonsHttpOAuthProvider(REQUEST_TOKEN, ACCESS_TOKEN, AUTHORIZE);
 	
 	private static String accessToken = null;
@@ -55,16 +56,14 @@ public class RdioComm {
 		
 	private RdioComm(){}
 	
-	public static RdioComm getComm(Context c){
-				
-		if(accessToken != null && accessTokenSecret != null)
-			return comm;
-				
+	public static void initialize(Context c){
+		consumer_key = c.getString(R.string.rdio_key);
+		consumer_secret = c.getString(R.string.rdio_secret);
+		consumer = new CommonsHttpOAuthConsumer(consumer_key, consumer_secret);	
+		
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);
 		accessToken = settings.getString(PREF_ACCESSTOKEN, null);
 		accessTokenSecret = settings.getString(PREF_ACCESSTOKENSECRET, null);
-		
-		return comm;
 	}
 	
 	public static RdioComm getComm(){

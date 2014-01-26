@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.echonest.api.v4.Artist;
@@ -17,12 +18,12 @@ import com.echonest.api.v4.Playlist;
 import com.echonest.api.v4.PlaylistParams;
 import com.echonest.api.v4.Song;
 import com.echonest.api.v4.SongParams;
+import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
 import com.seekermob.songseeker.util.Util;
 
 public class EchoNestComm {
-	private static final String KEY = "OKF60XQ3DSLHDO9CX";
 	private static EchoNestComm comm = new EchoNestComm();
 	private static EchoNestAPI en;
 
@@ -30,14 +31,20 @@ public class EchoNestComm {
 	public static final String RDIO = "rdio-us-streaming";
 
 	private static int MAX_WS_RETRIES = 5;
+	private static String KEY;
 
-	private EchoNestComm(){
-		en = new EchoNestAPI(KEY);
-		//en.setTraceRecvs(true);
-		//en.setTraceSends(true);
+	private EchoNestComm(){		
+	}
+	
+	public static void initialize(Context c){
+		KEY = c.getString(R.string.echonest_key);
 	}
 
 	public static EchoNestComm getComm(){
+		if(en == null){			
+			en = new EchoNestAPI(KEY);
+		}
+		
 		return comm;
 	}
 

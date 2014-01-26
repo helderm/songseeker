@@ -37,7 +37,6 @@ import com.seekermob.songseeker.util.Util;
 
 public class YouTubeComm {
 
-	protected static final String DEVKEY = "AI39si6yAoZ7f6EjzMCtIex34tdlMped4mK3ZL9vg-8pn8ZXTrvhKd6_5VfR-J-GwJyFQC4lPm6YAnH0V-zSvsgAcJ-xlT0ZUg"; 
 	private static YouTubeComm comm = new YouTubeComm();
 
 	//WS URLs
@@ -49,20 +48,21 @@ public class YouTubeComm {
 	//login
 	//private static GoogleAccountManager accountManager = null;
 	private static GoogleAccessProtectedResource accessProtectedResource = null;
+	private static String devkey = null;
 	
 	//auth token
 	private static final String PREF_ACCESSTOKEN = "prefs.google.accesstoken";
 	private static final String AUTH_TOKEN_TYPE = "Youtube";
 	
 	private YouTubeComm(){}
+	
+	public static void initialize(Context c){
+		devkey = c.getString(R.string.youtube_key);
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);
+		accessProtectedResource = new GoogleAccessProtectedResource(settings.getString(PREF_ACCESSTOKEN, null));
+	}
 
-	public static YouTubeComm getComm(Context c){
-		
-		if(accessProtectedResource == null){
-			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);
-			accessProtectedResource = new GoogleAccessProtectedResource(settings.getString(PREF_ACCESSTOKEN, null));
-		}
-
+	public static YouTubeComm getComm(){
 		return comm;
 	}
 
@@ -124,10 +124,6 @@ public class YouTubeComm {
 		editor.commit();
 	}
 	
-	public static YouTubeComm getComm(){
-		return comm;
-	}
-
 	public ArrayList<PlaylistInfo> getUserPlaylists(Context c) throws ServiceCommException{
 
 		ArrayList<PlaylistInfo> playlists = new ArrayList<PlaylistInfo>();		
@@ -135,7 +131,7 @@ public class YouTubeComm {
 		try{
 			HttpGet request = new HttpGet(GET_PLAYLISTS_ENDPOINT);
 			request.setHeader("Authorization", "GoogleLogin auth="+accessProtectedResource.getAccessToken());
-			request.setHeader("X-GData-Key", "key="+DEVKEY);
+			request.setHeader("X-GData-Key", "key="+devkey);
 			
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpResponse response = httpClient.execute(request);
@@ -193,7 +189,7 @@ public class YouTubeComm {
 
 			HttpPost request = new HttpPost(CREATE_PLAYLIST_ENDPOINT);
 			request.setHeader("Authorization", "GoogleLogin auth="+accessProtectedResource.getAccessToken());
-			request.setHeader("X-GData-Key", "key="+DEVKEY);
+			request.setHeader("X-GData-Key", "key="+devkey);
 			request.setHeader("GData-Version", "2");			
 			
 			StringEntity body = new StringEntity(JSONValue.toJSONString(args));
@@ -293,7 +289,7 @@ public class YouTubeComm {
 
 			HttpPost request = new HttpPost(ADD_VIDEO_ENDPOINT+playlistID+"?alt=jsonc");
 			request.setHeader("Authorization", "GoogleLogin auth="+accessProtectedResource.getAccessToken());
-			request.setHeader("X-GData-Key", "key="+DEVKEY);
+			request.setHeader("X-GData-Key", "key="+devkey);
 			request.setHeader("GData-Version", "2");			
 			
 			StringEntity body = new StringEntity(JSONValue.toJSONString(args));

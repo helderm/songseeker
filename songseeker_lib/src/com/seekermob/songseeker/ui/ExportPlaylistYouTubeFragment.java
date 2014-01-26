@@ -81,13 +81,13 @@ public class ExportPlaylistYouTubeFragment extends SherlockListFragment implemen
 		
 		//if not authorized, request auth 
 		//but only if the task wasnt restored on restoreLocalState
-		if(!YouTubeComm.getComm(getActivity()).isAuthorized() && !mIsAuthTaskRunning){		
+		if(!YouTubeComm.getComm().isAuthorized() && !mIsAuthTaskRunning){		
 			login();
 		}
 		
 		//if the adapter wasnt restored, fetch the adapter
 		//but only if the task wasnt restored on restoreLocalState
-		if(YouTubeComm.getComm(getActivity()).isAuthorized() &&	mAdapter.mPlaylists == null && 
+		if(YouTubeComm.getComm().isAuthorized() &&	mAdapter.mPlaylists == null && 
 			!mIsAuthTaskRunning && !isUserPlaylistsTaskRunning()){
 			
 			mUserPlaylistsTask = (UserPlaylistsTask) new UserPlaylistsTask().execute();
@@ -205,7 +205,7 @@ public class ExportPlaylistYouTubeFragment extends SherlockListFragment implemen
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.menu_new_playlist) {
-			if(!YouTubeComm.getComm(getActivity()).isAuthorized()){
+			if(!YouTubeComm.getComm().isAuthorized()){
 				Toast.makeText(getActivity(), R.string.not_authorized, Toast.LENGTH_SHORT).show();
 				return true;
 			}
@@ -313,7 +313,7 @@ public class ExportPlaylistYouTubeFragment extends SherlockListFragment implemen
 		//resets the adapter
 		mAdapter.setAdapter(null);
 		
-		YouTubeComm.getComm(getActivity()).requestAuthorize(account, ExportPlaylistYouTubeFragment.this, getActivity());		
+		YouTubeComm.getComm().requestAuthorize(account, ExportPlaylistYouTubeFragment.this, getActivity());		
 	}	
 
 	//requestAuthorize callback function
@@ -356,7 +356,7 @@ public class ExportPlaylistYouTubeFragment extends SherlockListFragment implemen
 				mUserPlaylistsTask = (UserPlaylistsTask) new UserPlaylistsTask().execute();
 			} else {
 				//user denied our app
-				YouTubeComm.getComm(getActivity()).unauthorizeUser(getActivity());
+				YouTubeComm.getComm().unauthorizeUser(getActivity());
 				ServiceCommException e = new ServiceCommException(ServiceID.YOUTUBE, ServiceErr.NOT_AUTH);
 				Toast.makeText(getActivity(), e.getMessage(getActivity()), Toast.LENGTH_SHORT).show();
 			}

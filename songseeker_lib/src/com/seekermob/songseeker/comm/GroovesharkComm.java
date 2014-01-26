@@ -23,6 +23,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 
+import com.seekermob.songseeker.R;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceErr;
 import com.seekermob.songseeker.comm.ServiceCommException.ServiceID;
 import com.seekermob.songseeker.data.PlaylistInfo;
@@ -38,8 +39,8 @@ import android.util.Log;
 public class GroovesharkComm {
 	private static GroovesharkComm comm = new GroovesharkComm();
 
-	private static final String KEY = "heldermartins";
-	private static final String SECRET = "b0518075945c057909da9829fe1639df";
+	private static String key;
+	private static String secret;
 	
 	private static final String ENDPOINT = "api.grooveshark.com/ws/3.0/?sig=";
 	private static final String HTTP = "http://";
@@ -53,13 +54,15 @@ public class GroovesharkComm {
 	
 	private static String sessionID = null;
 
-	public static GroovesharkComm getComm(Context c){
-		if(sessionID != null)
-			return comm;
+	private GroovesharkComm(){		
+	}
+	
+	public static void initialize(Context c){
+		key = c.getString(R.string.grooveshark_key);
+		secret = c.getString(R.string.grooveshark_secret);
 		
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);		
-		sessionID = settings.getString(PREF_SESSIONID, null);		
-		return comm;
+		sessionID = settings.getString(PREF_SESSIONID, null);
 	}
 	
 	public static GroovesharkComm getComm(){
@@ -90,7 +93,7 @@ public class GroovesharkComm {
 	
 			//add key and session
 			LinkedHashMap<String, String> header = new LinkedHashMap<String, String>();
-			header.put("wsKey", KEY);
+			header.put("wsKey", key);
 			header.put("sessionID", unauthSession);
 			args.put("header", header);
 			
@@ -152,7 +155,7 @@ public class GroovesharkComm {
 			args.put("method", "startSession");
 
 			LinkedHashMap<String, String> header = new LinkedHashMap<String, String>();
-			header.put("wsKey", KEY);
+			header.put("wsKey", key);
 
 			args.put("header", header);			
 			args.put("parameters", "");
@@ -214,7 +217,7 @@ public class GroovesharkComm {
  			args.put("method", "getUserPlaylists");
  
  			LinkedHashMap<String, String> header = new LinkedHashMap<String, String>();
- 			header.put("wsKey", KEY);
+ 			header.put("wsKey", key);
  			header.put("sessionID", sessionID);
  
  			args.put("header", header);	
@@ -278,7 +281,7 @@ public class GroovesharkComm {
  			args.put("method", "getSongSearchResults");
  
  			LinkedHashMap<String, String> header = new LinkedHashMap<String, String>();
- 			header.put("wsKey", KEY);
+ 			header.put("wsKey", key);
  			args.put("header", header);	
  
  			LinkedHashMap<String, String> parameters = new LinkedHashMap<String, String>();
@@ -351,7 +354,7 @@ public class GroovesharkComm {
  			args.put("method", "createPlaylist");
  
  			LinkedHashMap<String, String> header = new LinkedHashMap<String, String>();
- 			header.put("wsKey", KEY);
+ 			header.put("wsKey", key);
  			header.put("sessionID", sessionID);
  			args.put("header", header);	
  
@@ -412,7 +415,7 @@ public class GroovesharkComm {
  			args.put("method", "getPlaylistSongs");
  
  			LinkedHashMap<String, String> header = new LinkedHashMap<String, String>();
- 			header.put("wsKey", KEY);
+ 			header.put("wsKey", key);
  			header.put("sessionID", sessionID);
  			args.put("header", header);	
  
@@ -476,7 +479,7 @@ public class GroovesharkComm {
  			args.put("method", "setPlaylistSongs");
  
  			LinkedHashMap<String, String> header = new LinkedHashMap<String, String>();
- 			header.put("wsKey", KEY);
+ 			header.put("wsKey", key);
  			header.put("sessionID", sessionID);
  			args.put("header", header);	
  
@@ -532,8 +535,8 @@ public class GroovesharkComm {
 	private String getSignature(LinkedHashMap<String, Object> args) throws Exception{
 
 		Mac mac = Mac.getInstance(CRYPT_ALG);
-		SecretKeySpec secret = new SecretKeySpec(SECRET.getBytes(), CRYPT_ALG);
-		mac.init(secret);
+		SecretKeySpec secret_spec = new SecretKeySpec(secret.getBytes(), CRYPT_ALG);
+		mac.init(secret_spec);
 		String value = JSONValue.toJSONString(args);
 		byte[] digest = mac.doFinal(value.getBytes());
 		BigInteger hash = new BigInteger(1, digest);

@@ -65,13 +65,13 @@ public class ExportPlaylistLastfmFragment extends SherlockListFragment {
 		
 		//if not authorized, request auth 
 		//but only if the task wasnt restored on restoreLocalState
-		if(!LastfmComm.getComm(getActivity()).isAuthorized() && !isAuthTaskRunning()){		
+		if(!LastfmComm.getComm().isAuthorized() && !isAuthTaskRunning()){		
 			login();
 		}
 		
 		//if the adapter wasnt restored, fetch the adapter
 		//but only if the task wasnt restored on restoreLocalState
-		if(LastfmComm.getComm(getActivity()).isAuthorized() &&	mAdapter.mPlaylists == null && 
+		if(LastfmComm.getComm().isAuthorized() &&	mAdapter.mPlaylists == null && 
 			!isAuthTaskRunning() && !isUserPlaylistsTaskRunning()){
 			
 			mUserPlaylistsTask = (UserPlaylistsTask) new UserPlaylistsTask().execute();
@@ -199,7 +199,7 @@ public class ExportPlaylistLastfmFragment extends SherlockListFragment {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.menu_new_playlist) {
-			if(!LastfmComm.getComm(getActivity()).isAuthorized()){
+			if(!LastfmComm.getComm().isAuthorized()){
 				Toast.makeText(getActivity(), R.string.not_authorized, Toast.LENGTH_SHORT).show();
 				return true;
 			}
