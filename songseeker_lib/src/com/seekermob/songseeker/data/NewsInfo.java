@@ -19,7 +19,10 @@ public class NewsInfo implements Parcelable {
 	public NewsInfo(News news, DateFormat df){
 		name = news.getName();
 		summary = news.getSummary().replaceAll("\\<.*?>","");
-		date = df.format(news.getDatePosted());
+		
+		if(news.getDatePosted() != null)
+			date = df.format(news.getDatePosted());
+		
 		url = news.getURL();
 	}
 	
